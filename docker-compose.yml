@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  bd:
+    image: postgres:16
+    container_name: database_gym-ops
+    restart: always
+    ports: 
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=gym-ops
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - gym-ops_network
+
+  backend:
+    container_name: gym-ops-app
+    build: .
+    volumes:
+      - .:/usr/app 
+      - /usr/app/node_modules  
+    networks:
+      - gym-ops_network
+    environment:
+      - DB_HOST=database  
+      - DB_PORT=5432     
+      - DB_PASSWORD=password
+      - DB_NAME=gym-ops
+    depends_on:
+      - bd
+    command: npm run dev  
+
+volumes:
+  postgres_data:  
+networks:
+  gym-ops_network:
+    driver: bridge  
