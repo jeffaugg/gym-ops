@@ -10,7 +10,6 @@ exports.up = function(knex) {
         table.string('tel').notNullable();
         table.string('password').notNullable();
         table.string('role').notNullable();
-        table.timestamps(true, true);
       });
 };
 
