@@ -1,12 +1,10 @@
 import "reflect-metadata";
 import express, { NextFunction, Request, Response } from "express";
-import { AppDataSource } from "../../../data-source";
 import cors from "cors";
 import { AppError } from "../../erros/AppError";
 const app = express();
 
-AppDataSource.initialize().then(async () => {
-  await AppDataSource.runMigrations();
+
   app.use(cors());
   app.use(express.json());
 
@@ -25,6 +23,8 @@ AppDataSource.initialize().then(async () => {
       });
     },
   );
-});
+
+
+
 
 export { app };
