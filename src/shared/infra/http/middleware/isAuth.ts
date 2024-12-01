@@ -1,6 +1,6 @@
 import { verify } from "jsonwebtoken";
 import { Request, Response, NextFunction } from "express";
-import AppError from "../errors/AppError";
+import AppError from "../../../errors/AppError";
 import authConfig from "../config/auth";
 
 interface TokenPayload {
@@ -29,10 +29,10 @@ const isAuth = (req: Request, res: Response, next: NextFunction): void => {
       id,
       name,
       email,
-      role
+      role,
     };
   } catch (err) {
-    throw new AppError("Token invalido", 403 );
+    throw new AppError("Token invalido", 403);
   }
 
   return next();

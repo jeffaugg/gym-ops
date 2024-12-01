@@ -1,9 +1,6 @@
-
-const knex = require('knex');
-const config = require('../../../../../knexfile'); // Certifique-se de usar o caminho correto para o knexfile.js
-
+import knex from "knex";
+import config from "../../../../../knexfile";
 // Inicializa o Knex com o ambiente de desenvolvimento
 const db = knex(config.development);
 
-export default db
-
+export default db;

@@ -1,5 +1,4 @@
-
-import User from "../models/User";
+import User from "../../../../modules/user/models/User";
 
 interface SerializedUser {
   id: number;
@@ -7,8 +6,6 @@ interface SerializedUser {
   email: string;
   tel: string;
   role: string;
-
-
 }
 
 export const SerializeUser = async (user: User): Promise<SerializedUser> => {
@@ -17,6 +14,6 @@ export const SerializeUser = async (user: User): Promise<SerializedUser> => {
     name: user.name,
     email: user.email,
     tel: user.tel,
-    role: user.role
+    role: user.role,
   };
 };
