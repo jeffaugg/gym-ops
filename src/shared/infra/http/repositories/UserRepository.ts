@@ -1,85 +1,85 @@
 import User from "../models/User";
 import { hash, compare } from "bcryptjs";
-import { db } from "../app";
+import db from "../config/database";
+import AppError from "../errors/AppError";
+import {
+  createAccessToken,
+  createRefreshToken
+} from "../helpers/CreateTokens";
+import { SerializeUser } from "../helpers/SerializeUser";
 
+interface SerializedUser {
+  id: number;
+  name: string;
+  email: string;
+  tel: string;
+  role: string;
+}
+interface Response {
+  serializedUser: SerializedUser;
+  token: string;
+}
 
 export class UserRepository {
     
-   
-  
-    // Método para adicionar um novo usuário
-    async create(name: string, email:string, password:string, role:string): Promise<User> {
-      // Antes de salvar, a senha é criptografada
+   constructor(){
+    
+   }
+
+  public async create(name: string, email:string, password:string, role:string, tel:string): Promise<User> {
+      if(await this.findByEmail(email)){
+        throw new AppError("Email ja existe", 400);
+      }
       password = await hash(password, 8);
-      
+      console.log(typeof password);
       const query = `
-        INSERT INTO users (name, email, password, role) 
-        VALUES ($1, $2, $3, $4) 
-        RETURNING id, name, email, password, role;
+        INSERT INTO users (name, email, password, role, tel) 
+        VALUES (?, ?, ?, ?, ?) 
+        RETURNING id, name, email, password, role, tel;
       `;
-      const values = [name, email, password, role];
-  
-      const result = await db.query(query, values);
-  
+      const values = [name, email, password, role, tel];
+      const result = await db.raw(query, values);
       const newUser = result.rows[0];
-      return new User(newUser.id, newUser.name, newUser.email, newUser.password, newUser.role);
-    }
-  
-    // Método para buscar um usuário por ID
-    async findById(id: number): Promise<User | null> {
-      const query = 'SELECT * FROM users WHERE id = $1';
-      const result = await db.query(query, [id]);
-  
-      if (result.rows.length === 0) {
-        return null; // Usuário não encontrado
-      }
-  
-      const user = result.rows[0];
-      return new User(user.id, user.name, user.email, user.password, user.role);
-    }
-  
-    // Método para buscar um usuário por email
-    async findByEmail(email: string): Promise<User | null> {
-      const query = 'SELECT * FROM users WHERE email = $1';
-      const result = await db.query(query, [email]);
-  
-      if (result.rows.length === 0) {
-        return null; // Usuário não encontrado
-      }
-  
-      const user = result.rows[0];
-      return new User(user.id, user.name, user.email, user.password, user.role);
-    }
-  
-    // Método para atualizar as informações de um usuário
-    async update(id: number, user: User): Promise<User | null> {
-      // Senha é criptografada antes de atualizar
-      user.password = await hash(user.password, 8);
-      
-      const query = `
-        UPDATE users
-        SET name = $1, email = $2, password = $3, role = $4
-        WHERE id = $5
-        RETURNING id, name, email, password, role;
-      `;
-      const values = [user.name, user.email, user.password, user.role, id];
-  
-      const result = await db.query(query, values);
-  
-      if (result.rows.length === 0) {
-        return null; // Usuário não encontrado
-      }
-  
-      const updatedUser = result.rows[0];
-      return new User(updatedUser.id, updatedUser.name, updatedUser.email, updatedUser.password, updatedUser.role);
-    }
-  
-    // Método para excluir um usuário
-    async delete(id: number): Promise<boolean> {
-      const query = 'DELETE FROM users WHERE id = $1';
-      const result = await db.query(query, [id]);
-      return result.rowCount > 0; // Retorna true se o usuário foi excluído
-    }
+      return new User(newUser.id, newUser.name, newUser.email, newUser.tel, newUser.password, newUser.role);
+    
   }
+
+
+  async findByEmail(email: string): Promise<User | null> {
+    const query = 'SELECT * FROM users WHERE email = ?';
+    const result = await db.raw(query, email);
+    if (result.rows.length === 0) {
+      return null; // Usuário não encontrado
+    }
+
+    const user = result.rows[0];
+    return new User(user.id, user.name, user.email, user.tel, user.password, user.role);
+
+  }
+  
+  
+
+  async login(email: string, password: string): Promise<Response> {
+    const user = await this.findByEmail(email);
+    if (!user) {
+      throw new AppError("Credenciais invalidas", 401);
+    }
+    if (!(await user.checkPassword(password))) {
+      throw new AppError("Credenciais invalidas", 401);
+    }
+    const token = createAccessToken(user);
+    const serializedUser = await SerializeUser(user);
+
+    return {
+      serializedUser,
+      token,
+    };
+  };
+  
+
+
+
+
+}
 
   export default UserRepository;

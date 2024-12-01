@@ -1,16 +1,14 @@
 import { Router } from "express";
-import * as SessionController from "../controllers/SessionController";
 import UserController from "../controllers/UserController";
 import isAuth from "../middleware/isAuth";
-import envTokenAuth from "../middleware/envTokenAuth";
 
 
 const authRoutes = Router();
 const userController = new UserController();
-authRoutes.post("/signup", envTokenAuth, userController.create);
-authRoutes.post("/login", SessionController.store);
-authRoutes.post("/refresh_token", SessionController.update);
-authRoutes.delete("/logout", isAuth, SessionController.remove);
-authRoutes.get("/me", isAuth, SessionController.me);
+
+authRoutes.post("/signup", userController.create);
+authRoutes.post("/login", userController.login);
+authRoutes.get("/testeAreaLogada", isAuth, userController.test);
+
 
 export default authRoutes;
