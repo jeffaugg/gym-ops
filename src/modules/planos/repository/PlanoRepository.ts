@@ -3,7 +3,9 @@ import { PlanoSchema } from "../dto/PlanoSchema";
 import db from "../../../shared/infra/http/config/database";
 import Plano from "../models/Plano";
 import AppError from "../../../shared/errors/AppError";
+import { singleton } from "tsyringe";
 
+@singleton()
 export class PlanoRepository {
   async create(data: z.infer<typeof PlanoSchema>): Promise<Plano> {
     if (await this.findByName(data.name)) {
