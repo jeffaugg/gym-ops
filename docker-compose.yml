@@ -18,9 +18,9 @@ services:
 
   backend:
     container_name: gym-ops-app
-    build: .
+    build: ./Back
     volumes:
-      - .:/usr/app 
+      - ./Back:/usr/app 
       - /usr/app/node_modules  
     networks:
       - gym-ops_network
