@@ -27,6 +27,17 @@ class User {
   public async checkPassword(password: string): Promise<boolean> {
     return compare(password, this.password);
   }
+
+  static fromDatabase(data: any): User {
+    return new User(
+      data.id,
+      data.name,
+      data.email,
+      data.tel,
+      data.password,
+      data.role,
+    );
+  }
 }
 
 export default User;
