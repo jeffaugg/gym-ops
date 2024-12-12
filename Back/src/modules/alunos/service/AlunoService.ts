@@ -33,7 +33,7 @@ export class AlunoService {
       throw new AppError("Plano não encontrado", 404);
     }
 
-    return this.alunoRepository.create(data);
+    return await this.alunoRepository.create(data);
   }
 
   async list() {
@@ -64,7 +64,7 @@ export class AlunoService {
       throw new AppError("Plano não encontrado", 404);
     }
 
-    return this.alunoRepository.update(id, data);
+    return await this.alunoRepository.update(id, data);
   }
 
   async findById(id: number) {
@@ -84,7 +84,7 @@ export class AlunoService {
       throw new AppError("Aluno não encontrado", 404);
     }
 
-    return this.alunoRepository.delete(id);
+    return await this.alunoRepository.delete(id);
   }
 
   async findByCpf(cpf: string) {
