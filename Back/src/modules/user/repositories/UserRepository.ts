@@ -1,9 +1,10 @@
 import User from "../models/User";
 import { hash } from "bcryptjs";
-import db from "../../../shared/infra/http/config/database";
 import AppError from "../../../shared/errors/AppError";
 import { createAccessToken } from "../../../shared/infra/http/helpers/CreateTokens";
 import { SerializeUser } from "../../../shared/infra/http/helpers/SerializeUser";
+import { inject, injectable } from "tsyringe";
+import { Knex } from "knex";
 
 interface SerializedUser {
   id: number;
@@ -16,9 +17,9 @@ interface Response {
   serializedUser: SerializedUser;
   token: string;
 }
-
+@injectable()
 export class UserRepository {
-  constructor() {}
+  constructor(@inject("Database") private db: Knex) {}
 
   public async create(
     name: string,
@@ -38,7 +39,7 @@ export class UserRepository {
         RETURNING id, name, email, password, role, tel;
       `;
     const values = [name, email, password, role, tel];
-    const result = await db.raw(query, values);
+    const result = await this.db.raw(query, values);
     const newUser = result.rows[0];
     return new User(
       newUser.id,
@@ -52,7 +53,7 @@ export class UserRepository {
 
   async findByEmail(email: string): Promise<User | null> {
     const query = "SELECT * FROM users WHERE email = ?";
-    const result = await db.raw(query, email);
+    const result = await this.db.raw(query, email);
     if (result.rows.length === 0) {
       return null; // Usuário não encontrado
     }
@@ -83,6 +84,16 @@ export class UserRepository {
       serializedUser,
       token,
     };
+  }
+
+  async findById(id: number): Promise<User | null> {
+    const query = "SELECT * FROM users WHERE id = ?";
+    const result = await this.db.raw(query, id);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    const user = result.rows[0];
+    return User.fromDatabase(user);
   }
 }
 
