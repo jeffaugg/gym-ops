@@ -7,46 +7,49 @@ export class AvaliacaoController {
   public async create(req: Request, res: Response): Promise<Response> {
     const avaliacaoService = container.resolve(AvaliacaoService);
 
-    const {
-      aluno_id,
-      instructor_id,
-      height,
-      weight,
-      fat_mass,
-      lean_mass,
-      left_arm_relaxed,
-      right_arm_relaxed,
-      left_arm_contracted,
-      right_arm_contracted,
-      left_thigh,
-      right_thigh,
-      left_calf,
-      right_calf,
-      chest,
-      abdomen,
-      photo,
-    } = AvaliacoesSchema.parse(req.body);
+    const data = AvaliacoesSchema.parse(req.body);
 
-    const avaliacao = await avaliacaoService.create({
-      aluno_id,
-      instructor_id,
-      height,
-      weight,
-      fat_mass,
-      lean_mass,
-      left_arm_relaxed,
-      right_arm_relaxed,
-      left_arm_contracted,
-      right_arm_contracted,
-      left_thigh,
-      right_thigh,
-      left_calf,
-      right_calf,
-      chest,
-      abdomen,
-      photo,
-    });
+    const avaliacao = await avaliacaoService.create(data);
 
     return res.status(201).json(avaliacao);
+  }
+
+  public async list(req: Request, res: Response): Promise<Response> {
+    const avaliacaoService = container.resolve(AvaliacaoService);
+
+    const avaliacoes = await avaliacaoService.list();
+    return res.status(200).json(avaliacoes);
+  }
+
+  public async findByAlunoId(req: Request, res: Response): Promise<Response> {
+    const avaliacaoService = container.resolve(AvaliacaoService);
+
+    const { aluno_id } = req.params;
+
+    const avaliacoes = await avaliacaoService.findByAlunoId(aluno_id);
+
+    return res.status(200).json(avaliacoes);
+  }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    const avaliacaoService = container.resolve(AvaliacaoService);
+
+    const { id } = req.params;
+
+    const data = AvaliacoesSchema.parse(req.body);
+
+    const avaliacao = await avaliacaoService.update(id, data);
+
+    return res.status(200).json(avaliacao);
+  }
+
+  public async delete(req: Request, res: Response): Promise<Response> {
+    const avaliacaoService = container.resolve(AvaliacaoService);
+
+    const { id } = req.params;
+
+    await avaliacaoService.delete(id);
+
+    return res.status(204).send();
   }
 }
