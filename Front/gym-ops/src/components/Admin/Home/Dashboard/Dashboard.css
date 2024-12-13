@@ -1,0 +1,71 @@
+.dashboard {
+    padding: 20px;
+    background-color: #dadada; /* Cinza claro */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .dashboard-header {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  .dashboard-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    flex: 1; /* Permite que os cartões ocupem o espaço proporcional */
+    min-width: 250px; /* Garante um tamanho mínimo */
+    max-width: 32%; /* Define um limite máximo de largura */
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1); /* Sombra para bordas */
+  }
+  
+  .dashboard-card h4 {
+    margin-bottom: 10px;
+  }
+  
+  .dashboard-card ul {
+    list-style: none;
+    padding: 0px;
+  }
+  
+  .dashboard-card li {
+    background: #D9D9D9;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 35px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+  }
+
+  
+  .dashboard-stats {
+    display: flex;
+    flex-wrap: wrap; /* Permite quebra de linha em telas menores */
+    gap: 20px;
+    justify-content: space-between;
+  }
+  
+  
+  .chart {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    flex: 1;
+    min-width: 300px; /* Define um tamanho mínimo */
+    max-width: 48%; /* Garante que dois gráficos ocupem a mesma linha */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  
+  .fake-chart {
+    background: #e0e0e0;
+    height: 150px;
+    margin-top: 10px;
+    border-radius: 5px;
+  }
+  

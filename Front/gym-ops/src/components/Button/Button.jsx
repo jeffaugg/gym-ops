@@ -1,18 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./Button.css";
 
-// export default function Button({type, onClick, children}) {
-//   return (
-//     <button type={type} onClick={onClick} className="button">
-//       {children}
-//     </button>
-//   );
-// }
+export default function Button({ type, onClick, children, navigateTo }) {
+  const navigate = useNavigate();
 
-export default function Button({type, children}) {
-    return (
-      <button type={type} className="button">
-        {children}
-      </button>
-    );
-  }
+  const handleClick = () => {
+    if (navigateTo) {
+      navigate(navigateTo); // Redireciona para a página especificada
+    } else if (onClick) {
+      onClick(); // Executa a função onClick, se fornecida
+    }
+  };
+
+  return (
+    <button type={type} onClick={handleClick} className="button">
+      {children}
+    </button>
+  );
+}
