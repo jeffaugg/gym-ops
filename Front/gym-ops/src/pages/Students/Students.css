@@ -1,6 +1,6 @@
 .students {
     display: flex;
-    height: 100vh;
+    height: 100%;
     background-color: #ECE9E9;
   }
   

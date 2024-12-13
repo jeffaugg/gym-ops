@@ -1,12 +1,18 @@
 .sidebar {
-    background-color: #1a1a7d;
-    color: #fff;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 20px;
-  }
+  background-color: #1a1a7d;
+  color: #fff;
+  position: fixed; /* Deixa a sidebar fixa */
+  top: 0;
+  left: 0;
+  height: 100vh; /* Ocupa toda a altura da viewport */
+  width: 250px; /* Largura padrão */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+  overflow-y: auto; /* Adiciona rolagem se necessário */
+  transition: width 0.3s ease; /* Transição suave ao ajustar a largura */
+}
   
   .menu-items {
     margin-top: 20px;
@@ -53,4 +59,27 @@
 
 .sidebar-item.settings {
   justify-content: center; /* Centraliza o ícone no botão */
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px; /* Reduz a largura para telas médias */
+  }
+}
+
+/* Ajustes para telas muito pequenas */
+@media (max-width: 480px) {
+  .sidebar {
+    width: 80px; /* Sidebar compacta */
+    padding: 10px; /* Reduz o espaçamento interno */
+  }
+
+  .sidebar-item span {
+    display: none; /* Oculta o texto dos itens da sidebar */
+  }
+
+  .sidebar-item .icon-wrapper {
+    justify-content: center; /* Centraliza os ícones na versão compacta */
+  }
 }

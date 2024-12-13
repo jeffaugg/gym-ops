@@ -1,6 +1,6 @@
 .admin-home {
   display: flex;
-  height: 100vh;
+  height: 100%;
   background-color: #ECE9E9;
 }
 
@@ -10,7 +10,5 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  max-width: 1200px; /* Garante que o conteúdo não fique muito largo */
-  border-radius: 10px; /* Adiciona bordas arredondadas */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adiciona sombra para destaque */
+  max-width: 1200px;
 }
