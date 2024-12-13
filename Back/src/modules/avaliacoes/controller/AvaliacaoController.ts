@@ -1,8 +1,9 @@
-import { container } from "tsyringe";
+import { container, injectable } from "tsyringe";
 import { AvaliacaoService } from "../service/AvaliacoesService";
 import { AvaliacoesSchema } from "../dto/AvaliacaoSchema";
 import { Request, Response } from "express";
 
+@injectable()
 export class AvaliacaoController {
   public async create(req: Request, res: Response): Promise<Response> {
     const avaliacaoService = container.resolve(AvaliacaoService);
