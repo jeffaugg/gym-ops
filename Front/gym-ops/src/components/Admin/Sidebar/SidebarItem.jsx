@@ -2,18 +2,18 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
-function SidebarItem({ name, icon: Icon, path }) {
+function SidebarItem({ name, icon: Icon, path, className = "" }) {
   return (
     <NavLink
       to={path}
       className={({ isActive }) =>
-        isActive ? "sidebar-item active" : "sidebar-item"
+        `${className} sidebar-item ${isActive ? "active" : ""}`
       }
     >
       <div className="icon-wrapper">
         <Icon size={20} />
       </div>
-      <span>{name}</span>
+      {name && <span>{name}</span>}
     </NavLink>
   );
 }

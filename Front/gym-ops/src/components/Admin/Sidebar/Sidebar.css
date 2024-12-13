@@ -25,6 +25,7 @@
   .sidebar-item.active {
     background-color: #ffffff;
     color: #1a1a7d;
+    width: fullscreen;
   }
   
   .sidebar-item:hover {
@@ -35,7 +36,21 @@
     margin-left: 10px;
   }
   
-  .footer {
-    margin-top: auto;
-  }
-  
+ .footer {
+  display: flex; /* Itens lado a lado */
+  justify-content: space-between; /* Espaçamento igual entre os itens */
+  align-items: center; /* Centraliza os ícones verticalmente */
+  padding: 10px 0; /* Espaçamento entre o footer e os itens */
+}
+
+.sidebar-item span {
+  margin-left: 10px;
+}
+
+.sidebar-item.settings span {
+  display: none; /* Oculta o texto no ícone de configurações */
+}
+
+.sidebar-item.settings {
+  justify-content: center; /* Centraliza o ícone no botão */
+}

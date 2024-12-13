@@ -11,12 +11,12 @@ import "./Sidebar.css";
 
 function Sidebar() {
   const menuItems = [
-    { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/AdminHome" },
+    { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/adminhome" },
     { name: "Alunos", icon: BsPeople, path: "/students" },
-    { name: "Mensagens", icon: BsEnvelopePaper, path: "/messages" },
-    { name: "Planos", icon: LuNotebookPen, path: "/plans" },
-    { name: "Pagamentos", icon: BsCreditCard, path: "/payments" },
-    { name: "Instrutores", icon: IoBarbellOutline, path: "/instructors" },
+    { name: "Avisos", icon: BsEnvelopePaper, path: "/adminwarnings" },
+    { name: "Planos", icon: LuNotebookPen, path: "/adminplans" },
+    { name: "Pagamentos", icon: BsCreditCard, path: "/adminpayments" },
+    { name: "Instrutores", icon: IoBarbellOutline, path: "/admininstructors" },
   ];
 
   return (
@@ -33,7 +33,7 @@ function Sidebar() {
       </div>
       <div className="footer">
         <SidebarItem name="Sair" icon={FiLogOut} path="/" />
-        <SidebarItem name="Configurações" icon={IoCogSharp} path="/settings" />
+        <SidebarItem name="" icon={IoCogSharp} path="/settings" />
       </div>
     </div>
   );
