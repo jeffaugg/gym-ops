@@ -1,0 +1,39 @@
+/* Não remover */
+.sign-page-container { 
+    display: flex;
+    height: 100vh;
+    background-color: #EFEAE4; /* uma cor clara próxima do off-white */
+    font-family: Arial, sans-serif;
+  }
+  
+/* Não remover */
+  .sign-form-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+/* Não remover */
+  .sign-form-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2C1E5A; /* um tom de roxo/azul */
+  }
+  
+  /* Não remover */
+  .sign-image-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+
+/* Não remover */
+  .sign-image-section img {
+    max-width: 60%;
+    height: auto;
+  }
+  
