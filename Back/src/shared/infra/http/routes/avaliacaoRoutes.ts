@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { AvaliacaoController } from "../../../../modules/avaliacoes/controller/AvaliacaoController";
+import { container } from "tsyringe";
 
 const avaliacaoRoutes = Router();
-const avaliacaoController = new AvaliacaoController();
+const avaliacaoController = container.resolve(AvaliacaoController);
 
 avaliacaoRoutes.post("/", avaliacaoController.create);
 avaliacaoRoutes.get("/", avaliacaoController.list);
