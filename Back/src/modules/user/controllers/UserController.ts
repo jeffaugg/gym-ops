@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import UserRepository from "../repositories/UserRepository";
 import User from "../models/User";
+import { container, injectable } from "tsyringe";
 
-const userRepository: UserRepository = new UserRepository();
-
+@injectable()
 export class UserController {
   public async create(req: Request, res: Response): Promise<Response> {
     const { name, email, password, role, tel } = req.body;
-
+    const userRepository: UserRepository = container.resolve(UserRepository);
     if (!name || !email || !password || !role || !tel) {
       return res.status(400).json({
         status: "error",
@@ -35,7 +35,7 @@ export class UserController {
   public async login(req: Request, res: Response): Promise<Response> {
     try {
       const { email, password } = req.body;
-
+      const userRepository: UserRepository = container.resolve(UserRepository);
       const { token, serializedUser } = await userRepository.login(
         email,
         password,
