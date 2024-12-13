@@ -19,19 +19,22 @@ services:
   backend:
     container_name: gym-ops-app
     build: ./Back
+    image: gym-ops-app
     volumes:
       - ./Back:/usr/app 
       - /usr/app/node_modules  
     networks:
       - gym-ops_network
     environment:
-      - DB_HOST=database  
+      - DB_HOST=bd
       - DB_PORT=5432     
       - DB_PASSWORD=password
       - DB_NAME=gym-ops
     depends_on:
       - bd
     command: npm run dev  
+    ports:
+      - "3000:3000"
 
 volumes:
   postgres_data:  
