@@ -32,7 +32,7 @@ services:
       - DB_NAME=gym-ops
     depends_on:
       - bd
-    command: npm run dev  
+    command: npm run start:dev  
     ports:
       - "3000:3000"
 
