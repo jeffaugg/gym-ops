@@ -33,7 +33,7 @@ function LoginForm() {
       <Button type="submit" navigateTo="/AdminHome">Entrar</Button>
 
       <div className="register-link">
-        Não possui cadastro? <Link to="#">Registre-se</Link>
+        Não possui cadastro? <Link to="SignUp">Registre-se</Link>
       </div>
       
     </form>

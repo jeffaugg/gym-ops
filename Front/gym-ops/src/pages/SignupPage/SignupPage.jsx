@@ -1,6 +1,6 @@
 import React from 'react';
 import './SignupPage.css';
-import SignupForm from '../../components/SignupForm/SignupForm.jsx';
+import SignupForm from '../../components/SignupForm/SignupForm';
 
 import gymLogo from '../../assets/logo.png'; 
 

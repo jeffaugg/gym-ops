@@ -2,7 +2,7 @@ import './App.css'
 import React from 'react'
 import { BrowserRouter, Routes, Route} from "react-router-dom"
 
-import SignupPage from './pages/SignupPage/SignupPage'
+import SignUpPage from './pages/SignupPage/SignupPage'
 import LoginPage from './pages/LoginPage/LoginPage'
 import AdminHome from './pages/Admin/Home/AdminHome'
 // import Sidebar from "./components/Admin/Sidebar/Sidebar";
@@ -21,9 +21,8 @@ function App() {
       <div>
         <BrowserRouter>
           <Routes>
-            {/* <Route path="/" element={<LoginPage />} /> */}
-            <Route path="/" element={<SignupPage />} />
             <Route path="/" element={<LoginPage />} />
+            <Route path="/SignUp" element={<SignUpPage />} />
             <Route path="/AdminHome" element={<AdminHome />} />
             {/* <Route path="/students" element={<Students />} />
             <Route path="/messages" element={<Messages />} />
