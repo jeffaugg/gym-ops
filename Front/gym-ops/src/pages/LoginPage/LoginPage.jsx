@@ -3,7 +3,6 @@ import './LoginPage.css';
 import LoginForm from '../../components/LoginForm/LoginForm.jsx';
 
 import gymLogo from '../../assets/logo.png'; 
-// Ajuste o caminho conforme a localização real da sua imagem
 
 function LoginPage() {
   return (
