@@ -1,22 +1,23 @@
 import { Request, Response } from "express";
 import { PlanoSchema } from "../dto/PlanoSchema";
-import { PlanoRepository } from "../repository/PlanoRepository";
-import { container } from "tsyringe";
+import { container, injectable } from "tsyringe";
+import { PlanoService } from "../service/PlanoService";
 
+@injectable()
 export class PlanoController {
   public async create(req: Request, res: Response): Promise<Response> {
     const { name, price, duration } = PlanoSchema.parse(req.body);
 
-    const planoRepository = container.resolve(PlanoRepository);
+    const planoService = container.resolve(PlanoService);
 
-    const plan = await planoRepository.create({ name, price, duration });
+    const plan = await planoService.create({ name, price, duration });
     return res.status(201).json(plan);
   }
 
   public async list(req: Request, res: Response): Promise<Response> {
-    const planoRepository = container.resolve(PlanoRepository);
+    const planoService = container.resolve(PlanoService);
 
-    const planos = await planoRepository.list();
+    const planos = await planoService.list();
     return res.status(200).json(planos);
   }
 
@@ -24,9 +25,9 @@ export class PlanoController {
     const { id } = req.params;
     const { name, price, duration } = PlanoSchema.parse(req.body);
 
-    const planoRepository = container.resolve(PlanoRepository);
+    const planoService = container.resolve(PlanoService);
 
-    const plan = await planoRepository.update(Number(id), {
+    const plan = await planoService.update(Number(id), {
       name,
       price,
       duration,
@@ -37,9 +38,9 @@ export class PlanoController {
   public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
 
-    const planoRepository = container.resolve(PlanoRepository);
+    const planoService = container.resolve(PlanoService);
 
-    await planoRepository.delete(Number(id));
+    await planoService.delete(Number(id));
     return res.status(204).json();
   }
 }
