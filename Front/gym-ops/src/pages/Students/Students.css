@@ -121,3 +121,53 @@
 .btn-next:hover {
   background-color: #333399;
 }
+
+/* .students {
+    display: flex;
+    height: 100%;
+    background-color: #ECE9E9;
+  }
+  
+  .dashboard-container {
+    flex: 1;
+    padding: 20px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px; 
+    border-radius: 10px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  }
+   */
+
+.students {
+  display: flex;
+  height: 100vh;
+  background-color: #ECE9E9;
+}
+
+.students-content {
+  margin-left: 250px;
+  /* Espaço para a sidebar */
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  background-color: #f4f4f9;
+  overflow-y: auto;
+}
+
+.students-header {
+  width: 100%;
+  margin-top: 50px;
+  margin-left: 90px;
+  text-align: left;
+}
+
+.students-header h1 {
+  font-size: 24px;
+  color: #2c3e50;
+  font-weight: bold;
+}

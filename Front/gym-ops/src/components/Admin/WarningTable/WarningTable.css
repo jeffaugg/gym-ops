@@ -1,0 +1,41 @@
+
+/* Tabela */
+.mensagem-list {
+    width: 100%;
+    max-width: 800px; /* Limita a largura máxima da tabela */
+    background-color: #332F64;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mensagem-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .mensagem-list th,
+  .mensagem-list td {
+    padding: 10px;
+    text-align: left;
+  }
+  
+  .mensagem-list th {
+    background-color: #4e4b9c;
+    color: white;
+  }
+  
+  .mensagem-list td {
+    background-color: #827fcb;
+  }
+  
+  .mensagem-list .delete {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
