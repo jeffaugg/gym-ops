@@ -2,7 +2,7 @@ import React from 'react';
 import './LoginPage.css';
 import LoginForm from '../../components/LoginForm/LoginForm.jsx';
 
-import gymLogo from '../../assets/logo.png'; 
+import gymLogo from '../../assets/images/logo.png'; 
 
 function LoginPage() {
   return (

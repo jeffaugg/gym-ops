@@ -1,17 +1,24 @@
 .sidebar {
-  background-color: #1a1a7d;
-  color: #fff;
-  position: fixed; /* Deixa a sidebar fixa */
+  position: fixed; /* Fixa a barra lateral à esquerda */
   top: 0;
   left: 0;
-  height: 100vh; /* Ocupa toda a altura da viewport */
-  width: 250px; /* Largura padrão */
+  width: 250px; /* Largura fixa da Sidebar */
+  height: 100vh; /* Ocupa toda a altura da tela */
+  background-color: #1a1a7d; /* Cor de fundo */
+  color: white; /* Texto branco */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
-  overflow-y: auto; /* Adiciona rolagem se necessário */
-  transition: width 0.3s ease; /* Transição suave ao ajustar a largura */
+  z-index: 1000; /* Garante que a Sidebar fique acima do conteúdo */
+}
+
+/* Ajusta o conteúdo principal para considerar a largura da Sidebar */
+.main-content {
+  margin-left: 250px; /* Mesma largura da Sidebar */
+  padding: 20px; /* Espaçamento interno */
+  background-color: #ECE9E9; /* Cor de fundo do conteúdo */
+  min-height: 100vh; /* Garante que o conteúdo ocupe toda a altura da tela */
+  overflow-y: auto; /* Permite rolagem vertical, se necessário */
 }
   
   .menu-items {
