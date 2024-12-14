@@ -13,4 +13,6 @@ alunoRoutes.get("/:id", alunoController.findById);
 alunoRoutes.get("/email/:email", alunoController.findByEmail);
 alunoRoutes.get("/cpf/:cpf", alunoController.findByCpf);
 
+
+
 export default alunoRoutes;
