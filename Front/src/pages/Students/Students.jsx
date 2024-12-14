@@ -1,30 +1,20 @@
 import React from "react";
-import Sidebar from "../../components/Admin/Sidebar/Sidebar";
-import Topbar from "../../components/Topbar/Topbar";
 import "./Students.css";
 import StudentsForm from "../../components/Admin/StudentsForm/StudentsForm";
 import StudentsTable from "../../components/StudentsTable/StudentsTable";
+import Layout from "../../components/LayoutPages/Layout";
 
 function Students() {
   return (
-    <div className="students">
-      <Sidebar />
+    <Layout>
       <div className="students-content">
-        <Topbar />
         <header className="students-header">
-          <h1>Alunos matriculados</h1>
+          <h1>Cadastrar aluno</h1>
         </header>
-
         <StudentsForm />
         <StudentsTable />
-
-  
       </div>
-    </div>
-      // {/* <div className="main-content">
-      //   <div className="content-container">
-      //     <header className="header"> */}
-
+    </Layout>
   );
 }
 

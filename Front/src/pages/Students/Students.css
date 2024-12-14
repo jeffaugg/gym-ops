@@ -1,35 +1,22 @@
-/* Estilo para a área principal ao lado da sidebar */
-.main-content {
-  flex: 1; /* Ocupa o restante do espaço */
-  display: flex;
-  flex-direction: column;
-  background-color: #ECE9E9;
-  padding: 20px;
-}
-
-/* Container para organizar o conteúdo */
-.content-container {
-  flex: 1;
-  margin-top: 130px; /* Adapta ao Topbar */
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Cabeçalho da página */
-.header {
+/* Cabeçalhos */
+.header,
+.students-header {
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   margin-bottom: 20px;
 }
 
-.header h1 {
+.students-header h1 {
   font-size: 24px;
   color: #1a1a7d;
+  font-weight: 700;
+  font-family: poppins;
+  margin: 0;
 }
 
+/* Botão de matrícula */
 .btn-matricular {
   background-color: #5c5cac;
   color: white;
@@ -43,7 +30,7 @@
   background-color: #4a4a99;
 }
 
-/* Estilo da tabela */
+/* Layout da tabela */
 .table-container {
   margin-top: 20px;
 }
@@ -73,42 +60,15 @@
   background-color: #f1f1f1;
 }
 
-/* Botões de ações na tabela */
-.btn-edit,
-.btn-delete {
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-}
-
-.btn-edit {
-  background-color: #4caf50; /* Verde */
-}
-
-.btn-edit:hover {
-  background-color: #45a049;
-}
-
-.btn-delete {
-  background-color: #f44336; /* Vermelho */
-  margin-left: 5px;
-}
-
-.btn-delete:hover {
-  background-color: #e53935;
-}
-
 /* Paginação */
 .pagination {
   display: flex;
-  justify-content: space-between;
+  justify-content: center; /* Centraliza os botões de paginação */
+  gap: 10px;
   margin-top: 20px;
 }
 
-.btn-prev,
-.btn-next {
+.pagination-btn {
   background-color: #1a1a7d;
   color: white;
   border: none;
@@ -117,57 +77,24 @@
   cursor: pointer;
 }
 
-.btn-prev:hover,
-.btn-next:hover {
+.pagination-btn:hover {
   background-color: #333399;
 }
 
-/* .students {
-    display: flex;
-    height: 100%;
-    background-color: #ECE9E9;
-  }
-  
-  .dashboard-container {
-    flex: 1;
-    padding: 20px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    max-width: 1200px; 
-    border-radius: 10px; 
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-  }
-   */
-
+/* Layout geral */
 .students {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   background-color: #ECE9E9;
 }
 
 .students-content {
-  margin-left: 250px;
-  /* Espaço para a sidebar */
   flex: 1;
-  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  background-color: #f4f4f9;
+  padding: 20px;
   overflow-y: auto;
-}
-
-.students-header {
-  width: 100%;
-  margin-top: 50px;
-  margin-left: 90px;
-  text-align: left;
-}
-
-.students-header h1 {
-  font-size: 24px;
-  color: #2c3e50;
-  font-weight: bold;
 }

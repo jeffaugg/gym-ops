@@ -1,7 +1,7 @@
 .students-list {
     width: 100%;
     max-width: 800px;
-    background-color: #332F64;
+    background-color: #77749B;
     padding: 20px;
     border-radius: 8px;
     color: white;
@@ -20,16 +20,11 @@
 }
 
 .students-list th {
-    background-color: #4e4b9c;
+    font-weight: 700;
     color: white;
 }
 
-.students-list td {
-    background-color: #827fcb;
-}
-
 .students-list .btn.edit {
-    background-color: #f1c40f;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -39,9 +34,8 @@
 }
 
 .students-list .btn.delete {
-    background-color: red;
     color: white;
-    border: none;
+    border:rgb(206, 0, 0);
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
