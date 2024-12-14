@@ -1,4 +1,5 @@
 export class ExerciciosDeTreinos {
+  id: number;
   treinoId: number;
   exercicioId: number;
   series: number;
@@ -6,12 +7,14 @@ export class ExerciciosDeTreinos {
   descanso_segundos: number;
 
   public constructor(
+    id: number,
     treinoId: number,
     exercicioId: number,
     series: number,
     repeticoes: number,
     descanso_segundos: number
   ) {
+    this.id = id;
     this.treinoId = treinoId;
     this.exercicioId = exercicioId;
     this.series = series;
@@ -21,6 +24,7 @@ export class ExerciciosDeTreinos {
 
   static fromDatabase(data: any): ExerciciosDeTreinos {
     return new ExerciciosDeTreinos(
+      data.id,
       data.treinoId,
       data.exercicioId,
       data.series,

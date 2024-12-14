@@ -48,8 +48,7 @@ export class TreinoRepository {
     if (result.rows.length === 0) {
       return null;
     }
-    const exercicioData = result.rows[0];
-    return Treino.fromDatabase(exercicioData);
+    return result.rows[0] as Treino;
   }
 
   async update(id: number, data: z.infer<typeof TreinoSchema>): Promise<Treino> {
@@ -60,7 +59,8 @@ export class TreinoRepository {
 
     const result = await this.db.raw(query, [
       data.name,
-      data.notes
+      data.notes,
+      id
     ]);
 
     return result.rows[0] as Treino;

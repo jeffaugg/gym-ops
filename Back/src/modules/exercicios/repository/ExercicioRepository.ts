@@ -60,7 +60,8 @@ export class ExercicioRepository {
 
     const result = await this.db.raw(query, [
       data.name,
-      data.muscles
+      data.muscles,
+      id
     ]);
 
     return result.rows[0] as Exercicio;

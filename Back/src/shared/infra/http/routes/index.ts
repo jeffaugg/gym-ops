@@ -3,7 +3,7 @@ import authRoutes from "./authRoutes";
 import planoRoutes from "./planoRoutes";
 import alunoRoutes from "./alunoRoutes";
 import avaliacaoRoutes from "./avaliacaoRoutes";
-import exercicioRoutes from "./treinoRoutes";
+import exercicioRoutes from "./exercicioRoutes";
 import treinoRoutes from "./treinoRoutes";
 import exerciciosDeTreinosRoutes from "./exerciciosDeTreinosRoutes";
 

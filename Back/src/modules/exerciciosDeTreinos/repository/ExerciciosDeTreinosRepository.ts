@@ -12,7 +12,7 @@ export class ExerciciosDeTreinosRepository {
     const query = `
       INSERT INTO exercicios_de_treinos (treino_id, exercicio_id, series, repeticoes, descanso_segundos)
       VALUES (?, ?, ?, ?, ?)
-      RETURNING treino_id, exercicio_id, series, repeticoes, descanso_segundos;
+      RETURNING id, treino_id, exercicio_id, series, repeticoes, descanso_segundos;
     `;
 
     const result = await this.db.raw(query, [
@@ -23,7 +23,7 @@ export class ExerciciosDeTreinosRepository {
       data.descanso_segundos,
     ]);
 
-    return ExerciciosDeTreinos.fromDatabase(result.rows[0]);
+    return result.rows[0] as ExerciciosDeTreinos;
   }
 
   async list(): Promise<ExerciciosDeTreinos[]> {
@@ -34,7 +34,7 @@ export class ExerciciosDeTreinosRepository {
   }
 
   async findById(id: number): Promise<ExerciciosDeTreinos | null> {
-    const query = "SELECT * FROM exercicios_de_treinos WHERE treino_id = ?";
+    const query = "SELECT * FROM exercicios_de_treinos WHERE id = ?";
     const result = await this.db.raw(query, [id]);
 
     if (result.rows.length === 0) {
@@ -60,7 +60,7 @@ export class ExerciciosDeTreinosRepository {
       UPDATE exercicios_de_treinos 
       SET series = ?, repeticoes = ?, descanso_segundos = ?, treino_id = ?, exercicio_id=?
       WHERE id = ?
-      RETURNING treino_id, exercicio_id, series, repeticoes, descanso_segundos;
+      RETURNING id, treino_id, exercicio_id, series, repeticoes, descanso_segundos;
     `;
 
     const result = await this.db.raw(query, [
@@ -69,6 +69,7 @@ export class ExerciciosDeTreinosRepository {
       data.descanso_segundos,
       data.treinoId,
       data.exercicioId,
+      exercicio_treino_id
     ]);
 
     return ExerciciosDeTreinos.fromDatabase(result.rows[0]);

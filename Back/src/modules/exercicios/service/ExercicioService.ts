@@ -36,12 +36,7 @@ export class ExercicioService {
     }
 
 
-    const exerciseByName = await this.exercicioRepository.findByName(data.name);
-
-    if (exerciseByName) {
-        throw new AppError("Já existe um exercício com esse nome", 409);
-    }
-
+   
 
     return await this.exercicioRepository.update(id, data);
   }

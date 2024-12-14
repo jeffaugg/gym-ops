@@ -38,6 +38,8 @@ export class ExerciciosDeTreinosController {
     const exerciciosDeTreinosService = container.resolve(ExerciciosDeTreinosService);
 
     const exercicio = await exerciciosDeTreinosService.update(Number(id), {
+      treinoId,
+      exercicioId,
       series,
       repeticoes,
       descanso_segundos,
