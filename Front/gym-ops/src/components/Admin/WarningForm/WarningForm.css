@@ -1,53 +1,33 @@
 /* Formulário */
 .mensagem-form {
-    width: 600px; /* Ocupa 100% da largura disponível */
-    max-width: 600px; /* Limita a largura máxima do formulário */
-    background-color: #332F64;
-    padding: 20px;
-    border-radius: 8px;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .mensagem-form label {
-    display: block;
-    margin-bottom: 15px;
-    font-weight: bold;
-  }
-  
-  .mensagem-form input,
-  .mensagem-form textarea,
-  .mensagem-form select {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .mensagem-form .form-actions {
-    display: flex;
-    justify-content: flex-end; /* Alinha os botões à direita */
-    margin-top: 15px;
-  }
-  
-  .mensagem-form .btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .mensagem-form .btn.enviar {
-    background-color: #DEBA3B;
-    color: #1A1363;
-    margin-right: 10px;
-  }
-  
-  .mensagem-form .btn.cancelar {
-    background-color: white;
-    color: #2c3e50;
-    border: 1px solid #2c3e50;
-  }
+  width: 600px;
+  /* Ocupa 100% da largura disponível */
+  max-width: 600px;
+  /* Limita a largura máxima do formulário */
+  background-color: #332F64;
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.mensagem-form label {
+  display: block;
+}
+
+.mensagem-form input,
+.mensagem-form textarea,
+.mensagem-form select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.mensagem-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 15px;
+}

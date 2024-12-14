@@ -1,0 +1,14 @@
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.btn.enviar {
+    background-color: #DEBA3B;
+    color: #1A1363;
+    margin-right: 10px;
+}
