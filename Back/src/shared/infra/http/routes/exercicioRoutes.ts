@@ -10,7 +10,7 @@ exercicioRoutes.get("/", exercicioController.list);
 exercicioRoutes.put("/:id", exercicioController.update);
 exercicioRoutes.delete("/:id", exercicioController.delete);
 exercicioRoutes.get("/:id", exercicioController.findById);
-exercicioRoutes.get("/email/:email", exercicioController.findByName);
+exercicioRoutes.get("/name/:name", exercicioController.findByName);
 
 
 export default exercicioRoutes;

@@ -3,7 +3,8 @@ import authRoutes from "./authRoutes";
 import planoRoutes from "./planoRoutes";
 import alunoRoutes from "./alunoRoutes";
 import avaliacaoRoutes from "./avaliacaoRoutes";
-import exercicioRoutes from "./exercicioRoutes";
+import exercicioRoutes from "./treinoRoutes";
+import treinoRoutes from "./treinoRoutes";
 
 const routes = Router();
 
@@ -12,5 +13,6 @@ routes.use("/plan", planoRoutes);
 routes.use("/clients", alunoRoutes);
 routes.use("/reviews", avaliacaoRoutes);
 routes.use("/exercises", exercicioRoutes);
+routes.use("/workout", treinoRoutes);
 
 export default routes;

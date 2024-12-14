@@ -67,7 +67,7 @@ export class ExercicioRepository {
   }
 
   async delete(id: number): Promise<void> {
-    const query = "DELETE FROM alunos WHERE id = ?";
+    const query = "DELETE FROM exercicios WHERE id = ?";
     await this.db.raw(query, [id]);
   }
 }
