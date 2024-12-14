@@ -13,7 +13,6 @@ function DashboardCard({ title, items }) {
             <span className="user-icon"><FaUserCircle  color="#1a1a7d"/></span>
             {item}
             <FaEye color="#1a1a7d" onClick={""}/>
-            {/* <button className="view-button">👁️</button> */}
           </li>
         ))}
       </ul>

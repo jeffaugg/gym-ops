@@ -14,15 +14,16 @@ function Dashboard() {
 
       <div className="dashboard-stats">
         <div className="chart">
-          <h3>278 pessoas</h3>
-          <p>Na semana (07/11 - 14/11)</p>
-          {/* Aqui você pode integrar um gráfico real usando Chart.js ou Recharts */}
-          <div className="fake-chart">[Gráfico de Barras]</div>
+          <h3>Acessos</h3>
+          <div className="fake-chart">
+            [Gráfico de Barras]
+          </div>
         </div>
         <div className="chart">
           <h3>Balanço Mensal</h3>
-          {/* Aqui você pode integrar um gráfico real */}
-          <div className="fake-chart">[Gráfico de Linha]</div>
+          <div className="fake-chart">
+            [Gráfico de Linha]
+          </div>
         </div>
       </div>
 
