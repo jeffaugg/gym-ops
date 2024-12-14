@@ -1,0 +1,49 @@
+.students-list {
+    width: 100%;
+    max-width: 800px;
+    background-color: #332F64;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.students-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.students-list th,
+.students-list td {
+    padding: 10px;
+    text-align: left;
+}
+
+.students-list th {
+    background-color: #4e4b9c;
+    color: white;
+}
+
+.students-list td {
+    background-color: #827fcb;
+}
+
+.students-list .btn.edit {
+    background-color: #f1c40f;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+}
+
+.students-list .btn.delete {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+}

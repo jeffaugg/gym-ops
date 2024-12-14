@@ -1,0 +1,18 @@
+/* Estilo para a área principal ao lado da sidebar */
+.main-content {
+  flex: 1; /* Ocupa o restante do espaço */
+  display: flex;
+  flex-direction: column;
+  background-color: #ECE9E9;
+  padding: 20px;
+}
+
+/* Container para organizar o conteúdo */
+.content-container {
+  flex: 1;
+  margin-top: 130px; /* Adapta ao Topbar */
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}

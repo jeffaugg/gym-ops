@@ -1,0 +1,41 @@
+.login-form {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+  }
+  
+  .remember-me {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #2C1E5A;
+  }
+  
+  .forgot-password {
+    text-decoration: none;
+    color: #2C1E5A;
+    font-weight: bold;
+  }
+  
+  .register-link {
+    font-size: 0.9rem;
+    color: #2C1E5A;
+  }
+  
+  .register-link Link {
+    text-decoration: none;
+    color: #2C1E5A;
+    font-weight: bold;
+  }
