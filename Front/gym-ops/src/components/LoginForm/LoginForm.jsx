@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import './LoginForm.css';
 
 import Button from '../Button/Button.jsx';
@@ -27,13 +27,13 @@ function LoginForm() {
           <input type="checkbox" id="remember" />
           <label htmlFor="remember">Lembre de mim</label>
         </div>
-        <a href="#" className="forgot-password">Esqueceu a senha?</a>
+        <Link to="#" className="forgot-password">Esqueceu a senha?</Link>
       </div>
 
-      <Button type="submit">Entrar</Button>
+      <Button type="submit" navigateTo="/AdminHome">Entrar</Button>
 
       <div className="register-link">
-        Não possui cadastro? <a href="#">Registre-se</a>
+        Não possui cadastro? <Link to="SignUp">Registre-se</Link>
       </div>
       
     </form>

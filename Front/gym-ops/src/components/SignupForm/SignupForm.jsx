@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from 'react-router-dom';
 import "./SignupForm.css";
 
 import Button from "../Button/Button.jsx";
@@ -50,10 +50,10 @@ function SignupForm() {
         </div>
       </div>
 
-      <Button type="submit">Registrar</Button>
+      <Button type="submit" navigateTo={"/"}>Registrar</Button>
 
       <div className="register-link">
-        Já possui cadastro? <a href="#">Entre aqui!</a>
+        Já possui cadastro? <Link to="/">Entre aqui!</Link>
       </div>
     </form>
   );

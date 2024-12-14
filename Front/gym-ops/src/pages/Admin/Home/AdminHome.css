@@ -1,0 +1,14 @@
+.admin-home {
+  display: flex;
+  height: 100%;
+  background-color: #ECE9E9;
+}
+
+.dashboard-container {
+  flex: 1;
+  padding: 20px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+}
