@@ -1,26 +1,17 @@
 .topbar {
+  position: fixed;
+  height: 80px;
   background-color: #ffffff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* height: 60px; */
-  padding: 16px 50px 0px 280px;
-  position: fixed; /* Fixa a barra no topo */
-  top: 0px;
-  left: 0px;
-  right: 0px;
-  /* z-index: 1000; */
+  padding: 0px 30px 0px 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .logo img {
-  height: 120px;
-  /* margin-left: 260px; */
+  height: 60px;
 }
 
-
 .notification {
-  align-items: flex-start;
   color: #1a1a7d;
   cursor: pointer;
-  /* margin-right: 30px; */
 }
