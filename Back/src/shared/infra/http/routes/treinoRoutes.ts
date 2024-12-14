@@ -11,6 +11,7 @@ treinoRoutes.put("/:id", treinoController.update);
 treinoRoutes.delete("/:id", treinoController.delete);
 treinoRoutes.get("/:id", treinoController.findById);
 treinoRoutes.get("/name/:name", treinoController.findByName);
+treinoRoutes.post("/adicionarExercicio", treinoController.findByName);
 
 
 export default treinoRoutes;
