@@ -89,4 +89,15 @@ export class AlunoRepository {
     const query = "DELETE FROM alunos WHERE id = ?";
     await this.db.raw(query, [id]);
   }
+
+  async findByPlanId(plan_id: number): Promise<Aluno[] | null> {
+    const query = "SELECT * FROM alunos WHERE plan_id = ?";
+    const result = await this.db.raw(query, [plan_id]);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    return result.rows.map((alunoData: any) => Aluno.fromDatabase(alunoData));
+  }
 }

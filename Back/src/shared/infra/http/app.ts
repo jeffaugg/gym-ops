@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import "../../infra/http/config/database.ts";
 import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import cors from "cors";

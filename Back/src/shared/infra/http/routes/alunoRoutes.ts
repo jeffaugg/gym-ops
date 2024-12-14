@@ -1,17 +1,18 @@
 import { container } from "tsyringe";
 import { AlunoController } from "../../../../modules/alunos/controller/AlunoController";
 import { Router } from "express";
+import isAuth from "../middleware/isAuth";
 
 const alunoRoutes = Router();
 const alunoController = container.resolve(AlunoController);
 
-alunoRoutes.post("/", alunoController.create);
-alunoRoutes.get("/", alunoController.list);
-alunoRoutes.put("/:id", alunoController.update);
-alunoRoutes.delete("/:id", alunoController.delete);
-alunoRoutes.get("/:id", alunoController.findById);
-alunoRoutes.get("/email/:email", alunoController.findByEmail);
-alunoRoutes.get("/cpf/:cpf", alunoController.findByCpf);
+alunoRoutes.post("/", isAuth, alunoController.create);
+alunoRoutes.get("/", isAuth, alunoController.list);
+alunoRoutes.put("/:id", isAuth, alunoController.update);
+alunoRoutes.delete("/:id", isAuth, alunoController.delete);
+alunoRoutes.get("/:id", isAuth, alunoController.findById);
+alunoRoutes.get("/email/:email", isAuth, alunoController.findByEmail);
+alunoRoutes.get("/cpf/:cpf", isAuth, alunoController.findByCpf);
 
 
 
