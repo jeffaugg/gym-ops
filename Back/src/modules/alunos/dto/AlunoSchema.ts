@@ -16,4 +16,8 @@ export const AlunoSchema = z.object({
     message: "CPF deve estar no formato XXX.XXX.XXX-XX",
   }),
   plan_id: z.number().int().positive({ message: "ID do plano inválido" }),
+  health_notes: z
+    .string()
+    .max(500, { message: "Observações de saúde muito longas" })
+    .optional(),
 });

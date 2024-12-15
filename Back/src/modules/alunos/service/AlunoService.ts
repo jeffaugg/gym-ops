@@ -33,6 +33,10 @@ export class AlunoService {
       throw new AppError("Plano não encontrado", 404);
     }
 
+    if (!data.health_notes || data.health_notes.length < 1) {
+      data.health_notes = null;
+    }
+
     return await this.alunoRepository.create(data);
   }
 
