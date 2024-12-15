@@ -23,18 +23,31 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
+import { toast } from 'react-toastify'; // Importa o Toastify
+
 
 function SidebarItem({ name, icon: Icon, path, className = "" }) {
   const navigate = useNavigate();
 
   // Lógica de Logout
-  const handleLogout = (e) => {
-    if (name === "Sair") {
-      e.preventDefault(); // Evita o redirecionamento padrão do NavLink
-      localStorage.clear(); // Limpa os dados armazenados no localStorage
-      navigate("/"); // Redireciona para a página de login
-    }
-  };
+  const handleLogout = () => {
+  const rememberMe = localStorage.getItem("rememberMe") === "true";
+
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+
+  if (!rememberMe) {
+    localStorage.removeItem("email");
+    localStorage.removeItem("rememberMe");
+  }
+
+  sessionStorage.clear();
+
+  toast.info('Você foi desconectado!', {
+    position: 'top-right',
+  });
+  navigate("/");
+};
 
   return (
     <NavLink
