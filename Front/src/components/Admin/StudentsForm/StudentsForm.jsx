@@ -10,12 +10,12 @@ export default function StudentsForm() {
         <div className="students-form">
             <form>
             <div className="form-group">
-              <InputFieldForm label="Nome*" type="text" placeholder="Digite o nome" required />
-              <InputFieldForm label="Data de nascimento*" type="date" placeholder="" required />
+              <InputFieldForm label="Nome*" type="text" placeholder="Digite o nome" />
+              <InputFieldForm label="Data de nascimento*" type="date" placeholder="" />
             </div>
 
             <div className="form-group">
-              <InputFieldForm label={"CPF*"} type={"text"} placeholder={"Digite o CPF"} required />
+              <InputFieldForm label={"CPF*"} type={"text"} placeholder={"Digite o CPF"} />
               <label>
                 Gênero*
                 <select required>
@@ -36,12 +36,12 @@ export default function StudentsForm() {
                   <option value="anual">Anual</option>
                 </select>
               </label>
-              <InputFieldForm label={"Telefone*"} type={"text"} placeholder={"Digite o telefone"} required />
+              <InputFieldForm label={"Telefone*"} type={"text"} placeholder={"Digite o telefone"} />
             </div>
 
             <div className="form-group">
-              <InputFieldForm label={"Email*"} type={"email"} placeholder={"Digite o email"} required />
-              <InputFieldForm label={"Observações de saúde*"} type={"text"} placeholder={"Digite as observações"} required />
+              <InputFieldForm label={"Email*"} type={"email"} placeholder={"Digite o email"} />
+              <InputFieldForm label={"Observações de saúde*"} type={"text"} placeholder={"Digite as observações"} />
 
             </div>
 
