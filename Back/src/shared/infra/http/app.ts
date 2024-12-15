@@ -1,4 +1,7 @@
 import "reflect-metadata";
+import "../../infra/http/config/database.ts";
+import swaggerDocument from "../../infra/http/config/swagger.json";
+import swaggerUi from "swagger-ui-express";
 import express, { NextFunction, Request, Response } from "express";
 import "express-async-errors";
 import cors from "cors";
@@ -10,6 +13,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(routes);
 app.use(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -1,54 +1,26 @@
 import User from "../models/User";
-import { hash } from "bcryptjs";
-import AppError from "../../../shared/errors/AppError";
-import { createAccessToken } from "../../../shared/infra/http/helpers/CreateTokens";
-import { SerializeUser } from "../../../shared/infra/http/helpers/SerializeUser";
 import { inject, injectable } from "tsyringe";
 import { Knex } from "knex";
+import { z } from "zod";
+import { UserSchema } from "../dto/UserSchema";
 
-interface SerializedUser {
-  id: number;
-  name: string;
-  email: string;
-  tel: string;
-  role: string;
-}
-interface Response {
-  serializedUser: SerializedUser;
-  token: string;
-}
 @injectable()
 export class UserRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  public async create(
-    name: string,
-    email: string,
-    password: string,
-    role: string,
-    tel: string,
-  ): Promise<User> {
-    if (await this.findByEmail(email)) {
-      throw new AppError("Email ja existe", 400);
-    }
-    password = await hash(password, 8);
-    console.log(typeof password);
-    const query = `
-        INSERT INTO users (name, email, password, role, tel) 
-        VALUES (?, ?, ?, ?, ?) 
-        RETURNING id, name, email, password, role, tel;
-      `;
-    const values = [name, email, password, role, tel];
-    const result = await this.db.raw(query, values);
-    const newUser = result.rows[0];
-    return new User(
-      newUser.id,
-      newUser.name,
-      newUser.email,
-      newUser.tel,
-      newUser.password,
-      newUser.role,
-    );
+  public async create(data: z.infer<typeof UserSchema>): Promise<User> {
+    const query = `INSERT INTO users (name, email, password, cpf, tel, role) 
+    VALUES (?, ?, ?, ?, ?, ?) 
+    RETURNING id, name, email, password, cpf, tel, role;`;
+    const result = await this.db.raw(query, [
+      data.name,
+      data.email,
+      data.password,
+      data.cpf,
+      data.tel,
+      data.role,
+    ]);
+    return User.fromDatabase(result.rows[0]);
   }
 
   async findByEmail(email: string): Promise<User | null> {
@@ -57,33 +29,7 @@ export class UserRepository {
     if (result.rows.length === 0) {
       return null; // Usuário não encontrado
     }
-
-    const user = result.rows[0];
-    return new User(
-      user.id,
-      user.name,
-      user.email,
-      user.tel,
-      user.password,
-      user.role,
-    );
-  }
-
-  async login(email: string, password: string): Promise<Response> {
-    const user = await this.findByEmail(email);
-    if (!user) {
-      throw new AppError("Credenciais invalidas", 401);
-    }
-    if (!(await user.checkPassword(password))) {
-      throw new AppError("Credenciais invalidas", 401);
-    }
-    const token = createAccessToken(user);
-    const serializedUser = await SerializeUser(user);
-
-    return {
-      serializedUser,
-      token,
-    };
+    return User.fromDatabase(result.rows[0]);
   }
 
   async findById(id: number): Promise<User | null> {
@@ -92,8 +38,16 @@ export class UserRepository {
     if (result.rows.length === 0) {
       return null;
     }
-    const user = result.rows[0];
-    return User.fromDatabase(user);
+    return User.fromDatabase(result.rows[0]);
+  }
+
+  async findByCpf(cpf: string): Promise<User | null> {
+    const query = "SELECT * FROM users WHERE cpf = ?";
+    const result = await this.db.raw(query, [cpf]);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    return User.fromDatabase(result.rows[0]);
   }
 }
 

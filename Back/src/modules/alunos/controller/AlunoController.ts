@@ -7,19 +7,11 @@ import { z } from "zod";
 @injectable()
 export class AlunoController {
   async create(req: Request, res: Response): Promise<Response> {
-    const { name, email, date_of_birth, cpf, telephone, plan_id } =
-      AlunoSchema.parse(req.body);
+    const data = AlunoSchema.parse(req.body);
 
     const alunoService = container.resolve(AlunoService);
 
-    const aluno = await alunoService.create({
-      name,
-      email,
-      date_of_birth,
-      cpf,
-      telephone,
-      plan_id,
-    });
+    const aluno = await alunoService.create(data);
 
     return res.status(201).json(aluno);
   }
@@ -33,19 +25,11 @@ export class AlunoController {
 
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { name, email, date_of_birth, cpf, telephone, plan_id } =
-      AlunoSchema.parse(req.body);
+    const data = AlunoSchema.parse(req.body);
 
     const alunoService = container.resolve(AlunoService);
 
-    const aluno = await alunoService.update(Number(id), {
-      name,
-      email,
-      date_of_birth,
-      cpf,
-      telephone,
-      plan_id,
-    });
+    const aluno = await alunoService.update(Number(id), data);
 
     return res.status(200).json(aluno);
   }

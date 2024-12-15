@@ -1,0 +1,43 @@
+.plans-list {
+    width: 100%;
+    max-width: 800px;
+    background-color: #77749B;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.plans-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.plans-list th,
+.plans-list td {
+    padding: 10px;
+    text-align: left;
+}
+
+.plans-list th {
+    font-weight: 700;
+    color: white;
+}
+
+.plans-list .btn.edit {
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+}
+
+.plans-list .btn.delete {
+    color: white;
+    border:rgb(206, 0, 0);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { IoMdNotifications } from "react-icons/io";
-import "./Topbar.css";
 import gymLogo from '../../assets/images/logo.png';
+import "./Topbar.css";
 
 function Topbar() {
   return (
@@ -10,7 +10,7 @@ function Topbar() {
         <img src={gymLogo} alt="Gym Logo" />
       </div>
       <div className="notification">
-        <IoMdNotifications size={34} />
+        <IoMdNotifications size={24} />
       </div>
     </div>
   );

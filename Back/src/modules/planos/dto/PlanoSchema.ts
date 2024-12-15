@@ -9,7 +9,10 @@ export const PlanoSchema = z.object({
       message: "O preço deve ter no máximo duas casas decimais",
     }),
   duration: z
-    .string()
-    .min(3, { message: "A duração deve ter no mínimo 3 caracteres" }), // Dia, Semana, Mês, Anoz
+    .number()
+    .int({ message: "duração deve ser um número inteiro" })
+    .positive({ message: "duração deve ser em dias" })
+    .min(1, { message: "duração mínima é de 1 dia" })
+    .max(365, { message: "duração máxima é de 365 dias" }),
   spots: z.number().positive().nullable(),
 });

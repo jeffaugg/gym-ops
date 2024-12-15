@@ -1,23 +1,24 @@
 import { Knex } from "knex";
 import { inject, injectable } from "tsyringe";
 import { z } from "zod";
-import { ExerciciosDeTreinosSchema } from "../dto/ExerciciosDeTreinosSchema";
+import { ExercicioDeTreinoSchema } from "../dto/ExercicioDeTreinoSchema";
 import { ExerciciosDeTreinos } from "../models/ExerciciosDeTreinos";
 
 @injectable()
-export class ExerciciosDeTreinosRepository {
+export class ExercicioDeTreinoRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  async create(data: z.infer<typeof ExerciciosDeTreinosSchema>): Promise<ExerciciosDeTreinos> {
+  async create(
+    data: z.infer<typeof ExercicioDeTreinoSchema>,
+  ): Promise<ExerciciosDeTreinos> {
     const query = `
       INSERT INTO exercicios_de_treinos (treino_id, exercicio_id, series, repeticoes, descanso_segundos)
       VALUES (?, ?, ?, ?, ?)
       RETURNING id, treino_id, exercicio_id, series, repeticoes, descanso_segundos;
     `;
-
     const result = await this.db.raw(query, [
-      data.treinoId,
-      data.exercicioId,
+      data.treino_id,
+      data.exercicio_id,
       data.series,
       data.repeticoes,
       data.descanso_segundos,
@@ -30,7 +31,9 @@ export class ExerciciosDeTreinosRepository {
     const query = "SELECT * FROM exercicios_de_treinos";
     const result = await this.db.raw(query);
 
-    return result.rows.map((data: any) => ExerciciosDeTreinos.fromDatabase(data));
+    return result.rows.map((data: any) =>
+      ExerciciosDeTreinos.fromDatabase(data),
+    );
   }
 
   async findById(id: number): Promise<ExerciciosDeTreinos | null> {
@@ -41,21 +44,24 @@ export class ExerciciosDeTreinosRepository {
       return null;
     }
 
-    return ExerciciosDeTreinos.fromDatabase(result.rows[0]);
+    return result.rows[0] as ExerciciosDeTreinos;
   }
 
-  async findByTreinoId(exercicioId: number): Promise<ExerciciosDeTreinos | null> {
+  async findByTreinoId(treino_id: number): Promise<ExerciciosDeTreinos | null> {
     const query = "SELECT * FROM exercicios_de_treinos WHERE treino_id = ?";
-    const result = await this.db.raw(query, [exercicioId]);
+    const result = await this.db.raw(query, [treino_id]);
 
     if (result.rows.length === 0) {
       return null;
     }
 
-    return ExerciciosDeTreinos.fromDatabase(result.rows[0]);
+    return result.rows[0] as ExerciciosDeTreinos;
   }
 
-  async update(exercicio_treino_id: number, data: z.infer<typeof ExerciciosDeTreinosSchema>): Promise<ExerciciosDeTreinos> {
+  async update(
+    exercicio_treino_id: number,
+    data: z.infer<typeof ExercicioDeTreinoSchema>,
+  ): Promise<ExerciciosDeTreinos> {
     const query = `
       UPDATE exercicios_de_treinos 
       SET series = ?, repeticoes = ?, descanso_segundos = ?, treino_id = ?, exercicio_id=?
@@ -67,12 +73,12 @@ export class ExerciciosDeTreinosRepository {
       data.series,
       data.repeticoes,
       data.descanso_segundos,
-      data.treinoId,
-      data.exercicioId,
-      exercicio_treino_id
+      data.treino_id,
+      data.exercicio_id,
+      exercicio_treino_id,
     ]);
 
-    return ExerciciosDeTreinos.fromDatabase(result.rows[0]);
+    return result.rows[0] as ExerciciosDeTreinos;
   }
 
   async delete(exercicio_treino_id: number): Promise<void> {

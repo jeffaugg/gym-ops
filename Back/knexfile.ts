@@ -18,6 +18,7 @@ const config = {
     migrations: {
       tableName: "migrations",
       directory: "./migrations",
+      extension: 'ts'
     },
   },
 

@@ -10,7 +10,7 @@ export async function up(knex: Knex): Promise<void> {
             series INTEGER NOT NULL,
             descanso_segundos INTEGER NOT NULL,
             FOREIGN KEY (treino_id) REFERENCES treinos(id) ON DELETE CASCADE,
-            FOREIGN KEY (exercicio_id) REFERENCES treinos(id) ON DELETE CASCADE
+            FOREIGN KEY (exercicio_id) REFERENCES exercicios(id) ON DELETE CASCADE
         )
     `);
 }

@@ -10,9 +10,9 @@ export class AlunoRepository {
 
   async create(data: z.infer<typeof AlunoSchema>): Promise<Aluno> {
     const query = `
-      INSERT INTO alunos (name, date_of_birth, email, telephone, cpf, plan_id)
-      VALUES (?, ?, ?, ?, ?, ?)
-      RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, created_at;
+      INSERT INTO alunos (name, date_of_birth, email, telephone, cpf, plan_id, health_notes)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+      RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, health_notes, created_at;
     `;
 
     const result = await this.db.raw(query, [
@@ -22,6 +22,7 @@ export class AlunoRepository {
       data.telephone,
       data.cpf,
       data.plan_id,
+      data.health_notes,
     ]);
 
     return result.rows[0] as Aluno;
@@ -68,9 +69,9 @@ export class AlunoRepository {
 
   async update(id: number, data: z.infer<typeof AlunoSchema>): Promise<Aluno> {
     const query = `
-    UPDATE alunos SET name = ?, date_of_birth = ?, email = ?, telephone = ?, cpf = ?, plan_id = ? 
+    UPDATE alunos SET name = ?, date_of_birth = ?, email = ?, telephone = ?, cpf = ?, plan_id = ?, health_notes = ? 
     WHERE id = ? 
-    RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, created_at `;
+    RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, health_notes, created_at `;
 
     const result = await this.db.raw(query, [
       data.name,
@@ -79,6 +80,7 @@ export class AlunoRepository {
       data.telephone,
       data.cpf,
       data.plan_id,
+      data.health_notes,
       id,
     ]);
 
@@ -88,5 +90,16 @@ export class AlunoRepository {
   async delete(id: number): Promise<void> {
     const query = "DELETE FROM alunos WHERE id = ?";
     await this.db.raw(query, [id]);
+  }
+
+  async findByPlanId(plan_id: number): Promise<Aluno[] | null> {
+    const query = "SELECT * FROM alunos WHERE plan_id = ?";
+    const result = await this.db.raw(query, [plan_id]);
+
+    if (result.rows.length === 0) {
+      return null;
+    }
+
+    return result.rows.map((alunoData: any) => Aluno.fromDatabase(alunoData));
   }
 }

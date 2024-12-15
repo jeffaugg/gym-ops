@@ -1,42 +1,32 @@
 import { z } from "zod";
 import { PlanoSchema } from "../dto/PlanoSchema";
-import db from "../../../shared/infra/http/config/database";
 import Plano from "../models/Plano";
-import AppError from "../../../shared/errors/AppError";
-import { singleton } from "tsyringe";
+import { inject, injectable } from "tsyringe";
+import { Knex } from "knex";
 
-@singleton()
+@injectable()
 export class PlanoRepository {
+  constructor(@inject("Database") private db: Knex) {}
   async create(data: z.infer<typeof PlanoSchema>): Promise<Plano> {
-    if (await this.findByName(data.name)) {
-      throw new AppError("Plano já existe", 400);
-    }
-
     const query = `
       INSERT INTO planos (name, price, duration, spots)
       VALUES (?, ?, ?, ?)
       RETURNING id, name, price, duration, spots;
       `;
 
-    const result = await db.raw(query, [
+    const result = await this.db.raw(query, [
       data.name,
       data.price,
       data.duration,
       data.spots,
     ]);
     const newPlano = result.rows[0];
-    return new Plano(
-      newPlano.id,
-      newPlano.name,
-      newPlano.price,
-      newPlano.duration,
-      newPlano.spots,
-    );
+    return Plano.FormData(newPlano);
   }
 
   async list(): Promise<Plano[]> {
     const query = "SELECT * FROM planos";
-    const result = await db.raw(query);
+    const result = await this.db.raw(query);
     return result.rows.map(
       (plano: any) =>
         new Plano(
@@ -51,41 +41,35 @@ export class PlanoRepository {
 
   async findById(id: number): Promise<Plano | null> {
     const query = "SELECT * FROM planos WHERE id = ?";
-    const result = await db.raw(query, [id]);
+    const result = await this.db.raw(query, [id]);
     if (result.rows.length === 0) {
       return null;
     }
     const plano = result.rows[0];
-    return new Plano(
-      plano.id,
-      plano.name,
-      plano.price,
-      plano.duration,
-      plano.spots,
-    );
+    return Plano.FormData(plano);
   }
 
   async findByName(name: string): Promise<Plano | null> {
     const query = "SELECT * FROM planos WHERE name = ?";
-    const result = await db.raw(query, [name]);
+    const result = await this.db.raw(query, [name]);
     if (result.rows.length === 0) {
       return null;
     }
     const plano = result.rows[0];
-    return new Plano(
-      plano.id,
-      plano.name,
-      plano.price,
-      plano.duration,
-      plano.spots,
-    );
+    return Plano.FormData(plano);
+  }
+
+  async findByDuration(duration: number): Promise<Plano | null> {
+    const query = "SELECT * FROM planos WHERE duration = ?";
+    const result = await this.db.raw(query, [duration]);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    const plano = result.rows[0];
+    return Plano.FormData(plano);
   }
 
   async update(id: number, data: z.infer<typeof PlanoSchema>): Promise<Plano> {
-    if (!this.findById(id)) {
-      throw new AppError("Plano não encontrado", 404);
-    }
-
     const query = `
     UPDATE planos
     SET name = ?, price = ?, duration = ?, spots = ?
@@ -93,30 +77,18 @@ export class PlanoRepository {
     RETURNING id, name, price, duration, spots;
     `;
 
-    const result = await db.raw(query, [
+    const result = await this.db.raw(query, [
       data.name,
       data.price,
       data.duration,
       id,
     ]);
     const updatedPlano = result.rows[0];
-    return new Plano(
-      updatedPlano.id,
-      updatedPlano.name,
-      updatedPlano.price,
-      updatedPlano.duration,
-      updatedPlano.spots,
-    );
+    return Plano.FormData(updatedPlano);
   }
 
-  async delete(id: number): Promise<Plano> {
-    const result = await this.findById(id);
-
-    if (!result) {
-      throw new AppError("Plano não encontrado", 404);
-    }
+  async delete(id: number): Promise<void> {
     const query = "DELETE FROM planos WHERE id = ?";
-    await db.raw(query, [id]);
-    return result;
+    await this.db.raw(query, [id]);
   }
 }
