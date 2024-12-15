@@ -16,28 +16,28 @@ function LoginForm() {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Evita o reload da página
 
-    try {
-      // Faz a requisição para o back-end
-      const response = await api.post('/login', { email, password });
-      const { token } = response.data;
+    // try {
+    //   // Faz a requisição para o back-end
+    //   const response = await api.post('/login', { email, password });
+    //   const { token } = response.data;
 
-      // No handleSubmit do LoginForm
-      localStorage.setItem('token', token); // Salva o token
-      localStorage.setItem('user', JSON.stringify(response.data.user)); // Salva o objeto do usuário
+    //   // No handleSubmit do LoginForm
+    //   localStorage.setItem('token', token); // Salva o token
+    //   localStorage.setItem('user', JSON.stringify(response.data.user)); // Salva o objeto do usuário
 
 
-      toast.success('Login realizado com sucesso!', {
-        position: 'top-right', // Posição do toast
-      });
+    //   toast.success('Login realizado com sucesso!', {
+    //     position: 'top-right', // Posição do toast
+    //   });
 
-      // Redireciona o usuário para a página de admin
+    //   // Redireciona o usuário para a página de admin
       navigate('/AdminHome');
-    } catch (error) {
-      toast.error('Falha no login. Verifique suas credenciais.', {
-        position: 'top-right',
-      });
+    // } catch (error) {
+    //   toast.error('Falha no login. Verifique suas credenciais.', {
+    //     position: 'top-right',
+    //   });
 
-    }
+    // }
   };
 
   return (
