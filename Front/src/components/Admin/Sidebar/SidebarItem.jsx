@@ -31,23 +31,25 @@ function SidebarItem({ name, icon: Icon, path, className = "" }) {
 
   // Lógica de Logout
   const handleLogout = () => {
-  const rememberMe = localStorage.getItem("rememberMe") === "true";
+    if (name === "Sair") {
+      const rememberMe = localStorage.getItem("rememberMe") === "true";
 
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
 
-  if (!rememberMe) {
-    localStorage.removeItem("email");
-    localStorage.removeItem("rememberMe");
+      if (!rememberMe) {
+        localStorage.removeItem("email");
+        localStorage.removeItem("rememberMe");
+      }
+
+      sessionStorage.clear();
+
+      toast.info('Você foi desconectado!', {
+        position: 'top-right',
+      });
+      navigate("/");
+    };
   }
-
-  sessionStorage.clear();
-
-  toast.info('Você foi desconectado!', {
-    position: 'top-right',
-  });
-  navigate("/");
-};
 
   return (
     <NavLink
