@@ -1,0 +1,1571 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API de Gerenciamento de Alunos",
+      "description": "API para gerenciar alunos, incluindo criação, listagem, atualização, exclusão e busca por CPF ou email.",
+      "version": "1.0.0",
+      "contact": {
+        "name": "Augusto",
+        "email": "jefersonaugusto@alu.ufc.br"
+      }
+    },
+    "paths": {
+      "/alunos": {
+        "post": {
+          "tags": ["Alunos"],
+          "summary": "Cria um novo aluno",
+          "description": "Endpoint para criar um novo aluno.",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluno"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Aluno criado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Aluno"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Requisição inválida"
+            },
+            "409": {
+              "description": "Conflito: Email ou CPF já cadastrado"
+            }
+          }
+        },
+        "get": {
+          "tags": ["Alunos"],
+          "summary": "Lista todos os alunos",
+          "description": "Endpoint para listar todos os alunos.",
+          "responses": {
+            "200": {
+              "description": "Lista de alunos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Aluno"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/alunos/{id}": {
+        "get": {
+          "tags": ["Alunos"],
+          "summary": "Busca aluno por ID",
+          "description": "Endpoint para buscar um aluno pelo ID.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID do aluno",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do aluno",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Aluno"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Aluno não encontrado"
+            }
+          }
+        },
+        "put": {
+          "tags": ["Alunos"],
+          "summary": "Atualiza um aluno",
+          "description": "Endpoint para atualizar os dados de um aluno.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID do aluno",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluno"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Aluno atualizado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Aluno"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Aluno não encontrado"
+            },
+            "400": {
+              "description": "Requisição inválida"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Alunos"],
+          "summary": "Exclui um aluno",
+          "description": "Endpoint para excluir um aluno pelo ID.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID do aluno",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "204": {
+              "description": "Aluno excluído com sucesso"
+            },
+            "404": {
+              "description": "Aluno não encontrado"
+            }
+          }
+        }
+      },
+      "/alunos/cpf/{cpf}": {
+        "get": {
+          "tags": ["Alunos"],
+          "summary": "Busca aluno por CPF",
+          "description": "Endpoint para buscar um aluno pelo CPF.",
+          "parameters": [
+            {
+              "name": "cpf",
+              "in": "path",
+              "required": true,
+              "description": "CPF do aluno no formato XXX.XXX.XXX-XX",
+              "schema": {
+                "type": "string",
+                "pattern": "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do aluno",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Aluno"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Aluno não encontrado"
+            }
+          }
+        }
+      },
+      "/alunos/email/{email}": {
+        "get": {
+          "tags": ["Alunos"],
+          "summary": "Busca aluno por Email",
+          "description": "Endpoint para buscar um aluno pelo Email.",
+          "parameters": [
+            {
+              "name": "email",
+              "in": "path",
+              "required": true,
+              "description": "Email do aluno",
+              "schema": {
+                "type": "string",
+                "format": "email"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados do aluno",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Aluno"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Aluno não encontrado"
+            }
+          }
+        }
+      },
+      "/avaliacoes": {
+      "post": {
+        "tags": ["Avaliações"],
+        "summary": "Cria uma nova avaliação",
+        "description": "Endpoint para criar uma nova avaliação.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Avaliacao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Avaliação criada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Avaliacao"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Aluno ou instrutor não encontrado"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Avaliações"],
+        "summary": "Lista todas as avaliações",
+        "description": "Endpoint para listar todas as avaliações.",
+        "responses": {
+          "200": {
+            "description": "Lista de avaliações",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Avaliacao"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/avaliacoes/{id}": {
+      "put": {
+        "tags": ["Avaliações"],
+        "summary": "Atualiza uma avaliação",
+        "description": "Endpoint para atualizar uma avaliação.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da avaliação",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Avaliacao"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Avaliação atualizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Avaliacao"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Avaliação não encontrada"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Avaliações"],
+        "summary": "Exclui uma avaliação",
+        "description": "Endpoint para excluir uma avaliação pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da avaliação",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Avaliação excluída com sucesso"
+          },
+          "404": {
+            "description": "Avaliação não encontrada"
+          }
+        }
+      }
+    },
+    "/avaliacoes/aluno/{aluno_id}": {
+      "get": {
+        "tags": ["Avaliações"],
+        "summary": "Busca avaliações por ID do aluno",
+        "description": "Endpoint para buscar avaliações pelo ID do aluno.",
+        "parameters": [
+          {
+            "name": "aluno_id",
+            "in": "path",
+            "required": true,
+            "description": "ID do aluno",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de avaliações do aluno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Avaliacao"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aluno não encontrado"
+          }
+        }
+      }
+     },
+     "/exercicios": {
+      "post": {
+        "tags": ["Exercícios"],
+        "summary": "Cria um novo exercício",
+        "description": "Endpoint para criar um novo exercício.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Exercicio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Exercício criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exercicio"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "409": {
+            "description": "Conflito: Já existe um exercício com esse nome"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Exercícios"],
+        "summary": "Lista todos os exercícios",
+        "description": "Endpoint para listar todos os exercícios.",
+        "responses": {
+          "200": {
+            "description": "Lista de exercícios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Exercicio"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exercicios/{id}": {
+      "get": {
+        "tags": ["Exercícios"],
+        "summary": "Busca exercício por ID",
+        "description": "Endpoint para buscar um exercício pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do exercício",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do exercício",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exercicio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Exercício não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Exercícios"],
+        "summary": "Atualiza um exercício",
+        "description": "Endpoint para atualizar os dados de um exercício.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do exercício",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Exercicio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Exercício atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exercicio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Exercício não encontrado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Exercícios"],
+        "summary": "Exclui um exercício",
+        "description": "Endpoint para excluir um exercício pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do exercício",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Exercício excluído com sucesso"
+          },
+          "404": {
+            "description": "Exercício não encontrado"
+          }
+        }
+      }
+    },
+    "/exercicios/nome/{name}": {
+      "get": {
+        "tags": ["Exercícios"],
+        "summary": "Busca exercício por nome",
+        "description": "Endpoint para buscar um exercício pelo nome.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Nome do exercício",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do exercício",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Exercicio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Exercício não encontrado"
+          }
+        }
+      }
+     },
+     "/exercicios_treinos": {
+      "post": {
+        "tags": ["Exercícios de Treino"],
+        "summary": "Cria um novo relacionamento entre treino e exercício",
+        "description": "Endpoint para criar um novo relacionamento entre treino e exercício.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExercicioDeTreino"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Relacionamento criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExercicioDeTreino"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Treino ou exercício não encontrado"
+          },
+          "409": {
+            "description": "Relacionamento já existente"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Exercícios de Treino"],
+        "summary": "Lista todos os relacionamentos entre treinos e exercícios",
+        "description": "Endpoint para listar todos os relacionamentos entre treinos e exercícios.",
+        "responses": {
+          "200": {
+            "description": "Lista de relacionamentos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExercicioDeTreino"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exercicios_treinos/{id}": {
+      "get": {
+        "tags": ["Exercícios de Treino"],
+        "summary": "Busca um relacionamento entre treino e exercício por ID",
+        "description": "Endpoint para buscar um relacionamento entre treino e exercício pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do relacionamento",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do relacionamento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExercicioDeTreino"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Relacionamento não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Exercícios de Treino"],
+        "summary": "Atualiza um relacionamento entre treino e exercício",
+        "description": "Endpoint para atualizar os dados de um relacionamento.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do relacionamento",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExercicioDeTreino"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Relacionamento atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExercicioDeTreino"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Relacionamento não encontrado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Exercícios de Treino"],
+        "summary": "Exclui um relacionamento entre treino e exercício",
+        "description": "Endpoint para excluir um relacionamento entre treino e exercício pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do relacionamento",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Relacionamento excluído com sucesso"
+          },
+          "404": {
+            "description": "Relacionamento não encontrado"
+          }
+        }
+      }
+    },
+    "/exercicios_treinos/treino/{treinoId}": {
+      "get": {
+        "tags": ["Exercícios de Treino"],
+        "summary": "Busca todos os exercícios de um treino pelo ID do treino",
+        "description": "Endpoint para buscar todos os exercícios associados a um treino específico.",
+        "parameters": [
+          {
+            "name": "treinoId",
+            "in": "path",
+            "required": true,
+            "description": "ID do treino",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de exercícios associados ao treino",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExercicioDeTreino"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Relacionamento não encontrado"
+          }
+        }
+      }
+     },
+     "/planos": {
+      "post": {
+        "tags": ["Planos"],
+        "summary": "Cria um novo plano",
+        "description": "Endpoint para criar um novo plano.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plano"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Plano criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plano"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "409": {
+            "description": "Conflito: Nome ou duração do plano já existe"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Planos"],
+        "summary": "Lista todos os planos",
+        "description": "Endpoint para listar todos os planos cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Lista de planos cadastrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Plano"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/planos/{id}": {
+      "put": {
+        "tags": ["Planos"],
+        "summary": "Atualiza um plano",
+        "description": "Endpoint para atualizar os dados de um plano específico.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do plano",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plano"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Plano atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plano"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Plano não encontrado"
+          },
+          "409": {
+            "description": "Conflito: Nome ou duração do plano já existe"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Planos"],
+        "summary": "Exclui um plano",
+        "description": "Endpoint para excluir um plano pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do plano",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Plano excluído com sucesso"
+          },
+          "404": {
+            "description": "Plano não encontrado"
+          },
+          "409": {
+            "description": "Plano está sendo utilizado por um aluno"
+          }
+        }
+      }
+     },
+     "/treinos": {
+      "post": {
+        "tags": ["Treinos"],
+        "summary": "Cria um novo treino",
+        "description": "Endpoint para criar um novo treino.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Treino"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Treino criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Treino"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Treinos"],
+        "summary": "Lista todos os treinos",
+        "description": "Endpoint para listar todos os treinos cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Lista de treinos cadastrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Treino"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/treinos/{id}": {
+      "get": {
+        "tags": ["Treinos"],
+        "summary": "Busca treino por ID",
+        "description": "Endpoint para buscar um treino pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do treino",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do treino",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Treino"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Treino não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Treinos"],
+        "summary": "Atualiza um treino",
+        "description": "Endpoint para atualizar os dados de um treino.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do treino",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Treino"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Treino atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Treino"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Treino não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Treinos"],
+        "summary": "Exclui um treino",
+        "description": "Endpoint para excluir um treino pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do treino",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Treino excluído com sucesso"
+          },
+          "404": {
+            "description": "Treino não encontrado"
+          }
+        }
+      }
+    },
+    "/treinos/name/{name}": {
+      "get": {
+        "tags": ["Treinos"],
+        "summary": "Busca treino por nome",
+        "description": "Endpoint para buscar um treino pelo nome.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "Nome do treino",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do treino",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Treino"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Treino não encontrado"
+          }
+        }
+      }
+     },
+     "/treinos-de-aluno": {
+      "post": {
+        "tags": ["Treinos de Aluno"],
+        "summary": "Associa um treino a um aluno",
+        "description": "Endpoint para associar um treino a um aluno.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TreinoDeAluno"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Treino associado ao aluno com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreinoDeAluno"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Treino ou Aluno não encontrado"
+          },
+          "409": {
+            "description": "Treino já está associado a este aluno"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Treinos de Aluno"],
+        "summary": "Lista todas as associações entre treinos e alunos",
+        "description": "Endpoint para listar todas as associações existentes entre treinos e alunos.",
+        "responses": {
+          "200": {
+            "description": "Lista de associações",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TreinoDeAluno"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/treinos-de-aluno/{id}": {
+      "get": {
+        "tags": ["Treinos de Aluno"],
+        "summary": "Busca associação por ID",
+        "description": "Endpoint para buscar uma associação entre treino e aluno pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da associação",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados da associação",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TreinoDeAluno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Associação não encontrada"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Treinos de Aluno"],
+        "summary": "Exclui uma associação",
+        "description": "Endpoint para excluir uma associação entre treino e aluno pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da associação",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Associação excluída com sucesso"
+          },
+          "404": {
+            "description": "Associação não encontrada"
+          }
+        }
+      }
+    },
+    "/treinos-de-aluno/aluno/{aluno_id}": {
+      "get": {
+        "tags": ["Treinos de Aluno"],
+        "summary": "Busca associações por ID do aluno",
+        "description": "Endpoint para buscar todas as associações de treinos relacionadas a um aluno específico.",
+        "parameters": [
+          {
+            "name": "aluno_id",
+            "in": "path",
+            "required": true,
+            "description": "ID do aluno",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Associações encontradas",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TreinoDeAluno"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Associação não encontrada"
+          }
+        }
+      }
+     },
+     "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Cria um novo usuário",
+        "description": "Endpoint para criar um novo usuário.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Usuário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "409": {
+            "description": "Conflito: Email ou CPF já cadastrado"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Realiza login do usuário",
+        "description": "Endpoint para autenticar um usuário com email e senha.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email do usuário"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "description": "Senha do usuário"
+                  }
+                },
+                "required": ["email", "password"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "Token de acesso JWT"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Credenciais inválidas"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
+     }
+    },
+    "components": {
+      "schemas": {
+        "Aluno": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Nome do aluno"
+            },
+            "date_of_birth": {
+              "type": "string",
+              "format": "date",
+              "description": "Data de nascimento no formato yyyy-mm-dd"
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "description": "Email do aluno"
+            },
+            "telephone": {
+              "type": "string",
+              "description": "Telefone no formato (XX) XXXXX-XXXX"
+            },
+            "cpf": {
+              "type": "string",
+              "description": "CPF no formato XXX.XXX.XXX-XX"
+            },
+            "plan_id": {
+              "type": "integer",
+              "description": "ID do plano"
+            }
+          },
+          "required": ["name", "date_of_birth", "email", "telephone", "cpf", "plan_id"]
+        },
+        "Avaliacao": {
+        "type": "object",
+        "properties": {
+          "aluno_id": {
+            "type": "integer",
+            "description": "ID do aluno",
+            "example": 1
+          },
+          "instructor_id": {
+            "type": "integer",
+            "description": "ID do instrutor",
+            "example": 2
+          },
+          "height": {
+            "type": "number",
+            "description": "Altura em metros, com no máximo duas casas decimais",
+            "example": 1.75
+          },
+          "weight": {
+            "type": "number",
+            "description": "Peso em quilos, com no máximo duas casas decimais",
+            "example": 70.5
+          },
+          "fat_mass": {
+            "type": "number",
+            "description": "Massa gorda em quilos",
+            "example": 15.2
+          },
+          "lean_mass": {
+            "type": "number",
+            "description": "Massa magra em quilos",
+            "example": 55.3
+          },
+          "chest": {
+            "type": "number",
+            "description": "Medida do peito em centímetros",
+            "example": 100.2
+          },
+          "abdomen": {
+            "type": "number",
+            "description": "Medida do abdômen em centímetros",
+            "example": 90.5
+          },
+          "waist": {
+            "type": "number",
+            "description": "Medida da cintura em centímetros",
+            "example": 80.5
+          },
+          "hip": {
+            "type": "number",
+            "description": "Medida do quadril em centímetros",
+            "example": 95.2
+          },
+          "photo": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "URLs das fotos da avaliação"
+          }
+        },
+        "required": ["aluno_id", "instructor_id", "height", "weight"]
+        },
+        "Exercicio": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do exercício"
+          },
+          "muscles": {
+            "type": "string",
+            "description": "Músculos envolvidos no exercício"
+          }
+        },
+        "required": ["name", "muscles"]
+        },
+        "ExercicioDeTreino": {
+        "type": "object",
+        "properties": {
+          "treino_id": {
+            "type": "integer",
+            "description": "ID do treino associado"
+          },
+          "exercicio_id": {
+            "type": "integer",
+            "description": "ID do exercício associado"
+          },
+          "series": {
+            "type": "integer",
+            "description": "Número de séries"
+          },
+          "repeticoes": {
+            "type": "integer",
+            "description": "Número de repetições por série"
+          },
+          "descanso_segundos": {
+            "type": "integer",
+            "description": "Tempo de descanso em segundos"
+          }
+        },
+        "required": [
+          "treino_id",
+          "exercicio_id",
+          "series",
+          "repeticoes",
+          "descanso_segundos"
+        ]
+       },
+       "Plano": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do plano"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "description": "Preço do plano",
+            "example": 199.99
+          },
+          "duration": {
+            "type": "integer",
+            "description": "Duração do plano em dias",
+            "example": 30
+          }
+        },
+        "required": ["name", "price", "duration"]
+        },
+        "Treino": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do treino"
+          },
+          "notes": {
+            "type": "string",
+            "description": "Anotações sobre o treino",
+            "nullable": true
+          }
+        },
+        "required": ["name"]
+        },
+        "TreinoDeAluno": {
+        "type": "object",
+        "properties": {
+          "aluno_id": {
+            "type": "integer",
+            "description": "ID do aluno"
+          },
+          "treino_id": {
+            "type": "integer",
+            "description": "ID do treino"
+          }
+        },
+        "required": ["aluno_id", "treino_id"]
+        },
+        "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do usuário"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email do usuário"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "Senha do usuário"
+          },
+          "cpf": {
+            "type": "string",
+            "description": "CPF do usuário no formato XXX.XXX.XXX-XX"
+          },
+          "tel": {
+            "type": "string",
+            "description": "Telefone no formato (XX) XXXXX-XXXX"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role do usuário (ADM ou USER)"
+          }
+        },
+        "required": ["name", "email", "password", "cpf", "tel", "role"]
+        }
+      }
+    }
+  }
+  
