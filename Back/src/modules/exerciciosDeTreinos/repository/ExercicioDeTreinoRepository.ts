@@ -8,7 +8,9 @@ import { ExerciciosDeTreinos } from "../models/ExerciciosDeTreinos";
 export class ExercicioDeTreinoRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  async create(data: z.infer<typeof ExercicioDeTreinoSchema>): Promise<ExerciciosDeTreinos> {
+  async create(
+    data: z.infer<typeof ExercicioDeTreinoSchema>,
+  ): Promise<ExerciciosDeTreinos> {
     const query = `
       INSERT INTO exercicios_de_treinos (treino_id, exercicio_id, series, repeticoes, descanso_segundos)
       VALUES (?, ?, ?, ?, ?)
@@ -29,7 +31,9 @@ export class ExercicioDeTreinoRepository {
     const query = "SELECT * FROM exercicios_de_treinos";
     const result = await this.db.raw(query);
 
-    return result.rows.map((data: any) => ExerciciosDeTreinos.fromDatabase(data));
+    return result.rows.map((data: any) =>
+      ExerciciosDeTreinos.fromDatabase(data),
+    );
   }
 
   async findById(id: number): Promise<ExerciciosDeTreinos | null> {
@@ -54,7 +58,10 @@ export class ExercicioDeTreinoRepository {
     return result.rows[0] as ExerciciosDeTreinos;
   }
 
-  async update(exercicio_treino_id: number, data: z.infer<typeof ExercicioDeTreinoSchema>): Promise<ExerciciosDeTreinos> {
+  async update(
+    exercicio_treino_id: number,
+    data: z.infer<typeof ExercicioDeTreinoSchema>,
+  ): Promise<ExerciciosDeTreinos> {
     const query = `
       UPDATE exercicios_de_treinos 
       SET series = ?, repeticoes = ?, descanso_segundos = ?, treino_id = ?, exercicio_id=?
@@ -68,7 +75,7 @@ export class ExercicioDeTreinoRepository {
       data.descanso_segundos,
       data.treino_id,
       data.exercicio_id,
-      exercicio_treino_id
+      exercicio_treino_id,
     ]);
 
     return result.rows[0] as ExerciciosDeTreinos;

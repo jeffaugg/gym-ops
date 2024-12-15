@@ -23,7 +23,7 @@ export class PlanoController {
 
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { name, price, duration } = PlanoSchema.parse(req.body);
+    const { name, price, duration, spots } = PlanoSchema.parse(req.body);
 
     const planoService = container.resolve(PlanoService);
 
@@ -31,6 +31,7 @@ export class PlanoController {
       name,
       price,
       duration,
+      spots,
     });
     return res.status(200).json(plan);
   }
