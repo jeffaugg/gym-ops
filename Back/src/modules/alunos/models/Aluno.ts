@@ -6,6 +6,7 @@ export class Aluno {
   telephone: string;
   cpf: string;
   plan_id: number;
+  health_notes: string;
   created_at: Date;
 
   public constructor(
@@ -16,6 +17,7 @@ export class Aluno {
     telephone: string,
     cpf: string,
     plan_id: number,
+    health_notes: string,
     created_at: Date,
   ) {
     this.id = id;
@@ -25,6 +27,7 @@ export class Aluno {
     this.telephone = telephone;
     this.cpf = cpf;
     this.plan_id = plan_id;
+    this.health_notes = health_notes;
     this.created_at = created_at;
   }
 
@@ -37,6 +40,7 @@ export class Aluno {
       data.telephone,
       data.cpf,
       data.plan_id,
+      data.health_notes,
       new Date(data.created_at),
     );
   }
