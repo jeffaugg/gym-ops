@@ -1536,6 +1536,11 @@
             "type": "integer",
             "description": "Duração do plano em dias",
             "example": 30
+          },
+          "spots": {
+            "type": "integer",
+            "description": "quantas vagas tem nesse plano",
+            "example": 50
           }
         },
         "required": ["name", "price", "duration"]
