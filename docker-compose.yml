@@ -16,6 +16,17 @@ services:
     networks:
       - gym-ops_network
 
+  redis:
+    image: redis:6.2
+    container_name: redis_gym-ops
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - gym-ops_network
+
   backend:
     container_name: gym-ops-app
     build: ./Back
@@ -30,14 +41,18 @@ services:
       - DB_PORT=5432     
       - DB_PASSWORD=password
       - DB_NAME=gym-ops
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     depends_on:
       - bd
+      - redis
     command: npm run start:dev  
     ports:
       - "3000:3000"
 
 volumes:
-  postgres_data:  
+  postgres_data:
+  redis_data:
 networks:
   gym-ops_network:
     driver: bridge  
