@@ -12,5 +12,4 @@ exercicioRoutes.delete("/:id", exercicioController.delete);
 exercicioRoutes.get("/:id", exercicioController.findById);
 exercicioRoutes.get("/name/:name", exercicioController.findByName);
 
-
 export default exercicioRoutes;

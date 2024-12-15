@@ -11,4 +11,5 @@ export const PlanoSchema = z.object({
   duration: z
     .string()
     .min(3, { message: "A duração deve ter no mínimo 3 caracteres" }), // Dia, Semana, Mês, Anoz
+  spots: z.number().positive().nullable(),
 });

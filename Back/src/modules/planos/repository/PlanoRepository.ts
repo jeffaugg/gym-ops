@@ -13,18 +13,24 @@ export class PlanoRepository {
     }
 
     const query = `
-      INSERT INTO planos (name, price, duration)
-      VALUES (?, ?, ?)
-      RETURNING id, name, price, duration;
+      INSERT INTO planos (name, price, duration, spots)
+      VALUES (?, ?, ?, ?)
+      RETURNING id, name, price, duration, spots;
       `;
 
-    const result = await db.raw(query, [data.name, data.price, data.duration]);
+    const result = await db.raw(query, [
+      data.name,
+      data.price,
+      data.duration,
+      data.spots,
+    ]);
     const newPlano = result.rows[0];
     return new Plano(
       newPlano.id,
       newPlano.name,
       newPlano.price,
       newPlano.duration,
+      newPlano.spots,
     );
   }
 
@@ -33,7 +39,13 @@ export class PlanoRepository {
     const result = await db.raw(query);
     return result.rows.map(
       (plano: any) =>
-        new Plano(plano.id, plano.name, plano.price, plano.duration),
+        new Plano(
+          plano.id,
+          plano.name,
+          plano.price,
+          plano.duration,
+          plano.spots,
+        ),
     );
   }
 
@@ -44,7 +56,13 @@ export class PlanoRepository {
       return null;
     }
     const plano = result.rows[0];
-    return new Plano(plano.id, plano.name, plano.price, plano.duration);
+    return new Plano(
+      plano.id,
+      plano.name,
+      plano.price,
+      plano.duration,
+      plano.spots,
+    );
   }
 
   async findByName(name: string): Promise<Plano | null> {
@@ -54,7 +72,13 @@ export class PlanoRepository {
       return null;
     }
     const plano = result.rows[0];
-    return new Plano(plano.id, plano.name, plano.price, plano.duration);
+    return new Plano(
+      plano.id,
+      plano.name,
+      plano.price,
+      plano.duration,
+      plano.spots,
+    );
   }
 
   async update(id: number, data: z.infer<typeof PlanoSchema>): Promise<Plano> {
@@ -64,9 +88,9 @@ export class PlanoRepository {
 
     const query = `
     UPDATE planos
-    SET name = ?, price = ?, duration = ?
+    SET name = ?, price = ?, duration = ?, spots = ?
     WHERE id = ?
-    RETURNING id, name, price, duration;
+    RETURNING id, name, price, duration, spots;
     `;
 
     const result = await db.raw(query, [
@@ -81,6 +105,7 @@ export class PlanoRepository {
       updatedPlano.name,
       updatedPlano.price,
       updatedPlano.duration,
+      updatedPlano.spots,
     );
   }
 
