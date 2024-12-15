@@ -5,6 +5,7 @@ class User {
   name: string;
   email: string;
   password: string;
+  cpf: string;
   tel: string;
   role: string;
 
@@ -12,15 +13,17 @@ class User {
     id: number,
     name: string,
     email: string,
-    tel: string,
     password: string,
+    cpf: string,
+    tel: string,
     role: string,
   ) {
     this.id = id;
     this.name = name;
     this.email = email;
-    this.tel = tel;
     this.password = password;
+    this.cpf = cpf;
+    this.tel = tel;
     this.role = role;
   }
 
@@ -33,8 +36,9 @@ class User {
       data.id,
       data.name,
       data.email,
-      data.tel,
       data.password,
+      data.cpf,
+      data.tel,
       data.role,
     );
   }
