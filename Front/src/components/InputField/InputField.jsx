@@ -24,6 +24,7 @@ export default function InputField({ type, id, placeholder, label, value, onChan
             placeholder={placeholder} 
             value={value} 
             onChange={onChange} 
+            required
           />
         </div>
       );
