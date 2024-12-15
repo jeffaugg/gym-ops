@@ -12,7 +12,7 @@ export class ExerciciosDeTreinos {
     exercicio_id: number,
     series: number,
     repeticoes: number,
-    descanso_segundos: number
+    descanso_segundos: number,
   ) {
     this.id = id;
     this.treino_id = treino_id;
@@ -29,7 +29,7 @@ export class ExerciciosDeTreinos {
       data.exercicio_id,
       data.series,
       data.repeticoes,
-      data.descanso_segundos
+      data.descanso_segundos,
     );
   }
 }

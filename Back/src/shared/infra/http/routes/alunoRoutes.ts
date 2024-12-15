@@ -14,6 +14,4 @@ alunoRoutes.get("/:id", isAuth, alunoController.findById);
 alunoRoutes.get("/email/:email", isAuth, alunoController.findByEmail);
 alunoRoutes.get("/cpf/:cpf", isAuth, alunoController.findByCpf);
 
-
-
 export default alunoRoutes;

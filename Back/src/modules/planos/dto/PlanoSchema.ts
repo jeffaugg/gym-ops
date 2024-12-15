@@ -14,4 +14,5 @@ export const PlanoSchema = z.object({
     .positive({ message: "duração deve ser em dias" })
     .min(1, { message: "duração mínima é de 1 dia" })
     .max(365, { message: "duração máxima é de 365 dias" }),
+  spots: z.number().positive().nullable(),
 });

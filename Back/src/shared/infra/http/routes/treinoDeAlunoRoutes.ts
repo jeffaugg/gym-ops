@@ -9,6 +9,9 @@ treinoDeAlunoRoutes.post("/", treinoDeAlunoController.create);
 treinoDeAlunoRoutes.get("/", treinoDeAlunoController.list);
 treinoDeAlunoRoutes.delete("/:id", treinoDeAlunoController.delete);
 treinoDeAlunoRoutes.get("/:id", treinoDeAlunoController.findById);
-treinoDeAlunoRoutes.get("/clients/:aluno_id", treinoDeAlunoController.findByAlunoId);
+treinoDeAlunoRoutes.get(
+  "/clients/:aluno_id",
+  treinoDeAlunoController.findByAlunoId,
+);
 
 export default treinoDeAlunoRoutes;
