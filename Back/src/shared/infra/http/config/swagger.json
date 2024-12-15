@@ -10,7 +10,7 @@
       }
     },
     "paths": {
-      "/alunos": {
+      "/clients": {
         "post": {
           "tags": ["Alunos"],
           "summary": "Cria um novo aluno",
@@ -68,7 +68,7 @@
           }
         }
       },
-      "/alunos/{id}": {
+      "/clients/{id}": {
         "get": {
           "tags": ["Alunos"],
           "summary": "Busca aluno por ID",
@@ -172,7 +172,7 @@
           }
         }
       },
-      "/alunos/cpf/{cpf}": {
+      "/clients/cpf/{cpf}": {
         "get": {
           "tags": ["Alunos"],
           "summary": "Busca aluno por CPF",
@@ -206,7 +206,7 @@
           }
         }
       },
-      "/alunos/email/{email}": {
+      "/clients/email/{email}": {
         "get": {
           "tags": ["Alunos"],
           "summary": "Busca aluno por Email",
@@ -240,7 +240,7 @@
           }
         }
       },
-      "/avaliacoes": {
+      "/reviews": {
       "post": {
         "tags": ["Avaliações"],
         "summary": "Cria uma nova avaliação",
@@ -295,7 +295,7 @@
         }
       }
     },
-    "/avaliacoes/{id}": {
+    "/reviews/{id}": {
       "put": {
         "tags": ["Avaliações"],
         "summary": "Atualiza uma avaliação",
@@ -365,7 +365,7 @@
         }
       }
     },
-    "/avaliacoes/aluno/{aluno_id}": {
+    "/reviews/{aluno_id}": {
       "get": {
         "tags": ["Avaliações"],
         "summary": "Busca avaliações por ID do aluno",
@@ -401,7 +401,7 @@
         }
       }
      },
-     "/exercicios": {
+     "/exercises": {
       "post": {
         "tags": ["Exercícios"],
         "summary": "Cria um novo exercício",
@@ -456,7 +456,7 @@
         }
       }
     },
-    "/exercicios/{id}": {
+    "/exercises/{id}": {
       "get": {
         "tags": ["Exercícios"],
         "summary": "Busca exercício por ID",
@@ -557,7 +557,7 @@
         }
       }
     },
-    "/exercicios/nome/{name}": {
+    "/exercises/name/{name}": {
       "get": {
         "tags": ["Exercícios"],
         "summary": "Busca exercício por nome",
@@ -590,7 +590,7 @@
         }
       }
      },
-     "/exercicios_treinos": {
+     "/exercises-workouts": {
       "post": {
         "tags": ["Exercícios de Treino"],
         "summary": "Cria um novo relacionamento entre treino e exercício",
@@ -648,7 +648,7 @@
         }
       }
     },
-    "/exercicios_treinos/{id}": {
+    "/exercises-workouts/{id}": {
       "get": {
         "tags": ["Exercícios de Treino"],
         "summary": "Busca um relacionamento entre treino e exercício por ID",
@@ -749,7 +749,7 @@
         }
       }
     },
-    "/exercicios_treinos/treino/{treinoId}": {
+    "/exercises-workouts/workouts/{treinoId}": {
       "get": {
         "tags": ["Exercícios de Treino"],
         "summary": "Busca todos os exercícios de um treino pelo ID do treino",
@@ -785,7 +785,7 @@
         }
       }
      },
-     "/planos": {
+     "/plan": {
       "post": {
         "tags": ["Planos"],
         "summary": "Cria um novo plano",
@@ -840,7 +840,7 @@
         }
       }
     },
-    "/planos/{id}": {
+    "/plan/{id}": {
       "put": {
         "tags": ["Planos"],
         "summary": "Atualiza um plano",
@@ -916,7 +916,7 @@
         }
       }
      },
-     "/treinos": {
+     "/workouts": {
       "post": {
         "tags": ["Treinos"],
         "summary": "Cria um novo treino",
@@ -968,7 +968,7 @@
         }
       }
     },
-    "/treinos/{id}": {
+    "/workouts/{id}": {
       "get": {
         "tags": ["Treinos"],
         "summary": "Busca treino por ID",
@@ -1069,7 +1069,7 @@
         }
       }
     },
-    "/treinos/name/{name}": {
+    "/workouts/name/{name}": {
       "get": {
         "tags": ["Treinos"],
         "summary": "Busca treino por nome",
@@ -1102,7 +1102,7 @@
         }
       }
      },
-     "/treinos-de-aluno": {
+     "/workouts-clients": {
       "post": {
         "tags": ["Treinos de Aluno"],
         "summary": "Associa um treino a um aluno",
@@ -1160,7 +1160,7 @@
         }
       }
     },
-    "/treinos-de-aluno/{id}": {
+    "/workouts-clients/{id}": {
       "get": {
         "tags": ["Treinos de Aluno"],
         "summary": "Busca associação por ID",
@@ -1217,7 +1217,7 @@
         }
       }
     },
-    "/treinos-de-aluno/aluno/{aluno_id}": {
+    "/workouts-clients/clients/{aluno_id}": {
       "get": {
         "tags": ["Treinos de Aluno"],
         "summary": "Busca associações por ID do aluno",
@@ -1253,7 +1253,7 @@
         }
       }
      },
-     "/users": {
+     "/signup": {
       "post": {
         "tags": ["Users"],
         "summary": "Cria um novo usuário",
@@ -1288,7 +1288,7 @@
         }
       }
     },
-    "/users/login": {
+    "/login": {
       "post": {
         "tags": ["Users"],
         "summary": "Realiza login do usuário",
@@ -1341,6 +1341,31 @@
           },
           "400": {
             "description": "Requisição inválida"
+          }
+        }
+      }
+     },
+     "/message": {
+      "post": {
+        "tags": ["Mensagens"],
+        "summary": "Envia uma mensagem",
+        "description": "Endpoint para enviar uma mensagem.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Mensagem"
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Mensagem enviada com sucesso"
+            },
+            "400": {
+              "description": "Requisição inválida"
+            }
           }
         }
       }
@@ -1575,7 +1600,28 @@
           }
         },
         "required": ["name", "email", "password", "cpf", "tel", "role"]
-        }
+        },
+        "Mensagem": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "description": "O título não pode estar vazio"
+          },
+          "body": {
+            "type": "string",
+            "minLength": 1,
+            "description": "O corpo da mensagem não pode estar vazio"
+          },
+          "recipient_type": {
+            "type": "string",
+            "enum": ["STUDENTS", "INSTRUCTORS", "ALL"],
+            "description": "Tipo de destinatário inválido"
+          }
+        },
+        "required": ["title", "body", "recipient_type"]
+       }
       }
     }
   }
