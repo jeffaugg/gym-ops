@@ -41,6 +41,9 @@
             },
             "409": {
               "description": "Conflito: Email ou CPF já cadastrado"
+            },
+            "404": {
+              "description": "Plano não encontrado"
             }
           }
         },
@@ -134,10 +137,13 @@
               }
             },
             "404": {
-              "description": "Aluno não encontrado"
+              "description": "Aluno não encontrado ou plano não encontrado"
             },
             "400": {
               "description": "Requisição inválida"
+            },
+            "409": {
+              "description": "Conflito: Email ou CPF já cadastrado"
             }
           }
         },
@@ -1370,6 +1376,11 @@
             "plan_id": {
               "type": "integer",
               "description": "ID do plano"
+            },
+            "health_notes": {
+              "type": "string",
+              "description": "Anotações sobre a saúde do aluno",
+              "nullable": true
             }
           },
           "required": ["name", "date_of_birth", "email", "telephone", "cpf", "plan_id"]
