@@ -30,38 +30,38 @@ function LoginForm() {
     event.preventDefault(); // Evita o reload da página
 
     try {
-      // Faz a requisição para o back-end
-      const response = await api.post('/login', { email, password });
-      console.log('Resposta da API:', response.data);
-      const { token, user } = response.data;
+      // // Faz a requisição para o back-end
+      // const response = await api.post('/login', { email, password });
+      // console.log('Resposta da API:', response.data);
+      // const { token, user } = response.data;
 
-      // // No handleSubmit do LoginForm
-      // localStorage.setItem('token', token); // Salva o token
-      // localStorage.setItem('user', JSON.stringify(response.data.user)); // Salva o objeto do usuário
+      // // // No handleSubmit do LoginForm
+      // // localStorage.setItem('token', token); // Salva o token
+      // // localStorage.setItem('user', JSON.stringify(response.data.user)); // Salva o objeto do usuário
 
       
-      console.log(rememberMe)
-      if (rememberMe) {
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("email", email);
-        localStorage.setItem("rememberMe", "true");
-        console.log('Token salvo:', localStorage.getItem('token') || sessionStorage.getItem('token'));
-        console.log('Usuário salvo:', JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user')));
+      // console.log(rememberMe)
+      // if (rememberMe) {
+      //   localStorage.setItem("token", token);
+      //   localStorage.setItem("user", JSON.stringify(user));
+      //   localStorage.setItem("email", email);
+      //   localStorage.setItem("rememberMe", "true");
+      //   console.log('Token salvo:', localStorage.getItem('token') || sessionStorage.getItem('token'));
+      //   console.log('Usuário salvo:', JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user')));
 
-      } else {
-        sessionStorage.setItem("token", token);
-        sessionStorage.setItem("user", JSON.stringify(user));
-        sessionStorage.setItem("email", email);
-        localStorage.removeItem("rememberMe");
-        console.log('Token salvo:', localStorage.getItem('token') || sessionStorage.getItem('token'));
-        console.log('Usuário salvo:', JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user')));
-      }
+      // } else {
+      //   sessionStorage.setItem("token", token);
+      //   sessionStorage.setItem("user", JSON.stringify(user));
+      //   sessionStorage.setItem("email", email);
+      //   localStorage.removeItem("rememberMe");
+      //   console.log('Token salvo:', localStorage.getItem('token') || sessionStorage.getItem('token'));
+      //   console.log('Usuário salvo:', JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user')));
+      // }
 
 
-      toast.success('Login realizado com sucesso!', {
-        position: 'top-right', // Posição do toast
-      });
+      // toast.success('Login realizado com sucesso!', {
+      //   position: 'top-right', // Posição do toast
+      // });
 
       // Redireciona o usuário para a página de admin
       navigate('/AdminHome');

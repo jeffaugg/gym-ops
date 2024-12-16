@@ -8,11 +8,11 @@
   .main-layout {
     display: flex;
     flex: 1; 
-    margin-top: 80px;
   }
 
   .content {
     flex: 1;
+    margin-top: 80px;
     margin-left: 250px;
     padding: 20px;
     overflow-y: auto;
