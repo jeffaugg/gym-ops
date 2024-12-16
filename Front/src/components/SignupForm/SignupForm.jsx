@@ -81,21 +81,23 @@ function SignupForm() {
       />
 
       <InputField
-        type="string"
+        type="text"
         id="cpf"
         placeholder="XXX.XXX.XXX-XX"
         label="CPF*"
         value={cpf}
         onChange={(e) => setCpf(e.target.value)}
+        mask="999.999.999-99"
       />
 
       <InputField
-        type="string"
+        type="text"
         id="telefone"
         placeholder="(XX) XXXXX-XXXX"
         label="Telefone*"
         value={tel}
         onChange={(e) => setTel(e.target.value)}
+        mask="(99) 99999-9999"
       />
 
       <InputField
@@ -124,7 +126,7 @@ function SignupForm() {
             checked={acceptTerms}
             onChange={(e) => setAcceptTerms(e.target.checked)}
           />
-          <label htmlFor="accept">Aceito os termos</label>
+          <label htmlFor="accept">Aceito os termos de serviço</label>
         </div>
       </div>
 

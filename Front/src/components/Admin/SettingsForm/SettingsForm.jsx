@@ -73,6 +73,7 @@ export default function SettingsForm() {
             placeholder="XXX-XXX-XXX-XX"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
+            mask="999.999.999-99"
           />
         </div>
         <div className="form-group">
@@ -89,6 +90,7 @@ export default function SettingsForm() {
             placeholder="(XX) XXXXX-XXXX"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            mask="(99) 99999-9999"
           />
         </div>
 
@@ -111,7 +113,7 @@ export default function SettingsForm() {
         </div>
 
         <div className="form-actions">
-          <ButtonCancel onClick={handleCancel}/>
+          <ButtonCancel onClick={handleCancel} />
           <ButtonSend />
         </div>
       </form>

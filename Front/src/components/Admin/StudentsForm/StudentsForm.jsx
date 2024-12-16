@@ -145,6 +145,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             placeholder="CPF no formato XXX.XXX.XXX-XX"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
+            mask={"999.999.999-99"}
           />
           <label>
             Gênero*
@@ -175,6 +176,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             placeholder="(XX) XXXXX-XXXX"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            mask={"(99) 99999-9999"}
           />
         </div>
 

@@ -130,9 +130,10 @@ export default function InstructorsForm() {
           <InputFieldForm
             label="CPF*"
             type="text"
-            placeholder="CPF no formato XXX.XXX.XXX-XX"
+            placeholder="XXX.XXX.XXX-XX"
             // value={cpf}
             // onChange={(e) => setCpf(e.target.value)}
+            mask={"999.999.999-99"}
           />
           <label>
             Gênero*
@@ -146,7 +147,7 @@ export default function InstructorsForm() {
           <InputFieldForm
               label="CREF*"
               type="text"
-              placeholder=""
+              placeholder="Digite o CREF"
               // value={cref}
               // onChange={(e) => setCref(e.target.value)}
             />
@@ -166,6 +167,7 @@ export default function InstructorsForm() {
             placeholder="(XX) XXXXX-XXXX"
             // value={phone}
             // onChange={(e) => setPhone(e.target.value)}
+            mask={"(99) 99999-9999"}
           />
         </div>
 
