@@ -1,0 +1,55 @@
+.payments-list {
+    width: 100%;
+    max-width: 800px;
+    background-color: #77749B;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.payments-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.payments-list th,
+.payments-list td {
+    padding: 10px;
+    text-align: center;
+    /* text-align: left; */
+}
+
+.payments-list td {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: nowrap;
+}
+
+.payments-list th {
+    font-weight: 700;
+    color: white;
+
+}
+
+.payments-list .btn.edit {
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+    /* background-color: rgba(248, 248, 248, 0); */
+}
+
+.payments-list .btn.delete {
+    color: rgb(201, 1, 1);
+    border:rgb(206, 0, 0);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    /* background-color: rgba(248, 248, 248, 0); */
+    margin: 2px;
+}
