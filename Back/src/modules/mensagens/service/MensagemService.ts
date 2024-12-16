@@ -23,4 +23,12 @@ export class MensagemService {
 
     return await this.mensagemRepository.create(data, userId);
   }
+
+  async list() {
+    return await this.mensagemRepository.list();
+  }
+
+  async findById(id: number) {
+    return await this.mensagemRepository.findById(id);
+  }
 }
