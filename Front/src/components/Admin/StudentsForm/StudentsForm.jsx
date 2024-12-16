@@ -159,7 +159,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
 
         <div className="form-group">
           <label>
-            Planos*
+            Plano*
             <select required value={plan} onChange={(e) => setPlan(e.target.value)}>
               <option value="">Selecione</option>
               {plans.map((plan) => (
