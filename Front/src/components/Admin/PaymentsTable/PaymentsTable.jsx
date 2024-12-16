@@ -80,25 +80,26 @@ export default function PaymentsTable() {
             <th>Método de pagamento</th>
             <th>Data de pagamento</th>
             <th>Valor</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
-              <tr>
-                <td>Nome do titular</td>
-                <td>123.456.789-00</td>
-                <td>Mensal</td>
-                <td>Pix</td>
-                <td>01/01/2024</td>
-                <td>R$ 60,00</td>
-                <td className="botoes">
-                  <button className="btn edit">
-                    <FaRegEdit size={20}/>
-                  </button>
-                  <button className="btn delete">
-                    <MdDeleteForever size={22}/>
-                  </button>
-                </td>
-              </tr>
+          <tr>
+            <td>Nome do titular</td>
+            <td>123.456.789-00</td>
+            <td>Mensal</td>
+            <td>Pix</td>
+            <td>01/01/2024</td>
+            <td>R$ 60,00</td>
+            <td className="botoes">
+              <button className="btn edit">
+                ✏️
+              </button>
+              <button className="btn delete">
+                ❌
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
