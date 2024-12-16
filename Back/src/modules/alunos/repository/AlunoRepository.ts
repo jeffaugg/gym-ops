@@ -10,9 +10,9 @@ export class AlunoRepository {
 
   async create(data: z.infer<typeof AlunoSchema>): Promise<Aluno> {
     const query = `
-      INSERT INTO alunos (name, date_of_birth, email, telephone, cpf, plan_id, health_notes)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
-      RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, health_notes, created_at;
+      INSERT INTO alunos (name, date_of_birth, email, telephone, cpf, plan_id, health_notes, status, gender)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, health_notes, status, gender, created_at;
     `;
 
     const result = await this.db.raw(query, [
@@ -23,9 +23,11 @@ export class AlunoRepository {
       data.cpf,
       data.plan_id,
       data.health_notes,
+      true,
+      data.gender,
     ]);
 
-    return result.rows[0] as Aluno;
+    return Aluno.fromDatabase(result.rows[0]);
   }
   async list(): Promise<Aluno[]> {
     const query = "SELECT * FROM alunos";
@@ -69,9 +71,9 @@ export class AlunoRepository {
 
   async update(id: number, data: z.infer<typeof AlunoSchema>): Promise<Aluno> {
     const query = `
-    UPDATE alunos SET name = ?, date_of_birth = ?, email = ?, telephone = ?, cpf = ?, plan_id = ?, health_notes = ? 
+    UPDATE alunos SET name = ?, date_of_birth = ?, email = ?, telephone = ?, cpf = ?, plan_id = ?, health_notes = ?, status = ? ,gender = ?  
     WHERE id = ? 
-    RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, health_notes, created_at `;
+    RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, health_notes, status, gender, created_at `;
 
     const result = await this.db.raw(query, [
       data.name,
@@ -81,6 +83,8 @@ export class AlunoRepository {
       data.cpf,
       data.plan_id,
       data.health_notes,
+      data.status,
+      data.gender,
       id,
     ]);
 
