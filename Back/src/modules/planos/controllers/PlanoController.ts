@@ -6,11 +6,11 @@ import { PlanoService } from "../service/PlanoService";
 @injectable()
 export class PlanoController {
   public async create(req: Request, res: Response): Promise<Response> {
-    const { name, price, duration } = PlanoSchema.parse(req.body);
+    const { name, price, duration, spots } = PlanoSchema.parse(req.body);
 
     const planoService = container.resolve(PlanoService);
 
-    const plan = await planoService.create({ name, price, duration });
+    const plan = await planoService.create({ name, price, duration, spots });
     return res.status(201).json(plan);
   }
 
