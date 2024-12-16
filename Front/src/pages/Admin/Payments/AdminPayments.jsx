@@ -1,6 +1,7 @@
 import React from "react";
 import "./AdminPayments.css";
 import Layout from "../../../components/LayoutPages/Layout";
+import PayForm from "../../../components/PayForm/PayForm";
 
 function AdminPayments() {
   return (
@@ -9,6 +10,7 @@ function AdminPayments() {
             <header className="payments-header">
               <h1>Pagamentos</h1>
             </header>
+            <PayForm/>
           </div>
     </Layout>
   );
