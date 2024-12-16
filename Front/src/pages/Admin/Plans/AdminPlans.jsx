@@ -13,7 +13,8 @@ function AdminPlans() {
   const fetchPlans = async () => {
     try {
       const response = await api.get("/plan");
-      setPlans(response.data);
+      const sortedPlans = response.data.sort((a, b) => b.id - a.id);
+      setPlans(sortedPlans);
     } catch (error) {
       console.error("Erro ao buscar os planos:", error);
       toast.error("Erro ao buscar os planos.");
