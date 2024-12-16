@@ -23,6 +23,7 @@ export default function StudentsTable({ students, onPlanDeleted, setSelectedStud
             <th>Nome</th>
             <th>CPF</th>
             <th>Telefone</th>
+            <th>Status</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -33,6 +34,7 @@ export default function StudentsTable({ students, onPlanDeleted, setSelectedStud
                 <td>{student.name}</td>
                 <td>{student.cpf}</td>
                 <td>{student.telephone}</td>
+                <td>{student.status}</td>
                 <td>
                   <button className="btn edit" onClick={() => setSelectedStudent(student)}>
                     ✏️

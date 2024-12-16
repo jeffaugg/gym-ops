@@ -40,7 +40,7 @@ export default function PayForm() {
                 </div>
                 <div className="form-group">
                     <label>
-                        Planos*
+                        Plano*
                         <select
                             required
                             value={plan}
@@ -54,14 +54,21 @@ export default function PayForm() {
                             ))}
                         </select>
                     </label>
-                    <InputFieldForm
-                        label="Método de pagamento*"
-                        type="text"
-                        placeholder=""
-                    />
+                    <label>
+                    Método de pagamento*
+                        <select
+                            required
+                        >
+                            <option value="">Selecione</option>
+                            <option value="">Pix</option>
+                            <option value="">Dinheiro em espécie</option>
+                            <option value="">Cartão de débito</option>
+                            <option value="">Cartão de crédito</option>
+                        </select>
+                    </label>
                     <InputFieldForm
                         label="Data de pagamento*"
-                        type="text"
+                        type="date"
                         placeholder=""
                     />
                 </div>
