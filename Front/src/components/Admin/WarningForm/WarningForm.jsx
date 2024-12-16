@@ -6,7 +6,7 @@ import InputFieldForm from "../../InputFieldForm/InputFieldForm";
 import api from "../../../api"
 import { toast } from "react-toastify";
 
-export default function WarningForm({ onWarningCreated }) {
+export default function WarningForm({ onWarningCreated}) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const [sendTo, setSendTo] = useState("");
