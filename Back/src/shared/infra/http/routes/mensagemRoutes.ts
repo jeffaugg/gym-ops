@@ -7,5 +7,7 @@ const mensagemRoutes = Router();
 const mensagemController = container.resolve(MensagemController);
 
 mensagemRoutes.post("/", isAuth, mensagemController.create);
+mensagemRoutes.get("/", isAuth, mensagemController.list);
+mensagemRoutes.get("/:id", isAuth, mensagemController.findById);
 
 export default mensagemRoutes;

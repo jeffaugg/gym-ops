@@ -27,4 +27,19 @@ export class MensagemRepository {
 
     return result.rows[0] as Mensagem;
   }
+
+  async findById(id: number): Promise<Mensagem | null> {
+    const query = "SELECT * FROM mensagens WHERE id = ?";
+    const result = await this.db.raw(query, id);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    return result.rows[0] as Mensagem;
+  }
+
+  async list(): Promise<Mensagem[]> {
+    const query = "SELECT * FROM mensagens";
+    const result = await this.db.raw(query);
+    return result.rows.map((mensagem: any) => Mensagem.fromDatabase(mensagem));
+  }
 }
