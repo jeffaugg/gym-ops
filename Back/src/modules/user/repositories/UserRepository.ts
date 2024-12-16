@@ -49,6 +49,21 @@ export class UserRepository {
     }
     return User.fromDatabase(result.rows[0]);
   }
+
+  async update(id: number, data: Partial<User>): Promise<User> {
+    const query = `UPDATE users SET name = ?, email = ?, password = ?, tel = ?, role = ? 
+    WHERE id = ? 
+    RETURNING *;`;
+    const result = await this.db.raw(query, [
+      data.name,
+      data.email,
+      data.password,
+      data.tel,
+      data.role,
+      id,
+    ]);
+    return User.fromDatabase(result.rows[0]);
+  }
 }
 
 export default UserRepository;
