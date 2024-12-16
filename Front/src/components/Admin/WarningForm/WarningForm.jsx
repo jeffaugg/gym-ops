@@ -9,12 +9,29 @@ import { toast } from "react-toastify";
 export default function WarningForm({ onWarningCreated}) {
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
-  const [sendTo, setSendTo] = useState("");
+  const [sendTo, setSendTo] = useState("ALL");
+
+  const handleCancel = () => {
+    setTitle("");
+    setMessage("");
+    setSendTo("ALL");
+    toast.info("Mensagem cancelada.");
+  };
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
+      const obj = {
+        title,
+        body: message,
+        recipient_type: sendTo,
+      };
+
+      console.log(obj);
+
+
       await api.post("/message", {
         title,
         body: message,
@@ -59,7 +76,7 @@ export default function WarningForm({ onWarningCreated}) {
         </label>
         <div className="form-actions">
           <ButtonSend />
-          <ButtonCancel />
+          <ButtonCancel onClick={handleCancel} />
         </div>
       </form>
     </div>

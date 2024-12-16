@@ -17,6 +17,18 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
   const [health, setHealth] = useState("");
   const [plans, setPlans] = useState([]);
 
+  const handleCancel = () => {
+    setName("");
+    setBirthDate("");
+    setCpf("ALL");
+    setGen("");
+    setPlan("");
+    setPhone("");
+    setEmail("");
+    setHealth("");
+    toast.info("Mensagem cancelada.");
+  };
+
   // Fetch available plans
   useEffect(() => {
     const fetchPlans = async () => {
@@ -184,8 +196,8 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
         </div>
 
         <div className="form-actions">
-          <ButtonCancel /> 
           <ButtonSend isEditing={!!selectedStudent} />
+          <ButtonCancel onClick={handleCancel} />
         </div>
       </form>
     </div>

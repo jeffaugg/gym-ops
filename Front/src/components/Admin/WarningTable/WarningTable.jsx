@@ -4,6 +4,12 @@ import "./WarningTable.css";
 
 export default function WarningTable({ warnings }) {
 
+  const recipientTypeMap = {
+    INSTRUCTORS: "Instrutores",
+    STUDENTS: "Alunos",
+    ALL: "Todos",
+  };
+
   return (
     <div className="warnings-list">
       <table>
@@ -19,7 +25,7 @@ export default function WarningTable({ warnings }) {
             warnings.map((warning) => (
               <tr key={warning.id}>
                 <td>{warning.title}</td>
-                <td>{warning.recipient_type}</td>
+                <td>{recipientTypeMap[warning.recipient_type] || "Desconhecido"}</td>
                 {/* <td>{warning.telephone}</td> */}
               </tr>
             ))

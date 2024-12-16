@@ -1,11 +1,10 @@
 import React from "react";
-
 import "./ButtonCancel.css";
 
-export default function ButtonCancel({ type, onClick }) {
+export default function ButtonCancel({ onClick }) {
   return (
-      <button type={type} onClick={onClick} className="btn cancelar">
-        Cancelar
-      </button>
+    <button type="button" onClick={onClick} className="btn cancelar">
+      Cancelar
+    </button>
   );
 }
