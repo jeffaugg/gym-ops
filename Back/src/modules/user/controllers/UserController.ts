@@ -36,6 +36,18 @@ export class UserController {
       });
     }
   }
+
+  public async update(req: Request, res: Response): Promise<Response> {
+    const data = UserSchema.parse(req.body);
+
+    const id = req.user.id;
+
+    const userService = container.resolve(UserService);
+
+    const user = await userService.update(id, data);
+
+    return res.status(200).json(user);
+  }
 }
 
 export default UserController;
