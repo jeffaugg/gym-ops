@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React, { useState, useEffect } from "react";
 import "./StudentsForm.css";
 import InputFieldForm from "../../InputFieldForm/InputFieldForm";
@@ -45,9 +46,13 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
 
   // Preenche o formulário quando `selectedStudent` mudar
   useEffect(() => {
+
     if (selectedStudent) {
       setName(selectedStudent.name || "");
-      setBirthDate(selectedStudent.date_of_birth || "");
+      const formattedDate = selectedStudent.date_of_birth
+        ? format(new Date(selectedStudent.date_of_birth), "yyyy-MM-dd")
+        : "";
+      setBirthDate(formattedDate);
       setCpf(selectedStudent.cpf || "");
       setGen(selectedStudent.gender || "");
       setPlan(selectedStudent.plan_id || "");
@@ -70,12 +75,18 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!birthDate) {
+      toast.error("A data de nascimento é obrigatória.");
+      return;
+    }
+
     try {
       if (selectedStudent) {
+        const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
         // Atualiza o estudante existente
         await api.put(`/clients/${selectedStudent.id}`, {
           name,
-          date_of_birth: birthDate,
+          date_of_birth: formattedBirthDate,
           email,
           telephone: phone,
           cpf,
@@ -84,10 +95,11 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
         });
         toast.success("Aluno atualizado com sucesso!");
       } else {
+        const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
         // Cria um novo estudante
         await api.post("/clients", {
           name,
-          date_of_birth: birthDate,
+          date_of_birth: formattedBirthDate,
           email,
           telephone: phone,
           cpf,
