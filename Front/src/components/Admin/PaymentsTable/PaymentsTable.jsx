@@ -86,9 +86,10 @@ export default function PaymentsTable() {
               <tr>
                 <td>Nome do titular</td>
                 <td>123.456.789-00</td>
-                <td>R$ 00,00</td>
+                <td>Mensal</td>
                 <td>Pix</td>
                 <td>01/01/2024</td>
+                <td>R$ 60,00</td>
                 <td className="botoes">
                   <button className="btn edit">
                     <FaRegEdit size={20}/>
