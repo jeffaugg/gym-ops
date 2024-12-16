@@ -1253,7 +1253,7 @@
         }
       }
      },
-     "/signup": {
+     "user/signup": {
       "post": {
         "tags": ["Users"],
         "summary": "Cria um novo usuário",
@@ -1288,7 +1288,7 @@
         }
       }
     },
-    "/login": {
+    "/user/login": {
       "post": {
         "tags": ["Users"],
         "summary": "Realiza login do usuário",
@@ -1341,6 +1341,44 @@
           },
           "400": {
             "description": "Requisição inválida"
+          }
+        }
+      }
+     },
+     "/user": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Atualiza um usuário",
+        "description": "Endpoint para atualizar os dados de um usuário.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "409": {
+            "description": "Conflito: Email ou CPF já cadastrado"
           }
         }
       }

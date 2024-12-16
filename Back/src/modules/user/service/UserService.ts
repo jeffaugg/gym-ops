@@ -49,4 +49,28 @@ export class UserService {
       token,
     };
   }
+
+  async update(id: number, data: z.infer<typeof UserSchema>) {
+    const user = await this.userRepository.findById(id);
+
+    if (!user) {
+      throw new AppError("Usuário não encontrado", 404);
+    }
+
+    const userByEmail = await this.userRepository.findByEmail(data.email);
+
+    if (userByEmail && userByEmail.id !== id) {
+      throw new AppError("Email já cadastrado", 409);
+    }
+
+    const userByCpf = await this.userRepository.findByCpf(data.cpf);
+
+    if (userByCpf && userByCpf.id !== id) {
+      throw new AppError("CPF já cadastrado", 409);
+    }
+
+    data.password = await hash(data.password, 8);
+
+    return this.userRepository.update(id, data);
+  }
 }

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import authRoutes from "./authRoutes";
+import authRoutes from "./usuarioRoutes";
 import planoRoutes from "./planoRoutes";
 import alunoRoutes from "./alunoRoutes";
 import avaliacaoRoutes from "./avaliacaoRoutes";
@@ -11,7 +11,7 @@ import mensagemRoutes from "./mensagemRoutes";
 
 const routes = Router();
 
-routes.use(authRoutes);
+routes.use("/user", authRoutes);
 routes.use("/plan", planoRoutes);
 routes.use("/clients", alunoRoutes);
 routes.use("/reviews", avaliacaoRoutes);
