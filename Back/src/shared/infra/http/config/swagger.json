@@ -1383,27 +1383,244 @@
         }
       }
      },
-     "/message": {
+     "/pay": {
       "post": {
-        "tags": ["Mensagens"],
-        "summary": "Envia uma mensagem",
-        "description": "Endpoint para enviar uma mensagem.",
+        "tags": ["Pagamentos"],
+        "summary": "Cria um novo pagamento",
+        "description": "Endpoint para registrar um novo pagamento associado a um aluno e a um plano.",
         "requestBody": {
           "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Pagamento"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pagamento criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pagamento"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aluno ou plano não encontrado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Pagamentos"],
+        "summary": "Lista todos os pagamentos",
+        "description": "Endpoint para listar todos os pagamentos registrados no sistema.",
+        "responses": {
+          "200": {
+            "description": "Lista de pagamentos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pagamento"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/pay/{id}": {
+      "get": {
+        "tags": ["Pagamentos"],
+        "summary": "Busca um pagamento por ID",
+        "description": "Endpoint para buscar um pagamento específico pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do pagamento",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes do pagamento encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pagamento"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pagamento não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Pagamentos"],
+        "summary": "Exclui um pagamento",
+        "description": "Endpoint para deletar um pagamento pelo seu ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do pagamento a ser deletado",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Pagamento deletado com sucesso"
+          },
+          "404": {
+            "description": "Pagamento não encontrado"
+          }
+        }
+      }
+    },
+    "/pay/clients/{id}": {
+      "get": {
+        "tags": ["Pagamentos"],
+        "summary": "Busca pagamentos por ID do aluno",
+        "description": "Endpoint para buscar todos os pagamentos associados a um aluno específico.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do aluno",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de pagamentos associados ao aluno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pagamento"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nenhum pagamento encontrado para o aluno"
+          }
+        }
+      }
+    },
+     "/message": {
+    "post": {
+      "tags": ["Mensagens"],
+      "summary": "Envia uma mensagem",
+      "description": "Endpoint para enviar uma nova mensagem.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Mensagem"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Mensagem enviada com sucesso",
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Mensagem"
               }
             }
-          },
-          "responses": {
-            "201": {
-              "description": "Mensagem enviada com sucesso"
-            },
-            "400": {
-              "description": "Requisição inválida"
+          }
+        },
+        "401": {
+          "description": "Usuário não autorizado"
+        },
+        "400": {
+          "description": "Requisição inválida"
+        }
+      }
+    },
+    "get": {
+      "tags": ["Mensagens"],
+      "summary": "Lista todas as mensagens",
+      "description": "Endpoint para listar todas as mensagens cadastradas.",
+      "responses": {
+        "200": {
+          "description": "Lista de mensagens",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Mensagem"
+                }
+              }
             }
+          }
+        },
+        "401": {
+          "description": "Usuário não autorizado"
+        }
+      }
+    }
+  },
+  "/message/{id}": {
+      "get": {
+        "tags": ["Mensagens"],
+        "summary": "Busca uma mensagem pelo ID",
+        "description": "Endpoint para buscar uma mensagem específica pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da mensagem",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalhes da mensagem encontrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Mensagem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Mensagem não encontrada"
+          },
+          "401": {
+            "description": "Usuário não autorizado"
           }
         }
       }
@@ -1444,6 +1661,17 @@
               "type": "string",
               "description": "Anotações sobre a saúde do aluno",
               "nullable": true
+            },
+            "status": {
+              "type": "boolean",
+              "default": true,
+              "description": "Status ativo ou inativo do aluno"
+            },
+            "gender": {
+              "type": "string",
+              "enum": ["M", "F", "O"],
+              "description": "Gênero do aluno: M (Masculino), F (Feminino) ou O (Outro)",
+              "default": "O"
             }
           },
           "required": ["name", "date_of_birth", "email", "telephone", "cpf", "plan_id"]
@@ -1664,7 +1892,33 @@
           }
         },
         "required": ["title", "body", "recipient_type"]
-       }
+       },
+       "Pagamento": {
+          "type": "object",
+          "properties": {
+            "id_aluno": {
+              "type": "integer",
+              "description": "ID do aluno associado ao pagamento",
+              "example": 1
+            },
+            "id_plano": {
+              "type": "integer",
+              "description": "ID do plano associado ao pagamento",
+              "example": 2
+            },
+            "status": {
+              "type": "boolean",
+              "description": "Status do pagamento (ativo ou inativo)",
+              "default": true
+            },
+            "payment": {
+              "type": "string",
+              "enum": ["CARD", "BANK_SLIP", "MONEY", "PIX"],
+              "description": "Método de pagamento utilizado"
+            }
+          },
+          "required": ["id_aluno", "id_plano", "payment"]
+        }
       }
     }
   }
