@@ -14,4 +14,22 @@ export class MensagemController {
 
     return res.status(201).json(mensagem);
   }
+
+  async list(req: Request, res: Response): Promise<Response> {
+    const mensagemService = container.resolve(MensagemService);
+
+    const mensagens = await mensagemService.list();
+
+    return res.status(200).json(mensagens);
+  }
+
+  async findById(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const mensagemService = container.resolve(MensagemService);
+
+    const mensagem = await mensagemService.findById(Number(id));
+
+    return res.status(200).json(mensagem);
+  }
 }
