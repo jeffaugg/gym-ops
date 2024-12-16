@@ -7,7 +7,7 @@ import api from "../../../api";
 import { toast } from "react-toastify";
 
 
-export default function StudentsForm() {
+export default function StudentsForm({ onStudentCreated }) {
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [cpf, setCpf] = useState("");
@@ -46,6 +46,8 @@ export default function StudentsForm() {
         // gen,
       });
 
+      toast.success("Aluno criado com sucesso!");
+
       // Limpa o formulário
       setName("");
       setBirthDate("");
@@ -56,7 +58,9 @@ export default function StudentsForm() {
       setEmail("");
       setHealth("");
 
-      toast.success("Aluno criado com sucesso!");
+      // Atualiza a tabela
+      onStudentCreated();
+
     } catch (error) {
       console.error("Erro ao criar o aluno:", error);
       toast.error("Erro ao criar o aluno.");
