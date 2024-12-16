@@ -3,7 +3,7 @@ import "./StudentsTable.css";
 import api from "../../api";
 import { toast } from "react-toastify";
 
-export default function StudentsTable({ students, onPlanDeleted }) {
+export default function StudentsTable({ students, onPlanDeleted, setSelectedStudent }) {
   const handleDelete = async (id) => {
     try {
       await api.delete(`/clients/${id}`);
@@ -34,6 +34,9 @@ export default function StudentsTable({ students, onPlanDeleted }) {
                 <td>{student.cpf}</td>
                 <td>{student.telephone}</td>
                 <td>
+                  <button className="btn edit" onClick={() => setSelectedStudent(student)}>
+                    ✏️
+                  </button>
                   <button className="btn delete" onClick={() => handleDelete(student.id)}>
                     ❌
                   </button>
