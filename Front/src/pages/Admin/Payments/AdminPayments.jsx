@@ -1,7 +1,7 @@
 import React from "react";
 import "./AdminPayments.css";
 import Layout from "../../../components/LayoutPages/Layout";
-import PayForm from "../../../components/PayForm/PayForm";
+import PayForm from "../../../components/Admin/PayForm/PayForm";
 import PaymentsTable from "../../../components/Admin/PaymentsTable/PaymentsTable";
 
 function AdminPayments() {

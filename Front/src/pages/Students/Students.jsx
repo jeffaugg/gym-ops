@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Students.css";
 import StudentsForm from "../../components/Admin/StudentsForm/StudentsForm";
-import StudentsTable from "../../components/StudentsTable/StudentsTable";
+import StudentsTable from "../../components/Admin/StudentsTable/StudentsTable";
 import Layout from "../../components/LayoutPages/Layout";
 import api from "../../api";
 
