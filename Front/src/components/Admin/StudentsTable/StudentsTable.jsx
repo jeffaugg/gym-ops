@@ -34,7 +34,13 @@ export default function StudentsTable({ students, onPlanDeleted, setSelectedStud
                 <td>{student.name}</td>
                 <td>{student.cpf}</td>
                 <td>{student.telephone}</td>
-                <td>{student.status}</td>
+                <td>
+                  {student.status ? (
+                    <span className="status active">Ativo</span>
+                  ) : (
+                    <span className="status inactive">Inativo</span>
+                  )}
+                </td>
                 <td>
                   <button className="btn edit" onClick={() => setSelectedStudent(student)}>
                     ✏️
