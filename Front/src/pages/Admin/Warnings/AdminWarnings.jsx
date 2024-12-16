@@ -31,8 +31,6 @@ function AdminWarnings() {
 
   return (
     <Layout>
-
-
       <div className="warnings-content">
         <header className="warnings-header">
           <h1>Escreva uma mensagem</h1>

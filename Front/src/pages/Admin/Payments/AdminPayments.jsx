@@ -1,21 +1,16 @@
 import React from "react";
-import Sidebar from "../../../components/Admin/Sidebar/Sidebar";
-import Topbar from "../../../components/Topbar/Topbar";
 import "./AdminPayments.css";
+import Layout from "../../../components/LayoutPages/Layout";
 
 function AdminPayments() {
   return (
-    <div className="payments">
-      <Sidebar />
-      <div className="main-content">
-        <Topbar />
-        <div className="content-container">
-          <header className="header">
-            <h1></h1>
-          </header>
-        </div>
-      </div>
-    </div>
+    <Layout>
+        <div className="payments-content">
+            <header className="payments-header">
+              <h1>Pagamentos</h1>
+            </header>
+          </div>
+    </Layout>
   );
 }
 
