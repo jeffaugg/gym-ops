@@ -1,21 +1,18 @@
-import React from "react";
-import Sidebar from "../../components/Admin/Sidebar/Sidebar";
-import Topbar from "../../components/Topbar/Topbar";
+import React, { useState, useEffect } from "react";
 import "./Settings.css";
+import Layout from "../../components/LayoutPages/Layout";
+import SettingsForm from "../../components/Admin/SettingsForm/SettingsForm";
 
 function Settings() {
   return (
-    <div className="settings">
-      <Sidebar />
-      <div className="main-content">
-        <Topbar />
-        <div className="content-container">
-          <header className="header">
-            <h1></h1>
-          </header>
-        </div>
+    <Layout>
+      <div className="settings-content">
+        <header className="settings-header">
+          <h1>Editar Perfil</h1>
+        </header>
+        <SettingsForm/>
       </div>
-    </div>
+    </Layout>
   );
 }
 

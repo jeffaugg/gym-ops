@@ -81,6 +81,7 @@ export class PlanoRepository {
       data.name,
       data.price,
       data.duration,
+      data.spots,
       id,
     ]);
     const updatedPlano = result.rows[0];
