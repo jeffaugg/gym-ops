@@ -20,4 +20,11 @@ export const AlunoSchema = z.object({
     .string()
     .max(500, { message: "Observações de saúde muito longas" })
     .optional(),
+  status: z.boolean().optional().default(true),
+  gender: z
+    .enum(["M", "F", "O"], {
+      message: "Gênero inválido",
+    })
+    .optional()
+    .default("O"),
 });
