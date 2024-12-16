@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx tsx --trace-warnings src/shared/infra/http/server.ts",
+    "dev": "npx tsx --trace-warnings --watch src/shared/infra/http/server.ts",
     "migration": "knex migrate:make -x ts",
     "migrate:run": "knex migrate:latest",
     "start:dev": "npm run migrate:run && npm run dev"
