@@ -23,10 +23,10 @@
 //                 price: Number(price),
 //                 duration: Number(duration),
 //               });
-          
+
 //               // Exibe mensagem de sucesso
 //               toast.success("Plano criado com sucesso!");
-          
+
 //               // Limpa o formulário
 //               setName("");
 //               setPrice("");
@@ -75,6 +75,8 @@ export default function PlansForm({ onPlanCreated }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [duration, setDuration] = useState("");
+  const [spots, setSpots] = useState("");
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -84,6 +86,7 @@ export default function PlansForm({ onPlanCreated }) {
         name,
         price: Number(price),
         duration: Number(duration),
+        spots: Number(spots),
       });
 
       toast.success("Plano criado com sucesso!");
@@ -92,6 +95,7 @@ export default function PlansForm({ onPlanCreated }) {
       setName("");
       setPrice("");
       setDuration("");
+      setSpots("");
 
       // Atualiza a tabela
       onPlanCreated();
@@ -121,12 +125,20 @@ export default function PlansForm({ onPlanCreated }) {
       </div>
       <div className="form-group">
         <InputFieldForm
-          label="Duração*"
+          label="Duração em dias*"
           type="number"
-          placeholder="Digite a duração"
+          placeholder="Digite a duração em dias"
           value={duration}
           onChange={(e) => setDuration(e.target.value)}
         />
+        <InputFieldForm
+          label="Quantidade de vagas*"
+          type="number"
+          placeholder="Digite a quantidade de vagas"
+          value={spots}
+          onChange={(e) => setSpots(e.target.value)}
+        />
+
       </div>
       <div className="form-actions">
         <ButtonCancel />
