@@ -1,34 +1,35 @@
 import React from "react";
-
+import { toast } from "react-toastify";
 import "./WarningTable.css";
 
-export default function WarningTable() {
-    return (
-    <div className="mensagem-list">
-          <table>
-            <thead>
-              <tr>
-                <th>Título</th> 
-                <th>Enviada para</th>
-                <th>Data</th>
-                <th>Ações</th>
+export default function WarningTable({ warnings }) {
+
+  return (
+    <div className="warnings-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Enviada para</th>
+            {/* <th>Data</th> */}
+          </tr>
+        </thead>
+        <tbody>
+          {warnings.length > 0 ? (
+            warnings.map((warning) => (
+              <tr key={warning.id}>
+                <td>{warning.title}</td>
+                <td>{warning.recipient_type}</td>
+                {/* <td>{warning.telephone}</td> */}
               </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Novidades!</td>
-                <td>Todos</td>
-                <td>23/08/2019</td>
-                <td><button className="delete">Excluir</button></td>
-              </tr>
-              <tr>
-                <td>Atenção!</td>
-                <td>Somente Instrutores</td>
-                <td>22/04/2019</td>
-                <td><button className="delete">Excluir</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-    )
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">Nenhum aviso encontrado.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
+  )
 }

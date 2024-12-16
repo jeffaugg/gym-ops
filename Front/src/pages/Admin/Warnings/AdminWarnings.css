@@ -16,10 +16,31 @@
   }
    */
 /* Estilos principais */
-.warnings {
-  display: flex; /* Exibe a barra lateral e o conteúdo principal lado a lado */
-  height: 100vh; /* Altura total da tela */
-  background-color: #ECE9E9;
+.warnings-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.warnings-header h1 {
+  font-size: 24px;
+  color: #1a1a7d;
+  font-weight: 700;
+  font-family: poppins;
+  margin: 0;
+}
+
+.header,
+.warnings-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
 /* .sidebar {
