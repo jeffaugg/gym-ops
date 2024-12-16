@@ -1,6 +1,6 @@
 import React from "react";
 import "./StudentsTable.css";
-import api from "../../api";
+import api from "../../../api";
 import { toast } from "react-toastify";
 
 export default function StudentsTable({ students, onPlanDeleted, setSelectedStudent }) {
