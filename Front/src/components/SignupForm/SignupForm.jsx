@@ -31,7 +31,7 @@ function SignupForm() {
 
     try {
       // Faz a requisição para o back-end
-      const response = await api.post('/signup', { name, email, password, cpf, tel, role });
+      const response = await api.post('/user/signup', { name, email, password, cpf, tel, role });
 
       toast.success('Criação de usuário ADM realizado com sucesso!', {
         position: 'top-right', // Posição do toast
