@@ -1,9 +1,9 @@
 import React from "react";
 import "./PayForm.css";
-import InputFieldForm from "../InputFieldForm/InputFieldForm";
-import ButtonCancel from "../ButtonCancel/ButtonCancel";
-import ButtonSend from "../ButtonSend/ButtonSend";
-import api from "../../api";
+import InputFieldForm from "../../InputFieldForm/InputFieldForm";
+import ButtonCancel from "../../ButtonCancel/ButtonCancel";
+import ButtonSend from "../../ButtonSend/ButtonSend";
+import api from "../../../api";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 

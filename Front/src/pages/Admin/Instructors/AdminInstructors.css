@@ -1,18 +1,100 @@
-/* Estilo para a área principal ao lado da sidebar */
-.main-content {
-  flex: 1; /* Ocupa o restante do espaço */
+/* Cabeçalhos */
+.header,
+.instructors-header {
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  background-color: #ECE9E9;
-  padding: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
 }
 
-/* Container para organizar o conteúdo */
-.content-container {
+.instructors-header h1 {
+  font-size: 24px;
+  color: #1a1a7d;
+  font-weight: 700;
+  font-family: poppins;
+  margin: 0;
+}
+
+/* Botão de matrícula */
+.btn-matricular {
+  background-color: #5c5cac;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-matricular:hover {
+  background-color: #4a4a99;
+}
+
+/* Layout da tabela */
+.table-container {
+  margin-top: 20px;
+}
+
+.instructors-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.instructors-table th,
+.instructors-table td {
+  border: 1px solid #ddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.instructors-table th {
+  background-color: #1a1a7d;
+  color: white;
+}
+
+.instructors-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.instructors-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Paginação */
+.pagination {
+  display: flex;
+  justify-content: center; /* Centraliza os botões de paginação */
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  background-color: #1a1a7d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination-btn:hover {
+  background-color: #333399;
+}
+
+/* Layout geral */
+.instructors {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ECE9E9;
+}
+
+.instructors-content {
   flex: 1;
-  margin-top: 130px; /* Adapta ao Topbar */
-  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
 }

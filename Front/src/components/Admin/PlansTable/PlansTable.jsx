@@ -75,6 +75,7 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan }) {
             <th>Nome</th>
             <th>Valor</th>
             <th>Duração</th>
+            <th>Qtd. de vagas</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -85,6 +86,7 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan }) {
                 <td>{plan.name}</td>
                 <td>R$ {plan.price.toFixed(2)}</td>
                 <td>{plan.duration} dias</td>
+                <td>{plan.spots}</td>
                 <td>
                   <button className="btn edit" onClick={() => setSelectedPlan(plan)}>
                     ✏️
