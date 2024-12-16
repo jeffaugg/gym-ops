@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SettingsForm.css";
 import InputFieldForm from "../../InputFieldForm/InputFieldForm";
 import ButtonCancel from "../../ButtonCancel/ButtonCancel";
 import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
+
 
 export default function SettingsForm() {
   const [name, setName] = useState("");
@@ -13,6 +14,20 @@ export default function SettingsForm() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+
+  useEffect(() => {
+    const userData =
+      JSON.parse(localStorage.getItem("user")) ||
+      JSON.parse(sessionStorage.getItem("user"));
+
+    if (userData) {
+      setName(userData.name || "");
+      setCpf(userData.cpf || "");
+      setEmail(userData.email || "");
+      setPhone(userData.tel || "");
+    }
+  }, []);
+
 
   const handleCancel = () => {
     setName("");
@@ -73,6 +88,7 @@ export default function SettingsForm() {
             placeholder="XXX-XXX-XXX-XX"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
+            mask="999.999.999-99"
           />
         </div>
         <div className="form-group">
@@ -89,6 +105,7 @@ export default function SettingsForm() {
             placeholder="(XX) XXXXX-XXXX"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            mask="(99) 99999-9999"
           />
         </div>
 
@@ -111,7 +128,7 @@ export default function SettingsForm() {
         </div>
 
         <div className="form-actions">
-          <ButtonCancel onClick={handleCancel}/>
+          <ButtonCancel onClick={handleCancel} />
           <ButtonSend />
         </div>
       </form>

@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React, { useState, useEffect } from "react";
 import "./StudentsForm.css";
 import InputFieldForm from "../../InputFieldForm/InputFieldForm";
@@ -10,12 +11,13 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [cpf, setCpf] = useState("");
-  const [gen, setGen] = useState("");
+  const [gen, setGen] = useState("O");
   const [plan, setPlan] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [health, setHealth] = useState("");
   const [plans, setPlans] = useState([]);
+  const [status, setStatus] = useState("true");
 
   const handleCancel = () => {
     setName("");
@@ -45,15 +47,20 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
 
   // Preenche o formulário quando `selectedStudent` mudar
   useEffect(() => {
+
     if (selectedStudent) {
       setName(selectedStudent.name || "");
-      setBirthDate(selectedStudent.date_of_birth || "");
+      const formattedDate = selectedStudent.date_of_birth
+        ? format(new Date(selectedStudent.date_of_birth), "yyyy-MM-dd")
+        : "";
+      setBirthDate(formattedDate);
       setCpf(selectedStudent.cpf || "");
       setGen(selectedStudent.gender || "");
       setPlan(selectedStudent.plan_id || "");
       setPhone(selectedStudent.telephone || "");
       setEmail(selectedStudent.email || "");
       setHealth(selectedStudent.health_notes || "");
+      setStatus(selectedStudent.status ? "true" : "false");
     } else {
       // Limpa o formulário se nenhum estudante estiver selecionado
       setName("");
@@ -64,35 +71,47 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
       setPhone("");
       setEmail("");
       setHealth("");
+      setStatus("true");
     }
   }, [selectedStudent]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!birthDate) {
+      toast.error("A data de nascimento é obrigatória.");
+      return;
+    }
+
     try {
       if (selectedStudent) {
+        const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
         // Atualiza o estudante existente
         await api.put(`/clients/${selectedStudent.id}`, {
           name,
-          date_of_birth: birthDate,
+          date_of_birth: formattedBirthDate,
           email,
           telephone: phone,
           cpf,
           plan_id: Number(plan),
           health_notes: health,
+          status: status === "true",
+          gender: gen,
         });
         toast.success("Aluno atualizado com sucesso!");
       } else {
+        const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
         // Cria um novo estudante
         await api.post("/clients", {
           name,
-          date_of_birth: birthDate,
+          date_of_birth: formattedBirthDate,
           email,
           telephone: phone,
           cpf,
           plan_id: Number(plan),
           health_notes: health,
+          status: true,
+          gender: gen,
         });
         toast.success("Aluno criado com sucesso!");
       }
@@ -145,16 +164,17 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             placeholder="CPF no formato XXX.XXX.XXX-XX"
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
+            mask={"999.999.999-99"}
           />
-          <label>
-            Gênero*
-            <select required value={gen} onChange={(e) => setGen(e.target.value)}>
-              <option value="">Selecione</option>
-              <option value="masculino">Masculino</option>
-              <option value="feminino">Feminino</option>
-              <option value="outro">Outro</option>
-            </select>
-          </label>
+          <InputFieldForm
+            label="Telefone*"
+            type="text"
+            placeholder="(XX) XXXXX-XXXX"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            mask={"(99) 99999-9999"}
+          />
+
         </div>
 
         <div className="form-group">
@@ -169,13 +189,26 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
               ))}
             </select>
           </label>
-          <InputFieldForm
-            label="Telefone*"
-            type="text"
-            placeholder="(XX) XXXXX-XXXX"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-          />
+          <label>
+            Gênero*
+            <select required value={gen} onChange={(e) => setGen(e.target.value)}>
+              <option value="">Selecione</option>
+              <option value="O">Prefiro não informar</option>
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+            </select>
+          </label>
+          <label>
+            Status
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              disabled={!selectedStudent} // Desabilita se estiver criando
+            >
+              <option value="true">Ativo</option>
+              <option value="false">Inativo</option>
+            </select>
+          </label>
         </div>
 
         <div className="form-group">

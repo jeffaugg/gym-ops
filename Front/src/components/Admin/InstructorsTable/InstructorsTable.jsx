@@ -45,30 +45,8 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                 </td>
               </tr>
             <tr>
-              <td colSpan="4">Nenhum instrutor encontrado.</td>
+              {/* <td colSpan="4">Nenhum instrutor encontrado.</td> */}
             </tr>
-          {/* {instructors.length > 0 ? (
-            instructors.map((instructor) => (
-              <tr key={instructor.id}>
-                <td>{instructor.name}</td>
-                <td>{instructor.cpf}</td>
-                <td>{instructor.telephone}</td>
-                <td>{instructor.status}</td>
-                <td>
-                  <button className="btn edit" onClick={() => setSelectedInstructor(instructor)}>
-                    ✏️
-                  </button>
-                  <button className="btn delete" onClick={() => handleDelete(instructor.id)}>
-                    ❌
-                  </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4">Nenhum instrutor encontrado.</td>
-            </tr>
-          )} */}
         </tbody>
       </table>
     </div>
