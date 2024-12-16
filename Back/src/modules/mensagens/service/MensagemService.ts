@@ -29,6 +29,11 @@ export class MensagemService {
   }
 
   async findById(id: number) {
-    return await this.mensagemRepository.findById(id);
+    const mensagem = await this.mensagemRepository.findById(id);
+
+    if (!mensagem) {
+      throw new AppError("Mensagem não encontrada", 404);
+    }
+    return mensagem;
   }
 }
