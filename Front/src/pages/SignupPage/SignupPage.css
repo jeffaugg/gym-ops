@@ -1,0 +1,35 @@
+
+.sign-page-container { 
+    display: flex;
+    height: 100vh;
+    background-color: #EFEAE4; 
+    font-family: Arial, sans-serif;
+  }
+  
+  .sign-form-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .sign-form-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #2C1E5A; 
+  }
+
+  .sign-image-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+  }
+
+  .sign-image-section img {
+    max-width: 60%;
+    height: auto;
+  }
+  

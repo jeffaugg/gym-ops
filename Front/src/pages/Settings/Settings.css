@@ -1,0 +1,35 @@
+
+.header,
+.settings-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.settings-header h1 {
+  font-size: 24px;
+  color: #1a1a7d;
+  font-weight: 700;
+  font-family: poppins;
+  margin: 0;
+}
+
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ECE9E9;
+}
+
+.settings-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  overflow-y: auto;
+}

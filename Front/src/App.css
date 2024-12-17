@@ -1,0 +1,13 @@
+/* Reset básico
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+} */
+
+/* Garantindo que o body ocupe toda a tela */
+html, body {
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,41 @@
+/* Importando a fonte Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+/* Reset básico para garantir consistência */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fonte padrão para todo o projeto */
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.5; /* Melhor legibilidade */
+  color: #333; /* Cor neutra para textos */
+  background-color: #ECE9E9; /* Cor de fundo padrão (opcional) */
+}
+
+/* Links sem sublinhado por padrão */
+a {
+  text-decoration: none;
+  color: inherit; /* Herdar a cor do pai */
+}
+
+/* Listas sem estilo por padrão */
+ul, ol {
+  list-style: none;
+}
+
+/* Botões sem estilos básicos */
+button {
+  font-family: 'Poppins', sans-serif;
+  border: none;
+  cursor: pointer;
+}
+
+/* Títulos para legibilidade */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700; /* Negrito padrão para títulos */
+}
+
