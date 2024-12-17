@@ -26,7 +26,6 @@ export default function WarningTable({ warnings }) {
               <tr key={warning.id}>
                 <td>{warning.title}</td>
                 <td>{recipientTypeMap[warning.recipient_type] || "Desconhecido"}</td>
-                {/* <td>{warning.telephone}</td> */}
               </tr>
             ))
           ) : (
