@@ -914,6 +914,37 @@
             "description": "Plano está sendo utilizado por um aluno"
           }
         }
+      },
+      "get": {
+        "tags": ["Planos"],
+        "summary": "Busca plano por ID",
+        "description": "Endpoint para buscar um plano pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do plano",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do plano",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Plano"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Plano não encontrado"
+          }
+        }
       }
      },
      "/workouts": {
