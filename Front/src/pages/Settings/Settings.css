@@ -1,4 +1,4 @@
-/* Cabeçalhos */
+
 .header,
 .settings-header {
   width: 100%;
@@ -16,7 +16,7 @@
   margin: 0;
 }
 
-/* Layout geral */
+
 .settings {
   display: flex;
   flex-direction: column;

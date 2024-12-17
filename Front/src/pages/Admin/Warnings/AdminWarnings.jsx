@@ -7,9 +7,9 @@ import api from "../../../api";
 import { toast } from "react-toastify";
 
 function AdminWarnings() {
-  const [warnings, setWarnings] = useState([]); // Estado para armazenar os planos
+  const [warnings, setWarnings] = useState([]); 
 
-  // Função para buscar os planos
+
   const fetchWarnings = async () => {
     try {
       const response = await api.get("/message");
@@ -21,7 +21,6 @@ function AdminWarnings() {
     }
   };
 
-  // Carrega os alunos ao montar o componente
   useEffect(() => {
     console.log("fetching warnings");
     fetchWarnings();
@@ -33,7 +32,7 @@ function AdminWarnings() {
     <Layout>
       <div className="warnings-content">
         <header className="warnings-header">
-          <h1>Escreva uma mensagem</h1>
+          <h1>Avisos</h1>
         </header>
 
         <WarningForm onWarningCreated={fetchWarnings}/>

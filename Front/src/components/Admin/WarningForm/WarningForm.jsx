@@ -40,7 +40,6 @@ export default function WarningForm({ onWarningCreated}) {
 
       toast.success("Mensagem enviada com sucesso!");
 
-      // Limpa o formulário
       setTitle("");
       setMessage("");
       setSendTo("");

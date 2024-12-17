@@ -5,7 +5,7 @@ import "./SignupForm.css";
 import Button from "../Button/Button.jsx";
 import InputField from "../InputField/InputField.jsx";
 import api from '../../api.js';
-import { toast } from 'react-toastify'; // Importa o Toastify
+import { toast } from 'react-toastify'; 
 
 function SignupForm() {
 
@@ -20,7 +20,6 @@ function SignupForm() {
 
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Evita o reload da página
 
     if (!acceptTerms) {
       toast.error('Você deve aceitar os termos para continuar.', {
@@ -30,11 +29,10 @@ function SignupForm() {
     }
 
     try {
-      // Faz a requisição para o back-end
       const response = await api.post('/user/signup', { name, email, password, cpf, tel, role });
 
       toast.success('Criação de usuário ADM realizado com sucesso!', {
-        position: 'top-right', // Posição do toast
+        position: 'top-right', 
       });
 
       navigate('/');
@@ -42,7 +40,6 @@ function SignupForm() {
     } catch (error) {
       console.log(error.response);
 
-      // Verifica se o back-end retornou mensagens detalhadas
       const errors = error.response?.data?.message;
 
       if (error.response?.status === 409) {
@@ -53,11 +50,11 @@ function SignupForm() {
       }
 
       if (Array.isArray(errors)) {
-        // Itera sobre os erros e exibe cada um deles com o Toastify
+        
         errors.forEach((err) => {
           toast.error(err.message, {
             position: 'top-right',
-            autoClose: 5000, // Opcional: tempo de exibição do toast
+            autoClose: 5000, 
           });
         });
       } else {

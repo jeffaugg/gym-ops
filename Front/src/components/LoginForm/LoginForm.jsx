@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './LoginForm.css';
 import api from '../../api.js';
-import { toast } from 'react-toastify'; // Importa o Toastify
+import { toast } from 'react-toastify'; 
 
 
 import Button from '../Button/Button.jsx';
@@ -19,26 +19,20 @@ function LoginForm() {
     const savedRememberMe = localStorage.getItem('rememberMe') === 'true';
 
     if (savedEmail) {
-      setEmail(savedEmail); // Preenche o campo de e-mail
-      setRememberMe(savedRememberMe); // Define o estado do checkbox com base no armazenamento
+      setEmail(savedEmail); 
+      setRememberMe(savedRememberMe); 
     } else {
-      setRememberMe(false); // Garante que o checkbox esteja desmarcado se não houver e-mail
+      setRememberMe(false); 
     }
-  }, []); // Executa apenas na primeira renderização
+  }, []); 
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Evita o reload da página
+    event.preventDefault();
 
     try {
-      // Faz a requisição para o back-end
       const response = await api.post('/user/login', { email, password });
       console.log('Resposta da API:', response.data);
       const { token, user } = response.data;
-
-      // // No handleSubmit do LoginForm
-      // localStorage.setItem('token', token); // Salva o token
-      // localStorage.setItem('user', JSON.stringify(response.data.user)); // Salva o objeto do usuário
-
       
       console.log(rememberMe)
       if (rememberMe) {
@@ -60,10 +54,9 @@ function LoginForm() {
 
 
       toast.success('Login realizado com sucesso!', {
-        position: 'top-right', // Posição do toast
+        position: 'top-right', 
       });
 
-      // Redireciona o usuário para a página de admin
       navigate('/AdminHome');
     } catch (error) {
       console.log('Erro ao fazer login:', error);

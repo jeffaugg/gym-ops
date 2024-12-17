@@ -53,10 +53,9 @@ import { toast } from "react-toastify";
 import "./AdminPlans.css";
 
 function AdminPlans() {
-  const [plans, setPlans] = useState([]); // Estado para armazenar os planos
-  const [selectedPlan, setSelectedPlan] = useState(null); // Estado para o plano selecionado
+  const [plans, setPlans] = useState([]); 
+  const [selectedPlan, setSelectedPlan] = useState(null); 
 
-  // Função para buscar os planos
   const fetchPlans = async () => {
     try {
       const response = await api.get("/plan");
@@ -68,7 +67,6 @@ function AdminPlans() {
     }
   };
 
-  // Carrega os planos ao montar o componente
   useEffect(() => {
     fetchPlans();
   }, []);
@@ -80,14 +78,12 @@ function AdminPlans() {
           <h1>Planos</h1>
         </header>
 
-        {/* Formulário de criação/edição */}
         <PlansForm
           onPlanCreated={fetchPlans}
           selectedPlan={selectedPlan}
           setSelectedPlan={setSelectedPlan}
         />
 
-        {/* Tabela de planos */}
         <PlansTable
           plans={plans}
           onPlanDeleted={fetchPlans}

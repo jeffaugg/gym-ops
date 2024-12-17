@@ -1,4 +1,4 @@
-/* Cabeçalhos */
+
 .header,
 .instructors-header {
   width: 100%;
@@ -16,7 +16,7 @@
   margin: 0;
 }
 
-/* Botão de matrícula */
+
 .btn-matricular {
   background-color: #5c5cac;
   color: white;
@@ -30,7 +30,6 @@
   background-color: #4a4a99;
 }
 
-/* Layout da tabela */
 .table-container {
   margin-top: 20px;
 }
@@ -60,10 +59,10 @@
   background-color: #f1f1f1;
 }
 
-/* Paginação */
+
 .pagination {
   display: flex;
-  justify-content: center; /* Centraliza os botões de paginação */
+  justify-content: center; 
   gap: 10px;
   margin-top: 20px;
 }
@@ -81,7 +80,7 @@
   background-color: #333399;
 }
 
-/* Layout geral */
+
 .instructors {
   display: flex;
   flex-direction: column;

@@ -7,9 +7,9 @@ import api from "../../../api";
 import { toast } from "react-toastify";
 
 function AdminPayments() {
-  const [payments, setPayments] = useState([]); // Estado para armazenar os pagamentos
+  const [payments, setPayments] = useState([]); 
 
-  // Função para buscar os pagamentos
+
   const fetchPayments = async () => {
     try {
       const response = await api.get("/pay");
@@ -21,7 +21,6 @@ function AdminPayments() {
     }
   };
 
-  // Carrega os pagamentos ao montar o componente
   useEffect(() => {
     fetchPayments();
   }, []);

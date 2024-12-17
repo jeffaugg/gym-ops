@@ -7,9 +7,9 @@ export default function Button({ type, onClick, children, navigateTo }) {
 
   const handleClick = () => {
     if (navigateTo) {
-      navigate(navigateTo); // Redireciona para a página especificada
+      navigate(navigateTo); 
     } else if (onClick) {
-      onClick(); // Executa a função onClick, se fornecida
+      onClick(); 
     }
   };
 

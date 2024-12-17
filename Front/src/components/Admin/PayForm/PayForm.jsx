@@ -62,13 +62,12 @@ export default function PayForm({ onPaymentCreated }) {
 
       toast.success("Pagamento efetuado com sucesso!");
 
-      // Limpa o formulário
+   
       setPlan("");
       setAluno(null);
       setCpf("");
       setPayment("");
 
-      // Atualiza a tabela de pagamentos
       onPaymentCreated();
     } catch (error) {
       console.error("Erro ao efetuar o pagamento:", error);

@@ -14,7 +14,6 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
   const [paymentsWithDetails, setPaymentsWithDetails] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Função para buscar os detalhes do aluno e do plano
   const fetchPaymentsDetails = async (paymentsList) => {
     setLoading(true);
     try {
@@ -23,7 +22,6 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
           let aluno = { name: "N/A", cpf: "N/A" };
           let plan = { name: "N/A", price: "N/A" };
 
-          // Buscar detalhes do aluno
           try {
             const alunoResponse = await api.get(`/clients/${payment.id_aluno}`);
             aluno = alunoResponse.data;
@@ -31,7 +29,6 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
             console.error(`Erro ao buscar detalhes do aluno ID: ${payment.id_aluno}`, error);
           }
 
-          // Buscar detalhes do plano
           try {
             const planResponse = await api.get(`/plan/${payment.id_plano}`);
             plan = planResponse.data;
@@ -52,7 +49,6 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
     }
   };
 
-  // Atualiza os detalhes dos pagamentos sempre que `payments` mudar
   useEffect(() => {
     if (payments && payments.length > 0) {
       fetchPaymentsDetails(payments);

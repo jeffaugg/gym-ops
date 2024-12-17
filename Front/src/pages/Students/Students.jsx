@@ -27,7 +27,7 @@ function Students() {
     <Layout>
       <div className="students-content">
         <header className="students-header">
-          <h1>Cadastrar aluno</h1>
+          <h1>Alunos</h1>
         </header>
         <StudentsForm
           onStudentCreated={fetchStudents}

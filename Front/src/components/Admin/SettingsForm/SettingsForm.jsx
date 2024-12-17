@@ -44,7 +44,7 @@ export default function SettingsForm() {
 
     if (password !== passwordConfirmation) {
       toast.error("As senhas não coincidem. Por favor, verifique e tente novamente.");
-      return; // Interrompe o envio
+      return; 
     }
 
     try {
@@ -59,7 +59,6 @@ export default function SettingsForm() {
 
       toast.success("Administrador atualizado com sucesso!");
 
-      // Limpa os campos após o envio bem-sucedido
       setName("");
       setCpf("");
       setEmail("");

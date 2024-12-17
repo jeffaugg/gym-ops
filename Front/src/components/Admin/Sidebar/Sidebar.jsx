@@ -15,7 +15,7 @@ function Sidebar() {
     JSON.parse(sessionStorage.getItem("user")) || {
       name: "Administrador",
       email: "admin@exemplo.com",
-      avatar: "https://via.placeholder.com/50", // Avatar padrão
+      avatar: "https://via.placeholder.com/50", 
     };
 
   const menuItems = [

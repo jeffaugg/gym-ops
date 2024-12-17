@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Settings.css";
 import Layout from "../../components/LayoutPages/Layout";
 import SettingsForm from "../../components/Admin/SettingsForm/SettingsForm";

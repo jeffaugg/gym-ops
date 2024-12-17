@@ -9,7 +9,7 @@ function AdminInstructors() {
     <Layout>
     <div className="instructors-content">
       <header className="instructors-header">
-        <h1>Cadastrar instrutor</h1>
+        <h1>Instrutores</h1>
       </header>
       <InstructorsForm
         // onInstructorCreated={fetchInstructors}

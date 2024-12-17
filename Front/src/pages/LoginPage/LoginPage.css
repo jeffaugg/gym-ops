@@ -1,4 +1,4 @@
-/* Não remover */
+
 .login-page-container { 
     display: flex;
     height: 100vh;
@@ -6,7 +6,7 @@
     font-family: Arial, sans-serif;
   }
   
-/* Não remover */
+
   .login-form-section {
     flex: 1;
     padding: 40px;
@@ -15,14 +15,14 @@
     justify-content: center;
   }
 
-/* Não remover */
+
   .login-form-section h2 {
     font-size: 2rem;
     margin-bottom: 20px;
-    color: #2C1E5A; /* um tom de roxo/azul */
+    color: #2C1E5A; 
   }
   
-  /* Não remover */
+
   .login-image-section {
     flex: 1;
     display: flex;
@@ -31,7 +31,7 @@
     padding: 40px;
   }
 
-/* Não remover */
+
   .login-image-section img {
     max-width: 60%;
     height: auto;

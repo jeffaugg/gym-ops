@@ -31,7 +31,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
     toast.info("Mensagem cancelada.");
   };
 
-  // Fetch available plans
   useEffect(() => {
     const fetchPlans = async () => {
       try {
@@ -45,7 +44,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
     fetchPlans();
   }, []);
 
-  // Preenche o formulário quando `selectedStudent` mudar
   useEffect(() => {
 
     if (selectedStudent) {
@@ -62,7 +60,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
       setHealth(selectedStudent.health_notes || "");
       setStatus(selectedStudent.status ? "true" : "false");
     } else {
-      // Limpa o formulário se nenhum estudante estiver selecionado
       setName("");
       setBirthDate("");
       setCpf("");
@@ -86,7 +83,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
     try {
       if (selectedStudent) {
         const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
-        // Atualiza o estudante existente
         await api.put(`/clients/${selectedStudent.id}`, {
           name,
           date_of_birth: formattedBirthDate,
@@ -101,7 +97,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
         toast.success("Aluno atualizado com sucesso!");
       } else {
         const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
-        // Cria um novo estudante
         await api.post("/clients", {
           name,
           date_of_birth: formattedBirthDate,
@@ -116,7 +111,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
         toast.success("Aluno criado com sucesso!");
       }
 
-      // Limpa o formulário
       setName("");
       setBirthDate("");
       setCpf("");
@@ -126,10 +120,8 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
       setEmail("");
       setHealth("");
 
-      // Reseta o estudante selecionado
       setSelectedStudent(null);
 
-      // Atualiza a lista de estudantes
       onStudentCreated();
     } catch (error) {
       console.error("Erro ao salvar o aluno:", error);

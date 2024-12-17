@@ -20,7 +20,6 @@ export default function PlansForm({ onPlanCreated, selectedPlan, setSelectedPlan
     toast.info("Plano cancelado.");
     };
 
-  // Preenche o formulário com os dados do plano selecionado
   useEffect(() => {
     if (selectedPlan) {
       setName(selectedPlan.name || "");
@@ -28,7 +27,6 @@ export default function PlansForm({ onPlanCreated, selectedPlan, setSelectedPlan
       setDuration(selectedPlan.duration || "");
       setSpots(selectedPlan.spots || "");
     } else {
-      // Limpa o formulário ao desmarcar a seleção
       setName("");
       setPrice("");
       setDuration("");
@@ -43,7 +41,6 @@ export default function PlansForm({ onPlanCreated, selectedPlan, setSelectedPlan
       if (selectedPlan) {
 
         console.log(selectedPlan);
-        // Atualiza o plano existentes
         await api.put(`/plan/${selectedPlan.id}`, {
           name,
           price: Number(price),
@@ -53,7 +50,6 @@ export default function PlansForm({ onPlanCreated, selectedPlan, setSelectedPlan
         );
         toast.success("Plano atualizado com sucesso!");
       } else {
-        // Cria um novo plano
         await api.post("/plan", {
           name,
           price: Number(price),
@@ -63,16 +59,13 @@ export default function PlansForm({ onPlanCreated, selectedPlan, setSelectedPlan
         toast.success("Plano criado com sucesso!");
       }
 
-      // Limpa o formulário
       setName("");
       setPrice("");
       setDuration("");
       setSpots("");
 
-      // Reseta o plano selecionado
       setSelectedPlan(null);
 
-      // Atualiza a tabela
       onPlanCreated();
     } catch (error) {
       console.error("Erro ao salvar o plano:", error);
