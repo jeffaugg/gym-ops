@@ -3,22 +3,43 @@ import "./PaymentsTable.css";
 import { toast } from "react-toastify";
 import api from "../../../api";
 
+const paymentMethods = {
+  CARD: "Cartão de Crédito",
+  MONEY: "Dinheiro",
+  PIX: "Pix",
+  BANK_SLIP: "Boleto",
+};
+
 export default function PaymentsTable({ payments, onPaymentDeleted }) {
   const [paymentsWithDetails, setPaymentsWithDetails] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Função para buscar os detalhes dos alunos
-  const fetchPaymentsDetails = async () => {
+  // Função para buscar os detalhes do aluno e do plano
+  const fetchPaymentsDetails = async (paymentsList) => {
+    setLoading(true);
     try {
-      // Mapeia os pagamentos e busca os detalhes do aluno para cada um
       const updatedPayments = await Promise.all(
-        payments.map(async (payment) => {
+        paymentsList.map(async (payment) => {
+          let aluno = { name: "N/A", cpf: "N/A" };
+          let plan = { name: "N/A", price: "N/A" };
+
+          // Buscar detalhes do aluno
           try {
-            const response = await api.get(`/clients/${payment.id_aluno}`);
-            return { ...payment, aluno: response.data }; // Adiciona os detalhes do aluno ao pagamento
+            const alunoResponse = await api.get(`/clients/${payment.id_aluno}`);
+            aluno = alunoResponse.data;
           } catch (error) {
             console.error(`Erro ao buscar detalhes do aluno ID: ${payment.id_aluno}`, error);
-            return { ...payment, aluno: { name: "N/A", cpf: "N/A" } }; // Retorna com dados vazios caso falhe
           }
+
+          // Buscar detalhes do plano
+          try {
+            const planResponse = await api.get(`/plan/${payment.id_plano}`);
+            plan = planResponse.data;
+          } catch (error) {
+            console.error(`Erro ao buscar detalhes do plano ID: ${payment.id_plano}`, error);
+          }
+
+          return { ...payment, aluno, plan };
         })
       );
 
@@ -26,13 +47,17 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
     } catch (error) {
       console.error("Erro ao buscar os detalhes dos pagamentos:", error);
       toast.error("Erro ao carregar os detalhes dos pagamentos.");
+    } finally {
+      setLoading(false);
     }
   };
 
   // Atualiza os detalhes dos pagamentos sempre que `payments` mudar
   useEffect(() => {
-    if (payments.length > 0) {
-      fetchPaymentsDetails();
+    if (payments && payments.length > 0) {
+      fetchPaymentsDetails(payments);
+    } else {
+      setPaymentsWithDetails([]);
     }
   }, [payments]);
 
@@ -47,21 +72,16 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
     }
   };
 
-  const paymentMethods = {
-    CARD: "Cartão de Crédito",
-    MONEY: "Dinheiro",
-    PIX: "Pix",
-    BANK_SLIP: "Boleto",
-  };
-
   return (
     <div className="payments-list">
+      {loading && <div>Carregando detalhes...</div>}
       <table>
         <thead>
           <tr>
             <th>Nome do Aluno</th>
             <th>CPF</th>
-            <th>ID do Plano</th>
+            <th>Nome do Plano</th>
+            <th>Preço do Plano</th>
             <th>Método de Pagamento</th>
             <th>Ações</th>
           </tr>
@@ -72,7 +92,8 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
               <tr key={payment.id}>
                 <td>{payment.aluno?.name || "N/A"}</td>
                 <td>{payment.aluno?.cpf || "N/A"}</td>
-                <td>{payment.id_plano}</td>
+                <td>{payment.plan?.name || "N/A"}</td>
+                <td>{payment.plan?.price || "N/A"}</td>
                 <td>{paymentMethods[payment.payment] || "N/A"}</td>
                 <td>
                   <button
@@ -85,9 +106,11 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
               </tr>
             ))
           ) : (
-            <tr>
-              <td colSpan="5">Nenhum pagamento encontrado.</td>
-            </tr>
+            !loading && (
+              <tr>
+                <td colSpan="6">Nenhum pagamento encontrado.</td>
+              </tr>
+            )
           )}
         </tbody>
       </table>
