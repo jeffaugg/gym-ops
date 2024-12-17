@@ -20,7 +20,7 @@ function SignupForm() {
 
 
   const handleSubmit = async (event) => {
-
+  event.preventDefault();
     if (!acceptTerms) {
       toast.error('Você deve aceitar os termos para continuar.', {
         position: 'top-right',
