@@ -75,4 +75,14 @@ export class PlanoService {
     await this.planoRepository.delete(id);
     return plano;
   }
+
+  async findById(id: number) {
+    const plano = await this.planoRepository.findById(id);
+
+    if (!plano) {
+      throw new AppError("Plano não encontrado", 404);
+    }
+
+    return plano;
+  }
 }
