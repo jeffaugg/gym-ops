@@ -44,4 +44,13 @@ export class PlanoController {
     await planoService.delete(Number(id));
     return res.status(204).json();
   }
+
+  public async findById(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    const planoService = container.resolve(PlanoService);
+
+    const plan = await planoService.findById(Number(id));
+    return res.status(200).json(plan);
+  }
 }
