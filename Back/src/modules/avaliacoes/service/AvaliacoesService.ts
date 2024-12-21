@@ -59,13 +59,6 @@ export class AvaliacaoService {
     }
 
     const avaliacoes = await this.avaliacoesRepository.findByAlunoId(aluno_id);
-    await Promise.all(
-      avaliacoes.map(async (avaliacao) => {
-        avaliacao.photo = await this.fotosRepository.findByAvaliacaoId(
-          avaliacao.id,
-        );
-      }),
-    );
     return avaliacoes;
   }
 
