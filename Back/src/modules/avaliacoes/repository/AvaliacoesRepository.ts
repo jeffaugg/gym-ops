@@ -52,7 +52,17 @@ export class AvaliacoesRepository {
 
   async findByAlunoId(aluno_id: string): Promise<Avaliacao[]> {
     const query = `
-    SELECT * FROM avaliacoes WHERE aluno_id = ?;
+      SELECT 
+        a.*,
+        f.foto_path
+      FROM 
+        avaliacoes a
+      LEFT JOIN 
+        fotos_avaliacoes f 
+      ON 
+        a.id = f.avaliacao_id
+      WHERE 
+        a.aluno_id = ?;
     `;
     const result = await this.db.raw(query, [aluno_id]);
 
@@ -60,8 +70,23 @@ export class AvaliacoesRepository {
       return [];
     }
 
-    return result.rows.map((avaliacaoData: any) =>
-      Avaliacao.fromDatabase(avaliacaoData),
+    const evaluationsMap = new Map<number, Avaliacao>();
+
+    result.rows.forEach((row: any) => {
+      if (!evaluationsMap.has(row.id)) {
+        evaluationsMap.set(row.id, {
+          ...row,
+          photo: [],
+        });
+      }
+
+      if (row.foto_path) {
+        evaluationsMap.get(row.id).photo.push(row.foto_path);
+      }
+    });
+
+    return Array.from(evaluationsMap.values()).map((data) =>
+      Avaliacao.fromDatabase(data),
     );
   }
 
