@@ -7,67 +7,64 @@ import { z } from "zod";
 @injectable()
 export class ExercicioController {
   async create(req: Request, res: Response): Promise<Response> {
-    const { name, muscles} =
-        ExercicioSchema.parse(req.body);
+    const data = ExercicioSchema.parse(req.body);
+    const adm_id = req.user.id;
 
     const exercicioService = container.resolve(ExercicioService);
 
-    const exercicio = await exercicioService.create({
-      name,
-      muscles
-    });
+    const exercicio = await exercicioService.create(data, adm_id);
 
     return res.status(201).json(exercicio);
   }
 
   async list(req: Request, res: Response): Promise<Response> {
     const exercicioService = container.resolve(ExercicioService);
+    const adm_id = req.user.id;
 
-    const exercicio = await exercicioService.list();
+    const exercicio = await exercicioService.list(adm_id);
     return res.status(200).json(exercicio);
   }
 
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { name, muscles } =
-    ExercicioSchema.parse(req.body);
+    const data = ExercicioSchema.parse(req.body);
+    const adm_id = req.user.id;
 
     const exercicioService = container.resolve(ExercicioService);
 
-    const exercicio = await exercicioService.update(Number(id), {
-      name,
-      muscles
-    });
+    const exercicio = await exercicioService.update(Number(id), adm_id, data);
 
     return res.status(200).json(exercicio);
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const adm_id = req.user.id;
 
     const exercicioService = container.resolve(ExercicioService);
 
-    await exercicioService.delete(Number(id));
+    await exercicioService.delete(Number(id), adm_id);
     return res.status(204).json();
   }
 
   async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-
+    const adm_id = req.user.id;
     const exercicioService = container.resolve(ExercicioService);
 
-    const exercicio = await exercicioService.findById(Number(id));
+    const exercicio = await exercicioService.findById(Number(id), adm_id);
     return res.status(200).json(exercicio);
   }
 
   async findByName(req: Request, res: Response): Promise<Response> {
     const nameSchema = z.string();
     const { name } = req.params;
+    const adm_id = req.user.id;
     nameSchema.parse(name);
 
     const exercicioService = container.resolve(ExercicioService);
 
-    const exercise = await exercicioService.findByName(name);
+    const exercise = await exercicioService.findByName(name, adm_id);
     return res.status(200).json(exercise);
   }
 }
