@@ -9,46 +9,52 @@ export class AlunoController {
   async create(req: Request, res: Response): Promise<Response> {
     const data = AlunoSchema.parse(req.body);
 
+    const adm_id = req.user.id;
+
     const alunoService = container.resolve(AlunoService);
 
-    const aluno = await alunoService.create(data);
+    const aluno = await alunoService.create(data, adm_id);
 
     return res.status(201).json(aluno);
   }
 
   async list(req: Request, res: Response): Promise<Response> {
     const alunoService = container.resolve(AlunoService);
+    const adm_id = req.user.id;
 
-    const alunos = await alunoService.list();
+    const alunos = await alunoService.list(adm_id);
     return res.status(200).json(alunos);
   }
 
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const adm_id = req.user.id;
     const data = AlunoSchema.parse(req.body);
 
     const alunoService = container.resolve(AlunoService);
 
-    const aluno = await alunoService.update(Number(id), data);
+    const aluno = await alunoService.update(Number(id), adm_id, data);
 
     return res.status(200).json(aluno);
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const adm_id = req.user.id;
 
     const alunoService = container.resolve(AlunoService);
 
-    await alunoService.delete(Number(id));
+    await alunoService.delete(Number(id), adm_id);
     return res.status(204).json();
   }
 
   async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const adm_id = req.user.id;
 
     const alunoService = container.resolve(AlunoService);
 
-    const aluno = await alunoService.findById(Number(id));
+    const aluno = await alunoService.findById(Number(id), adm_id);
     return res.status(200).json(aluno);
   }
 
@@ -57,22 +63,24 @@ export class AlunoController {
       message: "CPF deve estar no formato XXX.XXX.XXX-XX",
     });
     const { cpf } = req.params;
+    const adm_id = req.user.id;
     cpfSchema.parse(cpf);
 
     const alunoService = container.resolve(AlunoService);
 
-    const aluno = await alunoService.findByCpf(cpf);
+    const aluno = await alunoService.findByCpf(cpf, adm_id);
     return res.status(200).json(aluno);
   }
 
   async findByEmail(req: Request, res: Response): Promise<Response> {
     const emailSchema = z.string().email({ message: "Email inválido" });
     const { email } = req.params;
+    const adm_id = req.user.id;
     emailSchema.parse(email);
 
     const alunoService = container.resolve(AlunoService);
 
-    const aluno = await alunoService.findByEmail(email);
+    const aluno = await alunoService.findByEmail(email, adm_id);
     return res.status(200).json(aluno);
   }
 }
