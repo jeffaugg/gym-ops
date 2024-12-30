@@ -7,66 +7,64 @@ import { z } from "zod";
 @injectable()
 export class TreinoController {
   async create(req: Request, res: Response): Promise<Response> {
-    const { name, notes} = TreinoSchema.parse(req.body);
-
+    const data = TreinoSchema.parse(req.body);
+    const adm_id = req.user.id;
     const treinoService = container.resolve(TreinoService);
 
-    const treino = await treinoService.create({
-      name,
-      notes
-    });
+    const treino = await treinoService.create(data, adm_id);
 
     return res.status(201).json(treino);
   }
 
   async list(req: Request, res: Response): Promise<Response> {
+    const adm_id = req.user.id;
     const treinoService = container.resolve(TreinoService);
 
-    const treino = await treinoService.list();
+    const treino = await treinoService.list(adm_id);
     return res.status(200).json(treino);
   }
 
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const { name, notes } =
-    TreinoSchema.parse(req.body);
+    const data = TreinoSchema.parse(req.body);
+    const adm_id = req.user.id;
 
     const treinoService = container.resolve(TreinoService);
 
-    const treino = await treinoService.update(Number(id), {
-      name,
-      notes
-    });
+    const treino = await treinoService.update(Number(id), adm_id, data);
 
     return res.status(200).json(treino);
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const adm_id = req.user.id;
 
     const treinoService = container.resolve(TreinoService);
 
-    await treinoService.delete(Number(id));
+    await treinoService.delete(Number(id), adm_id);
     return res.status(204).json();
   }
 
   async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
+    const adm_id = req.user.id;
 
     const treinoService = container.resolve(TreinoService);
 
-    const treino = await treinoService.findById(Number(id));
+    const treino = await treinoService.findById(Number(id), adm_id);
     return res.status(200).json(treino);
   }
 
   async findByName(req: Request, res: Response): Promise<Response> {
     const nameSchema = z.string();
     const { name } = req.params;
+    const adm_id = req.user.id;
     nameSchema.parse(name);
 
     const treinoService = container.resolve(TreinoService);
 
-    const treino = await treinoService.findByName(name);
+    const treino = await treinoService.findByName(name, adm_id);
     return res.status(200).json(treino);
   }
 }
