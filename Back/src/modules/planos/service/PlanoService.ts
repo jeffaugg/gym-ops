@@ -14,8 +14,11 @@ export class PlanoService {
     private alunoRepository: AlunoRepository,
   ) {}
 
-  async create(data: z.infer<typeof PlanoSchema>) {
-    const planoByName = await this.planoRepository.findByName(data.name);
+  async create(data: z.infer<typeof PlanoSchema>, adm_id: number) {
+    const planoByName = await this.planoRepository.findByName(
+      data.name,
+      adm_id,
+    );
 
     if (planoByName) {
       throw new AppError("Plano já existe", 409);
@@ -23,27 +26,32 @@ export class PlanoService {
 
     const planoByDuration = await this.planoRepository.findByDuration(
       data.duration,
+      adm_id,
     );
 
     if (planoByDuration) {
       throw new AppError("Plano com essa duração já existe", 409);
     }
 
-    return await this.planoRepository.create(data);
+    const planoData = { ...data, adm_id };
+    return await this.planoRepository.create(planoData);
   }
 
-  async list() {
-    return await this.planoRepository.list();
+  async list(adm_id: number) {
+    return await this.planoRepository.list(adm_id);
   }
 
-  async update(id: number, data: z.infer<typeof PlanoSchema>) {
-    const plano = await this.planoRepository.findById(id);
+  async update(id: number, adm_id: number, data: z.infer<typeof PlanoSchema>) {
+    const plano = await this.planoRepository.findById(id, adm_id);
 
     if (!plano) {
       throw new AppError("Plano não encontrado", 404);
     }
 
-    const planoByName = await this.planoRepository.findByName(data.name);
+    const planoByName = await this.planoRepository.findByName(
+      data.name,
+      adm_id,
+    );
 
     if (plano.name != data.name && planoByName) {
       throw new AppError("Plano já existe", 409);
@@ -51,33 +59,34 @@ export class PlanoService {
 
     const planoByDuration = await this.planoRepository.findByDuration(
       data.duration,
+      adm_id,
     );
 
     if (plano.duration != data.duration && planoByDuration) {
       throw new AppError("Plano com essa duração já existe", 409);
     }
 
-    return await this.planoRepository.update(id, data);
+    return await this.planoRepository.update(id, data, adm_id);
   }
 
-  async delete(id: number) {
-    const plano = await this.planoRepository.findById(id);
+  async delete(id: number, adm_id: number) {
+    const plano = await this.planoRepository.findById(id, adm_id);
 
     if (!plano) {
       throw new AppError("Plano não encontrado", 404);
     }
 
-    const planoInUse = await this.alunoRepository.findByPlanId(id);
+    const planoInUse = await this.alunoRepository.findByPlanId(id, adm_id);
 
     if (planoInUse) {
       throw new AppError("Plano está sendo utilizado por um aluno", 409);
     }
-    await this.planoRepository.delete(id);
+    await this.planoRepository.delete(id, adm_id);
     return plano;
   }
 
-  async findById(id: number) {
-    const plano = await this.planoRepository.findById(id);
+  async findById(id: number, adm_id: number) {
+    const plano = await this.planoRepository.findById(id, adm_id);
 
     if (!plano) {
       throw new AppError("Plano não encontrado", 404);
