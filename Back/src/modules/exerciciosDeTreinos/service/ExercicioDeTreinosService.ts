@@ -17,9 +17,10 @@ export class ExercicioDeTreinoService {
     private treinoRepository: TreinoRepository,
   ) {}
 
-  async create(data: z.infer<typeof ExercicioDeTreinoSchema>) {
+  async create(data: z.infer<typeof ExercicioDeTreinoSchema>, adm_id: number) {
     const treinoExistente = await this.treinoRepository.findById(
       data.treino_id,
+      adm_id,
     );
     if (!treinoExistente) {
       throw new AppError("Treino não encontrado", 404);
@@ -27,6 +28,7 @@ export class ExercicioDeTreinoService {
 
     const exercicioExistente = await this.exercicioRepository.findById(
       data.exercicio_id,
+      adm_id,
     );
     if (!exercicioExistente) {
       throw new AppError("Exercício não encontrado", 404);
@@ -45,8 +47,8 @@ export class ExercicioDeTreinoService {
     return await this.exercicioDeTreinoRepository.create(data);
   }
 
-  async list() {
-    return this.exercicioDeTreinoRepository.list();
+  async list(adm_id: number) {
+    return this.exercicioDeTreinoRepository.list(adm_id);
   }
 
   async update(
