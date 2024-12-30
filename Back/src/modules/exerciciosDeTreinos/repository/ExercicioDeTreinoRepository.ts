@@ -27,9 +27,13 @@ export class ExercicioDeTreinoRepository {
     return result.rows[0] as ExerciciosDeTreinos;
   }
 
-  async list(): Promise<ExerciciosDeTreinos[]> {
-    const query = "SELECT * FROM exercicios_de_treinos";
-    const result = await this.db.raw(query);
+  async list(adm_id: number): Promise<ExerciciosDeTreinos[]> {
+    const query = `
+      SELECT exercicios_de_treinos.* 
+      FROM exercicios_de_treinos
+      JOIN treinos ON exercicios_de_treinos.treino_id = treinos.id
+      WHERE treinos.adm_id = ?`;
+    const result = await this.db.raw(query, [adm_id]);
 
     return result.rows.map((data: any) =>
       ExerciciosDeTreinos.fromDatabase(data),
