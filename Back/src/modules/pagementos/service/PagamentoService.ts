@@ -18,14 +18,14 @@ export class PagamentoService {
     private alunoRepository: AlunoRepository,
   ) {}
 
-  async create(data: z.infer<typeof PagamentoSchema>) {
-    const plano = await this.planoRepository.findById(data.id_plano);
+  async create(data: z.infer<typeof PagamentoSchema>, adm_id: number) {
+    const plano = await this.planoRepository.findById(data.id_plano, adm_id);
 
     if (!plano) {
       throw new AppError("Plano não encontrado", 404);
     }
 
-    const aluno = await this.alunoRepository.findById(data.id_aluno);
+    const aluno = await this.alunoRepository.findById(data.id_aluno, adm_id);
 
     if (!aluno) {
       throw new AppError("Aluno não encontrado", 404);
@@ -37,8 +37,8 @@ export class PagamentoService {
     return await this.pagamentoRepository.create(data);
   }
 
-  async list() {
-    return await this.pagamentoRepository.list();
+  async list(adm_idq: number) {
+    return await this.pagamentoRepository.list(adm_idq);
   }
 
   async findById(id: number) {
