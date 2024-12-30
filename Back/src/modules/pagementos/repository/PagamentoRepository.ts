@@ -26,9 +26,15 @@ export class PagamentoRepository {
     return Pagamento.fromDatabase(result.rows[0]);
   }
 
-  async list(): Promise<Pagamento[]> {
-    const query = "SELECT * FROM pagamentos";
-    const result = await this.db.raw(query);
+  async list(adm_id: number): Promise<Pagamento[]> {
+    const query = `
+      SELECT pagamentos.*
+      FROM pagamentos
+      JOIN alunos ON pagamentos.id_aluno = alunos.id
+      WHERE alunos.adm_id = ?
+    `;
+
+    const result = await this.db.raw(query, [adm_id]);
 
     return result.rows.map((pagamentoData: any) =>
       Pagamento.fromDatabase(pagamentoData),
