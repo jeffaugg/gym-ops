@@ -20,14 +20,20 @@ export class AvaliacaoService {
     @inject(AlunoRepository)
     private alunoRepository: AlunoRepository,
   ) {}
-  async create(data: z.infer<typeof AvaliacoesSchema>): Promise<Avaliacao> {
+  async create(
+    data: z.infer<typeof AvaliacoesSchema>,
+    adm_id: number,
+  ): Promise<Avaliacao> {
     const userById = await this.userRepository.findById(data.instructor_id);
 
     if (!userById) {
       throw new AppError("Instrutor não existe", 404);
     }
 
-    const alunoById = await this.alunoRepository.findById(data.aluno_id);
+    const alunoById = await this.alunoRepository.findById(
+      data.aluno_id,
+      adm_id,
+    );
 
     if (!alunoById) {
       throw new AppError("Aluno não existe", 404);
@@ -47,12 +53,15 @@ export class AvaliacaoService {
     return data as Avaliacao;
   }
 
-  async list(): Promise<Avaliacao[]> {
-    return await this.avaliacoesRepository.list();
+  async list(adm_id: number): Promise<Avaliacao[]> {
+    return await this.avaliacoesRepository.list(adm_id);
   }
 
-  async findByAlunoId(aluno_id: string): Promise<Avaliacao[]> {
-    const alunoById = await this.alunoRepository.findById(Number(aluno_id));
+  async findByAlunoId(aluno_id: string, adm_id: number): Promise<Avaliacao[]> {
+    const alunoById = await this.alunoRepository.findById(
+      Number(aluno_id),
+      adm_id,
+    );
 
     if (!alunoById) {
       throw new AppError("Aluno não existe", 404);

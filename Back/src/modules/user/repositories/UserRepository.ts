@@ -11,7 +11,7 @@ export class UserRepository {
   public async create(data: z.infer<typeof UserSchema>): Promise<User> {
     const query = `INSERT INTO users (name, email, password, cpf, tel, role) 
     VALUES (?, ?, ?, ?, ?, ?) 
-    RETURNING id, name, email, password, cpf, tel, role;`;
+    RETURNING id, adm_id, name, email, password, cpf, tel, role;`;
     const result = await this.db.raw(query, [
       data.name,
       data.email,
