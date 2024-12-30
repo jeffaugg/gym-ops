@@ -39,11 +39,14 @@ export class AvaliacoesRepository {
     return result.rows[0] as Avaliacao;
   }
 
-  async list(): Promise<Avaliacao[]> {
+  async list(adm_id: number): Promise<Avaliacao[]> {
     const query = `
-    SELECT * FROM avaliacoes;
+    SELECT avaliacoes.* 
+    FROM avaliacoes
+    JOIN alunos ON avaliacoes.aluno_id = alunos.id
+    WHERE alunos.adm_id = ?;
     `;
-    const result = await this.db.raw(query);
+    const result = await this.db.raw(query, [adm_id]);
 
     return result.rows.map((avaliacaoData: any) =>
       Avaliacao.fromDatabase(avaliacaoData),
