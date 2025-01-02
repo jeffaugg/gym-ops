@@ -9,6 +9,7 @@ import exercicioDeTreinoRoutes from "./exercicioDeTreinoRoutes";
 import treinoDeAlunoRoutes from "./treinoDeAlunoRoutes";
 import mensagemRoutes from "./mensagemRoutes";
 import pagamentoRoutes from "./pagamentoRoutes";
+import uploadRoutes from "./uploadRoutes";
 
 const routes = Router();
 
@@ -22,5 +23,6 @@ routes.use("/exercises-workouts", exercicioDeTreinoRoutes);
 routes.use("/workouts-clients", treinoDeAlunoRoutes);
 routes.use("/message", mensagemRoutes);
 routes.use("/pay", pagamentoRoutes);
+routes.use("/upload", uploadRoutes);
 
 export default routes;
