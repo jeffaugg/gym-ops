@@ -64,6 +64,15 @@ export class UserRepository {
     ]);
     return User.fromDatabase(result.rows[0]);
   }
+
+  async getEmail(adm_id: number): Promise<string[]> {
+    const query = `
+    SELECT email 
+    FROM users
+    WHERE role = 'USER' AND adm_id = ?;`;
+    const result = await this.db.raw(query, [adm_id]);
+    return result.rows.map((row) => row.email);
+  }
 }
 
 export default UserRepository;

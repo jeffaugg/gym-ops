@@ -116,4 +116,11 @@ export class AlunoRepository {
 
     return result.rows.map((alunoData: any) => Aluno.fromDatabase(alunoData));
   }
+
+  async getEmail(adm_id: number): Promise<string[]> {
+    const query = "SELECT email FROM alunos WHERE adm_id = ?";
+    const result = await this.db.raw(query, [adm_id]);
+
+    return result.rows.map((alunoData: any) => alunoData.email);
+  }
 }

@@ -2,6 +2,9 @@ import Queue from "bull";
 import nodemailer from "nodemailer";
 import redisConnection from "../http/config/redis";
 import dotenv from "dotenv";
+import AppError from "../../errors/AppError";
+
+const emailPass = process.env.EMAIL_PASS?.replace(/-/g, " ");
 
 dotenv.config();
 const transporter = nodemailer.createTransport({
@@ -9,8 +12,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
+    user: process.env.EMAIL_USER as string,
+    pass: emailPass,
   },
 });
 
@@ -32,7 +35,7 @@ mailQueue.process(async (job) => {
       text: body,
     });
   } catch (error) {
-    console.error(`Erro ao enviar email: ${error}`);
+    throw new AppError("Error sending email", 500);
   }
 });
 
