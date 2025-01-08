@@ -5,11 +5,20 @@ import { UserService } from "../service/UserService";
 
 @injectable()
 export class UserController {
-  public async create(req: Request, res: Response): Promise<Response> {
+  public async createAdm(req: Request, res: Response): Promise<Response> {
     const data = UserSchema.parse(req.body);
 
     const userService = container.resolve(UserService);
-    const user = await userService.create(data);
+    const user = await userService.createAdm(data);
+    return res.status(201).json(user);
+  }
+
+  public async createUser(req: Request, res: Response): Promise<Response> {
+    const data = UserSchema.parse(req.body);
+    const adm_id = req.user.id;
+
+    const userService = container.resolve(UserService);
+    const user = await userService.createUser({ ...data, adm_id });
     return res.status(201).json(user);
   }
 
