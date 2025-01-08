@@ -12,7 +12,5 @@ export const UserSchema = z.object({
   tel: z.string().regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, {
     message: "Telefone deve estar no formato (XX) XXXXX-XXXX",
   }),
-  role: z.string().refine((val) => ["ADM", "USER"].includes(val), {
-    message: "Role inválida",
-  }),
+  role: z.enum(["USER", "ADM"], { message: "Role inválida" }),
 });
