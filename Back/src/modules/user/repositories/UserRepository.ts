@@ -8,11 +8,29 @@ import { UserSchema } from "../dto/UserSchema";
 export class UserRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  public async create(data: z.infer<typeof UserSchema>): Promise<User> {
+  public async createAdm(data: z.infer<typeof UserSchema>): Promise<User> {
     const query = `INSERT INTO users (name, email, password, cpf, tel, role) 
     VALUES (?, ?, ?, ?, ?, ?) 
     RETURNING id, adm_id, name, email, password, cpf, tel, role;`;
     const result = await this.db.raw(query, [
+      data.name,
+      data.email,
+      data.password,
+      data.cpf,
+      data.tel,
+      data.role,
+    ]);
+    return User.fromDatabase(result.rows[0]);
+  }
+
+  public async createUser(
+    data: z.infer<typeof UserSchema> & { adm_id: number },
+  ): Promise<User> {
+    const query = `INSERT INTO users (adm_id, name, email, password, cpf, tel, role) 
+    VALUES (?, ?, ?, ?, ?, ?, ?) 
+    RETURNING id, adm_id, name, email, password, cpf, tel, role;`;
+    const result = await this.db.raw(query, [
+      data.adm_id,
       data.name,
       data.email,
       data.password,
