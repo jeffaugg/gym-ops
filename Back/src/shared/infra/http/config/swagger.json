@@ -1,22 +1,98 @@
 {
-    "openapi": "3.0.0",
-    "info": {
-      "title": "API de Gerenciamento de Alunos",
-      "description": "API para gerenciar alunos, incluindo criação, listagem, atualização, exclusão e busca por CPF ou email.",
-      "version": "1.0.0",
-      "contact": {
-        "name": "Augusto",
-        "email": "jefersonaugusto@alu.ufc.br"
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Gerenciamento de Alunos",
+    "description": "API para gerenciar alunos, incluindo criação, listagem, atualização, exclusão e busca por CPF ou email.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Augusto",
+      "email": "jefersonaugusto@alu.ufc.br"
+    }
+  },
+  "paths": {
+    "/clients": {
+      "post": {
+        "tags": [
+          "Alunos"
+        ],
+        "summary": "Cria um novo aluno",
+        "description": "Endpoint para criar um novo aluno.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluno"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Aluno criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluno"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "409": {
+            "description": "Conflito: Email ou CPF já cadastrado"
+          },
+          "404": {
+            "description": "Plano não encontrado"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Alunos"
+        ],
+        "summary": "Lista todos os alunos",
+        "description": "Endpoint para listar todos os alunos.",
+        "responses": {
+          "200": {
+            "description": "Lista de alunos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Aluno"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
-    "paths": {
-      "/clients": {
-        "post": {
-          "tags": ["Alunos"],
-          "summary": "Cria um novo aluno",
-          "description": "Endpoint para criar um novo aluno.",
-          "requestBody": {
+    "/clients/{id}": {
+      "get": {
+        "tags": [
+          "Alunos"
+        ],
+        "summary": "Busca aluno por ID",
+        "description": "Endpoint para buscar um aluno pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
             "required": true,
+            "description": "ID do aluno",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do aluno",
             "content": {
               "application/json": {
                 "schema": {
@@ -25,98 +101,41 @@
               }
             }
           },
-          "responses": {
-            "201": {
-              "description": "Aluno criado com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Aluno"
-                  }
-                }
-              }
-            },
-            "400": {
-              "description": "Requisição inválida"
-            },
-            "409": {
-              "description": "Conflito: Email ou CPF já cadastrado"
-            },
-            "404": {
-              "description": "Plano não encontrado"
-            }
-          }
-        },
-        "get": {
-          "tags": ["Alunos"],
-          "summary": "Lista todos os alunos",
-          "description": "Endpoint para listar todos os alunos.",
-          "responses": {
-            "200": {
-              "description": "Lista de alunos",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/Aluno"
-                    }
-                  }
-                }
-              }
-            }
+          "404": {
+            "description": "Aluno não encontrado"
           }
         }
       },
-      "/clients/{id}": {
-        "get": {
-          "tags": ["Alunos"],
-          "summary": "Busca aluno por ID",
-          "description": "Endpoint para buscar um aluno pelo ID.",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID do aluno",
-              "schema": {
-                "type": "integer"
-              }
+      "put": {
+        "tags": [
+          "Alunos"
+        ],
+        "summary": "Atualiza um aluno",
+        "description": "Endpoint para atualizar os dados de um aluno.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do aluno",
+            "schema": {
+              "type": "integer"
             }
-          ],
-          "responses": {
-            "200": {
-              "description": "Dados do aluno",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Aluno"
-                  }
-                }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Aluno"
               }
-            },
-            "404": {
-              "description": "Aluno não encontrado"
             }
           }
         },
-        "put": {
-          "tags": ["Alunos"],
-          "summary": "Atualiza um aluno",
-          "description": "Endpoint para atualizar os dados de um aluno.",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID do aluno",
-              "schema": {
-                "type": "integer"
-              }
-            }
-          ],
-          "requestBody": {
-            "required": true,
+        "responses": {
+          "200": {
+            "description": "Aluno atualizado com sucesso",
             "content": {
               "application/json": {
                 "schema": {
@@ -125,124 +144,121 @@
               }
             }
           },
-          "responses": {
-            "200": {
-              "description": "Aluno atualizado com sucesso",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Aluno"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Aluno não encontrado ou plano não encontrado"
-            },
-            "400": {
-              "description": "Requisição inválida"
-            },
-            "409": {
-              "description": "Conflito: Email ou CPF já cadastrado"
-            }
-          }
-        },
-        "delete": {
-          "tags": ["Alunos"],
-          "summary": "Exclui um aluno",
-          "description": "Endpoint para excluir um aluno pelo ID.",
-          "parameters": [
-            {
-              "name": "id",
-              "in": "path",
-              "required": true,
-              "description": "ID do aluno",
-              "schema": {
-                "type": "integer"
-              }
-            }
-          ],
-          "responses": {
-            "204": {
-              "description": "Aluno excluído com sucesso"
-            },
-            "404": {
-              "description": "Aluno não encontrado"
-            }
+          "404": {
+            "description": "Aluno não encontrado ou plano não encontrado"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "409": {
+            "description": "Conflito: Email ou CPF já cadastrado"
           }
         }
       },
-      "/clients/cpf/{cpf}": {
-        "get": {
-          "tags": ["Alunos"],
-          "summary": "Busca aluno por CPF",
-          "description": "Endpoint para buscar um aluno pelo CPF.",
-          "parameters": [
-            {
-              "name": "cpf",
-              "in": "path",
-              "required": true,
-              "description": "CPF do aluno no formato XXX.XXX.XXX-XX",
-              "schema": {
-                "type": "string",
-                "pattern": "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Dados do aluno",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Aluno"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Aluno não encontrado"
+      "delete": {
+        "tags": [
+          "Alunos"
+        ],
+        "summary": "Exclui um aluno",
+        "description": "Endpoint para excluir um aluno pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do aluno",
+            "schema": {
+              "type": "integer"
             }
           }
-        }
-      },
-      "/clients/email/{email}": {
-        "get": {
-          "tags": ["Alunos"],
-          "summary": "Busca aluno por Email",
-          "description": "Endpoint para buscar um aluno pelo Email.",
-          "parameters": [
-            {
-              "name": "email",
-              "in": "path",
-              "required": true,
-              "description": "Email do aluno",
-              "schema": {
-                "type": "string",
-                "format": "email"
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Dados do aluno",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/Aluno"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "Aluno não encontrado"
-            }
+        ],
+        "responses": {
+          "204": {
+            "description": "Aluno excluído com sucesso"
+          },
+          "404": {
+            "description": "Aluno não encontrado"
           }
         }
-      },
-      "/reviews": {
+      }
+    },
+    "/clients/cpf/{cpf}": {
+      "get": {
+        "tags": [
+          "Alunos"
+        ],
+        "summary": "Busca aluno por CPF",
+        "description": "Endpoint para buscar um aluno pelo CPF.",
+        "parameters": [
+          {
+            "name": "cpf",
+            "in": "path",
+            "required": true,
+            "description": "CPF do aluno no formato XXX.XXX.XXX-XX",
+            "schema": {
+              "type": "string",
+              "pattern": "^\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do aluno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aluno não encontrado"
+          }
+        }
+      }
+    },
+    "/clients/email/{email}": {
+      "get": {
+        "tags": [
+          "Alunos"
+        ],
+        "summary": "Busca aluno por Email",
+        "description": "Endpoint para buscar um aluno pelo Email.",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "description": "Email do aluno",
+            "schema": {
+              "type": "string",
+              "format": "email"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do aluno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Aluno"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aluno não encontrado"
+          }
+        }
+      }
+    },
+    "/reviews": {
       "post": {
-        "tags": ["Avaliações"],
+        "tags": [
+          "Avaliações"
+        ],
         "summary": "Cria uma nova avaliação",
         "description": "Endpoint para criar uma nova avaliação.",
         "requestBody": {
@@ -275,7 +291,9 @@
         }
       },
       "get": {
-        "tags": ["Avaliações"],
+        "tags": [
+          "Avaliações"
+        ],
         "summary": "Lista todas as avaliações",
         "description": "Endpoint para listar todas as avaliações.",
         "responses": {
@@ -297,7 +315,9 @@
     },
     "/reviews/{id}": {
       "put": {
-        "tags": ["Avaliações"],
+        "tags": [
+          "Avaliações"
+        ],
         "summary": "Atualiza uma avaliação",
         "description": "Endpoint para atualizar uma avaliação.",
         "parameters": [
@@ -341,7 +361,9 @@
         }
       },
       "delete": {
-        "tags": ["Avaliações"],
+        "tags": [
+          "Avaliações"
+        ],
         "summary": "Exclui uma avaliação",
         "description": "Endpoint para excluir uma avaliação pelo ID.",
         "parameters": [
@@ -367,7 +389,9 @@
     },
     "/reviews/{aluno_id}": {
       "get": {
-        "tags": ["Avaliações"],
+        "tags": [
+          "Avaliações"
+        ],
         "summary": "Busca avaliações por ID do aluno",
         "description": "Endpoint para buscar avaliações pelo ID do aluno.",
         "parameters": [
@@ -400,10 +424,12 @@
           }
         }
       }
-     },
-     "/exercises": {
+    },
+    "/exercises": {
       "post": {
-        "tags": ["Exercícios"],
+        "tags": [
+          "Exercícios"
+        ],
         "summary": "Cria um novo exercício",
         "description": "Endpoint para criar um novo exercício.",
         "requestBody": {
@@ -436,7 +462,9 @@
         }
       },
       "get": {
-        "tags": ["Exercícios"],
+        "tags": [
+          "Exercícios"
+        ],
         "summary": "Lista todos os exercícios",
         "description": "Endpoint para listar todos os exercícios.",
         "responses": {
@@ -458,7 +486,9 @@
     },
     "/exercises/{id}": {
       "get": {
-        "tags": ["Exercícios"],
+        "tags": [
+          "Exercícios"
+        ],
         "summary": "Busca exercício por ID",
         "description": "Endpoint para buscar um exercício pelo ID.",
         "parameters": [
@@ -489,7 +519,9 @@
         }
       },
       "put": {
-        "tags": ["Exercícios"],
+        "tags": [
+          "Exercícios"
+        ],
         "summary": "Atualiza um exercício",
         "description": "Endpoint para atualizar os dados de um exercício.",
         "parameters": [
@@ -533,7 +565,9 @@
         }
       },
       "delete": {
-        "tags": ["Exercícios"],
+        "tags": [
+          "Exercícios"
+        ],
         "summary": "Exclui um exercício",
         "description": "Endpoint para excluir um exercício pelo ID.",
         "parameters": [
@@ -559,7 +593,9 @@
     },
     "/exercises/name/{name}": {
       "get": {
-        "tags": ["Exercícios"],
+        "tags": [
+          "Exercícios"
+        ],
         "summary": "Busca exercício por nome",
         "description": "Endpoint para buscar um exercício pelo nome.",
         "parameters": [
@@ -589,10 +625,12 @@
           }
         }
       }
-     },
-     "/exercises-workouts": {
+    },
+    "/exercises-workouts": {
       "post": {
-        "tags": ["Exercícios de Treino"],
+        "tags": [
+          "Exercícios de Treino"
+        ],
         "summary": "Cria um novo relacionamento entre treino e exercício",
         "description": "Endpoint para criar um novo relacionamento entre treino e exercício.",
         "requestBody": {
@@ -628,7 +666,9 @@
         }
       },
       "get": {
-        "tags": ["Exercícios de Treino"],
+        "tags": [
+          "Exercícios de Treino"
+        ],
         "summary": "Lista todos os relacionamentos entre treinos e exercícios",
         "description": "Endpoint para listar todos os relacionamentos entre treinos e exercícios.",
         "responses": {
@@ -650,7 +690,9 @@
     },
     "/exercises-workouts/{id}": {
       "get": {
-        "tags": ["Exercícios de Treino"],
+        "tags": [
+          "Exercícios de Treino"
+        ],
         "summary": "Busca um relacionamento entre treino e exercício por ID",
         "description": "Endpoint para buscar um relacionamento entre treino e exercício pelo ID.",
         "parameters": [
@@ -681,7 +723,9 @@
         }
       },
       "put": {
-        "tags": ["Exercícios de Treino"],
+        "tags": [
+          "Exercícios de Treino"
+        ],
         "summary": "Atualiza um relacionamento entre treino e exercício",
         "description": "Endpoint para atualizar os dados de um relacionamento.",
         "parameters": [
@@ -725,7 +769,9 @@
         }
       },
       "delete": {
-        "tags": ["Exercícios de Treino"],
+        "tags": [
+          "Exercícios de Treino"
+        ],
         "summary": "Exclui um relacionamento entre treino e exercício",
         "description": "Endpoint para excluir um relacionamento entre treino e exercício pelo ID.",
         "parameters": [
@@ -751,7 +797,9 @@
     },
     "/exercises-workouts/workouts/{treinoId}": {
       "get": {
-        "tags": ["Exercícios de Treino"],
+        "tags": [
+          "Exercícios de Treino"
+        ],
         "summary": "Busca todos os exercícios de um treino pelo ID do treino",
         "description": "Endpoint para buscar todos os exercícios associados a um treino específico.",
         "parameters": [
@@ -784,10 +832,12 @@
           }
         }
       }
-     },
-     "/plan": {
+    },
+    "/plan": {
       "post": {
-        "tags": ["Planos"],
+        "tags": [
+          "Planos"
+        ],
         "summary": "Cria um novo plano",
         "description": "Endpoint para criar um novo plano.",
         "requestBody": {
@@ -820,7 +870,9 @@
         }
       },
       "get": {
-        "tags": ["Planos"],
+        "tags": [
+          "Planos"
+        ],
         "summary": "Lista todos os planos",
         "description": "Endpoint para listar todos os planos cadastrados.",
         "responses": {
@@ -842,7 +894,9 @@
     },
     "/plan/{id}": {
       "put": {
-        "tags": ["Planos"],
+        "tags": [
+          "Planos"
+        ],
         "summary": "Atualiza um plano",
         "description": "Endpoint para atualizar os dados de um plano específico.",
         "parameters": [
@@ -889,7 +943,9 @@
         }
       },
       "delete": {
-        "tags": ["Planos"],
+        "tags": [
+          "Planos"
+        ],
         "summary": "Exclui um plano",
         "description": "Endpoint para excluir um plano pelo ID.",
         "parameters": [
@@ -916,7 +972,9 @@
         }
       },
       "get": {
-        "tags": ["Planos"],
+        "tags": [
+          "Planos"
+        ],
         "summary": "Busca plano por ID",
         "description": "Endpoint para buscar um plano pelo ID.",
         "parameters": [
@@ -946,10 +1004,12 @@
           }
         }
       }
-     },
-     "/workouts": {
+    },
+    "/workouts": {
       "post": {
-        "tags": ["Treinos"],
+        "tags": [
+          "Treinos"
+        ],
         "summary": "Cria um novo treino",
         "description": "Endpoint para criar um novo treino.",
         "requestBody": {
@@ -979,7 +1039,9 @@
         }
       },
       "get": {
-        "tags": ["Treinos"],
+        "tags": [
+          "Treinos"
+        ],
         "summary": "Lista todos os treinos",
         "description": "Endpoint para listar todos os treinos cadastrados.",
         "responses": {
@@ -1001,7 +1063,9 @@
     },
     "/workouts/{id}": {
       "get": {
-        "tags": ["Treinos"],
+        "tags": [
+          "Treinos"
+        ],
         "summary": "Busca treino por ID",
         "description": "Endpoint para buscar um treino pelo ID.",
         "parameters": [
@@ -1032,7 +1096,9 @@
         }
       },
       "put": {
-        "tags": ["Treinos"],
+        "tags": [
+          "Treinos"
+        ],
         "summary": "Atualiza um treino",
         "description": "Endpoint para atualizar os dados de um treino.",
         "parameters": [
@@ -1076,7 +1142,9 @@
         }
       },
       "delete": {
-        "tags": ["Treinos"],
+        "tags": [
+          "Treinos"
+        ],
         "summary": "Exclui um treino",
         "description": "Endpoint para excluir um treino pelo ID.",
         "parameters": [
@@ -1102,7 +1170,9 @@
     },
     "/workouts/name/{name}": {
       "get": {
-        "tags": ["Treinos"],
+        "tags": [
+          "Treinos"
+        ],
         "summary": "Busca treino por nome",
         "description": "Endpoint para buscar um treino pelo nome.",
         "parameters": [
@@ -1132,10 +1202,12 @@
           }
         }
       }
-     },
-     "/workouts-clients": {
+    },
+    "/workouts-clients": {
       "post": {
-        "tags": ["Treinos de Aluno"],
+        "tags": [
+          "Treinos de Aluno"
+        ],
         "summary": "Associa um treino a um aluno",
         "description": "Endpoint para associar um treino a um aluno.",
         "requestBody": {
@@ -1171,7 +1243,9 @@
         }
       },
       "get": {
-        "tags": ["Treinos de Aluno"],
+        "tags": [
+          "Treinos de Aluno"
+        ],
         "summary": "Lista todas as associações entre treinos e alunos",
         "description": "Endpoint para listar todas as associações existentes entre treinos e alunos.",
         "responses": {
@@ -1193,7 +1267,9 @@
     },
     "/workouts-clients/{id}": {
       "get": {
-        "tags": ["Treinos de Aluno"],
+        "tags": [
+          "Treinos de Aluno"
+        ],
         "summary": "Busca associação por ID",
         "description": "Endpoint para buscar uma associação entre treino e aluno pelo ID.",
         "parameters": [
@@ -1224,7 +1300,9 @@
         }
       },
       "delete": {
-        "tags": ["Treinos de Aluno"],
+        "tags": [
+          "Treinos de Aluno"
+        ],
         "summary": "Exclui uma associação",
         "description": "Endpoint para excluir uma associação entre treino e aluno pelo ID.",
         "parameters": [
@@ -1250,7 +1328,9 @@
     },
     "/workouts-clients/clients/{aluno_id}": {
       "get": {
-        "tags": ["Treinos de Aluno"],
+        "tags": [
+          "Treinos de Aluno"
+        ],
         "summary": "Busca associações por ID do aluno",
         "description": "Endpoint para buscar todas as associações de treinos relacionadas a um aluno específico.",
         "parameters": [
@@ -1283,10 +1363,12 @@
           }
         }
       }
-     },
-     "user/signup": {
+    },
+    "user/signupadm": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Cria um novo usuário",
         "description": "Endpoint para criar um novo usuário.",
         "requestBody": {
@@ -1319,9 +1401,48 @@
         }
       }
     },
+    "/user/signupuser": {
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Cria um novo usuário instrutor",
+        "description": "Endpoint para criar um novo usuário instrutor.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "instrutor criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "409": {
+            "description": "Conflito: Email ou CPF já cadastrado"
+          }
+        }
+      }
+    },
     "/user/login": {
       "post": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Realiza login do usuário",
         "description": "Endpoint para autenticar um usuário com email e senha.",
         "requestBody": {
@@ -1342,7 +1463,10 @@
                     "description": "Senha do usuário"
                   }
                 },
-                "required": ["email", "password"]
+                "required": [
+                  "email",
+                  "password"
+                ]
               }
             }
           }
@@ -1375,10 +1499,12 @@
           }
         }
       }
-     },
-     "/user": {
+    },
+    "/user": {
       "put": {
-        "tags": ["Users"],
+        "tags": [
+          "Users"
+        ],
         "summary": "Atualiza um usuário",
         "description": "Endpoint para atualizar os dados de um usuário.",
         "requestBody": {
@@ -1413,10 +1539,12 @@
           }
         }
       }
-     },
-     "/pay": {
+    },
+    "/pay": {
       "post": {
-        "tags": ["Pagamentos"],
+        "tags": [
+          "Pagamentos"
+        ],
         "summary": "Cria um novo pagamento",
         "description": "Endpoint para registrar um novo pagamento associado a um aluno e a um plano.",
         "requestBody": {
@@ -1449,7 +1577,9 @@
         }
       },
       "get": {
-        "tags": ["Pagamentos"],
+        "tags": [
+          "Pagamentos"
+        ],
         "summary": "Lista todos os pagamentos",
         "description": "Endpoint para listar todos os pagamentos registrados no sistema.",
         "responses": {
@@ -1471,7 +1601,9 @@
     },
     "/pay/{id}": {
       "get": {
-        "tags": ["Pagamentos"],
+        "tags": [
+          "Pagamentos"
+        ],
         "summary": "Busca um pagamento por ID",
         "description": "Endpoint para buscar um pagamento específico pelo seu ID.",
         "parameters": [
@@ -1502,7 +1634,9 @@
         }
       },
       "delete": {
-        "tags": ["Pagamentos"],
+        "tags": [
+          "Pagamentos"
+        ],
         "summary": "Exclui um pagamento",
         "description": "Endpoint para deletar um pagamento pelo seu ID.",
         "parameters": [
@@ -1528,7 +1662,9 @@
     },
     "/pay/clients/{id}": {
       "get": {
-        "tags": ["Pagamentos"],
+        "tags": [
+          "Pagamentos"
+        ],
         "summary": "Busca pagamentos por ID do aluno",
         "description": "Endpoint para buscar todos os pagamentos associados a um aluno específico.",
         "parameters": [
@@ -1562,24 +1698,15 @@
         }
       }
     },
-     "/message": {
-    "post": {
-      "tags": ["Mensagens"],
-      "summary": "Envia uma mensagem",
-      "description": "Endpoint para enviar uma nova mensagem.",
-      "requestBody": {
-        "required": true,
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Mensagem"
-            }
-          }
-        }
-      },
-      "responses": {
-        "201": {
-          "description": "Mensagem enviada com sucesso",
+    "/message": {
+      "post": {
+        "tags": [
+          "Mensagens"
+        ],
+        "summary": "Envia uma mensagem",
+        "description": "Endpoint para enviar uma nova mensagem.",
+        "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -1588,41 +1715,56 @@
             }
           }
         },
-        "401": {
-          "description": "Usuário não autorizado"
-        },
-        "400": {
-          "description": "Requisição inválida"
-        }
-      }
-    },
-    "get": {
-      "tags": ["Mensagens"],
-      "summary": "Lista todas as mensagens",
-      "description": "Endpoint para listar todas as mensagens cadastradas.",
-      "responses": {
-        "200": {
-          "description": "Lista de mensagens",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
+        "responses": {
+          "201": {
+            "description": "Mensagem enviada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
                   "$ref": "#/components/schemas/Mensagem"
                 }
               }
             }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          },
+          "400": {
+            "description": "Requisição inválida"
           }
-        },
-        "401": {
-          "description": "Usuário não autorizado"
+        }
+      },
+      "get": {
+        "tags": [
+          "Mensagens"
+        ],
+        "summary": "Lista todas as mensagens",
+        "description": "Endpoint para listar todas as mensagens cadastradas.",
+        "responses": {
+          "200": {
+            "description": "Lista de mensagens",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Mensagem"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          }
         }
       }
-    }
-  },
-  "/message/{id}": {
+    },
+    "/message/{id}": {
       "get": {
-        "tags": ["Mensagens"],
+        "tags": [
+          "Mensagens"
+        ],
         "summary": "Busca uma mensagem pelo ID",
         "description": "Endpoint para buscar uma mensagem específica pelo ID.",
         "parameters": [
@@ -1655,59 +1797,109 @@
           }
         }
       }
-     }
     },
-    "components": {
-      "schemas": {
-        "Aluno": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "Nome do aluno"
-            },
-            "date_of_birth": {
-              "type": "string",
-              "format": "date",
-              "description": "Data de nascimento no formato yyyy-mm-dd"
-            },
-            "email": {
-              "type": "string",
-              "format": "email",
-              "description": "Email do aluno"
-            },
-            "telephone": {
-              "type": "string",
-              "description": "Telefone no formato (XX) XXXXX-XXXX"
-            },
-            "cpf": {
-              "type": "string",
-              "description": "CPF no formato XXX.XXX.XXX-XX"
-            },
-            "plan_id": {
-              "type": "integer",
-              "description": "ID do plano"
-            },
-            "health_notes": {
-              "type": "string",
-              "description": "Anotações sobre a saúde do aluno",
-              "nullable": true
-            },
-            "status": {
-              "type": "boolean",
-              "default": true,
-              "description": "Status ativo ou inativo do aluno"
-            },
-            "gender": {
-              "type": "string",
-              "enum": ["M", "F", "O"],
-              "description": "Gênero do aluno: M (Masculino), F (Feminino) ou O (Outro)",
-              "default": "O"
+    "/upload/reviews": {
+      "post": {
+        "tags": [
+          "Uploads"
+        ],
+        "summary": "Upload de arquivo",
+        "operationId": "uploadFile",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Arquivo a ser enviado"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
             }
-          },
-          "required": ["name", "date_of_birth", "email", "telephone", "cpf", "plan_id"]
+          }
         },
-        "Avaliacao": {
+        "responses": {
+          "200": {
+            "description": "Upload realizado com sucesso"
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Aluno": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do aluno"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "format": "date",
+            "description": "Data de nascimento no formato yyyy-mm-dd"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email do aluno"
+          },
+          "telephone": {
+            "type": "string",
+            "description": "Telefone no formato (XX) XXXXX-XXXX"
+          },
+          "cpf": {
+            "type": "string",
+            "description": "CPF no formato XXX.XXX.XXX-XX"
+          },
+          "plan_id": {
+            "type": "integer",
+            "description": "ID do plano"
+          },
+          "health_notes": {
+            "type": "string",
+            "description": "Anotações sobre a saúde do aluno",
+            "nullable": true
+          },
+          "status": {
+            "type": "boolean",
+            "default": true,
+            "description": "Status ativo ou inativo do aluno"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "M",
+              "F",
+              "O"
+            ],
+            "description": "Gênero do aluno: M (Masculino), F (Feminino) ou O (Outro)",
+            "default": "O"
+          }
+        },
+        "required": [
+          "name",
+          "date_of_birth",
+          "email",
+          "telephone",
+          "cpf",
+          "plan_id"
+        ]
+      },
+      "Avaliacao": {
         "type": "object",
         "properties": {
           "aluno_id": {
@@ -1768,9 +1960,14 @@
             "description": "URLs das fotos da avaliação"
           }
         },
-        "required": ["aluno_id", "instructor_id", "height", "weight"]
-        },
-        "Exercicio": {
+        "required": [
+          "aluno_id",
+          "instructor_id",
+          "height",
+          "weight"
+        ]
+      },
+      "Exercicio": {
         "type": "object",
         "properties": {
           "name": {
@@ -1782,9 +1979,12 @@
             "description": "Músculos envolvidos no exercício"
           }
         },
-        "required": ["name", "muscles"]
-        },
-        "ExercicioDeTreino": {
+        "required": [
+          "name",
+          "muscles"
+        ]
+      },
+      "ExercicioDeTreino": {
         "type": "object",
         "properties": {
           "treino_id": {
@@ -1815,8 +2015,8 @@
           "repeticoes",
           "descanso_segundos"
         ]
-       },
-       "Plano": {
+      },
+      "Plano": {
         "type": "object",
         "properties": {
           "name": {
@@ -1840,9 +2040,13 @@
             "example": 50
           }
         },
-        "required": ["name", "price", "duration"]
-        },
-        "Treino": {
+        "required": [
+          "name",
+          "price",
+          "duration"
+        ]
+      },
+      "Treino": {
         "type": "object",
         "properties": {
           "name": {
@@ -1855,9 +2059,11 @@
             "nullable": true
           }
         },
-        "required": ["name"]
-        },
-        "TreinoDeAluno": {
+        "required": [
+          "name"
+        ]
+      },
+      "TreinoDeAluno": {
         "type": "object",
         "properties": {
           "aluno_id": {
@@ -1869,9 +2075,12 @@
             "description": "ID do treino"
           }
         },
-        "required": ["aluno_id", "treino_id"]
-        },
-        "User": {
+        "required": [
+          "aluno_id",
+          "treino_id"
+        ]
+      },
+      "User": {
         "type": "object",
         "properties": {
           "name": {
@@ -1901,9 +2110,16 @@
             "description": "Role do usuário (ADM ou USER)"
           }
         },
-        "required": ["name", "email", "password", "cpf", "tel", "role"]
-        },
-        "Mensagem": {
+        "required": [
+          "name",
+          "email",
+          "password",
+          "cpf",
+          "tel",
+          "role"
+        ]
+      },
+      "Mensagem": {
         "type": "object",
         "properties": {
           "title": {
@@ -1918,39 +2134,55 @@
           },
           "recipient_type": {
             "type": "string",
-            "enum": ["STUDENTS", "INSTRUCTORS", "ALL"],
+            "enum": [
+              "STUDENTS",
+              "INSTRUCTORS",
+              "ALL"
+            ],
             "description": "Tipo de destinatário inválido"
           }
         },
-        "required": ["title", "body", "recipient_type"]
-       },
-       "Pagamento": {
-          "type": "object",
-          "properties": {
-            "id_aluno": {
-              "type": "integer",
-              "description": "ID do aluno associado ao pagamento",
-              "example": 1
-            },
-            "id_plano": {
-              "type": "integer",
-              "description": "ID do plano associado ao pagamento",
-              "example": 2
-            },
-            "status": {
-              "type": "boolean",
-              "description": "Status do pagamento (ativo ou inativo)",
-              "default": true
-            },
-            "payment": {
-              "type": "string",
-              "enum": ["CARD", "BANK_SLIP", "MONEY", "PIX"],
-              "description": "Método de pagamento utilizado"
-            }
+        "required": [
+          "title",
+          "body",
+          "recipient_type"
+        ]
+      },
+      "Pagamento": {
+        "type": "object",
+        "properties": {
+          "id_aluno": {
+            "type": "integer",
+            "description": "ID do aluno associado ao pagamento",
+            "example": 1
           },
-          "required": ["id_aluno", "id_plano", "payment"]
-        }
+          "id_plano": {
+            "type": "integer",
+            "description": "ID do plano associado ao pagamento",
+            "example": 2
+          },
+          "status": {
+            "type": "boolean",
+            "description": "Status do pagamento (ativo ou inativo)",
+            "default": true
+          },
+          "payment": {
+            "type": "string",
+            "enum": [
+              "CARD",
+              "BANK_SLIP",
+              "MONEY",
+              "PIX"
+            ],
+            "description": "Método de pagamento utilizado"
+          }
+        },
+        "required": [
+          "id_aluno",
+          "id_plano",
+          "payment"
+        ]
       }
     }
   }
-  
+}
