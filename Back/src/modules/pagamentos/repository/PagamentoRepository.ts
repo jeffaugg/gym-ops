@@ -42,6 +42,21 @@ export class PagamentoRepository {
     );
   }
 
+  async listBetween60Days(): Promise<Pagamento[]> {
+    const query = `
+      SELECT pagamentos.*
+      FROM pagamentos
+      WHERE pagamentos.payment_date BETWEEN CURRENT_DATE - INTERVAL '30 days' AND CURRENT_DATE + INTERVAL '30 days'
+        AND pagamentos.status = true
+    `;
+
+    const result = await this.db.raw(query);
+
+    return result.rows.map((pagamentoData: any) =>
+      Pagamento.fromDatabase(pagamentoData),
+    );
+  }
+
   async findById(id: number): Promise<Pagamento | null> {
     const query = "SELECT * FROM pagamentos WHERE id = ?";
     const result = await this.db.raw(query, [id]);
