@@ -7,7 +7,7 @@ import { ExercicioDeTreinoSchema } from "../dto/ExercicioDeTreinoSchema";
 export class ExercicioDeTreinoController {
   async create(req: Request, res: Response): Promise<Response> {
     const data = ExercicioDeTreinoSchema.parse(req.body);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const exercicioDeTreinoService = container.resolve(
       ExercicioDeTreinoService,
     );
@@ -21,7 +21,7 @@ export class ExercicioDeTreinoController {
   }
 
   async list(req: Request, res: Response): Promise<Response> {
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const exercicioDeTreinoService = container.resolve(
       ExercicioDeTreinoService,
     );

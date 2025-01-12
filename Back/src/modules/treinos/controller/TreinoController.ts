@@ -8,7 +8,7 @@ import { z } from "zod";
 export class TreinoController {
   async create(req: Request, res: Response): Promise<Response> {
     const data = TreinoSchema.parse(req.body);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const treinoService = container.resolve(TreinoService);
 
     const treino = await treinoService.create(data, adm_id);
@@ -17,7 +17,7 @@ export class TreinoController {
   }
 
   async list(req: Request, res: Response): Promise<Response> {
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const treinoService = container.resolve(TreinoService);
 
     const treino = await treinoService.list(adm_id);
@@ -27,7 +27,7 @@ export class TreinoController {
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const data = TreinoSchema.parse(req.body);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const treinoService = container.resolve(TreinoService);
 
@@ -38,7 +38,7 @@ export class TreinoController {
 
   async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const treinoService = container.resolve(TreinoService);
 
@@ -48,7 +48,7 @@ export class TreinoController {
 
   async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const treinoService = container.resolve(TreinoService);
 
@@ -59,7 +59,7 @@ export class TreinoController {
   async findByName(req: Request, res: Response): Promise<Response> {
     const nameSchema = z.string();
     const { name } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     nameSchema.parse(name);
 
     const treinoService = container.resolve(TreinoService);

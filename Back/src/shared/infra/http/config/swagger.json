@@ -1836,10 +1836,122 @@
           }
         }
       }
+    },
+    "/presence/{id}": {
+      "get": {
+        "tags": [
+          "Presença"
+        ],
+        "summary": "Busca presença por ID",
+        "description": "Endpoint para buscar a presença de um aluno em uma aula específica.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da presença",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados da presença",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Presenca"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Presença"
+        ],
+        "summary": "Exclui a presença de um aluno",
+        "description": "Endpoint para excluir a presença de um aluno em uma aula.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da presença",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Presença excluída com sucesso"
+          },
+          "404": {
+            "description": "Presença não encontrada"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Presença"
+        ],
+        "summary": "Registra a presença de um aluno",
+        "description": "Endpoint para registrar a presença de um aluno em uma aula.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID da presença",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Presença registrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Presenca"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Aluno ou Pagamento não encontrado ou Presença já registrada"
+          },
+          "400": {
+            "description": "Requisição inválida"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "Presenca": {
+        "type": "object",
+        "properties": {
+          "aluno_id": {
+            "type": "integer",
+            "description": "ID do aluno"
+          },
+          "id": {
+            "type": "integer",
+            "description": "ID da presença"
+          },
+          "date": {
+            "type": "string",
+            "format": "date",
+            "description": "Data no formato YYYY-MM-DD"
+          }
+        }
+      },
       "Aluno": {
         "type": "object",
         "properties": {
