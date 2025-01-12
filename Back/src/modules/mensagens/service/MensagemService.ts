@@ -42,12 +42,18 @@ export class MensagemService {
     return await this.mensagemRepository.create(data, userId);
   }
 
-  async list() {
-    return await this.mensagemRepository.list();
+  async list(adm_id: number) {
+    const user = await this.userRepository.findById(adm_id);
+
+    if (user.role !== "ADM") {
+      throw new AppError("Usuário não autorizado", 401);
+    }
+
+    return await this.mensagemRepository.list(adm_id);
   }
 
-  async findById(id: number) {
-    const mensagem = await this.mensagemRepository.findById(id);
+  async findById(id: number, adm_id: number) {
+    const mensagem = await this.mensagemRepository.findById(id, adm_id);
 
     if (!mensagem) {
       throw new AppError("Mensagem não encontrada", 404);
