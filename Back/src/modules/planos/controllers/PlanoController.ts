@@ -7,7 +7,7 @@ import { PlanoService } from "../service/PlanoService";
 export class PlanoController {
   public async create(req: Request, res: Response): Promise<Response> {
     const data = PlanoSchema.parse(req.body);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const planoService = container.resolve(PlanoService);
 
@@ -16,7 +16,7 @@ export class PlanoController {
   }
 
   public async list(req: Request, res: Response): Promise<Response> {
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const planoService = container.resolve(PlanoService);
 
     const planos = await planoService.list(adm_id);
@@ -26,7 +26,7 @@ export class PlanoController {
   public async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const data = PlanoSchema.parse(req.body);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const planoService = container.resolve(PlanoService);
 
@@ -36,7 +36,7 @@ export class PlanoController {
 
   public async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const planoService = container.resolve(PlanoService);
 
     await planoService.delete(Number(id), adm_id);
@@ -45,7 +45,7 @@ export class PlanoController {
 
   public async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const planoService = container.resolve(PlanoService);
 

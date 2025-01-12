@@ -7,7 +7,7 @@ import { Request, Response } from "express";
 export class AvaliacaoController {
   public async create(req: Request, res: Response): Promise<Response> {
     const avaliacaoService = container.resolve(AvaliacaoService);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const data = AvaliacoesSchema.parse(req.body);
 
     const avaliacao = await avaliacaoService.create(data, adm_id);
@@ -17,14 +17,14 @@ export class AvaliacaoController {
 
   public async list(req: Request, res: Response): Promise<Response> {
     const avaliacaoService = container.resolve(AvaliacaoService);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const avaliacoes = await avaliacaoService.list(adm_id);
     return res.status(200).json(avaliacoes);
   }
 
   public async findByAlunoId(req: Request, res: Response): Promise<Response> {
     const avaliacaoService = container.resolve(AvaliacaoService);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const { aluno_id } = req.params;
 
@@ -38,9 +38,11 @@ export class AvaliacaoController {
 
     const { id } = req.params;
 
+    const adm_id = req.user.adm_id;
+
     const data = AvaliacoesSchema.parse(req.body);
 
-    const avaliacao = await avaliacaoService.update(id, data);
+    const avaliacao = await avaliacaoService.update(id, data, adm_id);
 
     return res.status(200).json(avaliacao);
   }
@@ -50,7 +52,9 @@ export class AvaliacaoController {
 
     const { id } = req.params;
 
-    await avaliacaoService.delete(id);
+    const adm_id = req.user.adm_id;
+
+    await avaliacaoService.delete(id, adm_id);
 
     return res.status(204).send();
   }

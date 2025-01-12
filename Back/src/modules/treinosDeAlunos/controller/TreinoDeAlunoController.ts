@@ -7,7 +7,7 @@ import { TreinoDeAlunoSchema } from "../dto/TreinoDeAlunoSchema";
 export class TreinoDeAlunoController {
   async create(req: Request, res: Response): Promise<Response> {
     const data = TreinoDeAlunoSchema.parse(req.body);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const treinoDeAlunoService = container.resolve(TreinoDeAlunoService);
 
@@ -18,7 +18,7 @@ export class TreinoDeAlunoController {
 
   async list(req: Request, res: Response): Promise<Response> {
     const treinoDeAlunoService = container.resolve(TreinoDeAlunoService);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const treinos_de_aluno = await treinoDeAlunoService.list(adm_id);
     return res.status(200).json(treinos_de_aluno);
