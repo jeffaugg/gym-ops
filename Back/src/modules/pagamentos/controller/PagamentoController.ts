@@ -6,18 +6,18 @@ import { PagamentoSchema } from "../dto/PagamentoSchema";
 export class PagamentoController {
   async create(req: Request, res: Response) {
     const data = PagamentoSchema.parse(req.body);
-    const aluno_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const pagamentoService = container.resolve(PagamentoService);
 
-    const pagamento = await pagamentoService.create(data, aluno_id);
+    const pagamento = await pagamentoService.create(data, adm_id);
 
     return res.status(201).json(pagamento);
   }
 
   async list(req: Request, res: Response) {
     const pagamentoService = container.resolve(PagamentoService);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const pagamentos = await pagamentoService.list(adm_id);
 

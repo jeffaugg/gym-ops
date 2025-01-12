@@ -67,15 +67,19 @@ export class AvaliacaoService {
       throw new AppError("Aluno não existe", 404);
     }
 
-    const avaliacoes = await this.avaliacoesRepository.findByAlunoId(aluno_id);
+    const avaliacoes = await this.avaliacoesRepository.findByAlunoId(
+      aluno_id,
+      adm_id,
+    );
     return avaliacoes;
   }
 
   async update(
     id: string,
     data: z.infer<typeof AvaliacoesSchema>,
+    adm_id: number,
   ): Promise<Avaliacao> {
-    const avaliacao = await this.avaliacoesRepository.findById(id);
+    const avaliacao = await this.avaliacoesRepository.findById(id, adm_id);
 
     if (!avaliacao) {
       throw new AppError("Avaliação não existe", 404);
@@ -93,8 +97,8 @@ export class AvaliacaoService {
     return newAvaliacao;
   }
 
-  async delete(id: string): Promise<void> {
-    const avaliacao = await this.avaliacoesRepository.findById(id);
+  async delete(id: string, adm_id: number): Promise<void> {
+    const avaliacao = await this.avaliacoesRepository.findById(id, adm_id);
 
     if (!avaliacao) {
       throw new AppError("Avaliação não existe", 404);

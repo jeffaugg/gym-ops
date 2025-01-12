@@ -9,7 +9,7 @@ export class AlunoController {
   async create(req: Request, res: Response): Promise<Response> {
     const data = AlunoSchema.parse(req.body);
 
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const alunoService = container.resolve(AlunoService);
 
@@ -20,7 +20,7 @@ export class AlunoController {
 
   async list(req: Request, res: Response): Promise<Response> {
     const alunoService = container.resolve(AlunoService);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const alunos = await alunoService.list(adm_id);
     return res.status(200).json(alunos);
@@ -28,7 +28,7 @@ export class AlunoController {
 
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const data = AlunoSchema.parse(req.body);
 
     const alunoService = container.resolve(AlunoService);
@@ -40,7 +40,7 @@ export class AlunoController {
 
   async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const alunoService = container.resolve(AlunoService);
 
@@ -50,7 +50,7 @@ export class AlunoController {
 
   async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const alunoService = container.resolve(AlunoService);
 
@@ -63,7 +63,7 @@ export class AlunoController {
       message: "CPF deve estar no formato XXX.XXX.XXX-XX",
     });
     const { cpf } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     cpfSchema.parse(cpf);
 
     const alunoService = container.resolve(AlunoService);
@@ -75,7 +75,7 @@ export class AlunoController {
   async findByEmail(req: Request, res: Response): Promise<Response> {
     const emailSchema = z.string().email({ message: "Email inválido" });
     const { email } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     emailSchema.parse(email);
 
     const alunoService = container.resolve(AlunoService);

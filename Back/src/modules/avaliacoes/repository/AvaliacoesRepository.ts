@@ -53,7 +53,7 @@ export class AvaliacoesRepository {
     );
   }
 
-  async findByAlunoId(aluno_id: string): Promise<Avaliacao[]> {
+  async findByAlunoId(aluno_id: string, adm_id: number): Promise<Avaliacao[]> {
     const query = `
       SELECT 
         a.*,
@@ -64,10 +64,14 @@ export class AvaliacoesRepository {
         fotos_avaliacoes f 
       ON 
         a.id = f.avaliacao_id
+      JOIN 
+        alunos al
+      ON
+        a.aluno_id = al.id
       WHERE 
-        a.aluno_id = ?;
+        a.aluno_id = ? AND al.adm_id = ?;
     `;
-    const result = await this.db.raw(query, [aluno_id]);
+    const result = await this.db.raw(query, [aluno_id, adm_id]);
 
     if (result.rows.length === 0) {
       return [];
@@ -93,11 +97,16 @@ export class AvaliacoesRepository {
     );
   }
 
-  async findById(id: string): Promise<Avaliacao> {
+  async findById(id: string, adm_id: number): Promise<Avaliacao> {
     const query = `
-    SELECT * FROM avaliacoes WHERE id = ?;
+    SELECT *
+    FROM avaliacoes
+    JOIN alunos
+    ON avaliacoes.aluno_id = alunos.id
+    WHERE avaliacoes.id = ? AND alunos.adm_id = ?;
     `;
-    const result = await this.db.raw(query, [id]);
+
+    const result = await this.db.raw(query, [id, adm_id]);
 
     if (result.rows.length === 0) {
       return null;

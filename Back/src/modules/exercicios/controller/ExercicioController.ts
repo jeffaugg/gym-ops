@@ -8,7 +8,7 @@ import { z } from "zod";
 export class ExercicioController {
   async create(req: Request, res: Response): Promise<Response> {
     const data = ExercicioSchema.parse(req.body);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const exercicioService = container.resolve(ExercicioService);
 
@@ -19,7 +19,7 @@ export class ExercicioController {
 
   async list(req: Request, res: Response): Promise<Response> {
     const exercicioService = container.resolve(ExercicioService);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const exercicio = await exercicioService.list(adm_id);
     return res.status(200).json(exercicio);
@@ -28,7 +28,7 @@ export class ExercicioController {
   async update(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
     const data = ExercicioSchema.parse(req.body);
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const exercicioService = container.resolve(ExercicioService);
 
@@ -39,7 +39,7 @@ export class ExercicioController {
 
   async delete(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const exercicioService = container.resolve(ExercicioService);
 
@@ -49,7 +49,7 @@ export class ExercicioController {
 
   async findById(req: Request, res: Response): Promise<Response> {
     const { id } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     const exercicioService = container.resolve(ExercicioService);
 
     const exercicio = await exercicioService.findById(Number(id), adm_id);
@@ -59,7 +59,7 @@ export class ExercicioController {
   async findByName(req: Request, res: Response): Promise<Response> {
     const nameSchema = z.string();
     const { name } = req.params;
-    const adm_id = req.user.id;
+    const adm_id = req.user.adm_id;
     nameSchema.parse(name);
 
     const exercicioService = container.resolve(ExercicioService);
