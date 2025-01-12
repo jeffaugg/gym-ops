@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { PagamentoController } from "../../../../modules/pagementos/controller/PagamentoController";
+import { PagamentoController } from "../../../../modules/pagamentos/controller/PagamentoController";
 import { container } from "tsyringe";
 import isAuth from "../middleware/isAuth";
 

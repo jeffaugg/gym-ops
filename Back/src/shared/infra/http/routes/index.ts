@@ -10,6 +10,7 @@ import treinoDeAlunoRoutes from "./treinoDeAlunoRoutes";
 import mensagemRoutes from "./mensagemRoutes";
 import pagamentoRoutes from "./pagamentoRoutes";
 import uploadRoutes from "./uploadRoutes";
+import relatorioRoutes from "./relatorioRoutes";
 
 const routes = Router();
 
@@ -24,5 +25,6 @@ routes.use("/workouts-clients", treinoDeAlunoRoutes);
 routes.use("/message", mensagemRoutes);
 routes.use("/pay", pagamentoRoutes);
 routes.use("/upload", uploadRoutes);
+routes.use("/report", relatorioRoutes);
 
 export default routes;

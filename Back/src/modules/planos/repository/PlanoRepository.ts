@@ -40,6 +40,14 @@ export class PlanoRepository {
     }
     return Plano.FormData(result.rows[0]);
   }
+  async findByIdWithoutAdm(id: number): Promise<Plano | null> {
+    const query = "SELECT * FROM planos WHERE id = ?";
+    const result = await this.db.raw(query, [id]);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    return Plano.FormData(result.rows[0]);
+  }
 
   async findByName(name: string, adm_id: number): Promise<Plano | null> {
     const query = "SELECT * FROM planos WHERE name = ? AND adm_id = ?";
