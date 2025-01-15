@@ -3,7 +3,7 @@ import { PresencaRepository } from "../repository/PresencaRepository";
 import Presenca from "../models/Presenca";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import AppError from "../../../shared/errors/AppError";
-import { PagamentoRepository } from "../../pagementos/repository/PagamentoRepository";
+import { PagamentoRepository } from "../../pagamentos/repository/PagamentoRepository";
 
 @injectable()
 export class PresencaService {
