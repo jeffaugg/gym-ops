@@ -12,6 +12,7 @@ import pagamentoRoutes from "./pagamentoRoutes";
 import uploadRoutes from "./uploadRoutes";
 import relatorioRoutes from "./relatorioRoutes";
 import presencaRoutes from "./presencaRoutes";
+import cargoHorariaRoutes from "./cargoHorariaRoutes";
 
 const routes = Router();
 
@@ -28,5 +29,6 @@ routes.use("/pay", pagamentoRoutes);
 routes.use("/upload", uploadRoutes);
 routes.use("/report", relatorioRoutes);
 routes.use("/presence", presencaRoutes);
+routes.use("/work-hours", cargoHorariaRoutes);
 
 export default routes;
