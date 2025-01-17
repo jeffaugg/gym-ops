@@ -22,7 +22,6 @@ export class PresencaRepository {
     aluno_id: number,
     adm_id: number,
   ): Promise<boolean> {
-    console.log(aluno_id, adm_id);
     const query = `
     SELECT presenca.* 
     FROM presenca 
@@ -36,7 +35,6 @@ export class PresencaRepository {
     if (result.rows.length === 0) {
       return false;
     }
-    console.log(result.rows[0].data);
     return isSameDay(result.rows[0].data, new Date());
   }
 

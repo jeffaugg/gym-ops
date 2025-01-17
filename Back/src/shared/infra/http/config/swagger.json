@@ -1930,6 +1930,72 @@
           }
         }
       }
+    },
+    "/work-hours/dayofweek": {
+      "get": {
+        "tags": [
+          "Horários de Funcionamento"
+        ],
+        "summary": "Lista os dias da semana com horários de funcionamento",
+        "description": "Endpoint para listar os dias da semana com os horários de funcionamento da academia.",
+        "responses": {
+          "200": {
+            "description": "Lista de dias da semana com horários de funcionamento",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Dia"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/work-hours/turntime": {
+      "get": {
+        "tags": [
+          "Horários de Funcionamento"
+        ],
+        "summary": "Lista os horários de funcionamento por turno",
+        "description": "Endpoint para listar os horários de funcionamento da academia por turno.",
+        "responses": {
+          "200": {
+            "description": "Lista de horários de funcionamento por turno",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Turno"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/work-hours/now": {
+      "get": {
+        "tags": [
+          "Horários de Funcionamento"
+        ],
+        "summary": "Lista os instrutores disponíveis no momento",
+        "description": "Endpoint para listar os instrutores disponíveis na academia no momento da requisição.",
+        "responses": {
+          "200": {
+            "description": "Lista de instrutores disponíveis",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1949,6 +2015,38 @@
             "type": "string",
             "format": "date",
             "description": "Data no formato YYYY-MM-DD"
+          }
+        }
+      },
+      "Turno": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID do turno"
+          },
+          "start_time": {
+            "type": "string",
+            "format": "time",
+            "description": "Horário de início no formato HH:MM"
+          },
+          "end_time": {
+            "type": "string",
+            "format": "time",
+            "description": "Horário de término no formato HH:MM"
+          }
+        }
+      },
+      "Dia": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID do dia da semana"
+          },
+          "dayOfWeek": {
+            "type": "string",
+            "description": "Dia da semana"
           }
         }
       },

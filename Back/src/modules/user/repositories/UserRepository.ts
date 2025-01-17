@@ -26,9 +26,9 @@ export class UserRepository {
   public async createUser(
     data: z.infer<typeof UserSchema> & { adm_id: number },
   ): Promise<User> {
-    const query = `INSERT INTO users (adm_id, name, email, password, cpf, tel, role) 
-    VALUES (?, ?, ?, ?, ?, ?, ?) 
-    RETURNING id, adm_id, name, email, password, cpf, tel, role;`;
+    const query = `INSERT INTO users (adm_id, name, email, password, cpf, tel, role, cref) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+    RETURNING *;`;
     const result = await this.db.raw(query, [
       data.adm_id,
       data.name,
@@ -37,6 +37,7 @@ export class UserRepository {
       data.cpf,
       data.tel,
       data.role,
+      data.cref,
     ]);
     return User.fromDatabase(result.rows[0]);
   }
@@ -90,6 +91,15 @@ export class UserRepository {
     WHERE role = 'USER' AND adm_id = ?;`;
     const result = await this.db.raw(query, [adm_id]);
     return result.rows.map((row) => row.email);
+  }
+
+  async findUserByCref(cref: string, adm_id: number): Promise<User | null> {
+    const query = "SELECT * FROM users WHERE cref = ? AND adm_id = ?;";
+    const result = await this.db.raw(query, [cref, adm_id]);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    return User.fromDatabase(result.rows[0]);
   }
 }
 

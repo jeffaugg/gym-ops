@@ -9,6 +9,7 @@ class User {
   cpf: string;
   tel: string;
   role: string;
+  cref?: string;
 
   constructor(
     id: number,
@@ -19,6 +20,7 @@ class User {
     cpf: string,
     tel: string,
     role: string,
+    cref?: string,
   ) {
     this.id = id;
     this.adm_id = adm_id;
@@ -28,6 +30,7 @@ class User {
     this.cpf = cpf;
     this.tel = tel;
     this.role = role;
+    this.cref = cref;
   }
 
   public async checkPassword(password: string): Promise<boolean> {
@@ -44,6 +47,7 @@ class User {
       data.cpf,
       data.tel,
       data.role,
+      data.cref,
     );
   }
 }
