@@ -1,16 +1,63 @@
 import { z } from "zod";
 
-export const UserSchema = z.object({
-  name: z.string().min(1, { message: "O nome não pode estar vazio" }),
-  email: z.string().email({ message: "Email inválido" }),
-  password: z
-    .string()
-    .min(6, { message: "A senha deve ter no mínimo 6 caracteres" }),
-  cpf: z.string().regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
-    message: "CPF deve estar no formato XXX.XXX.XXX-XX",
-  }),
-  tel: z.string().regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, {
-    message: "Telefone deve estar no formato (XX) XXXXX-XXXX",
-  }),
-  role: z.enum(["USER", "ADM"], { message: "Role inválida" }),
-});
+export const UserSchema = z
+  .object({
+    name: z.string().min(1, { message: "O nome não pode estar vazio" }),
+    email: z.string().email({ message: "Email inválido" }),
+    password: z
+      .string()
+      .min(6, { message: "A senha deve ter no mínimo 6 caracteres" }),
+    cpf: z.string().regex(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/, {
+      message: "CPF deve estar no formato XXX.XXX.XXX-XX",
+    }),
+    tel: z.string().regex(/^\(\d{2}\) \d{4,5}-\d{4}$/, {
+      message: "Telefone deve estar no formato (XX) XXXXX-XXXX",
+    }),
+    role: z.enum(["USER", "ADM"], { message: "Role inválida" }),
+    cref: z.string().optional(),
+    daysofweek: z.array(z.number().max(7).min(0)).optional(),
+    turntime: z
+      .number()
+      .max(3, { message: "O turno inválido" })
+      .min(1, { message: "O turno inválido" })
+      .optional(),
+  })
+  .refine(
+    (data) => {
+      if (data.role === "USER" && !data.cref) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "CREF é obrigatório para usuários com role 'USER'",
+      path: ["cref"],
+    },
+  )
+  .refine(
+    (data) => {
+      if (
+        data.role === "USER" &&
+        (data.daysofweek?.length === 0 || !data.daysofweek)
+      ) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Dia da semana é obrigatório para usuários com role 'USER'",
+      path: ["daysofweek"],
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.role === "USER" && !data.turntime) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Turno é obrigatório para usuários com role 'USER'",
+      path: ["turntime"],
+    },
+  );
