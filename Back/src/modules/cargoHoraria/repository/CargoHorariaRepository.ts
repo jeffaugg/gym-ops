@@ -23,7 +23,6 @@ export class CargoHorariaRepository {
       data.dia_id,
       data.horario_id,
     ]);
-    console.log(data);
 
     return CargoHoraria.fromDatabase(result.rows[0]);
   }
