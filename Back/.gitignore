@@ -1,2 +1,4 @@
 /node_modules
 .env
+/src/shared/infra/multer/uploads
+/src/shared/infra/google/googledrive.json

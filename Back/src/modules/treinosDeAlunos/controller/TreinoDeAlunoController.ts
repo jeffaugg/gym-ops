@@ -2,28 +2,25 @@ import { container, injectable } from "tsyringe";
 import { TreinoDeAlunoService } from "../service/TreinoDeAlunoService";
 import { Request, Response } from "express";
 import { TreinoDeAlunoSchema } from "../dto/TreinoDeAlunoSchema";
-import { z } from "zod";
 
 @injectable()
 export class TreinoDeAlunoController {
   async create(req: Request, res: Response): Promise<Response> {
-    const {aluno_id, treino_id} =
-    TreinoDeAlunoSchema.parse(req.body);
+    const data = TreinoDeAlunoSchema.parse(req.body);
+    const adm_id = req.user.adm_id;
 
     const treinoDeAlunoService = container.resolve(TreinoDeAlunoService);
 
-    const treino_de_aluno = await treinoDeAlunoService.create({
-      aluno_id,
-      treino_id
-    });
+    const treino_de_aluno = await treinoDeAlunoService.create(data, adm_id);
 
     return res.status(201).json(treino_de_aluno);
   }
 
   async list(req: Request, res: Response): Promise<Response> {
     const treinoDeAlunoService = container.resolve(TreinoDeAlunoService);
+    const adm_id = req.user.adm_id;
 
-    const treinos_de_aluno = await treinoDeAlunoService.list();
+    const treinos_de_aluno = await treinoDeAlunoService.list(adm_id);
     return res.status(200).json(treinos_de_aluno);
   }
 
@@ -51,7 +48,7 @@ export class TreinoDeAlunoController {
     const treinoDeAlunoService = container.resolve(TreinoDeAlunoService);
 
     const treinos_de_aluno = await treinoDeAlunoService.findByAlunoId(
-      Number(aluno_id)
+      Number(aluno_id),
     );
     return res.status(200).json(treinos_de_aluno);
   }

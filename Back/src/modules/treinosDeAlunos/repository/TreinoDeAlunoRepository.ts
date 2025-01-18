@@ -8,26 +8,33 @@ import { TreinoDeAluno } from "../models/TreinoDeAluno";
 export class TreinoDeAlunoRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  async create(data: z.infer<typeof TreinoDeAlunoSchema>): Promise<TreinoDeAluno> {
+  async create(
+    data: z.infer<typeof TreinoDeAlunoSchema>,
+  ): Promise<TreinoDeAluno> {
     const query = `
       INSERT INTO treinos_de_alunos (aluno_id, treino_id)
       VALUES (?, ?)
       RETURNING id, aluno_id, treino_id;
     `;
 
-    const result = await this.db.raw(query, [
-      data.aluno_id,
-      data.treino_id
-    ]);
+    const result = await this.db.raw(query, [data.aluno_id, data.treino_id]);
 
-    return result.rows[0] as TreinoDeAluno;
+    return TreinoDeAluno.fromDatabase(result.rows[0]);
   }
 
-  async list(): Promise<TreinoDeAluno[]> {
-    const query = "SELECT * FROM treinos_de_alunos";
-    const result = await this.db.raw(query);
+  async list(adm_id: number): Promise<TreinoDeAluno[]> {
+    const query = `
+      SELECT treinos_de_alunos.*
+      FROM treinos_de_alunos
+      JOIN alunos ON treinos_de_alunos.aluno_id = alunos.id
+      WHERE alunos.adm_id = ?
+    `;
 
-    return result.rows.map((data: any) => TreinoDeAluno.fromDatabase(data));
+    const result = await this.db.raw(query, [adm_id]);
+
+    return result.rows.map((treinoDeAlunoData: any) =>
+      TreinoDeAluno.fromDatabase(treinoDeAlunoData),
+    );
   }
 
   async findById(id: number): Promise<TreinoDeAluno | null> {

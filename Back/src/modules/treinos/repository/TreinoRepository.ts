@@ -8,31 +8,38 @@ import { Treino } from "../models/Treino";
 export class TreinoRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  async create(data: z.infer<typeof TreinoSchema>): Promise<Treino> {
+  async create(
+    data: z.infer<typeof TreinoSchema> & {
+      adm_id: number;
+    },
+  ): Promise<Treino> {
     const query = `
-      INSERT INTO treinos (name, notes)
-      VALUES (?, ?)
-      RETURNING id, name, notes;
+      INSERT INTO treinos (name, notes, adm_id)
+      VALUES (?, ?, ?)
+      RETURNING id, name, notes, adm_id;
     `;
 
     const result = await this.db.raw(query, [
       data.name,
-      data.notes
+      data.notes,
+      data.adm_id,
     ]);
 
-    return result.rows[0] as Treino;
+    return Treino.fromDatabase(result.rows[0]);
   }
 
-  async list(): Promise<Treino[]> {
-    const query = "SELECT * FROM treinos";
-    const result = await this.db.raw(query);
+  async list(adm_id: number): Promise<Treino[]> {
+    const query = "SELECT * FROM treinos WHERE adm_id = ?";
+    const result = await this.db.raw(query, [adm_id]);
 
-    return result.rows.map((TreinoData: any) => Treino.fromDatabase(TreinoData));
+    return result.rows.map((TreinoData: any) =>
+      Treino.fromDatabase(TreinoData),
+    );
   }
 
-  async findById(id: number): Promise<Treino | null> {
-    const query = "SELECT * FROM treinos WHERE id = ?";
-    const result = await this.db.raw(query, [id]);
+  async findById(id: number, adm_id: number): Promise<Treino | null> {
+    const query = "SELECT * FROM treinos WHERE id = ? AND adm_id = ?";
+    const result = await this.db.raw(query, [id, adm_id]);
 
     if (result.rows.length === 0) {
       return null;
@@ -41,33 +48,38 @@ export class TreinoRepository {
     return Treino.fromDatabase(result.rows[0]);
   }
 
-  async findByName(name: string): Promise<Treino | null> {
-    const query = "SELECT * FROM treinos WHERE name = ?";
-    const result = await this.db.raw(query, [name]);
+  async findByName(name: string, adm_id: number): Promise<Treino | null> {
+    const query = "SELECT * FROM treinos WHERE name = ? AND adm_id = ?";
+    const result = await this.db.raw(query, [name, adm_id]);
 
     if (result.rows.length === 0) {
       return null;
     }
-    return result.rows[0] as Treino;
+    return Treino.fromDatabase(result.rows[0]);
   }
 
-  async update(id: number, data: z.infer<typeof TreinoSchema>): Promise<Treino> {
+  async update(
+    id: number,
+    adm_id: number,
+    data: z.infer<typeof TreinoSchema>,
+  ): Promise<Treino> {
     const query = `
     UPDATE treinos SET name = ?, notes = ? 
-    WHERE id = ? 
+    WHERE id = ? AND adm_id = ?
     RETURNING id, name, notes `;
 
     const result = await this.db.raw(query, [
       data.name,
       data.notes,
-      id
+      id,
+      adm_id,
     ]);
 
     return result.rows[0] as Treino;
   }
 
-  async delete(id: number): Promise<void> {
-    const query = "DELETE FROM treinos WHERE id = ?";
-    await this.db.raw(query, [id]);
+  async delete(id: number, adm_id: number): Promise<void> {
+    const query = "DELETE FROM treinos WHERE id = ? AND adm_id = ?";
+    await this.db.raw(query, [id, adm_id]);
   }
 }

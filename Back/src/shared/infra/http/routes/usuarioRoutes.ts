@@ -6,9 +6,11 @@ import { container } from "tsyringe";
 const authRoutes = Router();
 const userController = container.resolve(UserController);
 
-authRoutes.post("/signup", userController.create);
+authRoutes.post("/signupadm", userController.createAdm);
+authRoutes.post("/signupuser", isAuth, userController.createUser);
 authRoutes.post("/login", userController.login);
 authRoutes.put("/", isAuth, userController.update);
 authRoutes.get("/testeAreaLogada", isAuth, userController.test);
+authRoutes.get("/me", isAuth, (req, res) => res.json({ user: req.user }));
 
 export default authRoutes;

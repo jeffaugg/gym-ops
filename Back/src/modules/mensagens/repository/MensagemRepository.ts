@@ -28,18 +28,18 @@ export class MensagemRepository {
     return result.rows[0] as Mensagem;
   }
 
-  async findById(id: number): Promise<Mensagem | null> {
-    const query = "SELECT * FROM mensagens WHERE id = ?";
-    const result = await this.db.raw(query, id);
+  async findById(id: number, id_adm: number): Promise<Mensagem | null> {
+    const query = "SELECT * FROM mensagens WHERE id = ? AND id_adm = ?";
+    const result = await this.db.raw(query, [id, id_adm]);
     if (result.rows.length === 0) {
       return null;
     }
     return result.rows[0] as Mensagem;
   }
 
-  async list(): Promise<Mensagem[]> {
-    const query = "SELECT * FROM mensagens";
-    const result = await this.db.raw(query);
+  async list(id_adm: number): Promise<Mensagem[]> {
+    const query = "SELECT * FROM mensagens WHERE id_adm = ?";
+    const result = await this.db.raw(query, [id_adm]);
     return result.rows.map((mensagem: any) => Mensagem.fromDatabase(mensagem));
   }
 }

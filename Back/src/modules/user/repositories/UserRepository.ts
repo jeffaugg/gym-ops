@@ -8,10 +8,10 @@ import { UserSchema } from "../dto/UserSchema";
 export class UserRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  public async create(data: z.infer<typeof UserSchema>): Promise<User> {
+  public async createAdm(data: z.infer<typeof UserSchema>): Promise<User> {
     const query = `INSERT INTO users (name, email, password, cpf, tel, role) 
     VALUES (?, ?, ?, ?, ?, ?) 
-    RETURNING id, name, email, password, cpf, tel, role;`;
+    RETURNING id, adm_id, name, email, password, cpf, tel, role;`;
     const result = await this.db.raw(query, [
       data.name,
       data.email,
@@ -19,6 +19,25 @@ export class UserRepository {
       data.cpf,
       data.tel,
       data.role,
+    ]);
+    return User.fromDatabase(result.rows[0]);
+  }
+
+  public async createUser(
+    data: z.infer<typeof UserSchema> & { adm_id: number },
+  ): Promise<User> {
+    const query = `INSERT INTO users (adm_id, name, email, password, cpf, tel, role, cref) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+    RETURNING *;`;
+    const result = await this.db.raw(query, [
+      data.adm_id,
+      data.name,
+      data.email,
+      data.password,
+      data.cpf,
+      data.tel,
+      data.role,
+      data.cref,
     ]);
     return User.fromDatabase(result.rows[0]);
   }
@@ -62,6 +81,24 @@ export class UserRepository {
       data.role,
       id,
     ]);
+    return User.fromDatabase(result.rows[0]);
+  }
+
+  async getEmail(adm_id: number): Promise<string[]> {
+    const query = `
+    SELECT email 
+    FROM users
+    WHERE role = 'USER' AND adm_id = ?;`;
+    const result = await this.db.raw(query, [adm_id]);
+    return result.rows.map((row) => row.email);
+  }
+
+  async findUserByCref(cref: string, adm_id: number): Promise<User | null> {
+    const query = "SELECT * FROM users WHERE cref = ? AND adm_id = ?;";
+    const result = await this.db.raw(query, [cref, adm_id]);
+    if (result.rows.length === 0) {
+      return null;
+    }
     return User.fromDatabase(result.rows[0]);
   }
 }
