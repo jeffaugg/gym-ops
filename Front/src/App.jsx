@@ -51,6 +51,7 @@ import AdminPlans from "./pages/Admin/Plans/AdminPlans";
 import AdminPayments from "./pages/Admin/Payments/AdminPayments";
 import AdminInstructors from "./pages/Admin/Instructors/AdminInstructors";
 import Settings from "./pages/Settings/Settings";
+import InstructorHome from './pages/Instructor/Home/InstructorHome';
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Importa o ProtectedRoute
 
@@ -113,6 +114,14 @@ function App() {
         />
         <Route
           path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/InstructorHome"
           element={
             <ProtectedRoute>
               <Settings />

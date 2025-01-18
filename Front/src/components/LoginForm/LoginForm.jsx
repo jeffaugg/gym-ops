@@ -57,7 +57,13 @@ function LoginForm() {
         position: 'top-right', 
       });
 
-      navigate('/AdminHome');
+      if (user.role === "ADM") {
+        navigate('/AdminHome');
+      } else if (user.role === "USER") {
+        navigate('/InstructorHome');
+      } else {
+        navigate('/');
+      }
     } catch (error) {
       console.log('Erro ao fazer login:', error);
       toast.error('Falha no login. Verifique suas credenciais.', {
