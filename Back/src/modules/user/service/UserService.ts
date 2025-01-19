@@ -62,14 +62,17 @@ export class UserService {
       throw new AppError("CREF já cadastrado", 409);
     }
 
+    data.password = await hash(data.password, 8);
+
+    const newUser = await this.userRepository.createUser(data);
+
     await this.cargoHorariaService.create(
-      data.adm_id,
+      newUser.id,
       data.turntime,
       data.daysofweek,
     );
 
-    data.password = await hash(data.password, 8);
-    return this.userRepository.createUser(data);
+    return newUser;
   }
 
   async login(email: string, password: string) {
@@ -113,5 +116,15 @@ export class UserService {
     data.password = await hash(data.password, 8);
 
     return this.userRepository.update(id, data);
+  }
+
+  async getAllUsers(adm_id: number) {
+    const adm = await this.userRepository.findById(adm_id);
+
+    if (!adm || adm.role !== "ADM") {
+      throw new AppError("Usuário não autorizado", 401);
+    }
+
+    return this.userRepository.getAllUsers(adm_id);
   }
 }
