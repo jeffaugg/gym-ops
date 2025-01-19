@@ -57,6 +57,16 @@ export class UserController {
 
     return res.status(200).json(user);
   }
+
+  public async getAllUsers(req: Request, res: Response): Promise<Response> {
+    const adm_id = req.user.id;
+
+    const userService = container.resolve(UserService);
+
+    const users = await userService.getAllUsers(adm_id);
+
+    return res.status(200).json(users);
+  }
 }
 
 export default UserController;
