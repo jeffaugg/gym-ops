@@ -26,8 +26,8 @@ export class UserRepository {
   public async createUser(
     data: z.infer<typeof UserSchema> & { adm_id: number },
   ): Promise<User> {
-    const query = `INSERT INTO users (adm_id, name, email, password, cpf, tel, role, cref) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?) 
+    const query = `INSERT INTO users (adm_id, name, email, password, cpf, tel, role, cref, gender, date_of_birth) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? , ?) 
     RETURNING *;`;
     const result = await this.db.raw(query, [
       data.adm_id,
@@ -38,8 +38,16 @@ export class UserRepository {
       data.tel,
       data.role,
       data.cref,
+      data.gender,
+      data.date_of_birth,
     ]);
     return User.fromDatabase(result.rows[0]);
+  }
+
+  async getAllUsers(adm_id: number): Promise<User[]> {
+    const query = `SELECT * FROM users WHERE adm_id = ? AND role = 'USER';`;
+    const result = await this.db.raw(query, [adm_id]);
+    return result.rows.map((row) => User.fromDatabase(row));
   }
 
   async findByEmail(email: string): Promise<User | null> {
