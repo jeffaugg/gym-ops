@@ -1364,7 +1364,7 @@
         }
       }
     },
-    "user/signupadm": {
+    "/user/signupadm": {
       "post": {
         "tags": [
           "Users"
@@ -1376,7 +1376,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/UserAdm"
               }
             }
           }
@@ -1387,7 +1387,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/UserAdm"
                 }
               }
             }
@@ -1397,6 +1397,30 @@
           },
           "409": {
             "description": "Conflito: Email ou CPF já cadastrado"
+          }
+        }
+      }
+    },
+    "/user/allusers": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Lista todos os usuários",
+        "description": "Endpoint para listar todos os usuários cadastrados.",
+        "responses": {
+          "200": {
+            "description": "Lista de usuários cadastrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -2290,7 +2314,7 @@
           "treino_id"
         ]
       },
-      "User": {
+      "UserAdm": {
         "type": "object",
         "properties": {
           "name": {
@@ -2391,6 +2415,64 @@
           "id_aluno",
           "id_plano",
           "payment"
+        ]
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Nome do usuário"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "Email do usuário"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "description": "Senha do usuário"
+          },
+          "cpf": {
+            "type": "string",
+            "description": "CPF do usuário no formato XXX.XXX.XXX-XX"
+          },
+          "tel": {
+            "type": "string",
+            "description": "Telefone no formato (XX) XXXXX-XXXX"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role do usuário (ADM ou USER)"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "format": "date",
+            "description": "Data de nascimento no formato yyyy-mm-dd"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "M",
+              "F",
+              "O"
+            ],
+            "description": "Gênero do usuário: M (Masculino), F (Feminino) ou O (Outro)",
+            "default": "O"
+          },
+          "cref": {
+            "type": "string",
+            "description": "CREF do instrutor no formato XXXXXX-G/UF"
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password",
+          "cpf",
+          "tel",
+          "role"
         ]
       }
     }
