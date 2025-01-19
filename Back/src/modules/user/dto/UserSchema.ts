@@ -21,6 +21,14 @@ export const UserSchema = z
       .max(3, { message: "O turno inválido" })
       .min(1, { message: "O turno inválido" })
       .optional(),
+    gender: z.enum(["M", "F", "O"], { message: "Gênero inválido" }).optional(),
+    date_of_birth: z
+      .string()
+      .refine((val) => !isNaN(Date.parse(val)), { message: "Invalid date" })
+      .refine((val) => /^\d{4}-\d{2}-\d{2}$/.test(val), {
+        message: "A data deve estar no formato yyyy-mm-dd",
+      })
+      .optional(),
   })
   .refine(
     (data) => {
@@ -59,5 +67,27 @@ export const UserSchema = z
     {
       message: "Turno é obrigatório para usuários com role 'USER'",
       path: ["turntime"],
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.role === "USER" && !data.gender) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Gênero é obrigatório para usuários com role 'USER'",
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.role === "USER" && !data.date_of_birth) {
+        return false;
+      }
+      return true;
+    },
+    {
+      message: "Data de nascimento é obrigatória para usuários com role 'USER'",
     },
   );

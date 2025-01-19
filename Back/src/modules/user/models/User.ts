@@ -10,6 +10,8 @@ class User {
   tel: string;
   role: string;
   cref?: string;
+  date_of_birth?: string;
+  gender?: string;
 
   constructor(
     id: number,
@@ -21,6 +23,8 @@ class User {
     tel: string,
     role: string,
     cref?: string,
+    gender?: string,
+    date_of_birth?: string,
   ) {
     this.id = id;
     this.adm_id = adm_id;
@@ -31,6 +35,8 @@ class User {
     this.tel = tel;
     this.role = role;
     this.cref = cref;
+    this.gender = gender;
+    this.date_of_birth = date_of_birth;
   }
 
   public async checkPassword(password: string): Promise<boolean> {
@@ -48,6 +54,8 @@ class User {
       data.tel,
       data.role,
       data.cref,
+      data.gender,
+      data.date_of_birth,
     );
   }
 }
