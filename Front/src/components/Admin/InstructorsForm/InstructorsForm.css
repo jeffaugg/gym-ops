@@ -22,6 +22,26 @@
     color: white;
     font-weight: bold;
   }
+  .dias-container {
+    display: flex;
+    gap: 10px; 
+    flex-wrap: no-wrap; 
+  }
+  
+  .dias-container label {
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    gap: 5px;
+  }
+  
+  input[type="checkbox"] {
+    width: 35px;
+    height: 35px;
+    accent-color: #2121d1; 
+    border: 1px solid #ccc;
+    border-radius: 20px!important; 
+  }
   
   .instructors-form input,
   .instructors-form select {

@@ -1,6 +1,7 @@
 import React from "react";
 import DashboardCard from "./DashboardCard";
 import TopFrequentUsers from "../TopFrequentUsers/TopFrequentUsers";
+import Balance from "../Balance/Balance";
 import "./Dashboard.css";
 
 function Dashboard() {
@@ -20,9 +21,8 @@ function Dashboard() {
           </div>
         </div>
         <div className="chart">
-          <h3>Balanço Mensal</h3>
           <div className="fake-chart">
-            [Gráfico de Linha]
+            <Balance />
           </div>
         </div>
       </div>

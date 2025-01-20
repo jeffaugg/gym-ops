@@ -6,15 +6,18 @@ import { UserSchema } from "../dto/UserSchema";
 import { hash } from "bcryptjs";
 import { SerializeUser } from "../../../shared/infra/http/helpers/SerializeUser";
 import { createAccessToken } from "../../../shared/infra/http/helpers/CreateTokens";
+import { CargoHorariaService } from "../../cargoHoraria/service/CargoHorariaService";
 
 @injectable()
 export class UserService {
   constructor(
     @inject(UserRepository)
     private userRepository: UserRepository,
+    @inject(CargoHorariaService)
+    private cargoHorariaService: CargoHorariaService,
   ) {}
 
-  async create(data: z.infer<typeof UserSchema>) {
+  async createAdm(data: z.infer<typeof UserSchema>) {
     const userByEmail = await this.userRepository.findByEmail(data.email);
 
     if (userByEmail) {
@@ -28,7 +31,48 @@ export class UserService {
     }
 
     data.password = await hash(data.password, 8);
-    return this.userRepository.create(data);
+    return this.userRepository.createAdm(data);
+  }
+
+  async createUser(data: z.infer<typeof UserSchema> & { adm_id: number }) {
+    const userByEmail = await this.userRepository.findByEmail(data.email);
+
+    if (userByEmail) {
+      throw new AppError("Email já cadastrado", 409);
+    }
+
+    const userByCpf = await this.userRepository.findByCpf(data.cpf);
+
+    if (userByCpf) {
+      throw new AppError("CPF já cadastrado", 409);
+    }
+
+    const adm = await this.userRepository.findById(data.adm_id);
+
+    if (!adm || adm.role !== "ADM") {
+      throw new AppError("Usuário não autorizado", 401);
+    }
+
+    const userByCref = await this.userRepository.findUserByCref(
+      data.cref,
+      data.adm_id,
+    );
+
+    if (userByCref) {
+      throw new AppError("CREF já cadastrado", 409);
+    }
+
+    data.password = await hash(data.password, 8);
+
+    const newUser = await this.userRepository.createUser(data);
+
+    await this.cargoHorariaService.create(
+      newUser.id,
+      data.turntime,
+      data.daysofweek,
+    );
+
+    return newUser;
   }
 
   async login(email: string, password: string) {
@@ -72,5 +116,15 @@ export class UserService {
     data.password = await hash(data.password, 8);
 
     return this.userRepository.update(id, data);
+  }
+
+  async getAllUsers(adm_id: number) {
+    const adm = await this.userRepository.findById(adm_id);
+
+    if (!adm || adm.role !== "ADM") {
+      throw new AppError("Usuário não autorizado", 401);
+    }
+
+    return this.userRepository.getAllUsers(adm_id);
   }
 }

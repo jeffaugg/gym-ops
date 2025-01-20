@@ -6,7 +6,7 @@ import authConfig from "../config/auth";
 interface TokenPayload {
   id: number;
   name: string;
-  email: string;
+  adm_id: number | null;
   tel: string;
   role: string;
   iat: number;
@@ -24,11 +24,12 @@ const isAuth = (req: Request, res: Response, next: NextFunction): void => {
 
   try {
     const decoded = verify(token, authConfig.secret);
-    const { id, name, email, role } = decoded as TokenPayload;
+    const { id, name, role, adm_id } = decoded as TokenPayload;
+
     req.user = {
       id,
       name,
-      email,
+      adm_id: adm_id ?? id,
       role,
     };
   } catch (err) {

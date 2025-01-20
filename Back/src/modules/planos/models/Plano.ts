@@ -1,5 +1,6 @@
 class Plano {
   id: number;
+  adm_id: number;
   name: string;
   price: number;
   duration: number;
@@ -7,12 +8,14 @@ class Plano {
 
   constructor(
     id: number,
+    adm_id: number,
     name: string,
     price: number,
     duration: number,
     spots: number,
   ) {
     this.id = id;
+    this.adm_id = adm_id;
     this.name = name;
     this.price = price;
     this.duration = duration;
@@ -20,7 +23,14 @@ class Plano {
   }
 
   static FormData(data: any) {
-    return new Plano(data.id, data.name, data.price, data.duration, data.spots);
+    return new Plano(
+      data.id,
+      data.adm_id,
+      data.name,
+      data.price,
+      data.duration,
+      data.spots,
+    );
   }
 }
 

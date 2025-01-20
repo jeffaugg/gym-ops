@@ -3,6 +3,7 @@ import { inject, injectable } from "tsyringe";
 import { PagamentoSchema } from "../dto/PagamentoSchema";
 import { z } from "zod";
 import { Pagamento } from "../models/Pagamento";
+import { isAfter } from "date-fns";
 
 @injectable()
 export class PagamentoRepository {
@@ -26,8 +27,29 @@ export class PagamentoRepository {
     return Pagamento.fromDatabase(result.rows[0]);
   }
 
-  async list(): Promise<Pagamento[]> {
-    const query = "SELECT * FROM pagamentos";
+  async list(adm_id: number): Promise<Pagamento[]> {
+    const query = `
+      SELECT pagamentos.*
+      FROM pagamentos
+      JOIN alunos ON pagamentos.id_aluno = alunos.id
+      WHERE alunos.adm_id = ?
+    `;
+
+    const result = await this.db.raw(query, [adm_id]);
+
+    return result.rows.map((pagamentoData: any) =>
+      Pagamento.fromDatabase(pagamentoData),
+    );
+  }
+
+  async listBetween60Days(): Promise<Pagamento[]> {
+    const query = `
+      SELECT pagamentos.*
+      FROM pagamentos
+      WHERE pagamentos.payment_date BETWEEN CURRENT_DATE - INTERVAL '30 days' AND CURRENT_DATE + INTERVAL '30 days'
+        AND pagamentos.status = true
+    `;
+
     const result = await this.db.raw(query);
 
     return result.rows.map((pagamentoData: any) =>
@@ -58,5 +80,26 @@ export class PagamentoRepository {
   async delete(id: number): Promise<void> {
     const query = "DELETE FROM pagamentos WHERE id = ?";
     await this.db.raw(query, [id]);
+  }
+
+  async isUserPlanPaid(id_aluno: number, adm_id: number): Promise<boolean> {
+    const query = `
+      SELECT pagamentos.*
+      FROM pagamentos
+      JOIN alunos ON pagamentos.id_aluno = alunos.id
+      WHERE alunos.adm_id = ? AND alunos.id = ? AND pagamentos.status = true
+      ORDER BY expiration_date DESC
+      LIMIT 1;
+    `;
+
+    const result = await this.db.raw(query, [adm_id, id_aluno]);
+
+    if (result.rows.length === 0) {
+      return false;
+    }
+
+    const latestExpirationDate = new Date(result.rows[0].expiration_date);
+
+    return isAfter(latestExpirationDate, new Date());
   }
 }

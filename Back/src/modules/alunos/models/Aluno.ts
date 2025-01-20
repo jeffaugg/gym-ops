@@ -9,6 +9,7 @@ export class Aluno {
   health_notes: string;
   status: boolean;
   gender: string;
+  adm_id: number;
   created_at: Date;
 
   public constructor(
@@ -22,6 +23,7 @@ export class Aluno {
     health_notes: string,
     status: boolean,
     gender: string,
+    adm_id: number,
     created_at: Date,
   ) {
     this.id = id;
@@ -34,6 +36,7 @@ export class Aluno {
     this.health_notes = health_notes;
     this.status = status;
     this.gender = gender;
+    this.adm_id = adm_id;
     this.created_at = created_at;
   }
 
@@ -49,6 +52,7 @@ export class Aluno {
       data.health_notes,
       data.status,
       data.gender,
+      data.adm_id,
       new Date(data.created_at),
     );
   }
