@@ -6,17 +6,26 @@ import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function InstructorsForm({ selectedInstructor, onInstructorCreated}) {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [cpf, setCpf] = useState('');
-  const [tel, setTel] = useState('');
-  const [role] = useState('USER');
-  const [birthDate, setBirthDate] = useState("");
-  const [gen, setGen] = useState("");
+export default function InstructorsForm({ onInstructorCreated, selectedInstructor, setSelectedInstructor }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [tel, setTel] = useState("");
+  const [role] = useState("USER");
+  const [date_of_birth, setBirthDate] = useState("");
+  const [gender, setGen] = useState("");
+  const [cref, setCref] = useState("");
+  const [daysOfWeek, setDaysOfWeek] = useState([]);
+  const [turnTime, setTurnTime] = useState("");
 
-  // Preenche o formulário quando `selectedInstructor` mudar
+  const handleDaysChange = (day) => {
+    const dayNumber = Number(day);
+    setDaysOfWeek((prev) =>
+      prev.includes(dayNumber) ? prev.filter((d) => d !== dayNumber) : [...prev, dayNumber]
+    );
+  };
+
   useEffect(() => {
     if (selectedInstructor) {
       setName(selectedInstructor.name || "");
@@ -25,14 +34,20 @@ export default function InstructorsForm({ selectedInstructor, onInstructorCreate
       setGen(selectedInstructor.gender || "");
       setTel(selectedInstructor.tel || "");
       setEmail(selectedInstructor.email || "");
+      setCref(selectedInstructor.cref || "");
+      setDaysOfWeek(selectedInstructor.daysofweek || []);
+      setTurnTime(selectedInstructor.turntime || "");
     } else {
-      // Limpa o formulário se nenhum instrutor estiver selecionado
       setName("");
       setBirthDate("");
       setCpf("");
       setGen("");
       setTel("");
       setEmail("");
+      setCref("");
+      setDaysOfWeek([]);
+      setTurnTime("");
+      setPassword("");
     }
   }, [selectedInstructor]);
 
@@ -40,52 +55,44 @@ export default function InstructorsForm({ selectedInstructor, onInstructorCreate
     event.preventDefault();
 
     try {
-      const response = await api.post('/user/signup', { name, email, password, cpf, tel, role });
-
-      toast.success('Criação de Instrutor realizado com sucesso!', {
-        position: 'top-right', 
+      await api.post("/user/signupuser", {
+        name,
+        email,
+        password,
+        cpf,
+        tel,
+        role,
+        date_of_birth,
+        gender,
+        cref,
+        daysofweek: daysOfWeek,
+        turntime: turnTime,
       });
 
+      toast.success("Criação de Instrutor realizado com sucesso!", { position: "top-right" });
+      onInstructorCreated();
     } catch (error) {
-      console.log(error.response);
-
       const errors = error.response?.data?.message;
 
       if (error.response?.status === 409) {
-        toast.error('Usuário já cadastrado. Por favor, verifique suas credenciais.', {
-          position: 'top-right',
+        toast.error("Usuário já cadastrado. Por favor, verifique suas credenciais.", {
+          position: "top-right",
         });
         return;
       }
 
       if (Array.isArray(errors)) {
-        
         errors.forEach((err) => {
           toast.error(err.message, {
-            position: 'top-right',
-            autoClose: 5000, 
+            position: "top-right",
+            autoClose: 5000,
           });
         });
       } else {
-        toast.error('Falha na criação. Verifique as informações.', {
-          position: 'top-right',
-        });
+        toast.error("Falha na criação. Verifique as informações.", { position: "top-right" });
+        console.log("falha",error)
       }
-
-      // Limpa o formulário
-      setName("");
-      setBirthDate("");
-      setCpf("");
-      setGen("");
-      setTel("");
-      setEmail("");
-
-      // Reseta o instrutor selecionado
-      setSelectedInstructor(null);
-
-      // Atualiza a lista de instrutors
-      onInstructorCreated();
-    } 
+    }
   };
 
   return (
@@ -102,9 +109,8 @@ export default function InstructorsForm({ selectedInstructor, onInstructorCreate
           <InputFieldForm
             label="Data de nascimento*"
             type="date"
-            placeholder=""
-            // value={birthDate}
-            // onChange={(e) => setBirthDate(e.target.value)}
+            value={date_of_birth}
+            onChange={(e) => setBirthDate(e.target.value)}
           />
         </div>
 
@@ -119,30 +125,30 @@ export default function InstructorsForm({ selectedInstructor, onInstructorCreate
           />
           <label>
             Gênero*
-            <select required >
+            <select value={gender} onChange={(e) => setGen(e.target.value)} required>
               <option value="">Selecione</option>
-              <option value="masculino">Masculino</option>
-              <option value="feminino">Feminino</option>
-              <option value="outro">Outro</option>
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+              <option value="O">Outro</option>
             </select>
           </label>
           <InputFieldForm
-              label="CREF*"
-              type="text"
-              placeholder="Digite o CREF"
-              // value={cref}
-              // onChange={(e) => setCref(e.target.value)}
-            />
+            label="CREF*"
+            type="text"
+            placeholder="12345-G/CE"
+            value={cref}
+            onChange={(e) => setCref(e.target.value)}
+          />
         </div>
 
         <div className="form-group">
           <InputFieldForm
-              label="Email*"
-              type="email"
-              placeholder="Digite o email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            label="Email*"
+            type="email"
+            placeholder="Digite o email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <InputFieldForm
             label="Senha*"
             type="password"
@@ -156,43 +162,27 @@ export default function InstructorsForm({ selectedInstructor, onInstructorCreate
           <label>
             Dias da Semana*
             <div className="dias-container">
-              <label>
-                <input type="checkbox" name="dias" value={1} />
-                Dom
-              </label>
-              <label>
-                <input type="checkbox" name="dias" value={2} />
-                Seg
-              </label>
-              <label>
-                <input type="checkbox" name="dias" value={3} />
-                Ter
-              </label>
-              <label>
-                <input type="checkbox" name="dias" value={4} />
-                Qua
-              </label>
-              <label>
-                <input type="checkbox" name="dias" value={5} />
-                Qui
-              </label>
-              <label>
-                <input type="checkbox" name="dias" value={6} />
-                Sex
-              </label>
-              <label>
-                <input type="checkbox" name="dias" value={7} />
-                Sáb
-              </label>
+              {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                <label key={day}>
+                  <input
+                    type="checkbox"
+                    name="dias"
+                    value={day}
+                    checked={daysOfWeek.includes(day)}
+                    onChange={() => handleDaysChange(day)}
+                  />
+                  {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"][day - 1]}
+                </label>
+              ))}
             </div>
           </label>
           <label>
             Turno*
-            <select required >
+            <select value={turnTime} onChange={(e) => setTurnTime(Number(e.target.value))} required>
               <option value="">Selecione</option>
-              <option value="masculino">Manhã</option>
-              <option value="feminino">Tarde</option>
-              <option value="outro">Noite</option>
+              <option value={1}>Manhã</option>
+              <option value={2}>Tarde</option>
+              <option value={3}>Noite</option>
             </select>
           </label>
           <InputFieldForm
@@ -206,7 +196,7 @@ export default function InstructorsForm({ selectedInstructor, onInstructorCreate
         </div>
 
         <div className="form-actions">
-          <ButtonCancel /> 
+          <ButtonCancel />
           <ButtonSend />
         </div>
       </form>
