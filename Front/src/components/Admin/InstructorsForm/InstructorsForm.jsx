@@ -6,123 +6,111 @@ import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function InstructorsForm() {
-  // const [name, setName] = useState("");
-  // const [birthDate, setBirthDate] = useState("");
-  // const [cpf, setCpf] = useState("");
-  // const [gen, setGen] = useState("");
-  // const [plan, setPlan] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [health, setHealth] = useState("");
-  // const [plans, setPlans] = useState([]);
+export default function InstructorsForm({ onInstructorCreated, selectedInstructor, setSelectedInstructor }) {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [cpf, setCpf] = useState("");
+  const [tel, setTel] = useState("");
+  const [role] = useState("USER");
+  const [date_of_birth, setBirthDate] = useState("");
+  const [gender, setGen] = useState("");
+  const [cref, setCref] = useState("");
+  const [daysOfWeek, setDaysOfWeek] = useState([]);
+  const [turnTime, setTurnTime] = useState("");
 
-  // // Fetch available plans
-  // useEffect(() => {
-  //   const fetchPlans = async () => {
-  //     try {
-  //       const response = await api.get("/plan");
-  //       setPlans(response.data);
-  //     } catch (error) {
-  //       console.error("Erro ao buscar os planos:", error);
-  //     }
-  //   };
+  const handleDaysChange = (day) => {
+    const dayNumber = Number(day);
+    setDaysOfWeek((prev) =>
+      prev.includes(dayNumber) ? prev.filter((d) => d !== dayNumber) : [...prev, dayNumber]
+    );
+  };
 
-  //   fetchPlans();
-  // }, []);
+  useEffect(() => {
+    if (selectedInstructor) {
+      setName(selectedInstructor.name || "");
+      setBirthDate(selectedInstructor.date_of_birth || "");
+      setCpf(selectedInstructor.cpf || "");
+      setGen(selectedInstructor.gender || "");
+      setTel(selectedInstructor.tel || "");
+      setEmail(selectedInstructor.email || "");
+      setCref(selectedInstructor.cref || "");
+      setDaysOfWeek(selectedInstructor.daysofweek || []);
+      setTurnTime(selectedInstructor.turntime || "");
+    } else {
+      setName("");
+      setBirthDate("");
+      setCpf("");
+      setGen("");
+      setTel("");
+      setEmail("");
+      setCref("");
+      setDaysOfWeek([]);
+      setTurnTime("");
+      setPassword("");
+    }
+  }, [selectedInstructor]);
 
-  // // Preenche o formulário quando `selectedInstructor` mudar
-  // useEffect(() => {
-  //   if (selectedInstructor) {
-  //     setName(selectedInstructor.name || "");
-  //     setBirthDate(selectedInstructor.date_of_birth || "");
-  //     setCpf(selectedInstructor.cpf || "");
-  //     setGen(selectedInstructor.gender || "");
-  //     setPlan(selectedInstructor.plan_id || "");
-  //     setPhone(selectedInstructor.telephone || "");
-  //     setEmail(selectedInstructor.email || "");
-  //     setHealth(selectedInstructor.health_notes || "");
-  //   } else {
-  //     // Limpa o formulário se nenhum estudante estiver selecionado
-  //     setName("");
-  //     setBirthDate("");
-  //     setCpf("");
-  //     setGen("");
-  //     setPlan("");
-  //     setPhone("");
-  //     setEmail("");
-  //     setHealth("");
-  //   }
-  // }, [selectedInstructor]);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
+    try {
+      await api.post("/user/signupuser", {
+        name,
+        email,
+        password,
+        cpf,
+        tel,
+        role,
+        date_of_birth,
+        gender,
+        cref,
+        daysofweek: daysOfWeek,
+        turntime: turnTime,
+      });
 
-  //   try {
-  //     if (selectedInstructor) {
-  //       // Atualiza o estudante existente
-  //       await api.put(`/clients/${selectedInstructor.id}`, {
-  //         name,
-  //         date_of_birth: birthDate,
-  //         email,
-  //         telephone: phone,
-  //         cpf,
-  //         plan_id: Number(plan),
-  //         health_notes: health,
-  //       });
-  //       toast.success("Aluno atualizado com sucesso!");
-  //     } else {
-  //       // Cria um novo estudante
-  //       await api.post("/clients", {
-  //         name,
-  //         date_of_birth: birthDate,
-  //         email,
-  //         telephone: phone,
-  //         cpf,
-  //         plan_id: Number(plan),
-  //         health_notes: health,
-  //       });
-  //       toast.success("Aluno criado com sucesso!");
-  //     }
+      toast.success("Criação de Instrutor realizado com sucesso!", { position: "top-right" });
+      onInstructorCreated();
+    } catch (error) {
+      const errors = error.response?.data?.message;
 
-  //     // Limpa o formulário
-  //     setName("");
-  //     setBirthDate("");
-  //     setCpf("");
-  //     setGen("");
-  //     setPlan("");
-  //     setPhone("");
-  //     setEmail("");
-  //     setHealth("");
+      if (error.response?.status === 409) {
+        toast.error("Usuário já cadastrado. Por favor, verifique suas credenciais.", {
+          position: "top-right",
+        });
+        return;
+      }
 
-  //     // Reseta o estudante selecionado
-  //     setSelectedInstructor(null);
-
-  //     // Atualiza a lista de estudantes
-  //     onInstructorCreated();
-  //   } catch (error) {
-  //     console.error("Erro ao salvar o aluno:", error);
-  //     toast.error("Erro ao salvar o aluno.");
-  //   }
-  // };
+      if (Array.isArray(errors)) {
+        errors.forEach((err) => {
+          toast.error(err.message, {
+            position: "top-right",
+            autoClose: 5000,
+          });
+        });
+      } else {
+        toast.error("Falha na criação. Verifique as informações.", { position: "top-right" });
+        console.log("falha",error)
+      }
+    }
+  };
 
   return (
     <div className="instructors-form">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-group">
           <InputFieldForm
             label="Nome*"
             type="text"
             placeholder="Digite o nome"
-            // value={name}
-            // onChange={(e) => setName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
           <InputFieldForm
             label="Data de nascimento*"
             type="date"
-            placeholder=""
-            // value={birthDate}
-            // onChange={(e) => setBirthDate(e.target.value)}
+            value={date_of_birth}
+            onChange={(e) => setBirthDate(e.target.value)}
           />
         </div>
 
@@ -131,67 +119,84 @@ export default function InstructorsForm() {
             label="CPF*"
             type="text"
             placeholder="XXX.XXX.XXX-XX"
-            // value={cpf}
-            // onChange={(e) => setCpf(e.target.value)}
+            value={cpf}
+            onChange={(e) => setCpf(e.target.value)}
             mask={"999.999.999-99"}
           />
           <label>
             Gênero*
-            <select required >
+            <select value={gender} onChange={(e) => setGen(e.target.value)} required>
               <option value="">Selecione</option>
-              <option value="masculino">Masculino</option>
-              <option value="feminino">Feminino</option>
-              <option value="outro">Outro</option>
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+              <option value="O">Outro</option>
             </select>
           </label>
           <InputFieldForm
-              label="CREF*"
-              type="text"
-              placeholder="Digite o CREF"
-              // value={cref}
-              // onChange={(e) => setCref(e.target.value)}
-            />
+            label="CREF*"
+            type="text"
+            placeholder="12345-G/CE"
+            value={cref}
+            onChange={(e) => setCref(e.target.value)}
+          />
         </div>
 
         <div className="form-group">
           <InputFieldForm
-              label="Email*"
-              type="email"
-              placeholder="Digite o email"
-              // value={email}
-              // onChange={(e) => setEmail(e.target.value)}
-            />
+            label="Email*"
+            type="email"
+            placeholder="Digite o email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <InputFieldForm
-            label="Telefone*"
-            type="text"
-            placeholder="(XX) XXXXX-XXXX"
-            // value={phone}
-            // onChange={(e) => setPhone(e.target.value)}
-            mask={"(99) 99999-9999"}
+            label="Senha*"
+            type="password"
+            placeholder="Digite sua senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
         <div className="form-group">
           <label>
-              Turno*
-              <select required >
-                <option value="">Selecione</option>
-                <option value="masculino">Manhã</option>
-                <option value="feminino">Tarde</option>
-                <option value="outro">Noite</option>
-              </select>
-            </label>
+            Dias da Semana*
+            <div className="dias-container">
+              {[1, 2, 3, 4, 5, 6, 7].map((day) => (
+                <label key={day}>
+                  <input
+                    type="checkbox"
+                    name="dias"
+                    value={day}
+                    checked={daysOfWeek.includes(day)}
+                    onChange={() => handleDaysChange(day)}
+                  />
+                  {["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"][day - 1]}
+                </label>
+              ))}
+            </div>
+          </label>
+          <label>
+            Turno*
+            <select value={turnTime} onChange={(e) => setTurnTime(Number(e.target.value))} required>
+              <option value="">Selecione</option>
+              <option value={1}>Manhã</option>
+              <option value={2}>Tarde</option>
+              <option value={3}>Noite</option>
+            </select>
+          </label>
           <InputFieldForm
-            label="Senha"
-            type="password"
-            placeholder="Digite sua senha"
-            // value={password}
-            // onChange={(e) => setPassword(e.target.value)}
+            label="Telefone*"
+            type="text"
+            placeholder="(XX) XXXXX-XXXX"
+            value={tel}
+            onChange={(e) => setTel(e.target.value)}
+            mask={"(99) 99999-9999"}
           />
         </div>
 
         <div className="form-actions">
-          <ButtonCancel /> 
+          <ButtonCancel />
           <ButtonSend />
         </div>
       </form>

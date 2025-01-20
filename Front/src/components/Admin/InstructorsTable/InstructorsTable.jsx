@@ -4,16 +4,16 @@ import api from "../../../api";
 import { toast } from "react-toastify";
 
 export default function InstructorsTable({ instructors, onPlanDeleted, setSelectedInstructor }) {
-  // const handleDelete = async (id) => {
-  //   try {
-  //     await api.delete(`/clients/${id}`);
-  //     toast.success("Instrutor deletado com sucesso!");
-  //     onPlanDeleted();
-  //   } catch (error) {
-  //     console.error("Erro ao deletar o instrutor:", error);
-  //     toast.error("Erro ao deletar o instrutor.");
-  //   }
-  // };
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/user/allusers/${id}`);
+      toast.success("Instrutor deletado com sucesso!");
+      onPlanDeleted();
+    } catch (error) {
+      console.error("Erro ao deletar o instrutor:", error);
+      toast.error("Erro ao deletar o instrutor.");
+    }
+  };
 
   return (
     <div className="instructors-list">
@@ -29,12 +29,14 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
           </tr>
         </thead>
         <tbody>
-              <tr>
-                <td>Nome do Instrutor</td>
-                <td>123.456.789-10</td>
-                <td>88912345678</td>
-                <td>SEG, TER, QUA</td>
-                <td>Manhã</td>
+          {instructors.length > 0 ? (
+            instructors.map((instructor) => (
+              <tr key={instructor.id}>
+                <td>{instructor.name}</td>
+                <td>{instructor.cref}</td>
+                <td>{instructor.tel}</td>
+                <td>{instructor.turnTime || "N/D"}</td> {/* Verifica se a propriedade existe */}
+                <td>{instructor.shift || "N/D"}</td> {/* Exemplo: turno (Manhã/Tarde/Noite) */}
                 <td>
                   <button className="btn edit" onClick={() => setSelectedInstructor(instructor)}>
                     ✏️
@@ -44,9 +46,12 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                   </button>
                 </td>
               </tr>
+            ))
+          ) : (
             <tr>
-              {/* <td colSpan="4">Nenhum instrutor encontrado.</td> */}
+              <td colSpan="6">Nenhum instrutor encontrado.</td>
             </tr>
+          )}
         </tbody>
       </table>
     </div>
