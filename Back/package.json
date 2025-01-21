@@ -5,6 +5,7 @@
   "scripts": {
     "test": "jest",
     "dev": "npx tsx --trace-warnings src/shared/infra/http/server.ts",
+    "dev:watch": "npx tsx --trace-warnings src/shared/infra/http/server.ts --watch",
     "migration": "knex migrate:make -x ts",
     "migrate:run": "knex migrate:latest",
     "start:dev": "npm run migrate:run && npm run dev"
