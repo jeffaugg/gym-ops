@@ -1406,8 +1406,8 @@
         "tags": [
           "Users"
         ],
-        "summary": "Lista todos os instrutores",
-        "description": "Endpoint para listar todos os instrutores cadastrados.",
+        "summary": "Lista todos os usuários",
+        "description": "Endpoint para listar todos os usuários cadastrados.",
         "responses": {
           "200": {
             "description": "Lista de usuários cadastrados",
@@ -1455,116 +1455,6 @@
           },
           "400": {
             "description": "Requisição inválida"
-          },
-          "409": {
-            "description": "Conflito: Email ou CPF já cadastrado"
-          }
-        }
-      }
-    },
-    "/user/{id}": {
-      "get": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Busca instrutorário por ID",
-        "description": "Endpoint para buscar um instrutor pelo ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID do instrutor",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Dados do instrutor",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "instrutor não encontrado"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Exclui um instrutor",
-        "description": "Endpoint para excluir um instrutor pelo ID.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID do instrutor",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "instrutor excluído com sucesso"
-          },
-          "404": {
-            "description": "instrutor não encontrado"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Atualiza um instrutor",
-        "description": "Endpoint para atualizar os dados de um instrutor.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID do instrutor",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "instrutor atualizado com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "404": {
-            "description": "instrutor não encontrado"
           },
           "409": {
             "description": "Conflito: Email ou CPF já cadastrado"
@@ -1630,6 +1520,46 @@
           },
           "400": {
             "description": "Requisição inválida"
+          }
+        }
+      }
+    },
+    "/user": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Atualiza um usuário",
+        "description": "Endpoint para atualizar os dados de um usuário.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "409": {
+            "description": "Conflito: Email ou CPF já cadastrado"
           }
         }
       }
@@ -2211,6 +2141,11 @@
             "description": "ID do aluno",
             "example": 1
           },
+          "instructor_id": {
+            "type": "integer",
+            "description": "ID do instrutor",
+            "example": 2
+          },
           "height": {
             "type": "number",
             "description": "Altura em metros, com no máximo duas casas decimais",
@@ -2231,65 +2166,25 @@
             "description": "Massa magra em quilos",
             "example": 55.3
           },
-          "left_arm_relaxed": {
-            "type": "number",
-            "description": "Medida do braço esquerdo relaxado em centímetros",
-            "example": 34.0
-          },
-          "right_arm_relaxed": {
-            "type": "number",
-            "description": "Medida do braço direito relaxado em centímetros",
-            "example": 34.5
-          },
-          "left_arm_contracted": {
-            "type": "number",
-            "description": "Medida do braço esquerdo contraído em centímetros",
-            "example": 35.5
-          },
-          "right_arm_contracted": {
-            "type": "number",
-            "description": "Medida do braço direito contraído em centímetros",
-            "example": 36.0
-          },
-          "left_thigh": {
-            "type": "number",
-            "description": "Medida da coxa esquerda em centímetros",
-            "example": 55.0
-          },
-          "right_thigh": {
-            "type": "number",
-            "description": "Medida da coxa direita em centímetros",
-            "example": 55.5
-          },
-          "left_calf": {
-            "type": "number",
-            "description": "Medida da panturrilha esquerda em centímetros",
-            "example": 37.0
-          },
-          "right_calf": {
-            "type": "number",
-            "description": "Medida da panturrilha direita em centímetros",
-            "example": 37.5
-          },
           "chest": {
             "type": "number",
             "description": "Medida do peito em centímetros",
-            "example": 90.0
+            "example": 100.2
           },
           "abdomen": {
             "type": "number",
             "description": "Medida do abdômen em centímetros",
-            "example": 80.0
+            "example": 90.5
           },
           "waist": {
             "type": "number",
             "description": "Medida da cintura em centímetros",
-            "example": 82.0
+            "example": 80.5
           },
           "hip": {
             "type": "number",
             "description": "Medida do quadril em centímetros",
-            "example": 95.0
+            "example": 95.2
           },
           "photo": {
             "type": "array",
@@ -2301,6 +2196,7 @@
         },
         "required": [
           "aluno_id",
+          "instructor_id",
           "height",
           "weight"
         ]

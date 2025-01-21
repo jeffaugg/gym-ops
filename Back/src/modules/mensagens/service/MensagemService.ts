@@ -26,7 +26,7 @@ export class MensagemService {
   }
 
   async create(data: z.infer<typeof MensagemSchema>, userId: number) {
-    const user = await this.userRepository.findAdmById(userId);
+    const user = await this.userRepository.findById(userId);
 
     if (user.role !== "ADM") {
       throw new AppError("Usuário não autorizado", 401);
@@ -43,7 +43,7 @@ export class MensagemService {
   }
 
   async list(adm_id: number) {
-    const user = await this.userRepository.findAdmById(adm_id);
+    const user = await this.userRepository.findById(adm_id);
 
     if (user.role !== "ADM") {
       throw new AppError("Usuário não autorizado", 401);

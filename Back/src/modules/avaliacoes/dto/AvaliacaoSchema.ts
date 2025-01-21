@@ -2,6 +2,10 @@ import { z } from "zod";
 
 export const AvaliacoesSchema = z.object({
   aluno_id: z.number().int().positive({ message: "ID do aluno inválido" }),
+  instructor_id: z
+    .number()
+    .int()
+    .positive({ message: "ID do instrutor inválido" }),
   height: z
     .number()
     .positive({ message: "Altura inválida" })

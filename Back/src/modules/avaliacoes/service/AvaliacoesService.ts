@@ -21,15 +21,10 @@ export class AvaliacaoService {
     private alunoRepository: AlunoRepository,
   ) {}
   async create(
-    data: z.infer<typeof AvaliacoesSchema> & {
-      instructor_id: number;
-    },
+    data: z.infer<typeof AvaliacoesSchema>,
     adm_id: number,
   ): Promise<Avaliacao> {
-    const userById = await this.userRepository.findUserById(
-      data.instructor_id,
-      adm_id,
-    );
+    const userById = await this.userRepository.findById(data.instructor_id);
 
     if (!userById) {
       throw new AppError("Instrutor não existe", 404);

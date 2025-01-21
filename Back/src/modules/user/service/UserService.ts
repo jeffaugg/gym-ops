@@ -47,7 +47,7 @@ export class UserService {
       throw new AppError("CPF já cadastrado", 409);
     }
 
-    const adm = await this.userRepository.findAdmById(data.adm_id);
+    const adm = await this.userRepository.findById(data.adm_id);
 
     if (!adm || adm.role !== "ADM") {
       throw new AppError("Usuário não autorizado", 401);
@@ -94,22 +94,8 @@ export class UserService {
     };
   }
 
-  async findUserById(id: number, adm_id: number) {
-    const user = await this.userRepository.findUserById(id, adm_id);
-
-    if (!user) {
-      throw new AppError("Usuário não encontrado", 404);
-    }
-
-    return user;
-  }
-
-  async updateUser(
-    id: number,
-    adm_id: number,
-    data: z.infer<typeof UserSchema>,
-  ) {
-    const user = await this.userRepository.findUserById(id, adm_id);
+  async update(id: number, data: z.infer<typeof UserSchema>) {
+    const user = await this.userRepository.findById(id);
 
     if (!user) {
       throw new AppError("Usuário não encontrado", 404);
@@ -129,32 +115,16 @@ export class UserService {
 
     data.password = await hash(data.password, 8);
 
-    return await this.userRepository.update(id, data);
+    return this.userRepository.update(id, data);
   }
 
   async getAllUsers(adm_id: number) {
-    const adm = await this.userRepository.findAdmById(adm_id);
+    const adm = await this.userRepository.findById(adm_id);
 
     if (!adm || adm.role !== "ADM") {
       throw new AppError("Usuário não autorizado", 401);
     }
 
-    return await this.userRepository.getAllUsers(adm_id);
-  }
-
-  async delete(id: number, adm_id: number) {
-    const adm = await this.userRepository.findAdmById(adm_id);
-
-    if (!adm || adm.role !== "ADM") {
-      throw new AppError("Usuário não autorizado", 401);
-    }
-
-    const user = await this.userRepository.findUserById(id, adm_id);
-
-    if (!user) {
-      throw new AppError("Usuário não encontrado", 404);
-    }
-
-    return await this.userRepository.delete(id, adm_id);
+    return this.userRepository.getAllUsers(adm_id);
   }
 }

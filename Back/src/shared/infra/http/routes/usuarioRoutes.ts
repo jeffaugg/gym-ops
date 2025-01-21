@@ -10,9 +10,8 @@ authRoutes.post("/signupadm", userController.createAdm);
 authRoutes.post("/signupuser", isAuth, userController.createUser);
 authRoutes.get("/allusers", isAuth, userController.getAllUsers);
 authRoutes.post("/login", userController.login);
+authRoutes.put("/", isAuth, userController.update);
 authRoutes.get("/testeAreaLogada", isAuth, userController.test);
 authRoutes.get("/me", isAuth, (req, res) => res.json({ user: req.user }));
-authRoutes.get("/:id", isAuth, userController.findUserById);
-authRoutes.put("/:id", isAuth, userController.updateUser);
-authRoutes.delete("/:id", isAuth, userController.deleteUser);
+
 export default authRoutes;

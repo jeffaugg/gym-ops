@@ -95,7 +95,6 @@ export default function PayForm({ onPaymentCreated }) {
         {aluno && (
           <div>
             <p><strong>Aluno encontrado:</strong> {aluno.name}</p>
-            <br />
           </div>
         )}
 

@@ -46,37 +46,14 @@ export class UserController {
     }
   }
 
-  public async updateUser(req: Request, res: Response): Promise<Response> {
+  public async update(req: Request, res: Response): Promise<Response> {
     const data = UserSchema.parse(req.body);
-    const { id } = req.params;
 
-    const { adm_id } = req.user.id;
-
-    const userService = container.resolve(UserService);
-
-    const user = await userService.updateUser(Number(id), adm_id, data);
-
-    return res.status(200).json(user);
-  }
-
-  public async deleteUser(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
-    const adm_id = req.user.id;
+    const id = req.user.id;
 
     const userService = container.resolve(UserService);
 
-    await userService.delete(Number(id), adm_id);
-
-    return res.status(204).send();
-  }
-
-  public async findUserById(req: Request, res: Response): Promise<Response> {
-    const { id } = req.params;
-    const adm_id = req.user.id;
-
-    const userService = container.resolve(UserService);
-
-    const user = await userService.findUserById(Number(id), adm_id);
+    const user = await userService.update(id, data);
 
     return res.status(200).json(user);
   }
