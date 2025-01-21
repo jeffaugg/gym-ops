@@ -1,3 +1,4 @@
+import { format, set } from "date-fns";
 import React, { useState, useEffect } from "react";
 import "./InstructorsForm.css";
 import InputFieldForm from "../../InputFieldForm/InputFieldForm";
@@ -13,7 +14,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
   const [cpf, setCpf] = useState("");
   const [tel, setTel] = useState("");
   const [role] = useState("USER");
-  const [date_of_birth, setBirthDate] = useState("");
+  const [DateOfBirth, setDateOfBirth] = useState("");
   const [gender, setGen] = useState("");
   const [cref, setCref] = useState("");
   const [daysOfWeek, setDaysOfWeek] = useState([]);
@@ -24,30 +25,52 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     setDaysOfWeek((prev) =>
       prev.includes(dayNumber) ? prev.filter((d) => d !== dayNumber) : [...prev, dayNumber]
     );
+    // console.log(daysOfWeek);
+    // console.log(typeof daysOfWeek);
+    // console.log("daysOfWeek:", Array.isArray(daysOfWeek));
+    // console.log(typeof daysOfWeek);
+  };
+
+  const handleCancel = () => {
+    setName("");
+    setEmail("");
+    setPassword("");
+    setCpf("");
+    setTel("");
+    setDateOfBirth("");
+    setGen("");
+    setCref("");
+    setDaysOfWeek([]);
+    setTurnTime("");
+    toast.info("Adição/Edição cancelada.");
   };
 
   useEffect(() => {
     if (selectedInstructor) {
       setName(selectedInstructor.name || "");
-      setBirthDate(selectedInstructor.date_of_birth || "");
-      setCpf(selectedInstructor.cpf || "");
-      setGen(selectedInstructor.gender || "");
-      setTel(selectedInstructor.tel || "");
       setEmail(selectedInstructor.email || "");
+      setPassword(selectedInstructor.password || "");
+      setCpf(selectedInstructor.cpf || "");
+      setTel(selectedInstructor.tel || "");
+      const formattedDate = selectedInstructor.date_of_birth
+        ? format(new Date(selectedInstructor.date_of_birth), "yyyy-MM-dd")
+        : "";
+      setDateOfBirth(formattedDate);
+      setGen(selectedInstructor.gender || "");
       setCref(selectedInstructor.cref || "");
       setDaysOfWeek(selectedInstructor.daysofweek || []);
       setTurnTime(selectedInstructor.turntime || "");
     } else {
       setName("");
-      setBirthDate("");
-      setCpf("");
-      setGen("");
-      setTel("");
       setEmail("");
+      setPassword("");
+      setCpf("");
+      setTel("");
+      setDateOfBirth("");
+      setGen("");
       setCref("");
       setDaysOfWeek([]);
       setTurnTime("");
-      setPassword("");
     }
   }, [selectedInstructor]);
 
@@ -55,21 +78,54 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     event.preventDefault();
 
     try {
-      await api.post("/user/signupuser", {
+      if(selectedInstructor){
+        const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
+        await api.put(`/user`, {
+          name,
+          email,
+          password,
+          cpf,
+          tel,
+          role,
+          date_of_birth: formattedBirthDate,
+          gender,
+          cref,
+          daysofweek: Array.isArray(daysOfWeek) ? daysOfWeek : Object.values(daysOfWeek),
+          turntime: turnTime,
+          });
+  
+          toast.success("Instrutor atualizado com sucesso!", { position: "top-right" });
+      }else{
+        const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
+        await api.post("/user/signupuser", {
         name,
         email,
         password,
         cpf,
         tel,
         role,
-        date_of_birth,
+        date_of_birth: formattedBirthDate,
         gender,
         cref,
-        daysofweek: daysOfWeek,
+        daysofweek: Array.isArray(daysOfWeek) ? daysOfWeek : Object.values(daysOfWeek),
         turntime: turnTime,
-      });
+        });
 
-      toast.success("Criação de Instrutor realizado com sucesso!", { position: "top-right" });
+        toast.success("Criação de Instrutor realizado com sucesso!", { position: "top-right" });
+      }
+      
+      setName("");
+      setEmail("");
+      setPassword("");
+      setCpf("");
+      setTel("");
+      setDateOfBirth("");
+      setGen("");
+      setCref("");
+      setDaysOfWeek([]);
+      setTurnTime("");
+      setSelectedInstructor(null);
+
       onInstructorCreated();
     } catch (error) {
       const errors = error.response?.data?.message;
@@ -109,8 +165,8 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
           <InputFieldForm
             label="Data de nascimento*"
             type="date"
-            value={date_of_birth}
-            onChange={(e) => setBirthDate(e.target.value)}
+            value={DateOfBirth}
+            onChange={(e) => setDateOfBirth(e.target.value)}
           />
         </div>
 
@@ -196,8 +252,8 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
         </div>
 
         <div className="form-actions">
-          <ButtonCancel />
-          <ButtonSend />
+          <ButtonSend isEditing={!!selectedInstructor} />
+          <ButtonCancel onClick={handleCancel} />
         </div>
       </form>
     </div>

@@ -4,6 +4,7 @@ import api from "../../../api";
 import { toast } from "react-toastify";
 
 export default function InstructorsTable({ instructors, onPlanDeleted, setSelectedInstructor }) {
+  
   const handleDelete = async (id) => {
     try {
       await api.delete(`/user/allusers/${id}`);
@@ -35,8 +36,19 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                 <td>{instructor.name}</td>
                 <td>{instructor.cref}</td>
                 <td>{instructor.tel}</td>
-                <td>{instructor.turnTime || "N/D"}</td> {/* Verifica se a propriedade existe */}
-                <td>{instructor.shift || "N/D"}</td> {/* Exemplo: turno (Manhã/Tarde/Noite) */}
+                <td>
+                  {instructor.daysofweek 
+                    ? instructor.daysofweek
+                        .map((day) => ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"][day - 1])
+                        .join(", ")
+                    : "N/D"}
+                </td>
+                
+                <td>
+                  {instructor.turntime 
+                    ? ["Manhã", "Tarde", "Noite"][instructor.turntime - 1]
+                    : "N/D" }
+                </td>
                 <td>
                   <button className="btn edit" onClick={() => setSelectedInstructor(instructor)}>
                     ✏️
