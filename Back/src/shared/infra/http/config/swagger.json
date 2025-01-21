@@ -2366,11 +2366,6 @@
             "description": "ID do aluno",
             "example": 1
           },
-          "instructor_id": {
-            "type": "integer",
-            "description": "ID do instrutor",
-            "example": 2
-          },
           "height": {
             "type": "number",
             "description": "Altura em metros, com no máximo duas casas decimais",
@@ -2391,25 +2386,65 @@
             "description": "Massa magra em quilos",
             "example": 55.3
           },
+          "left_arm_relaxed": {
+            "type": "number",
+            "description": "Medida do braço esquerdo relaxado em centímetros",
+            "example": 34.0
+          },
+          "right_arm_relaxed": {
+            "type": "number",
+            "description": "Medida do braço direito relaxado em centímetros",
+            "example": 34.5
+          },
+          "left_arm_contracted": {
+            "type": "number",
+            "description": "Medida do braço esquerdo contraído em centímetros",
+            "example": 35.5
+          },
+          "right_arm_contracted": {
+            "type": "number",
+            "description": "Medida do braço direito contraído em centímetros",
+            "example": 36.0
+          },
+          "left_thigh": {
+            "type": "number",
+            "description": "Medida da coxa esquerda em centímetros",
+            "example": 55.0
+          },
+          "right_thigh": {
+            "type": "number",
+            "description": "Medida da coxa direita em centímetros",
+            "example": 55.5
+          },
+          "left_calf": {
+            "type": "number",
+            "description": "Medida da panturrilha esquerda em centímetros",
+            "example": 37.0
+          },
+          "right_calf": {
+            "type": "number",
+            "description": "Medida da panturrilha direita em centímetros",
+            "example": 37.5
+          },
           "chest": {
             "type": "number",
             "description": "Medida do peito em centímetros",
-            "example": 100.2
+            "example": 90.0
           },
           "abdomen": {
             "type": "number",
             "description": "Medida do abdômen em centímetros",
-            "example": 90.5
+            "example": 80.0
           },
           "waist": {
             "type": "number",
             "description": "Medida da cintura em centímetros",
-            "example": 80.5
+            "example": 82.0
           },
           "hip": {
             "type": "number",
             "description": "Medida do quadril em centímetros",
-            "example": 95.2
+            "example": 95.0
           },
           "photo": {
             "type": "array",
@@ -2421,7 +2456,6 @@
         },
         "required": [
           "aluno_id",
-          "instructor_id",
           "height",
           "weight"
         ]

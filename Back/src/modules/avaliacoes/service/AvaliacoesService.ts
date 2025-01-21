@@ -21,7 +21,9 @@ export class AvaliacaoService {
     private alunoRepository: AlunoRepository,
   ) {}
   async create(
-    data: z.infer<typeof AvaliacoesSchema>,
+    data: z.infer<typeof AvaliacoesSchema> & {
+      instructor_id: number;
+    },
     adm_id: number,
   ): Promise<Avaliacao> {
     const userById = await this.userRepository.findUserById(
