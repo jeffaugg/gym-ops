@@ -2180,6 +2180,30 @@
         }
       }
     },
+    "/presence" : {
+      "get": {
+        "tags": [
+          "Presença"
+        ],
+        "summary": "Lista todas as presenças",
+        "description": "Endpoint para listar todas as presenças registradas no sistema.",
+        "responses": {
+          "200": {
+            "description": "Lista de presenças",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Presenca"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/work-hours/dayofweek": {
       "get": {
         "tags": [
