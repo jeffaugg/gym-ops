@@ -54,4 +54,8 @@ export class PresencaService {
 
     return this.presencaRepository.delete(id);
   }
+
+  async getAll(adm_id: number): Promise<Presenca[]> {
+    return await this.presencaRepository.getAll(adm_id);
+  }
 }

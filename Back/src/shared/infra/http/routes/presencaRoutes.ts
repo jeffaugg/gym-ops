@@ -9,5 +9,5 @@ const presencaController = container.resolve(PresencaController);
 presencaRoutes.post("/:id", isAuth, presencaController.create);
 presencaRoutes.get("/:id", isAuth, presencaController.findByUser);
 presencaRoutes.delete("/:id", isAuth, presencaController.delele);
-
+presencaRoutes.get("/", isAuth, presencaController.getAll);
 export default presencaRoutes;

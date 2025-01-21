@@ -35,4 +35,12 @@ export class PresencaController {
     await presencaService.delete(Number(id), adm_id);
     return res.status(204).json();
   }
+
+  async getAll(req: Request, res: Response): Promise<Response> {
+    const adm_id = req.user.adm_id;
+
+    const presencaService = container.resolve(PresencaService);
+    const presencas = await presencaService.getAll(adm_id);
+    return res.status(200).json(presencas);
+  }
 }
