@@ -1,3 +1,5 @@
+// 
+
 import React from "react";
 import InputMask from "react-input-mask";
 import "./InputFieldForm.css";
@@ -9,10 +11,11 @@ export default function InputFieldForm({
   label, 
   value, 
   onChange, 
-  mask 
+  mask,
+  title // Recebendo o atributo title
 }) {
   return (
-    <label className="input-form">
+    <label className="input-form" title={title}>
       {label}
       {mask ? (
         <InputMask 
@@ -21,7 +24,15 @@ export default function InputFieldForm({
           onChange={onChange} 
           placeholder={placeholder}
         >
-          {(inputProps) => <input {...inputProps} type={type} id={id} required />}
+          {(inputProps) => (
+            <input 
+              {...inputProps} 
+              type={type} 
+              id={id} 
+              required 
+              title={title} // Passa o título também para o input dentro da máscara
+            />
+          )}
         </InputMask>
       ) : (
         <input
@@ -31,6 +42,7 @@ export default function InputFieldForm({
           value={value}
           onChange={onChange}
           required
+          title={title} // Atribui o título diretamente ao input
         />
       )}
     </label>
