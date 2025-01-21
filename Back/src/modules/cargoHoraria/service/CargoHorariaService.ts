@@ -33,6 +33,10 @@ export class CargoHorariaService {
     return await Promise.all(insercoes);
   }
 
+  async update(user_id: number, horario_id: number, dias_id: number[]) {
+    await this.cargoHorariaRepository.delete(user_id);
+    return await this.create(user_id, horario_id, dias_id);
+  }
   async listNow(admin_id: number) {
     return await this.cargoHorariaRepository.listNow(admin_id);
   }
