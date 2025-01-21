@@ -59,9 +59,18 @@ export class UserRepository {
     return User.fromDatabase(result.rows[0]);
   }
 
-  async findById(id: number): Promise<User | null> {
+  async findAdmById(id: number): Promise<User | null> {
     const query = "SELECT * FROM users WHERE id = ?";
     const result = await this.db.raw(query, id);
+    if (result.rows.length === 0) {
+      return null;
+    }
+    return User.fromDatabase(result.rows[0]);
+  }
+
+  async findUserById(id: number, adm_id: number): Promise<User | null> {
+    const query = "SELECT * FROM users WHERE id = ? AND adm_id = ?;";
+    const result = await this.db.raw(query, [id, adm_id]);
     if (result.rows.length === 0) {
       return null;
     }
@@ -108,6 +117,11 @@ export class UserRepository {
       return null;
     }
     return User.fromDatabase(result.rows[0]);
+  }
+
+  async delete(id: number, adm_id: number): Promise<void> {
+    const query = "DELETE FROM users WHERE id = ? AND adm_id = ?;";
+    await this.db.raw(query, [id, adm_id]);
   }
 }
 

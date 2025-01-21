@@ -8,7 +8,11 @@ import { z } from "zod";
 export class AvaliacoesRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  async create(data: z.infer<typeof AvaliacoesSchema>): Promise<Avaliacao> {
+  async create(
+    data: z.infer<typeof AvaliacoesSchema> & {
+      instructor_id: number;
+    },
+  ): Promise<Avaliacao> {
     const query = `
     INSERT INTO avaliacoes (
     aluno_id, instructor_id, height, weight, fat_mass, lean_mass,left_arm_relaxed, right_arm_relaxed, left_arm_contracted, right_arm_contracted, left_thigh, right_thigh, left_calf, right_calf, chest, abdomen, waist, hip) 
@@ -41,16 +45,40 @@ export class AvaliacoesRepository {
 
   async list(adm_id: number): Promise<Avaliacao[]> {
     const query = `
-    SELECT avaliacoes.* 
-    FROM avaliacoes
-    JOIN alunos ON avaliacoes.aluno_id = alunos.id
-    WHERE alunos.adm_id = ?;
+      SELECT 
+        avaliacoes.*,
+        jsonb_build_object(
+          'id', alunos.id,
+          'name', alunos.name,
+          'cpf', alunos.cpf,
+          'email', alunos.email,
+          'tel', alunos.telephone
+        ) AS aluno,
+        jsonb_build_object(
+          'id', users.id,
+          'name', users.name,
+          'email', users.email,
+          'tel', users.tel,
+          'role', users.role
+        ) AS instrutor
+      FROM 
+        avaliacoes
+      JOIN 
+        alunos ON avaliacoes.aluno_id = alunos.id
+      JOIN 
+        users ON avaliacoes.instructor_id = users.id
+      WHERE 
+        alunos.adm_id = ?;
     `;
+
     const result = await this.db.raw(query, [adm_id]);
 
-    return result.rows.map((avaliacaoData: any) =>
-      Avaliacao.fromDatabase(avaliacaoData),
-    );
+    return result.rows.map((avaliacaoData: any) => {
+      const avaliacao = Avaliacao.fromDatabase(avaliacaoData);
+      avaliacao.aluno_id = avaliacaoData.aluno; // Sem JSON.parse
+      avaliacao.instructor_id = avaliacaoData.instrutor; // Sem JSON.parse
+      return avaliacao;
+    });
   }
 
   async findByAlunoId(aluno_id: string, adm_id: number): Promise<Avaliacao[]> {

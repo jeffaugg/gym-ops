@@ -15,7 +15,7 @@ export class TreinoService {
   ) {}
 
   async create(data: z.infer<typeof TreinoSchema>, adm_id: number) {
-    const admById = await this.userRepository.findById(adm_id);
+    const admById = await this.userRepository.findAdmById(adm_id);
 
     if (!admById || admById.role != "ADM") {
       throw new AppError("Administrador inválido", 404);

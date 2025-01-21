@@ -8,9 +8,14 @@ export class AvaliacaoController {
   public async create(req: Request, res: Response): Promise<Response> {
     const avaliacaoService = container.resolve(AvaliacaoService);
     const adm_id = req.user.adm_id;
+    const id = req.user.id;
+
     const data = AvaliacoesSchema.parse(req.body);
 
-    const avaliacao = await avaliacaoService.create(data, adm_id);
+    const avaliacao = await avaliacaoService.create(
+      { instructor_id: id, ...data },
+      adm_id,
+    );
 
     return res.status(201).json(avaliacao);
   }
