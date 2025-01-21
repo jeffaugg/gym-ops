@@ -27,6 +27,11 @@ export class CargoHorariaRepository {
     return CargoHoraria.fromDatabase(result.rows[0]);
   }
 
+  async delete(user_id: number): Promise<void> {
+    const query = `DELETE FROM cargo_horaria WHERE user_id = ?;`;
+    await this.db.raw(query, [user_id]);
+  }
+
   async listNow(admin_id: number): Promise<CargoHoraria[]> {
     const query = `
       SELECT 
