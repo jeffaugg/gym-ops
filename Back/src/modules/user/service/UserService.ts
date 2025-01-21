@@ -109,6 +109,12 @@ export class UserService {
     adm_id: number,
     data: z.infer<typeof UserSchema>,
   ) {
+    const adm = await this.userRepository.findAdmById(adm_id);
+
+    if (!adm || adm.role !== "ADM") {
+      throw new AppError("Usuário não autorizado", 401);
+    }
+
     const user = await this.userRepository.findUserById(id, adm_id);
 
     if (!user) {
@@ -128,7 +134,7 @@ export class UserService {
     }
 
     data.password = await hash(data.password, 8);
-
+    await this.cargoHorariaService.update(id, data.turntime, data.daysofweek);
     return await this.userRepository.update(id, data);
   }
 
