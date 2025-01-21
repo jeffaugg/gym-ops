@@ -1406,8 +1406,8 @@
         "tags": [
           "Users"
         ],
-        "summary": "Lista todos os usuários",
-        "description": "Endpoint para listar todos os usuários cadastrados.",
+        "summary": "Lista todos os instrutores",
+        "description": "Endpoint para listar todos os instrutores cadastrados.",
         "responses": {
           "200": {
             "description": "Lista de usuários cadastrados",
@@ -1455,6 +1455,116 @@
           },
           "400": {
             "description": "Requisição inválida"
+          },
+          "409": {
+            "description": "Conflito: Email ou CPF já cadastrado"
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Busca instrutorário por ID",
+        "description": "Endpoint para buscar um instrutor pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do instrutor",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Dados do instrutor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "instrutor não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Exclui um instrutor",
+        "description": "Endpoint para excluir um instrutor pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do instrutor",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "instrutor excluído com sucesso"
+          },
+          "404": {
+            "description": "instrutor não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Atualiza um instrutor",
+        "description": "Endpoint para atualizar os dados de um instrutor.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do instrutor",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "instrutor atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida"
+          },
+          "404": {
+            "description": "instrutor não encontrado"
           },
           "409": {
             "description": "Conflito: Email ou CPF já cadastrado"
@@ -1520,46 +1630,6 @@
           },
           "400": {
             "description": "Requisição inválida"
-          }
-        }
-      }
-    },
-    "/user": {
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Atualiza um usuário",
-        "description": "Endpoint para atualizar os dados de um usuário.",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Usuário atualizado com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "404": {
-            "description": "Usuário não encontrado"
-          },
-          "409": {
-            "description": "Conflito: Email ou CPF já cadastrado"
           }
         }
       }
