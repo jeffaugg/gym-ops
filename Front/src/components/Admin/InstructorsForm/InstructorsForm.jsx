@@ -48,7 +48,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     if (selectedInstructor) {
       setName(selectedInstructor.name || "");
       setEmail(selectedInstructor.email || "");
-      setPassword(selectedInstructor.password || "");
+      setPassword("");
       setCpf(selectedInstructor.cpf || "");
       setTel(selectedInstructor.tel || "");
       const formattedDate = selectedInstructor.date_of_birth
@@ -82,7 +82,6 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
         await api.put(`/user/${selectedInstructor.id}`, {
           name,
           email,
-          password,
           cpf,
           tel,
           role,
@@ -92,6 +91,10 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
           daysofweek: daysOfWeek,
           turntime: turnTime,
           });
+          if (password) {
+            dataToSend.password = password;
+          }
+        
   
           toast.success("Instrutor atualizado com sucesso!", { position: "top-right" });
       }else{
