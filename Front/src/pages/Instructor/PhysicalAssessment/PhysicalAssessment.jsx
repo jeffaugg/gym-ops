@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./PhysicalAssessment.css";
-import Layout from "../../../components/LayoutPages/Layout";
+import Layout from "../../../components/Instructors/LayoutPages/Layout";
 import PhysicalAssessmentForm from "../../../components/Instructor/PhysicalAssessmentForm/PhysicalAssessmentForm";
 import PhysicalAssessmentTable from "../../../components/Instructor/PhysicalAssessmentTable/PhysicalAssessmentTable";
 import api from "../../../api";

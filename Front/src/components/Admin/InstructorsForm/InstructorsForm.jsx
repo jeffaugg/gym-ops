@@ -7,7 +7,7 @@ import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function InstructorsForm({ onInstructorCreated, selectedInstructor, setSelectedInstructor }) {
+export default function InstructorsForm({ onInstructorCreated, selectedInstructor, setSelectedInstructor  }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,13 +25,13 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     setDaysOfWeek((prev) =>
       prev.includes(dayNumber) ? prev.filter((d) => d !== dayNumber) : [...prev, dayNumber]
     );
-    // console.log(daysOfWeek);
-    // console.log(typeof daysOfWeek);
-    // console.log("daysOfWeek:", Array.isArray(daysOfWeek));
-    // console.log(typeof daysOfWeek);
   };
 
   const handleCancel = () => {
+    const hasChanges = name || email || password || cpf || tel || DateOfBirth || gender || cref || daysOfWeek.length || turnTime;
+    if (hasChanges) {
+      toast.info("Adição/Edição cancelada.");
+    }
     setName("");
     setEmail("");
     setPassword("");
@@ -42,7 +42,6 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     setCref("");
     setDaysOfWeek([]);
     setTurnTime("");
-    toast.info("Adição/Edição cancelada.");
   };
 
   useEffect(() => {
@@ -80,7 +79,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     try {
       if(selectedInstructor){
         const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
-        await api.put(`/user`, {
+        await api.put(`/user/${selectedInstructor.id}`, {
           name,
           email,
           password,
@@ -90,7 +89,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
           date_of_birth: formattedBirthDate,
           gender,
           cref,
-          daysofweek: Array.isArray(daysOfWeek) ? daysOfWeek : Object.values(daysOfWeek),
+          daysofweek: daysOfWeek,
           turntime: turnTime,
           });
   
@@ -107,7 +106,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
         date_of_birth: formattedBirthDate,
         gender,
         cref,
-        daysofweek: Array.isArray(daysOfWeek) ? daysOfWeek : Object.values(daysOfWeek),
+        daysofweek: daysOfWeek,
         turntime: turnTime,
         });
 

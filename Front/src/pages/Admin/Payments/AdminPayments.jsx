@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AdminPayments.css";
-import Layout from "../../../components/LayoutPages/Layout";
+import Layout from "../../../components/Admin/LayoutPages/Layout";
 import PayForm from "../../../components/Admin/PayForm/PayForm";
 import PaymentsTable from "../../../components/Admin/PaymentsTable/PaymentsTable";
 import api from "../../../api";
