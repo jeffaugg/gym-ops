@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./PresencePage.css";
-import Layout from "../../components/LayoutPages/Layout";
+import Layout from "../../components/Instructors/LayoutPages/Layout";
 import PresenceForm from "../../components/PresenceForm/PresenceForm";
 import PresenceTable from "../../components/PresenceTable/PresenceTable";
 
