@@ -20,6 +20,10 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
   const [status, setStatus] = useState("true");
 
   const handleCancel = () => {
+    const hasChanges = name || birthDate || cpf || gen || plan || phone || email || health ;
+        if (hasChanges) {
+          toast.info("Adição/Edição cancelada.");
+        }
     setName("");
     setBirthDate("");
     setCpf("ALL");
@@ -28,7 +32,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
     setPhone("");
     setEmail("");
     setHealth("");
-    toast.info("Mensagem cancelada.");
   };
 
   useEffect(() => {

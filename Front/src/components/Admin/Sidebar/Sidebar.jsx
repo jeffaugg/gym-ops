@@ -20,7 +20,7 @@ function Sidebar() {
 
   const menuItems = [
     { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/adminhome" },
-    { name: "Alunos", icon: BsPeople, path: "/students" },
+    { name: "Alunos", icon: BsPeople, path: "/adminstudents" },
     { name: "Avisos", icon: BsEnvelopePaper, path: "/adminwarnings" },
     { name: "Planos", icon: LuNotebookPen, path: "/adminplans" },
     { name: "Pagamentos", icon: BsCreditCard, path: "/adminpayments" },

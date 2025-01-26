@@ -45,7 +45,7 @@
 
 // export default AdminPlans;
 import React, { useState, useEffect } from "react";
-import Layout from "../../../components/LayoutPages/Layout";
+import Layout from "../../../components/Admin/LayoutPages/Layout";
 import PlansForm from "../../../components/Admin/PlansForm/PlansForm";
 import PlansTable from "../../../components/Admin/PlansTable/PlansTable";
 import api from "../../../api";
@@ -88,6 +88,7 @@ function AdminPlans() {
           plans={plans}
           onPlanDeleted={fetchPlans}
           setSelectedPlan={setSelectedPlan}
+          selectedPlan={selectedPlan}
         />
       </div>
     </Layout>

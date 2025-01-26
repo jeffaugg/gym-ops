@@ -13,18 +13,15 @@ function Sidebar() {
   const user =
     JSON.parse(localStorage.getItem("user")) ||
     JSON.parse(sessionStorage.getItem("user")) || {
-      name: "Administrador",
-      email: "admin@exemplo.com",
+      name: "Instrutor",
+      email: "instrutor@exemplo.com",
       avatar: "https://via.placeholder.com/50", 
     };
 
   const menuItems = [
-    { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/adminhome" },
-    { name: "Alunos", icon: BsPeople, path: "/students" },
-    { name: "Avisos", icon: BsEnvelopePaper, path: "/adminwarnings" },
-    { name: "Planos", icon: LuNotebookPen, path: "/adminplans" },
-    { name: "Pagamentos", icon: BsCreditCard, path: "/adminpayments" },
-    { name: "Instrutores", icon: IoBarbellOutline, path: "/admininstructors" },
+    { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/instructorhome" },
+    { name: "Alunos", icon: BsPeople, path: "/instructorstudents" },
+    { name: "Avaliação Fisica", icon: BsEnvelopePaper, path: "/instructorPhysicalAssessment" },
   ];
 
   return (
