@@ -1,5 +1,3 @@
-// 
-
 import React from "react";
 import InputMask from "react-input-mask";
 import "./InputFieldForm.css";
@@ -12,7 +10,8 @@ export default function InputFieldForm({
   value, 
   onChange, 
   mask,
-  title // Recebendo o atributo title
+  title,
+  required = true 
 }) {
   return (
     <label className="input-form" title={title}>
@@ -29,8 +28,7 @@ export default function InputFieldForm({
               {...inputProps} 
               type={type} 
               id={id} 
-              required 
-              title={title} // Passa o título também para o input dentro da máscara
+              required={required} 
             />
           )}
         </InputMask>
@@ -41,8 +39,8 @@ export default function InputFieldForm({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          required
-          title={title} // Atribui o título diretamente ao input
+          required={required} 
+          title={title}
         />
       )}
     </label>

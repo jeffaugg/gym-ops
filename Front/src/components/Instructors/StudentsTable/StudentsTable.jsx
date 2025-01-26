@@ -3,10 +3,13 @@ import "./StudentsTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function StudentsTable({ students, onPlanDeleted, setSelectedStudent }) {
+export default function StudentsTable({ students, onPlanDeleted, setSelectedStudent, selectedStudent }) {
   const handleDelete = async (id) => {
     try {
       await api.delete(`/clients/${id}`);
+      if(selectedStudent && selectedStudent.id == id) {
+        setSelectedStudent(null);
+      }
       toast.success("Aluno deletado com sucesso!");
       onPlanDeleted();
     } catch (error) {

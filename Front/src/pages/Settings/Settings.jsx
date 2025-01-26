@@ -1,6 +1,6 @@
 import React from "react";
 import "./Settings.css";
-import Layout from "../../components/LayoutPages/Layout";
+import Layout from "../../components/Admin/LayoutPages/Layout";
 import SettingsForm from "../../components/Admin/SettingsForm/SettingsForm";
 
 function Settings() {

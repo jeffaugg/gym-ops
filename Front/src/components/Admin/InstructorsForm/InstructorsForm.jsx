@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import React, { useState, useEffect } from "react";
 import "./InstructorsForm.css";
 import InputFieldForm from "../../InputFieldForm/InputFieldForm";
@@ -6,14 +7,14 @@ import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function InstructorsForm({ onInstructorCreated, selectedInstructor, setSelectedInstructor }) {
+export default function InstructorsForm({ onInstructorCreated, selectedInstructor, setSelectedInstructor  }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [cpf, setCpf] = useState("");
   const [tel, setTel] = useState("");
   const [role] = useState("USER");
-  const [date_of_birth, setBirthDate] = useState("");
+  const [DateOfBirth, setDateOfBirth] = useState("");
   const [gender, setGen] = useState("");
   const [cref, setCref] = useState("");
   const [daysOfWeek, setDaysOfWeek] = useState([]);
@@ -26,28 +27,50 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     );
   };
 
+  const handleCancel = () => {
+    const hasChanges = name || email || password || cpf || tel || DateOfBirth || gender || cref || daysOfWeek.length || turnTime;
+    if (hasChanges) {
+      toast.info("Adição/Edição cancelada.");
+    }
+    setName("");
+    setEmail("");
+    setPassword("");
+    setCpf("");
+    setTel("");
+    setDateOfBirth("");
+    setGen("");
+    setCref("");
+    setDaysOfWeek([]);
+    setTurnTime("");
+    setSelectedInstructor(null);
+  };
+
   useEffect(() => {
     if (selectedInstructor) {
       setName(selectedInstructor.name || "");
-      setBirthDate(selectedInstructor.date_of_birth || "");
-      setCpf(selectedInstructor.cpf || "");
-      setGen(selectedInstructor.gender || "");
-      setTel(selectedInstructor.tel || "");
       setEmail(selectedInstructor.email || "");
+      setPassword("");
+      setCpf(selectedInstructor.cpf || "");
+      setTel(selectedInstructor.tel || "");
+      const formattedDate = selectedInstructor.date_of_birth
+        ? format(new Date(selectedInstructor.date_of_birth), "yyyy-MM-dd")
+        : "";
+      setDateOfBirth(formattedDate);
+      setGen(selectedInstructor.gender || "");
       setCref(selectedInstructor.cref || "");
       setDaysOfWeek(selectedInstructor.daysofweek || []);
       setTurnTime(selectedInstructor.turntime || "");
     } else {
       setName("");
-      setBirthDate("");
-      setCpf("");
-      setGen("");
-      setTel("");
       setEmail("");
+      setPassword("");
+      setCpf("");
+      setTel("");
+      setDateOfBirth("");
+      setGen("");
       setCref("");
       setDaysOfWeek([]);
       setTurnTime("");
-      setPassword("");
     }
   }, [selectedInstructor]);
 
@@ -55,21 +78,57 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     event.preventDefault();
 
     try {
-      await api.post("/user/signupuser", {
+      if (selectedInstructor) {
+        const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
+        const dataToSend = {
+          name,
+          email,
+          cpf,
+          tel,
+          role,
+          date_of_birth: formattedBirthDate,
+          gender,
+          cref,
+          daysofweek: daysOfWeek,
+          turntime: turnTime,
+        };
+        if (password) {
+          dataToSend.password = password;
+        }
+        await api.put(`/user/${selectedInstructor.id}`, dataToSend);
+        toast.success("Instrutor atualizado com sucesso!", { position: "top-right" });
+      }
+      else{
+        const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
+        await api.post("/user/signupuser", {
         name,
         email,
         password,
         cpf,
         tel,
         role,
-        date_of_birth,
+        date_of_birth: formattedBirthDate,
         gender,
         cref,
         daysofweek: daysOfWeek,
         turntime: turnTime,
-      });
+        });
 
-      toast.success("Criação de Instrutor realizado com sucesso!", { position: "top-right" });
+        toast.success("Criação de Instrutor realizado com sucesso!", { position: "top-right" });
+      }
+      
+      setName("");
+      setEmail("");
+      setPassword("");
+      setCpf("");
+      setTel("");
+      setDateOfBirth("");
+      setGen("");
+      setCref("");
+      setDaysOfWeek([]);
+      setTurnTime("");
+      setSelectedInstructor(null);
+
       onInstructorCreated();
     } catch (error) {
       const errors = error.response?.data?.message;
@@ -109,8 +168,8 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
           <InputFieldForm
             label="Data de nascimento*"
             type="date"
-            value={date_of_birth}
-            onChange={(e) => setBirthDate(e.target.value)}
+            value={DateOfBirth}
+            onChange={(e) => setDateOfBirth(e.target.value)}
           />
         </div>
 
@@ -150,11 +209,16 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
             onChange={(e) => setEmail(e.target.value)}
           />
           <InputFieldForm
-            label="Senha*"
+            label={selectedInstructor ? "Senha (opcional)" : "Senha*"}
             type="password"
-            placeholder="Digite sua senha"
+            placeholder={
+              selectedInstructor
+                ? "Digite uma nova senha para alterá-la"
+                : "Digite sua senha obrigatória"
+            }
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required={!selectedInstructor}
           />
         </div>
 
@@ -196,8 +260,8 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
         </div>
 
         <div className="form-actions">
-          <ButtonCancel />
-          <ButtonSend />
+          <ButtonSend isEditing={!!selectedInstructor} />
+          <ButtonCancel onClick={handleCancel} />
         </div>
       </form>
     </div>

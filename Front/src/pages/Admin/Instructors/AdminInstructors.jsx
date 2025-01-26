@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./AdminInstructors.css";
 import api from "../../../api";
-import Layout from "../../../components/LayoutPages/Layout";
+import Layout from "../../../components/Admin/LayoutPages/Layout";
 import InstructorsForm from "../../../components/Admin/InstructorsForm/InstructorsForm";
 import InstructorsTable from "../../../components/Admin/InstructorsTable/InstructorsTable";
 
@@ -38,6 +38,7 @@ function AdminInstructors() {
         instructors={instructors}
         onPlanDeleted={fetchInstructors}
         setSelectedInstructor={setSelectedInstructor}
+        selectedInstructor={selectedInstructor}
       />
     </div>
   </Layout>

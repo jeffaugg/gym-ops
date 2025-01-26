@@ -55,10 +55,13 @@ import "./PlansTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan }) {
+export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, selectedPlan }) {
   const handleDelete = async (id) => {
     try {
       await api.delete(`/plan/${id}`);
+      if (selectedPlan && selectedPlan.id === id) {
+        setSelectedPlan(null);
+      }
       toast.success("Plano deletado com sucesso!");
       onPlanDeleted();
     } catch (error) {
