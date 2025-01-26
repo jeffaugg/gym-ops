@@ -29,7 +29,7 @@ function App() {
         {/* Rotas protegidas */}
         {/* ADM */}
         <Route
-          path="/adminhome"
+          path="/admin"
           element={
             <ProtectedRoute roles={["ADM"]}>
               <AdminHome />
@@ -37,7 +37,7 @@ function App() {
           }
         />
         <Route
-          path="/adminstudents"
+          path="/admin/students"
           element={
             <ProtectedRoute roles={["ADM"]}>
               <AdminStudents />
@@ -45,7 +45,7 @@ function App() {
           }
         />
         <Route
-          path="/adminwarnings"
+          path="/admin/warnings"
           element={
             <ProtectedRoute roles={["ADM"]}>
               <AdminWarnings />
@@ -53,7 +53,7 @@ function App() {
           }
         />
         <Route
-          path="/adminplans"
+          path="/admin/plans"
           element={
             <ProtectedRoute roles={["ADM"]}>
               <AdminPlans />
@@ -61,7 +61,7 @@ function App() {
           }
         />
         <Route
-          path="/adminpayments"
+          path="/admin/payments"
           element={
             <ProtectedRoute roles={["ADM"]}>
               <AdminPayments />
@@ -69,7 +69,7 @@ function App() {
           }
         />
         <Route
-          path="/admininstructors"
+          path="/admin/instructors"
           element={
             <ProtectedRoute roles={["ADM"]}>
               <AdminInstructors />
@@ -86,7 +86,7 @@ function App() {
         />
         {/* USER */}
         <Route
-          path="/instructorhome"
+          path="/instructor"
           element={
             <ProtectedRoute roles={["USER"]}>
               <InstructorHome />
@@ -94,7 +94,7 @@ function App() {
           }
         />
         <Route
-          path="/instructorstudents"
+          path="/instructor/students"
           element={
             <ProtectedRoute roles={["USER"]}>
               <InstructorStudents />
@@ -102,7 +102,7 @@ function App() {
           }
         />
         <Route
-          path="/instructorPhysicalAssessment"
+          path="/instructor/PhysicalAssessment"
           element={
             <ProtectedRoute roles={["USER"]}>
               <PhysicalAssessment />
@@ -110,7 +110,7 @@ function App() {
           }
         />
         <Route
-          path="/instructorpresence"
+          path="/instructor/presence"
           element={
             <ProtectedRoute roles={["USER"]}>
               <PresencePage />

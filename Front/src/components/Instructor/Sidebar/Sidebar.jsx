@@ -19,10 +19,10 @@ function Sidebar() {
     };
 
   const menuItems = [
-    { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/instructorhome" },
-    { name: "Alunos", icon: BsPeople, path: "/instructorstudents" },
-    { name: "Avaliação Fisica", icon: TbRulerMeasure2, path: "/instructorPhysicalAssessment" },
-    { name: "Registrar Frequência", icon: FaRegCalendarCheck, path: "/instructorpresence" },
+    { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/instructor" },
+    { name: "Alunos", icon: BsPeople, path: "/instructor/students" },
+    { name: "Avaliação Fisica", icon: TbRulerMeasure2, path: "/instructor/PhysicalAssessment" },
+    { name: "Registrar Frequência", icon: FaRegCalendarCheck, path: "/instructor/presence" },
   ];
 
   return (

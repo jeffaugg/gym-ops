@@ -58,9 +58,9 @@ function LoginForm() {
       });
 
       if (user.role === "ADM") {
-        navigate('/AdminHome');
+        navigate('/admin');
       } else if (user.role === "USER") {
-        navigate('/InstructorHome');
+        navigate('/instructor');
       } else {
         navigate('/');
       }

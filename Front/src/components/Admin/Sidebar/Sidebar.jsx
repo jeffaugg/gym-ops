@@ -19,12 +19,12 @@ function Sidebar() {
     };
 
   const menuItems = [
-    { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/adminhome" },
-    { name: "Alunos", icon: BsPeople, path: "/adminstudents" },
-    { name: "Avisos", icon: BsEnvelopePaper, path: "/adminwarnings" },
-    { name: "Planos", icon: LuNotebookPen, path: "/adminplans" },
-    { name: "Pagamentos", icon: BsCreditCard, path: "/adminpayments" },
-    { name: "Instrutores", icon: IoBarbellOutline, path: "/admininstructors" },
+    { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/admin" },
+    { name: "Alunos", icon: BsPeople, path: "/admin/students" },
+    { name: "Avisos", icon: BsEnvelopePaper, path: "/admin/warnings" },
+    { name: "Planos", icon: LuNotebookPen, path: "/admin/plans" },
+    { name: "Pagamentos", icon: BsCreditCard, path: "/admin/payments" },
+    { name: "Instrutores", icon: IoBarbellOutline, path: "/admin/instructors" },
   ];
 
   return (
