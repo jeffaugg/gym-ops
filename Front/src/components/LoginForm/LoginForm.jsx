@@ -30,7 +30,7 @@ function LoginForm() {
     event.preventDefault();
 
     try {
-      const response = await api.post('/user/login', { email, password });
+      const response = await api.post('/user/signupadm', { email, password });
       console.log('Resposta da API:', response.data);
       const { token, user } = response.data;
       

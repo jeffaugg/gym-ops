@@ -38,6 +38,7 @@ function Students() {
           students={students}
           onPlanDeleted={fetchStudents}
           setSelectedStudent={setSelectedStudent}
+          selectedStudent={selectedStudent}
         />
       </div>
     </Layout>
