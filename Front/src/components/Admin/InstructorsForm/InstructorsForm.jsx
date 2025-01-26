@@ -1,4 +1,4 @@
-import { format, set } from "date-fns";
+import { format } from "date-fns";
 import React, { useState, useEffect } from "react";
 import "./InstructorsForm.css";
 import InputFieldForm from "../../InputFieldForm/InputFieldForm";
@@ -42,6 +42,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     setCref("");
     setDaysOfWeek([]);
     setTurnTime("");
+    setSelectedInstructor(null);
   };
 
   useEffect(() => {
@@ -77,9 +78,9 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     event.preventDefault();
 
     try {
-      if(selectedInstructor){
+      if (selectedInstructor) {
         const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
-        await api.put(`/user/${selectedInstructor.id}`, {
+        const dataToSend = {
           name,
           email,
           cpf,
@@ -90,14 +91,14 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
           cref,
           daysofweek: daysOfWeek,
           turntime: turnTime,
-          });
-          if (password) {
-            dataToSend.password = password;
-          }
-        
-  
-          toast.success("Instrutor atualizado com sucesso!", { position: "top-right" });
-      }else{
+        };
+        if (password) {
+          dataToSend.password = password;
+        }
+        await api.put(`/user/${selectedInstructor.id}`, dataToSend);
+        toast.success("Instrutor atualizado com sucesso!", { position: "top-right" });
+      }
+      else{
         const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
         await api.post("/user/signupuser", {
         name,
@@ -208,11 +209,16 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
             onChange={(e) => setEmail(e.target.value)}
           />
           <InputFieldForm
-            label="Senha*"
+            label={selectedInstructor ? "Senha (opcional)" : "Senha*"}
             type="password"
-            placeholder="Digite sua senha"
+            placeholder={
+              selectedInstructor
+                ? "Digite uma nova senha para alterá-la"
+                : "Digite sua senha obrigatória"
+            }
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required={!selectedInstructor}
           />
         </div>
 

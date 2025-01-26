@@ -88,6 +88,7 @@ function AdminPlans() {
           plans={plans}
           onPlanDeleted={fetchPlans}
           setSelectedPlan={setSelectedPlan}
+          selectedPlan={selectedPlan}
         />
       </div>
     </Layout>
