@@ -3,16 +3,35 @@ import "./InstructorsTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function InstructorsTable({ instructors, onPlanDeleted, setSelectedInstructor }) {
+export default function InstructorsTable({ instructors, onPlanDeleted, setSelectedInstructor, selectedInstructor }) {
   const handleDelete = async (id) => {
     try {
-      await api.delete(`/user/allusers/${id}`);
+      await api.delete(`/user/${id}`);
+      if (selectedInstructor && selectedInstructor.id === id) {
+        setSelectedInstructor(null); 
+      }
       toast.success("Instrutor deletado com sucesso!");
       onPlanDeleted();
     } catch (error) {
       console.error("Erro ao deletar o instrutor:", error);
       toast.error("Erro ao deletar o instrutor.");
     }
+  };
+
+  const dayMapping = {
+    Domingo: 1,
+    Segunda: 2,
+    Terça: 3,
+    Quarta: 4,
+    Quinta: 5,
+    Sexta: 6,
+    Sábado: 7,
+  };
+
+  const turnMapping = {
+    1: "Manhã",
+    2: "Tarde",
+    3: "Noite",
   };
 
   return (
@@ -35,10 +54,35 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                 <td>{instructor.name}</td>
                 <td>{instructor.cref}</td>
                 <td>{instructor.tel}</td>
-                <td>{instructor.turnTime || "N/D"}</td> {/* Verifica se a propriedade existe */}
-                <td>{instructor.shift || "N/D"}</td> {/* Exemplo: turno (Manhã/Tarde/Noite) */}
                 <td>
-                  <button className="btn edit" onClick={() => setSelectedInstructor(instructor)}>
+                  {instructor.daysofweek 
+                    ? instructor.daysofweek
+                        .map((day) => {
+                          const dayId = dayMapping[day];
+                          return dayId ? ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"][dayId - 1] : day;
+                        })
+                        .join(", ")
+                    : "N/D"}
+                </td>
+                <td>
+                  {instructor.turntime 
+                    ? turnMapping[instructor.turntime.id] || "N/D"
+                    : "N/D"}
+                </td>
+                <td>
+                  <button
+                    className="btn edit"
+                    onClick={() =>
+                      setSelectedInstructor({
+                        ...instructor,
+                        daysofweek: instructor.daysofweek.map((day) => {
+                          const dayId = dayMapping[day];
+                          return dayId || day;
+                        }),
+                        turntime: instructor.turntime?.id || null,
+                      })
+                    }
+                  >
                     ✏️
                   </button>
                   <button className="btn delete" onClick={() => handleDelete(instructor.id)}>

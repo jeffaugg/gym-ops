@@ -1,0 +1,20 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    height: full width;
+    background-color: #ECE9E9;
+  }
+  
+  .main-layout {
+    display: flex;
+    flex: 1; 
+  }
+
+  .content {
+    flex: 1;
+    margin-top: 80px;
+    margin-left: 250px;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  

@@ -1,6 +1,6 @@
 import React from "react";
-import Sidebar from "../Admin/Sidebar/Sidebar";
-import Topbar from "../Topbar/Topbar";
+import Sidebar from "../Sidebar/Sidebar";
+import Topbar from "../../Topbar/Topbar";
 import "./Layout.css";
 
 function Layout({ children }) {

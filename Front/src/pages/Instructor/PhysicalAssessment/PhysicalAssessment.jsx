@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./PhysicalAssessment.css";
-import Layout from "../../../components/LayoutPages/Layout";
-import PhysicalAssessmentForm from "../../../components/Instructors/PhysicalAssessmentForm/PhysicalAssessmentForm";
-import PhysicalAssessmentTable from "../../../components/Instructors/PhysicalAssessmentTable/PhysicalAssessmentTable";
+import Layout from "../../../components/Instructors/LayoutPages/Layout";
+import PhysicalAssessmentForm from "../../../components/Instructor/PhysicalAssessmentForm/PhysicalAssessmentForm";
+import PhysicalAssessmentTable from "../../../components/Instructor/PhysicalAssessmentTable/PhysicalAssessmentTable";
 import api from "../../../api";
 import { toast } from "react-toastify";
 

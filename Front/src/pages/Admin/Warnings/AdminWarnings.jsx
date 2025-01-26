@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import "./AdminWarnings.css";
 import WarningForm from "../../../components/Admin/WarningForm/WarningForm";
 import WarningTable from "../../../components/Admin/WarningTable/WarningTable";
-import Layout from "../../../components/LayoutPages/Layout";
+import Layout from "../../../components/Admin/LayoutPages/Layout";
 import api from "../../../api";
 import { toast } from "react-toastify";
 

@@ -1,43 +1,3 @@
-// import './App.css'
-// import React from 'react'
-// import { BrowserRouter, Routes, Route} from "react-router-dom"
-
-// import SignUpPage from './pages/SignupPage/SignupPage'
-// import LoginPage from './pages/LoginPage/LoginPage'
-// import AdminHome from './pages/Admin/Home/AdminHome'
-// import Students from "./pages/Students/Students"
-// import AdminWarnings from "./pages/Admin/Warnings/AdminWarnings";
-// import AdminPlans from "./pages/Admin/Plans/AdminPlans";
-// import AdminPayments from "./pages/Admin/Payments/AdminPayments";
-// import AdminInstructors from "./pages/Admin/Instructors/AdminInstructors";
-// import Settings from "./pages/Settings/Settings";
-
-// function App() {
-
-//   return (
-//     <>
-//       <div>
-//         <BrowserRouter>
-//           <Routes>
-//             <Route path="/" element={<LoginPage />} />
-//             <Route path="/signup" element={<SignUpPage />} />
-//             <Route path="/adminhome" element={<AdminHome />} />
-//             <Route path="/students" element={<Students />} />
-//             <Route path="/adminwarnings" element={<AdminWarnings />} />
-//             <Route path="/adminplans" element={<AdminPlans />} />
-//             <Route path="/adminpayments" element={<AdminPayments />} />
-//             <Route path="/admininstructors" element={<AdminInstructors />} />
-//             <Route path="/settings" element={<Settings />} />
-//           </Routes>
-//         </BrowserRouter>
-        
-//       </div>
-//     </>
-//   )
-// }
-
-// export default App
-
 import './App.css';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -45,17 +5,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUpPage from './pages/SignupPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import AdminHome from './pages/Admin/Home/AdminHome';
-import Students from "./pages/Students/Students";
+import AdminStudents from "./pages/Admin/Students/Students";
 import AdminWarnings from "./pages/Admin/Warnings/AdminWarnings";
 import AdminPlans from "./pages/Admin/Plans/AdminPlans";
 import AdminPayments from "./pages/Admin/Payments/AdminPayments";
 import AdminInstructors from "./pages/Admin/Instructors/AdminInstructors";
 import Settings from "./pages/Settings/Settings";
 import InstructorHome from './pages/Instructor/Home/InstructorHome';
+import InstructorStudents from "./pages/Instructor/Students/Students";
 import PhysicalAssessment from './pages/Instructor/PhysicalAssessment/PhysicalAssessment';
 import PresencePage from "./pages/Presence/PresencePage" 
 
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Importa o ProtectedRoute
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 function App() {
   return (
@@ -66,26 +27,27 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
 
         {/* Rotas protegidas */}
+        {/* ADM */}
         <Route
           path="/adminhome"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminHome />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/students"
+          path="/adminstudents"
           element={
-            <ProtectedRoute>
-              <Students />
+            <ProtectedRoute roles={["ADM"]}>
+              <AdminStudents />
             </ProtectedRoute>
           }
         />
         <Route
           path="/adminwarnings"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminWarnings />
             </ProtectedRoute>
           }
@@ -93,7 +55,7 @@ function App() {
         <Route
           path="/adminplans"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminPlans />
             </ProtectedRoute>
           }
@@ -101,7 +63,7 @@ function App() {
         <Route
           path="/adminpayments"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminPayments />
             </ProtectedRoute>
           }
@@ -109,7 +71,7 @@ function App() {
         <Route
           path="/admininstructors"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminInstructors />
             </ProtectedRoute>
           }
@@ -117,16 +79,40 @@ function App() {
         <Route
           path="/settings"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["USER"]}>
               <Settings />
             </ProtectedRoute>
           }
         />
+        {/* USER */}
         <Route
           path="/instructorhome"
           element={
-            <ProtectedRoute>
-              {/* <PhysicalAssessment /> */}
+            <ProtectedRoute roles={["USER"]}>
+              <InstructorHome />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructorstudents"
+          element={
+            <ProtectedRoute roles={["USER"]}>
+              <InstructorStudents />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructorPhysicalAssessment"
+          element={
+            <ProtectedRoute roles={["USER"]}>
+              <PhysicalAssessment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/presence"
+          element={
+            <ProtectedRoute roles={["USER"]}>
               <PresencePage />
             </ProtectedRoute>
           }
@@ -137,4 +123,3 @@ function App() {
 }
 
 export default App;
-

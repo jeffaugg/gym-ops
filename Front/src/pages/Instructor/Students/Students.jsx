@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./Students.css";
-import StudentsForm from "../../components/Admin/StudentsForm/StudentsForm";
-import StudentsTable from "../../components/Admin/StudentsTable/StudentsTable";
-import Layout from "../../components/LayoutPages/Layout";
-import api from "../../api";
+import StudentsForm from "../../../components/Instructors/StudentsForm/StudentsForm";
+import StudentsTable from "../../../components/Instructors/StudentsTable/StudentsTable";
+import Layout from "../../../components/Instructors/LayoutPages/Layout";
+import api from "../../../api";
 
 function Students() {
   const [students, setStudents] = useState([]);
@@ -38,6 +38,7 @@ function Students() {
           students={students}
           onPlanDeleted={fetchStudents}
           setSelectedStudent={setSelectedStudent}
+          selectedStudent={selectedStudent}
         />
       </div>
     </Layout>
