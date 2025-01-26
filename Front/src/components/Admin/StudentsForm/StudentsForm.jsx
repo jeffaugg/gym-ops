@@ -7,7 +7,8 @@ import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function StudentsForm({ onStudentCreated, selectedStudent, setSelectedStudent }) { const [name, setName] = useState("");
+export default function StudentsForm({ onStudentCreated, selectedStudent, setSelectedStudent }) {
+  const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [cpf, setCpf] = useState("");
   const [gen, setGen] = useState("O");
@@ -19,7 +20,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
   const [status, setStatus] = useState("true");
   const [payment, setPayment] = useState("");
 
-
   const handleCancel = () => {
     const hasChanges = name || birthDate || cpf || gen || plan || phone || email || health;
     if (hasChanges) {
@@ -27,7 +27,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
     }
     setName("");
     setBirthDate("");
-    setCpf("ALL");
+    setCpf("");
     setGen("");
     setPlan("");
     setPhone("");
@@ -51,7 +51,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
   }, []);
 
   useEffect(() => {
-
     if (selectedStudent) {
       setName(selectedStudent.name || "");
       const formattedDate = selectedStudent.date_of_birth
@@ -88,34 +87,25 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
     }
 
     try {
+      const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
+
+      const studentData = {
+        name,
+        date_of_birth: formattedBirthDate,
+        email,
+        telephone: phone,
+        cpf,
+        plan_id: Number(plan),
+        health_notes: health,
+        status: status === "true",
+        gender: gen,
+      };
+
       if (selectedStudent) {
-        const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
-        await api.put(`/clients/${selectedStudent.id}`, {
-          name,
-          date_of_birth: formattedBirthDate,
-          email,
-          telephone: phone,
-          cpf,
-          plan_id: Number(plan),
-          health_notes: health,
-          status: status === "true",
-          gender: gen,
-        });
+        await api.put(`/clients/${selectedStudent.id}`, studentData);
         toast.success("Aluno atualizado com sucesso!");
       } else {
-        const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
-        const response = await api.post("/clients", {
-          name,
-          date_of_birth: formattedBirthDate,
-          email,
-          telephone: phone,
-          cpf,
-          plan_id: Number(plan),
-          health_notes: health,
-          status: true,
-          gender: gen,
-        });
-
+        const response = await api.post("/clients", studentData);
         const userId = response.data.id;
 
         await api.post("/pay", {
@@ -137,7 +127,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
       setEmail("");
       setHealth("");
       setPayment("");
-
       setSelectedStudent(null);
 
       onStudentCreated();
@@ -184,7 +173,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             onChange={(e) => setPhone(e.target.value)}
             mask={"(99) 99999-9999"}
           />
-
         </div>
 
         <div className="form-group">
@@ -201,7 +189,9 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
           </label>
           <label>
             Método de pagamento*
-            <select required value={payment}
+            <select
+              required
+              value={payment}
               onChange={(e) => setPayment(e.target.value)}
               disabled={selectedStudent}
             >
@@ -213,6 +203,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             </select>
           </label>
         </div>
+
         <div className="form-group">
           <label>
             Gênero*
@@ -228,7 +219,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              disabled={!selectedStudent} 
+              disabled={!selectedStudent}
             >
               <option value="true">Ativo</option>
               <option value="false">Inativo</option>
@@ -250,6 +241,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             placeholder="Digite as observações de saúde"
             value={health}
             onChange={(e) => setHealth(e.target.value)}
+            required={false}
           />
         </div>
 
