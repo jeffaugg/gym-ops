@@ -110,7 +110,7 @@ function App() {
           }
         />
         <Route
-          path="/presence"
+          path="/instructorpresence"
           element={
             <ProtectedRoute roles={["USER"]}>
               <PresencePage />

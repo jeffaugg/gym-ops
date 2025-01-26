@@ -1,10 +1,10 @@
 import React from "react";
 import { FiLogOut } from "react-icons/fi";
-import { IoBarbellOutline } from "react-icons/io5";
+import { TbRulerMeasure2 } from "react-icons/tb";
 import { MdOutlineSpaceDashboard } from "react-icons/md";
-import { BsPeople, BsEnvelopePaper, BsCreditCard } from "react-icons/bs";
+import { BsPeople } from "react-icons/bs";
+import { FaRegCalendarCheck } from "react-icons/fa";
 import { IoCogSharp } from "react-icons/io5";
-import { LuNotebookPen } from "react-icons/lu";
 import SidebarItem from "./SidebarItem";
 import UserProfile from "../../UserProfile/UserProfile";
 import "./Sidebar.css";
@@ -21,7 +21,8 @@ function Sidebar() {
   const menuItems = [
     { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/instructorhome" },
     { name: "Alunos", icon: BsPeople, path: "/instructorstudents" },
-    { name: "Avaliação Fisica", icon: BsEnvelopePaper, path: "/instructorPhysicalAssessment" },
+    { name: "Avaliação Fisica", icon: TbRulerMeasure2, path: "/instructorPhysicalAssessment" },
+    { name: "Registrar Frequência", icon: FaRegCalendarCheck, path: "/instructorpresence" },
   ];
 
   return (
