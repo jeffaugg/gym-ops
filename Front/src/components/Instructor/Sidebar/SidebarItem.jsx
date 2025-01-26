@@ -1,11 +1,12 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { toast } from 'react-toastify'; 
 
 
 function SidebarItem({ name, icon: Icon, path, className = "" }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   
   const handleLogout = () => {
@@ -34,7 +35,7 @@ function SidebarItem({ name, icon: Icon, path, className = "" }) {
       to={path}
       onClick={handleLogout} 
       className={({ isActive }) =>
-        `${className} sidebar-item ${isActive ? "active" : ""}`
+        `${className} sidebar-item ${isActive && location.pathname === path ? "active" : ""}`
       }
     >
       <div className="icon-wrapper">
