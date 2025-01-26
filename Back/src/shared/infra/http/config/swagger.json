@@ -1538,6 +1538,46 @@
         }
       }
     },
+    "/user": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Atualiza um instrutor",
+        "description": "Endpoint para atualizar os dados de um instrutor.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "instrutor atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida ou Role não pode ser alterada"
+          },
+          "404": {
+            "description": "instrutor não encontrado"
+          },
+          "409": {
+            "description": "Conflito: Email, CPF já cadastrado ou Senha igual à anterior"
+          }
+        }
+      }
+    },
     "/user/{id}": {
       "get": {
         "tags": [
@@ -1674,55 +1714,6 @@
           },
           "404": {
             "description": "instrutor não encontrado"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Atualiza um instrutor",
-        "description": "Endpoint para atualizar os dados de um instrutor.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID do instrutor",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "instrutor atualizado com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "404": {
-            "description": "instrutor não encontrado"
-          },
-          "409": {
-            "description": "Conflito: Email ou CPF já cadastrado"
           }
         }
       }
@@ -2180,7 +2171,7 @@
         }
       }
     },
-    "/presence" : {
+    "/presence": {
       "get": {
         "tags": [
           "Presença"
