@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
-import InputFieldForm from '../InputFieldForm/InputFieldForm';
-import './PresenceForm.css';
+import React, { useState } from "react";
+import InputFieldForm from "../InputFieldForm/InputFieldForm";
+import "./PresenceForm.css";
 import { toast } from "react-toastify";
 import api from "../../api";
 import ButtonCancel from "../ButtonCancel/ButtonCancel";
 import ButtonSend from "../ButtonSend/ButtonSend";
 
-
-export default function PresenceForm({ }) {
-
+export default function PresenceForm({ onPresenceCreated }) {
     const [cpf, setCpf] = useState("");
     const [aluno, setAluno] = useState(null);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+
         if (!aluno || !aluno.id) {
             toast.error("Nenhum aluno foi encontrado. Busque um aluno antes de prosseguir.");
             return;
         }
-    
+
         try {
-            const response = await api.post(`/presence/${aluno.id}`);
-            toast.success("Presença registrada com sucesso!");
+            await api.post(`/presence/${aluno.id}`);
+            toast.success(`Presença registrada com sucesso para ${aluno.name}!`);
+            setCpf("");
+            setAluno(null);
+            onPresenceCreated();
         } catch (error) {
             console.error("Erro ao registrar a presença:", error);
             toast.error(error.response?.data?.message || "Erro ao registrar a presença.");
         }
     };
-    
 
     const searchAluno = async (event) => {
         event.preventDefault();
@@ -36,15 +36,13 @@ export default function PresenceForm({ }) {
         try {
             const response = await api.get(`/clients/cpf/${cpf}`);
             setAluno(response.data);
-            toast.success("Aluno encontrado com sucesso!");
-        } catch (response) {
+            toast.success(`Aluno ${response.data.name} encontrado com sucesso!`);
+        } catch (error) {
             console.error("Erro ao buscar o aluno:", error);
             setAluno(null);
             toast.error("Erro ao buscar o aluno.");
         }
-    }
-
-
+    };
 
     return (
         <div className="presence-form">
@@ -65,7 +63,9 @@ export default function PresenceForm({ }) {
 
                 {aluno && (
                     <div>
-                        <p><strong>Aluno encontrado:</strong> {aluno.name}</p>
+                        <p>
+                            <strong>Aluno encontrado:</strong> {aluno.name}
+                        </p>
                         <br />
                     </div>
                 )}
@@ -75,6 +75,5 @@ export default function PresenceForm({ }) {
                 </div>
             </form>
         </div>
-
     );
 }

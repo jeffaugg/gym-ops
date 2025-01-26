@@ -1,9 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./PresencePage.css";
 import Layout from "../../components/LayoutPages/Layout";
 import PresenceForm from "../../components/PresenceForm/PresenceForm";
+import PresenceTable from "../../components/PresenceTable/PresenceTable";
 
 function PresencePage() {
+    const [reload, setReload] = useState(false);
+
+    const handleRefresh = () => {
+        setReload((prev) => !prev);
+    };
+
     return (
         <Layout>
             <div className="assessments-content">
@@ -11,8 +18,8 @@ function PresencePage() {
                     <h1>Presenças</h1>
                 </header>
 
-                <PresenceForm />
-
+                <PresenceForm onPresenceCreated={handleRefresh} />
+                <PresenceTable reload={reload} onPresenceDeleted={handleRefresh} />
             </div>
         </Layout>
     );
