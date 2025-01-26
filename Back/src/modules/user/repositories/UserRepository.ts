@@ -95,7 +95,8 @@ export class UserRepository {
   async findAdmById(id: number): Promise<User | null> {
     const query = "SELECT * FROM users WHERE id = ?";
     const result = await this.db.raw(query, id);
-    if (result.rows.length === 0) {
+
+    if (!result.rows || result.rows.length === 0) {
       return null;
     }
     return User.fromDatabase(result.rows[0]);
@@ -130,9 +131,15 @@ export class UserRepository {
         users.id, horarios.id;
     `;
     const result = await this.db.raw(query, [adm_id, id]);
-    if (result.rows.length === 0) {
+
+    if (
+      !result.rows ||
+      !Array.isArray(result.rows) ||
+      result.rows.length === 0
+    ) {
       return null;
     }
+
     return result.rows.map((row: any) => {
       const user = User.fromDatabase(row);
       user.daysofweek = row.days.map((day: any) => day.day_week);
