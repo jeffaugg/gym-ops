@@ -70,6 +70,27 @@ export class PresencaRepository {
     return Presenca.fromDatabase(result.rows[0]);
   }
 
+  async getAll(adm_id): Promise<Presenca[]> {
+    const query = `
+    SELECT presenca.*,
+    jsonb_build_object(
+      'id', alunos.id,
+      'name', alunos.name,
+      'cpf', alunos.cpf
+      ) AS aluno
+    FROM presenca
+    JOIN alunos ON presenca.aluno_id = alunos.id
+    WHERE alunos.adm_id = ?;
+    `;
+
+    const result = await this.db.raw(query, [adm_id]);
+    return result.rows.map((presencaData: any) => {
+      const presenca = Presenca.fromDatabase(presencaData);
+      presenca.aluno_id = presencaData.aluno;
+      return presenca;
+    });
+  }
+
   async delete(id: number): Promise<void> {
     const query = "DELETE FROM presenca WHERE id = ?";
     await this.db.raw(query, [id]);
