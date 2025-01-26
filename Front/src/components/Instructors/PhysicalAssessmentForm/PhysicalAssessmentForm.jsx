@@ -280,6 +280,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 70.5"
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
+            title={"Peso"}
           />
 
           <InputFieldForm
@@ -288,6 +289,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 170"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
+            title={"Altura"}
           />
 
           <InputFieldForm
@@ -296,6 +298,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 60"
             value={leanMass}
             onChange={(e) => setLeanMass(e.target.value)}
+            title={"Massa Magra"}
           />
 
           <InputFieldForm
@@ -304,6 +307,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 10"
             value={fatMass}
             onChange={(e) => setFatMass(e.target.value)}
+            title={"Massa Gorda"}
           />
         </div>
 
@@ -314,6 +318,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 30"
             value={leftArmRelaxed}
             onChange={(e) => setLeftArmRelaxed(e.target.value)}
+            title={"Braço esquerdo relaxado"}
           />
 
           <InputFieldForm
@@ -322,6 +327,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 31"
             value={rightArmRelaxed}
             onChange={(e) => setRightArmRelaxed(e.target.value)}
+            title={"Braço direito relaxado"}
           />
 
           <InputFieldForm
@@ -330,6 +336,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 32"
             value={leftArmContracted}
             onChange={(e) => setLeftArmContracted(e.target.value)}
+            title={"Braço esquerdo contraído"}
           />
 
           <InputFieldForm
@@ -338,6 +345,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 33"
             value={rightArmContracted}
             onChange={(e) => setRightArmContracted(e.target.value)}
+            title={"Braço direito contraído"}
           />
         </div>
 
@@ -348,6 +356,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 55"
             value={leftThigh}
             onChange={(e) => setLeftThigh(e.target.value)}
+            title={"Coxa esquerda"}
           />
 
           <InputFieldForm
@@ -356,6 +365,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 56"
             value={rightThigh}
             onChange={(e) => setRightThigh(e.target.value)}
+            title={"Coxa direita"}
           />
 
           <InputFieldForm
@@ -364,6 +374,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 35"
             value={leftCalf}
             onChange={(e) => setLeftCalf(e.target.value)}
+            title={"Panturrilha esquerda"}
           />
 
           <InputFieldForm
@@ -372,6 +383,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 36"
             value={rightCalf}
             onChange={(e) => setRightCalf(e.target.value)}
+            title={"Panturrilha direita"}
           />
         </div>
 
@@ -382,6 +394,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 90"
             value={chest}
             onChange={(e) => setChest(e.target.value)}
+            title={"Peitoral"}
           />
 
           <InputFieldForm
@@ -390,6 +403,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 85"
             value={abdomen}
             onChange={(e) => setAbdomen(e.target.value)}
+            title={"Abdomen"}
           />
 
           <InputFieldForm
@@ -398,6 +412,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 80"
             value={waist}
             onChange={(e) => setWaist(e.target.value)}
+            title={"Cintura"}
           />
 
           <InputFieldForm
@@ -406,6 +421,7 @@ export default function PhysicalAssessmentForm({
             placeholder="Ex: 100"
             value={hip}
             onChange={(e) => setHip(e.target.value)}
+            title={"Quadril"}
           />
         </div>
 
