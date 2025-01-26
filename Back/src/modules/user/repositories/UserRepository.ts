@@ -45,42 +45,9 @@ export class UserRepository {
   }
 
   async getAllUsers(adm_id: number): Promise<User[]> {
-    const query = `
-      SELECT 
-        users.*,
-        jsonb_agg(
-          jsonb_build_object(
-            'id', dias.id,
-            'day_week', dias.day_week
-          )
-        ) AS days,
-        jsonb_build_object(
-          'id', horarios.id,
-          'start_time', horarios.start_time,
-          'end_time', horarios.end_time
-        ) AS turn
-      FROM 
-        users
-      JOIN 
-        cargo_horaria ON users.id = cargo_horaria.user_id
-      JOIN 
-        dias ON cargo_horaria.dia_id = dias.id
-      JOIN 
-        horarios ON cargo_horaria.horario_id = horarios.id
-      WHERE 
-        users.adm_id = ? AND users.role = 'USER'
-      GROUP BY 
-        users.id, horarios.id;
-    `;
-
+    const query = `SELECT * FROM users WHERE adm_id = ? AND role = 'USER';`;
     const result = await this.db.raw(query, [adm_id]);
-
-    return result.rows.map((row: any) => {
-      const user = User.fromDatabase(row);
-      user.daysofweek = row.days.map((day: any) => day.day_week);
-      user.turntime = row.turn;
-      return user;
-    });
+    return result.rows.map((row) => User.fromDatabase(row));
   }
 
   async findByEmail(email: string): Promise<User | null> {
@@ -102,43 +69,12 @@ export class UserRepository {
   }
 
   async findUserById(id: number, adm_id: number): Promise<User | null> {
-    const query = `
-      SELECT 
-        users.*,
-        jsonb_agg(
-          jsonb_build_object(
-            'id', dias.id,
-            'day_week', dias.day_week
-          )
-        ) AS days,
-        jsonb_build_object(
-          'id', horarios.id,
-          'start_time', horarios.start_time,
-          'end_time', horarios.end_time
-        ) AS turn
-      FROM 
-        users
-      JOIN 
-        cargo_horaria ON users.id = cargo_horaria.user_id
-      JOIN 
-        dias ON cargo_horaria.dia_id = dias.id
-      JOIN 
-        horarios ON cargo_horaria.horario_id = horarios.id
-      WHERE 
-        users.adm_id = ? AND users.id = ? AND users.role = 'USER'
-      GROUP BY 
-        users.id, horarios.id;
-    `;
-    const result = await this.db.raw(query, [adm_id, id]);
+    const query = "SELECT * FROM users WHERE id = ? AND adm_id = ?;";
+    const result = await this.db.raw(query, [id, adm_id]);
     if (result.rows.length === 0) {
       return null;
     }
-    return result.rows.map((row: any) => {
-      const user = User.fromDatabase(row);
-      user.daysofweek = row.days.map((day: any) => day.day_week);
-      user.turntime = row.turn;
-      return user;
-    });
+    return User.fromDatabase(result.rows[0]);
   }
 
   async findByCpf(cpf: string): Promise<User | null> {

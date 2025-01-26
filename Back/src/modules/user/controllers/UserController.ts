@@ -50,7 +50,7 @@ export class UserController {
     const data = UserSchema.parse(req.body);
     const { id } = req.params;
 
-    const adm_id = req.user.id;
+    const { adm_id } = req.user.id;
 
     const userService = container.resolve(UserService);
 

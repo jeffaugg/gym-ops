@@ -1414,85 +1414,9 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "description": "ID do usuário"
-                    },
-                    "adm_id": {
-                      "type": "integer",
-                      "description": "ID do administrador"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "Nome do usuário"
-                    },
-                    "email": {
-                      "type": "string",
-                      "format": "email",
-                      "description": "Email do usuário"
-                    },
-                    "password": {
-                      "type": "string",
-                      "description": "Senha do usuário"
-                    },
-                    "cpf": {
-                      "type": "string",
-                      "description": "CPF do usuário no formato XXX.XXX.XXX-XX"
-                    },
-                    "tel": {
-                      "type": "string",
-                      "description": "Telefone no formato (XX) XXXXX-XXXX"
-                    },
-                    "role": {
-                      "type": "string",
-                      "description": "Role do usuário (ADM ou USER)"
-                    },
-                    "cref": {
-                      "type": "string",
-                      "description": "CREF do instrutor"
-                    },
-                    "gender": {
-                      "type": "string",
-                      "enum": [
-                        "M",
-                        "F",
-                        "O"
-                      ],
-                      "description": "Gênero do usuário"
-                    },
-                    "date_of_birth": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "Data de nascimento no formato yyyy-mm-ddTHH:MM:SS.sssZ"
-                    },
-                    "daysofweek": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "Dias da semana"
-                    },
-                    "turntime": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer",
-                          "description": "ID do turno"
-                        },
-                        "start_time": {
-                          "type": "string",
-                          "format": "time",
-                          "description": "Horário de início no formato HH:MM:SS"
-                        },
-                        "end_time": {
-                          "type": "string",
-                          "format": "time",
-                          "description": "Horário de término no formato HH:MM:SS"
-                        }
-                      }
-                    }
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
                   }
                 }
               }
@@ -1562,86 +1486,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "integer",
-                      "description": "ID do usuário"
-                    },
-                    "adm_id": {
-                      "type": "integer",
-                      "description": "ID do administrador"
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "Nome do usuário"
-                    },
-                    "email": {
-                      "type": "string",
-                      "format": "email",
-                      "description": "Email do usuário"
-                    },
-                    "password": {
-                      "type": "string",
-                      "description": "Senha do usuário"
-                    },
-                    "cpf": {
-                      "type": "string",
-                      "description": "CPF do usuário no formato XXX.XXX.XXX-XX"
-                    },
-                    "tel": {
-                      "type": "string",
-                      "description": "Telefone no formato (XX) XXXXX-XXXX"
-                    },
-                    "role": {
-                      "type": "string",
-                      "description": "Role do usuário (ADM ou USER)"
-                    },
-                    "cref": {
-                      "type": "string",
-                      "description": "CREF do instrutor"
-                    },
-                    "gender": {
-                      "type": "string",
-                      "enum": [
-                        "M",
-                        "F",
-                        "O"
-                      ],
-                      "description": "Gênero do usuário"
-                    },
-                    "date_of_birth": {
-                      "type": "string",
-                      "format": "date-time",
-                      "description": "Data de nascimento no formato yyyy-mm-ddTHH:MM:SS.sssZ"
-                    },
-                    "daysofweek": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "Dias da semana"
-                    },
-                    "turntime": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "integer",
-                          "description": "ID do turno"
-                        },
-                        "start_time": {
-                          "type": "string",
-                          "format": "time",
-                          "description": "Horário de início no formato HH:MM:SS"
-                        },
-                        "end_time": {
-                          "type": "string",
-                          "format": "time",
-                          "description": "Horário de término no formato HH:MM:SS"
-                        }
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
