@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { container, injectable } from "tsyringe";
 import { UserSchema } from "../dto/UserSchema";
 import { UserService } from "../service/UserService";
+import { UpdateUserSchema } from "../dto/UpdateUserSchema";
 
 @injectable()
 export class UserController {
@@ -47,14 +48,13 @@ export class UserController {
   }
 
   public async updateUser(req: Request, res: Response): Promise<Response> {
-    const data = UserSchema.parse(req.body);
-    const { id } = req.params;
-
-    const adm_id = req.user.id;
+    const data = UpdateUserSchema.parse(req.body);
+    const id = req.user.id;
+    const adm_id = req.user.adm_id;
 
     const userService = container.resolve(UserService);
 
-    const user = await userService.updateUser(Number(id), adm_id, data);
+    const user = await userService.updateUser(id, adm_id, data);
 
     return res.status(200).json(user);
   }
