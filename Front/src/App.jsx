@@ -53,6 +53,7 @@ import AdminInstructors from "./pages/Admin/Instructors/AdminInstructors";
 import Settings from "./pages/Settings/Settings";
 import InstructorHome from './pages/Instructor/Home/InstructorHome';
 import PhysicalAssessment from './pages/Instructor/PhysicalAssessment/PhysicalAssessment';
+import PresencePage from "./pages/Presence/PresencePage" 
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Importa o ProtectedRoute
 
@@ -125,7 +126,8 @@ function App() {
           path="/instructorhome"
           element={
             <ProtectedRoute>
-              <PhysicalAssessment />
+              {/* <PhysicalAssessment /> */}
+              <PresencePage />
             </ProtectedRoute>
           }
         />
