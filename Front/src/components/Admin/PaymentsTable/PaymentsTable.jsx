@@ -61,7 +61,7 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
     try {
       await api.delete(`/pay/${id}`);
       toast.success("Pagamento deletado com sucesso!");
-      onPaymentDeleted(); // Atualiza a tabela
+      onPaymentDeleted(); 
     } catch (error) {
       console.error("Erro ao deletar pagamento:", error);
       toast.error("Erro ao deletar pagamento.");

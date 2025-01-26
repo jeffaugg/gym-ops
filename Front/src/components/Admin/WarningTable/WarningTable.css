@@ -1,8 +1,6 @@
-
-/* Tabela */
 .mensagem-list {
     width: 100%;
-    max-width: 800px; /* Limita a largura máxima da tabela */
+    max-width: 800px; 
     background-color: #332F64;
     padding: 20px;
     border-radius: 8px;

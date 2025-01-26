@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./PresenceTable.css";
 import { toast } from "react-toastify";
-import { format } from "date-fns"; // Importando o format
+import { format } from "date-fns";
 import api from "../../api";
 
 export default function PresenceTable({ reload, onPresenceDeleted }) {
@@ -30,7 +30,7 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
         try {
             await api.delete(`/presence/${id}`);
             toast.success("Presença deletada com sucesso!");
-            onPresenceDeleted(); // Atualiza a tabela
+            onPresenceDeleted(); 
         } catch (error) {
             console.error("Erro ao deletar presença:", error);
             toast.error("Erro ao deletar presença.");
@@ -57,7 +57,7 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
                                 <td>{presence.aluno_id?.cpf || "N/A"}</td>
                                 <td>
                                     {presence.data
-                                        ? format(new Date(presence.data), "dd/MM/yyyy") // Formata a data
+                                        ? format(new Date(presence.data), "dd/MM/yyyy") 
                                         : "N/A"}
                                 </td>
                                 <td>

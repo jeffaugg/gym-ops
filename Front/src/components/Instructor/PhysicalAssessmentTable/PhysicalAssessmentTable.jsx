@@ -6,14 +6,14 @@ import api from "../../../api";
 export default function PhysicalAssessmentTable({
   physicalAssessments = [],
   onPhysicalAssessmentDeleted,
-  setSelectedAssessment, // Recebemos essa função do pai
+  setSelectedAssessment,
 }) {
   const handleDelete = async (id) => {
     try {
       await api.delete(`/reviews/${id}`);
       toast.success("Avaliação deletada com sucesso!");
       onPhysicalAssessmentDeleted();
-      setSelectedAssessment(null); // Isso ativa o "else" do useEffect e limpa campos
+      setSelectedAssessment(null); 
     } catch (error) {
       console.error("Erro ao deletar avaliação:", error);
       toast.error("Erro ao deletar avaliação.");
@@ -45,14 +45,12 @@ export default function PhysicalAssessmentTable({
                 </td>
                 <td>{assessment.instructor_id?.name || "N/A"}</td>
                 <td>
-                  {/* Botão EDITAR: chama setSelectedAssessment */}
                   <button
                     className="btn edit"
                     onClick={() => setSelectedAssessment(assessment)}
                   >
                     ✏️
                   </button>
-                  {/* Botão DELETAR */}
                   <button
                     className="btn delete"
                     onClick={() => handleDelete(assessment.id)}
