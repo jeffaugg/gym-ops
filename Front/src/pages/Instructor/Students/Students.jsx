@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./Students.css";
-import StudentsForm from "../../../components/Instructors/StudentsForm/StudentsForm";
-import StudentsTable from "../../../components/Instructors/StudentsTable/StudentsTable";
-import Layout from "../../../components/Instructors/LayoutPages/Layout";
+import StudentsForm from "../../../components/Instructor/StudentsForm/StudentsForm";
+import StudentsTable from "../../../components/Instructor/StudentsTable/StudentsTable";
+import Layout from "../../../components/Instructor/LayoutPages/Layout";
 import api from "../../../api";
 
 function Students() {
