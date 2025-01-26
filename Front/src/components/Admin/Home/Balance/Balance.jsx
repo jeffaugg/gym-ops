@@ -3,7 +3,6 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler} from 'chart.js';
 import api from "../../../../api";
 
-// Registre os componentes necessários do Chart.js
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
 const Balance = () => {
@@ -22,10 +21,10 @@ const Balance = () => {
 
   const fetchPaymentsData = async () => {
     try {
-      const response = await api.get(`/report/balance`); // Assumindo que você tem uma rota para pegar os pagamentos
+      const response = await api.get(`/report/balance`); 
       const data = response.data;
-      const labels = data.map(payment => payment.payment_date); // Convertendo data para labels
-      const dataset = data.map(payment => payment.plano.price); // Pegando os valores dos pagamentos
+      const labels = data.map(payment => payment.payment_date);
+      const dataset = data.map(payment => payment.plano.price);
       setPaymentsData({
         labels,
         datasets: [
@@ -47,7 +46,6 @@ const Balance = () => {
     fetchPaymentsData();
   }, []);
 
-  // Configurações para o gráfico
   const options = {
     responsive: true,
     pointBackgroundColor: '#fff',
@@ -57,16 +55,16 @@ const Balance = () => {
         display: true,
         text: 'Balanço de Pagamentos',
         font: {
-          size: 20, // Tamanho da fonte do título
-          weight: 'bold', // Peso da fonte
+          size: 20,
+          weight: 'bold', 
         },
-        align: 'start', // Alinha o título à esquerda
+        align: 'start', 
       },
       legend: {
-        position: 'top', // Posicionamento da legenda
+        position: 'top',
         labels: {
           font: {
-            size: 14, // Tamanho da fonte da legenda
+            size: 14, 
           },
         },
       },
@@ -75,17 +73,16 @@ const Balance = () => {
       x: {
         ticks: {
           font: {
-            size: 12, // Tamanho da fonte no eixo X
+            size: 12, 
           },
         },
       },
       y: {
         ticks: {
           font: {
-            size: 12, // Tamanho da fonte no eixo Y
+            size: 12,
           },
           callback: function (value) {
-            // Formata os valores com R$ e separador de milhar
             return 'R$ ' + value.toLocaleString();
           },
         },

@@ -2,7 +2,7 @@
 .login-page-container { 
     display: flex;
     height: 100vh;
-    background-color: #EFEAE4; /* uma cor clara próxima do off-white */
+    background-color: #EFEAE4; 
     font-family: Arial, sans-serif;
   }
   

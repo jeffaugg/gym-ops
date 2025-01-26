@@ -229,7 +229,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              disabled={!selectedStudent} // Desabilita se estiver criando
+              disabled={!selectedStudent} 
             >
               <option value="true">Ativo</option>
               <option value="false">Inativo</option>

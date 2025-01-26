@@ -17,7 +17,6 @@
 .presence-list td {
     padding: 10px;
     text-align: center;
-    /* text-align: left; */
 }
 
 .presence-list td {
@@ -41,7 +40,6 @@
     border-radius: 4px;
     cursor: pointer;
     margin: 2px;
-    /* background-color: rgba(248, 248, 248, 0); */
 }
 
 .presence-list .btn.delete {
@@ -50,6 +48,5 @@
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
-    /* background-color: rgba(248, 248, 248, 0); */
     margin: 2px;
 }

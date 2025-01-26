@@ -14,7 +14,6 @@ export default function PhysicalAssessmentForm({
   const [aluno, setAluno] = useState(null);
   const [cpf, setCpf] = useState("");
 
-  // Campos de medidas
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [fatMass, setFatMass] = useState("");
@@ -32,10 +31,8 @@ export default function PhysicalAssessmentForm({
   const [waist, setWaist] = useState("");
   const [hip, setHip] = useState("");
 
-  // Se `selectedAssessment` mudar, vamos preencher o formulário
   useEffect(() => {
     if (selectedAssessment) {
-      // Ajusta os campos com os dados da avaliação
       setHeight(selectedAssessment.height ?? "");
       setWeight(selectedAssessment.weight ?? "");
       setFatMass(selectedAssessment.fat_mass ?? "");
@@ -53,15 +50,12 @@ export default function PhysicalAssessmentForm({
       setWaist(selectedAssessment.waist ?? "");
       setHip(selectedAssessment.hip ?? "");
 
-      // Se o back-end retorna algo como `assessment.aluno_id`, 
-      // então definimos o "aluno" para exibir o nome, etc.
       const alunoDoAssessment = selectedAssessment.aluno_id;
       if (alunoDoAssessment && alunoDoAssessment.id) {
         setAluno(alunoDoAssessment);
         setCpf(alunoDoAssessment.cpf || "");
       }
     } else {
-      // Se não há avaliação selecionada, limpamos tudo (cadastro novo)
       setAluno(null);
       setCpf("");
       setHeight("");
@@ -83,11 +77,7 @@ export default function PhysicalAssessmentForm({
     }
   }, [selectedAssessment]);
 
-  // Buscar Aluno por CPF (apenas se estivermos criando uma nova)
   const searchAluno = async () => {
-    // Se estivermos editando, não faz sentido buscar outro aluno,
-    // mas você pode permitir caso queira trocar o aluno da avaliação.
-    // Aqui, vou permitir a busca sempre, mas você pode condicionar.
     try {
       const response = await api.get(`/clients/cpf/${cpf}`);
       setAluno(response.data);
@@ -102,15 +92,13 @@ export default function PhysicalAssessmentForm({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Se estamos criando E não temos aluno, exibir erro
     if (!selectedAssessment && (!aluno || !aluno.id)) {
       toast.error("Nenhum aluno foi encontrado. Busque um aluno antes de prosseguir.");
       return;
     }
 
-    // Monta o objeto para enviar
     const dataToSend = {
-      aluno_id: aluno?.id, // se estamos editando e não alteramos o aluno, permanece
+      aluno_id: aluno?.id, 
       height: Number(height),
       weight: Number(weight),
       fat_mass: Number(fatMass),
@@ -132,7 +120,6 @@ export default function PhysicalAssessmentForm({
 
     try {
       if (selectedAssessment) {
-        // Modo edição -> PUT
         await api.put(`/reviews/${selectedAssessment.id}`, dataToSend);
         toast.success("Avaliação atualizada com sucesso!");
         setAluno(null);
@@ -152,14 +139,13 @@ export default function PhysicalAssessmentForm({
         setChest("");
         setAbdomen("");
         setWaist("");
-        setHip(""); // Isso ativa o "else" do useEffect e limpa campos
-        setSelectedAssessment(null); // Isso ativa o "else" do useEffect e limpa campos
+        setHip("");
+        setSelectedAssessment(null); 
 
 
 
       } else {
-        // Modo criação -> POST
-        await api.post("/reviews", dataToSend); // Isso ativa o "else" do useEffect e limpa campos
+        await api.post("/reviews", dataToSend);
         toast.success("Avaliação cadastrada com sucesso!");
         setAluno(null);
         setCpf("");
@@ -179,12 +165,11 @@ export default function PhysicalAssessmentForm({
         setAbdomen("");
         setWaist("");
         setHip("");
-        setSelectedAssessment(null); // Isso ativa o "else" do useEffect e limpa campos
+        setSelectedAssessment(null);
 
 
       }
 
-      // Limpar estados
       setAluno(null);
       setCpf("");
       setHeight("");
@@ -202,8 +187,8 @@ export default function PhysicalAssessmentForm({
       setChest("");
       setAbdomen("");
       setWaist("");
-      setHip(""); // Isso ativa o "else" do useEffect e limpa campos
-      setSelectedAssessment(null); // Isso ativa o "else" do useEffect e limpa campos
+      setHip("");
+      setSelectedAssessment(null);
 
       onPhysicalAssessmentCreated();
     } catch (error) {
@@ -212,7 +197,6 @@ export default function PhysicalAssessmentForm({
     }
   };
 
-  // Se quiser um botão de cancelar edição, limpando o formulário
   const handleCancel = () => {
     setAluno(null);
     setCpf("");
@@ -232,14 +216,13 @@ export default function PhysicalAssessmentForm({
     setAbdomen("");
     setWaist("");
     setHip("");
-    setSelectedAssessment(null); // Isso ativa o "else" do useEffect e limpa campos
+    setSelectedAssessment(null);
 
   };
 
   return (
     <div className="assessment-form">
       <form onSubmit={handleSubmit}>
-        {/* Se não tiver selectedAssessment, exibimos o campo de busca por CPF */}
         {!selectedAssessment && (
           <div className="form-group">
             <InputFieldForm
@@ -426,11 +409,7 @@ export default function PhysicalAssessmentForm({
         </div>
 
         <div className="form-actions">
-          {/* Botão Enviar */}
           <ButtonSend isEditing={!!selectedAssessment} />
-
-          {/* Botão Cancelar */}
-          {/* Ao cancelar, limpamos o selectedAssessment para voltar ao modo "criar" */}
           <ButtonCancel onClick={handleCancel} />
         </div>
       </form>
