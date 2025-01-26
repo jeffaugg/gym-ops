@@ -10,62 +10,49 @@ export default function PlansForm({ onPlanCreated, selectedPlan, setSelectedPlan
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [duration, setDuration] = useState("");
-  const [spots, setSpots] = useState("");
+  const [spots, setSpots] = useState(null);
 
   const handleCancel = () => {
     setName("");
     setPrice("");
     setDuration("ALL");
-    setSpots("");
+    setSpots(null);
     toast.info("Plano cancelado.");
-    };
+  };
 
   useEffect(() => {
     if (selectedPlan) {
       setName(selectedPlan.name || "");
       setPrice(selectedPlan.price || "");
       setDuration(selectedPlan.duration || "");
-      setSpots(selectedPlan.spots || "");
-    } else {
-      setName("");
-      setPrice("");
-      setDuration("");
-      setSpots("");
+      setSpots(selectedPlan.spots || null);
     }
   }, [selectedPlan]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     try {
-      if (selectedPlan) {
+      const spotsValue = spots ? Number(spots) : null;
+      const dadosPlan = {
+        name,
+        price: Number(price),
+        duration: Number(duration),
+        spots: spotsValue,
+      };
 
-        console.log(selectedPlan);
-        await api.put(`/plan/${selectedPlan.id}`, {
-          name,
-          price: Number(price),
-          duration: Number(duration),
-          spots: Number(spots),
-        }
-        );
+      if (selectedPlan) {
+        await api.put(`/plan/${selectedPlan.id}`, dadosPlan);
         toast.success("Plano atualizado com sucesso!");
       } else {
-        await api.post("/plan", {
-          name,
-          price: Number(price),
-          duration: Number(duration),
-          spots: Number(spots),
-        });
+        await api.post("/plan", dadosPlan);
         toast.success("Plano criado com sucesso!");
       }
 
       setName("");
       setPrice("");
       setDuration("");
-      setSpots("");
-
+      setSpots(null);
       setSelectedPlan(null);
-
       onPlanCreated();
     } catch (error) {
       console.error("Erro ao salvar o plano:", error);
@@ -100,11 +87,12 @@ export default function PlansForm({ onPlanCreated, selectedPlan, setSelectedPlan
           onChange={(e) => setDuration(e.target.value)}
         />
         <InputFieldForm
-          label="Quantidade de vagas*"
+          label="Quantidade de vagas (opcional)"
           type="number"
-          placeholder="Digite a quantidade de vagas"
-          value={spots}
+          placeholder="Digite a quantidade de vagas ou deixe em branco"
+          value={spots || ""}
           onChange={(e) => setSpots(e.target.value)}
+          required={false}
         />
       </div>
       <div className="form-actions">
