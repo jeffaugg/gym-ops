@@ -20,7 +20,7 @@ export default function PresenceForm({ onPresenceCreated }) {
 
         try {
             await api.post(`/presence/${aluno.id}`);
-            toast.success(`Presença registrada com sucesso para ${aluno.name}!`);
+            toast.success(`Frequência registrada com sucesso!`);
             setCpf("");
             setAluno(null);
             onPresenceCreated();

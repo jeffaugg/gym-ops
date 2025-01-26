@@ -15,7 +15,7 @@ function PresencePage() {
         <Layout>
             <div className="assessments-content">
                 <header className="assessments-header">
-                    <h1>Presenças</h1>
+                    <h1>Frequência</h1>
                 </header>
 
                 <PresenceForm onPresenceCreated={handleRefresh} />
