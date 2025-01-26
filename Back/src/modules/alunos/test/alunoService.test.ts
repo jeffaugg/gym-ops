@@ -61,7 +61,7 @@ describe("AlunoService", () => {
         created_at: null,
       };
 
-      userRepository.findById.mockResolvedValue(mockAdm);
+      userRepository.findAdmById.mockResolvedValue(mockAdm);
       alunoRepository.findByEmail.mockResolvedValue(null);
       alunoRepository.findByCpf.mockResolvedValue(null);
       planoRepository.findById.mockResolvedValue(mockPlano);
@@ -70,7 +70,7 @@ describe("AlunoService", () => {
       const result = await alunoService.create(mockAlunoData, 1);
 
       expect(result).toEqual({ id: 1, ...mockAlunoData });
-      expect(userRepository.findById).toHaveBeenCalledWith(1);
+      expect(userRepository.findAdmById).toHaveBeenCalledWith(1);
       expect(alunoRepository.findByEmail).toHaveBeenCalledWith(
         mockAlunoData.email,
         1,
@@ -90,7 +90,7 @@ describe("AlunoService", () => {
     });
 
     it("should throw an error if the admin is invalid", async () => {
-      userRepository.findById.mockResolvedValue(null);
+      userRepository.findAdmById.mockResolvedValue(null);
 
       const mockAlunoData = {
         name: "Test User",
