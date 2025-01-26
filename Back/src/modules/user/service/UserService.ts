@@ -7,6 +7,7 @@ import { hash } from "bcryptjs";
 import { SerializeUser } from "../../../shared/infra/http/helpers/SerializeUser";
 import { createAccessToken } from "../../../shared/infra/http/helpers/CreateTokens";
 import { CargoHorariaService } from "../../cargoHoraria/service/CargoHorariaService";
+import { UpdateUserSchema } from "../dto/UpdateUserSchema";
 
 @injectable()
 export class UserService {
@@ -107,15 +108,12 @@ export class UserService {
   async updateUser(
     id: number,
     adm_id: number,
-    data: z.infer<typeof UserSchema>,
+    data: z.infer<typeof UpdateUserSchema>,
   ) {
-    const adm = await this.userRepository.findAdmById(adm_id);
-
-    if (!adm || adm.role !== "ADM") {
-      throw new AppError("Usuário não autorizado", 401);
+    let user = await this.userRepository.findUserById(id, adm_id);
+    if (!user) {
+      user = await this.userRepository.findAdmById(id);
     }
-
-    const user = await this.userRepository.findUserById(id, adm_id);
 
     if (!user) {
       throw new AppError("Usuário não encontrado", 404);
@@ -133,8 +131,22 @@ export class UserService {
       throw new AppError("CPF já cadastrado", 409);
     }
 
+    if (data.password && data.password === user.password) {
+      throw new AppError("Senha não pode ser igual à anterior", 409);
+    }
+
+    if (data.role != user.role) {
+      throw new AppError("Role não pode ser alterada", 400);
+    }
+
+    if (!data.password) {
+      data.password = user.password;
+    }
     data.password = await hash(data.password, 8);
-    await this.cargoHorariaService.update(id, data.turntime, data.daysofweek);
+
+    if (user.role === "USER") {
+      await this.cargoHorariaService.update(id, data.turntime, data.daysofweek);
+    }
     return await this.userRepository.update(id, data);
   }
 
