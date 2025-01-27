@@ -3,6 +3,7 @@ import { AlunoService } from "../service/AlunoService";
 import { Request, Response } from "express";
 import { AlunoSchema } from "../dto/AlunoSchema";
 import { z } from "zod";
+import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 @injectable()
 export class AlunoController {
@@ -20,9 +21,10 @@ export class AlunoController {
 
   async list(req: Request, res: Response): Promise<Response> {
     const alunoService = container.resolve(AlunoService);
+    const { page = 1, limit = 10 } = paginationSchema.parse(req.query);
     const adm_id = req.user.adm_id;
 
-    const alunos = await alunoService.list(adm_id);
+    const alunos = await alunoService.list(adm_id, limit, page);
     return res.status(200).json(alunos);
   }
 
