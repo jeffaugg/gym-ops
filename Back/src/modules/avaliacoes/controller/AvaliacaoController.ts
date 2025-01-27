@@ -12,10 +12,7 @@ export class AvaliacaoController {
 
     const data = AvaliacoesSchema.parse(req.body);
 
-    const avaliacao = await avaliacaoService.create(
-      { instructor_id: id, ...data },
-      adm_id,
-    );
+    const avaliacao = await avaliacaoService.create({ id, ...data }, adm_id);
 
     return res.status(201).json(avaliacao);
   }
