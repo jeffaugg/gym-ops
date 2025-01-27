@@ -10,7 +10,7 @@ export class AvaliacoesRepository {
 
   async create(
     data: z.infer<typeof AvaliacoesSchema> & {
-      instructor_id: number;
+      id: number;
     },
   ): Promise<Avaliacao> {
     const query = `
@@ -21,23 +21,23 @@ export class AvaliacoesRepository {
 `;
     const result = await this.db.raw(query, [
       data.aluno_id,
-      data.instructor_id,
+      data.id || null,
       data.height,
       data.weight,
-      data.fat_mass,
-      data.lean_mass,
-      data.left_arm_relaxed,
-      data.right_arm_relaxed,
-      data.left_arm_contracted,
-      data.right_arm_contracted,
-      data.left_thigh,
-      data.right_thigh,
-      data.left_calf,
-      data.right_calf,
-      data.chest,
-      data.abdomen,
-      data.waist,
-      data.hip,
+      data.fat_mass || null,
+      data.lean_mass || null,
+      data.left_arm_relaxed || null,
+      data.right_arm_relaxed || null,
+      data.left_arm_contracted || null,
+      data.right_arm_contracted || null,
+      data.left_thigh || null,
+      data.right_thigh || null,
+      data.left_calf || null,
+      data.right_calf || null,
+      data.chest || null,
+      data.abdomen || null,
+      data.waist || null,
+      data.hip || null,
     ]);
 
     return result.rows[0] as Avaliacao;
@@ -155,20 +155,20 @@ export class AvaliacoesRepository {
     const result = await this.db.raw(query, [
       data.height,
       data.weight,
-      data.fat_mass,
-      data.lean_mass,
-      data.left_arm_relaxed,
-      data.right_arm_relaxed,
-      data.left_arm_contracted,
-      data.right_arm_contracted,
-      data.left_thigh,
-      data.right_thigh,
-      data.left_calf,
-      data.right_calf,
-      data.chest,
-      data.abdomen,
-      data.waist,
-      data.hip,
+      data.fat_mass || null,
+      data.lean_mass || null,
+      data.left_arm_relaxed || null,
+      data.right_arm_relaxed || null,
+      data.left_arm_contracted || null,
+      data.right_arm_contracted || null,
+      data.left_thigh || null,
+      data.right_thigh || null,
+      data.left_calf || null,
+      data.right_calf || null,
+      data.chest || null,
+      data.abdomen || null,
+      data.waist || null,
+      data.hip || null,
       id,
     ]);
 
