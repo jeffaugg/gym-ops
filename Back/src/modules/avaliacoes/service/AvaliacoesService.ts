@@ -22,14 +22,15 @@ export class AvaliacaoService {
   ) {}
   async create(
     data: z.infer<typeof AvaliacoesSchema> & {
-      instructor_id: number;
+      id: number;
     },
     adm_id: number,
   ): Promise<Avaliacao> {
-    const userById = await this.userRepository.findUserById(
-      data.instructor_id,
-      adm_id,
-    );
+    let userById = await this.userRepository.findUserById(data.id, adm_id);
+
+    if (!userById) {
+      userById = await this.userRepository.findAdmById(data.id);
+    }
 
     if (!userById) {
       throw new AppError("Instrutor não existe", 404);
