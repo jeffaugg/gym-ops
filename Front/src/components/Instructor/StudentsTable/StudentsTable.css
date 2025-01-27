@@ -41,3 +41,18 @@
     cursor: pointer;
     margin: 2px;
 }
+
+.btn.presence {
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-size: 14px;
+  }
+  
+  .btn.presence:hover {
+    background-color: #45a049;
+  }
+  

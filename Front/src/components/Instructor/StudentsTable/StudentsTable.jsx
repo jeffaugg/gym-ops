@@ -17,6 +17,15 @@ export default function StudentsTable({ students, onPlanDeleted, setSelectedStud
       toast.error("Erro ao deletar o aluno.");
     }
   };
+  const handleRegisterPresence = async (student) => {
+    try {
+      await api.post(`/presence/${student.id}`);
+      toast.success(`Presença registrada para ${student.name} com sucesso!`);
+    } catch (error) {
+      console.error("Erro ao registrar presença:", error);
+      toast.error("Erro ao registrar a presença.");
+    }
+  };  
 
   return (
     <div className="students-list">
@@ -45,6 +54,12 @@ export default function StudentsTable({ students, onPlanDeleted, setSelectedStud
                   )}
                 </td>
                 <td>
+                  <button
+                    className="btn presence"
+                    onClick={() => handleRegisterPresence(student)}
+                  >
+                    ✅
+                  </button>
                   <button className="btn edit" onClick={() => setSelectedStudent(student)}>
                     ✏️
                   </button>
