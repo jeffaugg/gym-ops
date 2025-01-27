@@ -103,99 +103,41 @@ export default function PhysicalAssessmentForm({
       weight: Number(weight),
       fat_mass: Number(fatMass),
       lean_mass: Number(leanMass),
-      left_arm_relaxed: Number(leftArmRelaxed),
-      right_arm_relaxed: Number(rightArmRelaxed),
-      left_arm_contracted: Number(leftArmContracted),
-      right_arm_contracted: Number(rightArmContracted),
-      left_thigh: Number(leftThigh),
-      right_thigh: Number(rightThigh),
-      left_calf: Number(leftCalf),
-      right_calf: Number(rightCalf),
-      chest: Number(chest),
-      abdomen: Number(abdomen),
-      waist: Number(waist),
-      hip: Number(hip),
+      left_arm_relaxed: leftArmRelaxed ? Number(leftArmRelaxed) : undefined,
+      right_arm_relaxed: rightArmRelaxed ? Number(rightArmRelaxed) : undefined,
+      left_arm_contracted: leftArmContracted ? Number(leftArmContracted) : undefined,
+      right_arm_contracted: rightArmContracted ? Number(rightArmContracted) : undefined,
+      left_thigh: leftThigh ? Number(leftThigh) : undefined,
+      right_thigh: rightThigh ? Number(rightThigh) : undefined,
+      left_calf: leftCalf ? Number(leftCalf) : undefined,
+      right_calf: rightCalf ? Number(rightCalf) : undefined,
+      chest: chest ? Number(chest) : undefined,
+      abdomen: abdomen ? Number(abdomen) : undefined,
+      waist: waist ? Number(waist) : undefined,
+      hip: hip ? Number(hip) : undefined,
       photo: [],
     };
 
-    try {
-      if (selectedAssessment) {
-        await api.put(`/reviews/${selectedAssessment.id}`, dataToSend);
-        toast.success("Avaliação atualizada com sucesso!");
-        setAluno(null);
-        setCpf("");
-        setHeight("");
-        setWeight("");
-        setFatMass("");
-        setLeanMass("");
-        setLeftArmRelaxed("");
-        setRightArmRelaxed("");
-        setLeftArmContracted("");
-        setRightArmContracted("");
-        setLeftThigh("");
-        setRightThigh("");
-        setLeftCalf("");
-        setRightCalf("");
-        setChest("");
-        setAbdomen("");
-        setWaist("");
-        setHip("");
-        setSelectedAssessment(null); 
+  const filteredData = Object.fromEntries(
+    Object.entries(dataToSend).filter(([_, value]) => value !== undefined)
+  );
 
-
-
-      } else {
-        await api.post("/reviews", dataToSend);
-        toast.success("Avaliação cadastrada com sucesso!");
-        setAluno(null);
-        setCpf("");
-        setHeight("");
-        setWeight("");
-        setFatMass("");
-        setLeanMass("");
-        setLeftArmRelaxed("");
-        setRightArmRelaxed("");
-        setLeftArmContracted("");
-        setRightArmContracted("");
-        setLeftThigh("");
-        setRightThigh("");
-        setLeftCalf("");
-        setRightCalf("");
-        setChest("");
-        setAbdomen("");
-        setWaist("");
-        setHip("");
-        setSelectedAssessment(null);
-
-
-      }
-
-      setAluno(null);
-      setCpf("");
-      setHeight("");
-      setWeight("");
-      setFatMass("");
-      setLeanMass("");
-      setLeftArmRelaxed("");
-      setRightArmRelaxed("");
-      setLeftArmContracted("");
-      setRightArmContracted("");
-      setLeftThigh("");
-      setRightThigh("");
-      setLeftCalf("");
-      setRightCalf("");
-      setChest("");
-      setAbdomen("");
-      setWaist("");
-      setHip("");
-      setSelectedAssessment(null);
-
-      onPhysicalAssessmentCreated();
-    } catch (error) {
-      console.error("Erro ao salvar a avaliação:", error);
-      toast.error("Erro ao salvar a avaliação.");
+  try {
+    if (selectedAssessment) {
+      await api.put(`/reviews/${selectedAssessment.id}`, filteredData);
+      toast.success("Avaliação atualizada com sucesso!");
+    } else {
+      await api.post("/reviews", filteredData);
+      toast.success("Avaliação cadastrada com sucesso!");
     }
-  };
+
+    handleCancel(); 
+    onPhysicalAssessmentCreated();
+  } catch (error) {
+    console.error("Erro ao salvar a avaliação:", error);
+    toast.error("Erro ao salvar a avaliação.");
+  }
+};
 
   const handleCancel = () => {
     setAluno(null);
@@ -296,115 +238,127 @@ export default function PhysicalAssessmentForm({
 
         <div className="form-group">
           <InputFieldForm
-            label="Braço esq. relaxado* (cm)"
+            label="Braço esq. relaxado (cm)"
             type="number"
             placeholder="Ex: 30"
             value={leftArmRelaxed}
             onChange={(e) => setLeftArmRelaxed(e.target.value)}
             title={"Braço esquerdo relaxado"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Braço dir. relaxado* (cm)"
+            label="Braço dir. relaxado (cm)"
             type="number"
             placeholder="Ex: 31"
             value={rightArmRelaxed}
             onChange={(e) => setRightArmRelaxed(e.target.value)}
             title={"Braço direito relaxado"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Braço esq. contraído* (cm)"
+            label="Braço esq. contraído (cm)"
             type="number"
             placeholder="Ex: 32"
             value={leftArmContracted}
             onChange={(e) => setLeftArmContracted(e.target.value)}
             title={"Braço esquerdo contraído"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Braço dir. contraído* (cm)"
+            label="Braço dir. contraído (cm)"
             type="number"
             placeholder="Ex: 33"
             value={rightArmContracted}
             onChange={(e) => setRightArmContracted(e.target.value)}
             title={"Braço direito contraído"}
+            required={false}
           />
         </div>
 
         <div className="form-group">
           <InputFieldForm
-            label="Coxa esq.* (cm)"
+            label="Coxa esq. (cm)"
             type="number"
             placeholder="Ex: 55"
             value={leftThigh}
             onChange={(e) => setLeftThigh(e.target.value)}
             title={"Coxa esquerda"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Coxa dir.* (cm)"
+            label="Coxa dir. (cm)"
             type="number"
             placeholder="Ex: 56"
             value={rightThigh}
             onChange={(e) => setRightThigh(e.target.value)}
             title={"Coxa direita"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Panturrilha esq.* (cm)"
+            label="Panturrilha esq. (cm)"
             type="number"
             placeholder="Ex: 35"
             value={leftCalf}
             onChange={(e) => setLeftCalf(e.target.value)}
             title={"Panturrilha esquerda"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Panturrilha dir.* (cm)"
+            label="Panturrilha dir. (cm)"
             type="number"
             placeholder="Ex: 36"
             value={rightCalf}
             onChange={(e) => setRightCalf(e.target.value)}
             title={"Panturrilha direita"}
+            required={false}
           />
         </div>
 
         <div className="form-group">
           <InputFieldForm
-            label="Peitoral* (cm)"
+            label="Peitoral (cm)"
             type="number"
             placeholder="Ex: 90"
             value={chest}
             onChange={(e) => setChest(e.target.value)}
             title={"Peitoral"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Abdomen* (cm)"
+            label="Abdomen (cm)"
             type="number"
             placeholder="Ex: 85"
             value={abdomen}
             onChange={(e) => setAbdomen(e.target.value)}
             title={"Abdomen"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Cintura* (cm)"
+            label="Cintura (cm)"
             type="number"
             placeholder="Ex: 80"
             value={waist}
             onChange={(e) => setWaist(e.target.value)}
             title={"Cintura"}
+            required={false}
           />
 
           <InputFieldForm
-            label="Quadril* (cm)"
+            label="Quadril (cm)"
             type="number"
             placeholder="Ex: 100"
             value={hip}
             onChange={(e) => setHip(e.target.value)}
             title={"Quadril"}
+            required={false}
           />
         </div>
 
