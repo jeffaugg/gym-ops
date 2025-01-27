@@ -2,6 +2,7 @@ import { container, injectable } from "tsyringe";
 import { AvaliacaoService } from "../service/AvaliacoesService";
 import { AvaliacoesSchema } from "../dto/AvaliacaoSchema";
 import { Request, Response } from "express";
+import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 @injectable()
 export class AvaliacaoController {
@@ -18,9 +19,10 @@ export class AvaliacaoController {
   }
 
   public async list(req: Request, res: Response): Promise<Response> {
+    const { page, limit } = paginationSchema.parse(req.query);
     const avaliacaoService = container.resolve(AvaliacaoService);
     const adm_id = req.user.adm_id;
-    const avaliacoes = await avaliacaoService.list(adm_id);
+    const avaliacoes = await avaliacaoService.list(adm_id, page, limit);
     return res.status(200).json(avaliacoes);
   }
 
