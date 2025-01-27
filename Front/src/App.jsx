@@ -17,6 +17,7 @@ import PhysicalAssessment from './pages/Instructor/PhysicalAssessment/PhysicalAs
 import PresencePage from "./pages/Presence/PresencePage" 
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import AdminExercises from './pages/Admin/Exercises/AdminExercises';
 
 function App() {
   return (
@@ -77,6 +78,15 @@ function App() {
           }
         />
         <Route
+          path="/admin/exercises"
+          element={
+            <ProtectedRoute roles={["ADM"]}>
+              <AdminExercises />
+            </ProtectedRoute>
+          }
+        />
+        {/* USER */}
+        <Route
           path="/settings"
           element={
             <ProtectedRoute roles={["USER"]}>
@@ -84,7 +94,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* USER */}
         <Route
           path="/instructor"
           element={
