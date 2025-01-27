@@ -54,8 +54,10 @@ export class AlunoService {
     return await this.alunoRepository.create(alunoData);
   }
 
-  async list(adm_id: number) {
-    return this.alunoRepository.list(adm_id);
+  async list(adm_id: number, limit: number, page: number) {
+    const offset = (page - 1) * limit;
+
+    return this.alunoRepository.list(adm_id, limit, offset);
   }
 
   async update(id: number, adm_id: number, data: z.infer<typeof AlunoSchema>) {
