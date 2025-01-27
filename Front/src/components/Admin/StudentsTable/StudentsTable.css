@@ -1,48 +1,98 @@
-.students-list {
+.filters-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .order-filters, .show-filters{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .filters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* gap: 10px; */
+    flex-wrap: wrap;
+  }
+  
+  .search-input {
+    width: 50%;
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+  }
+  
+  .filter-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+    font-size: 14px;
+    background-color: #f3f3f3;
+    color: #333;
+  }
+  
+  .btn-sort-order {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #5a5a5a;
+    color: white;
+    font-size: 14px;
+  }
+  
+  .btn-sort-order:hover {
+    background-color: #444;
+  }
+  
+  .students-list {
     width: 100%;
     max-width: 800px;
-    background-color: #77749B;
+    background-color: #77749b;
     padding: 20px;
     border-radius: 8px;
     color: white;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.students-list table {
+  }
+  
+  .students-list table {
     width: 100%;
     border-collapse: collapse;
-}
-
-.students-list th,
-.students-list td {
+  }
+  
+  .students-list th,
+  .students-list td {
     padding: 10px;
     text-align: left;
-}
-
-.students-list th {
+  }
+  
+  .students-list th {
     font-weight: 700;
     color: white;
-}
-
-.students-list .btn.edit {
+  }
+  
+  .students-list .btn.edit {
     color: white;
     border: none;
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     margin: 2px;
-}
-
-.students-list .btn.delete {
+  }
+  
+  .students-list .btn.delete {
     color: white;
-    border:rgb(206, 0, 0);
+    border: rgb(206, 0, 0);
     padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
     margin: 2px;
-}
-
-.btn.presence {
+  }
+  
+  .btn.presence {
     color: white;
     border: none;
     padding: 5px 10px;
@@ -54,5 +104,10 @@
   
   .btn.presence:hover {
     background-color: #45a049;
+  }
+  
+  .actions {
+    display: flex;
+    flex-wrap: nowrap;
   }
   
