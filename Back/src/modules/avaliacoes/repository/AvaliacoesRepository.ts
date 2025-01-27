@@ -43,7 +43,11 @@ export class AvaliacoesRepository {
     return result.rows[0] as Avaliacao;
   }
 
-  async list(adm_id: number): Promise<Avaliacao[]> {
+  async list(
+    adm_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<Avaliacao[]> {
     const query = `
       SELECT 
         avaliacoes.*,
@@ -68,10 +72,11 @@ export class AvaliacoesRepository {
       JOIN 
         users ON avaliacoes.instructor_id = users.id
       WHERE 
-        alunos.adm_id = ?;
-    `;
+        alunos.adm_id = ?
+      LIMIT ? OFFSET ?;
+        `;
 
-    const result = await this.db.raw(query, [adm_id]);
+    const result = await this.db.raw(query, [adm_id, limit, offset]);
 
     return result.rows.map((avaliacaoData: any) => {
       const avaliacao = Avaliacao.fromDatabase(avaliacaoData);
