@@ -124,11 +124,12 @@ describe("AlunoService", () => {
       };
 
       alunoRepository.list.mockResolvedValue([mockAluno]);
-
-      const result = await alunoService.list(1);
+      const limit = 10;
+      const page = 1;
+      const result = await alunoService.list(1, limit, page);
 
       expect(result).toEqual([mockAluno]);
-      expect(alunoRepository.list).toHaveBeenCalledWith(1);
+      expect(alunoRepository.list).toHaveBeenCalledWith(1, 10, 0);
     });
   });
 
