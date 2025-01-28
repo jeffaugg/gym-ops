@@ -34,9 +34,9 @@ export class AlunoRepository {
 
     return Aluno.fromDatabase(result.rows[0]);
   }
-  async list(adm_id: number): Promise<Aluno[]> {
-    const query = "SELECT * FROM alunos WHERE adm_id = ? AND status = true";
-    const result = await this.db.raw(query, [adm_id]);
+  async list(adm_id: number, limit: number, offset: number): Promise<Aluno[]> {
+    const query = "SELECT * FROM alunos WHERE adm_id = ? LIMIT ? OFFSET ?;";
+    const result = await this.db.raw(query, [adm_id, limit, offset]);
 
     return result.rows.map((alunoData: any) => Aluno.fromDatabase(alunoData));
   }

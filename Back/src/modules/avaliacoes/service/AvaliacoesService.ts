@@ -59,8 +59,13 @@ export class AvaliacaoService {
     return data as Avaliacao;
   }
 
-  async list(adm_id: number): Promise<Avaliacao[]> {
-    return await this.avaliacoesRepository.list(adm_id);
+  async list(
+    adm_id: number,
+    page: number,
+    limit: number,
+  ): Promise<Avaliacao[]> {
+    const offset = (page - 1) * limit;
+    return await this.avaliacoesRepository.list(adm_id, offset, limit);
   }
 
   async findByAlunoId(aluno_id: string, adm_id: number): Promise<Avaliacao[]> {
