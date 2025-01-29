@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CargoHorariaService } from "../service/CargoHorariaService";
 import { container, injectable } from "tsyringe";
+import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 @injectable()
 export class CargoHorariaController {
@@ -20,9 +21,10 @@ export class CargoHorariaController {
 
   async listNow(req: Request, res: Response) {
     const cargo_horariaService = container.resolve(CargoHorariaService);
+    const { page, limit } = paginationSchema.parse(req.query);
 
     const adm_id = req.user.adm_id;
-    const users = await cargo_horariaService.listNow(adm_id);
+    const users = await cargo_horariaService.listNow(adm_id, page, limit);
     return res.status(200).json(users);
   }
 }
