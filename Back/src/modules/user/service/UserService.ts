@@ -8,6 +8,7 @@ import { SerializeUser } from "../../../shared/infra/http/helpers/SerializeUser"
 import { createAccessToken } from "../../../shared/infra/http/helpers/CreateTokens";
 import { CargoHorariaService } from "../../cargoHoraria/service/CargoHorariaService";
 import { UpdateUserSchema } from "../dto/UpdateUserSchema";
+import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
 
 @injectable()
 export class UserService {
@@ -150,14 +151,14 @@ export class UserService {
     return await this.userRepository.update(id, data);
   }
 
-  async getAllUsers(adm_id: number) {
+  async getAllUsers(adm_id: number, page: number, limit: number) {
     const adm = await this.userRepository.findAdmById(adm_id);
 
     if (!adm || adm.role !== "ADM") {
       throw new AppError("Usuário não autorizado", 401);
     }
-
-    return await this.userRepository.getAllUsers(adm_id);
+    const offset = getPaginationOffset(page, limit);
+    return await this.userRepository.getAllUsers(adm_id, offset, limit);
   }
 
   async delete(id: number, adm_id: number) {
