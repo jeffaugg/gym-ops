@@ -4,6 +4,7 @@ import { ExercicioSchema } from "../dto/ExercicioSchema";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
 import UserRepository from "../../user/repositories/UserRepository";
+import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
 
 @injectable()
 export class ExercicioService {
@@ -34,8 +35,9 @@ export class ExercicioService {
     return await this.exercicioRepository.create(exercicioData);
   }
 
-  async list(adm_id: number) {
-    return this.exercicioRepository.list(adm_id);
+  async list(adm_id: number, limit: number, page: number) {
+    const offset = getPaginationOffset(page, limit);
+    return this.exercicioRepository.list(adm_id, offset, limit);
   }
 
   async update(

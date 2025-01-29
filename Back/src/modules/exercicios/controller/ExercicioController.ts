@@ -3,6 +3,7 @@ import { ExercicioService } from "../service/ExercicioService";
 import { Request, Response } from "express";
 import { ExercicioSchema } from "../dto/ExercicioSchema";
 import { z } from "zod";
+import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 @injectable()
 export class ExercicioController {
@@ -18,10 +19,14 @@ export class ExercicioController {
   }
 
   async list(req: Request, res: Response): Promise<Response> {
-    const exercicioService = container.resolve(ExercicioService);
-    const adm_id = req.user.adm_id;
+    const { page, limit } = paginationSchema.parse(req.query);
+    console.log(page);
+    console.log(limit);
 
-    const exercicio = await exercicioService.list(adm_id);
+    const adm_id = req.user.adm_id;
+    const exercicioService = container.resolve(ExercicioService);
+
+    const exercicio = await exercicioService.list(adm_id, limit, page);
     return res.status(200).json(exercicio);
   }
 
