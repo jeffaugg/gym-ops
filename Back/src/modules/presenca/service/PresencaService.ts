@@ -4,6 +4,7 @@ import Presenca from "../models/Presenca";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import AppError from "../../../shared/errors/AppError";
 import { PagamentoRepository } from "../../pagamentos/repository/PagamentoRepository";
+import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
 
 @injectable()
 export class PresencaService {
@@ -55,7 +56,13 @@ export class PresencaService {
     return this.presencaRepository.delete(id);
   }
 
-  async getAll(adm_id: number): Promise<Presenca[]> {
-    return await this.presencaRepository.getAll(adm_id);
+  async getAll(
+    adm_id: number,
+    page: number,
+    limit: number,
+  ): Promise<Presenca[]> {
+    const offset = getPaginationOffset(page, limit);
+
+    return await this.presencaRepository.getAll(adm_id, offset, limit);
   }
 }

@@ -70,7 +70,11 @@ export class PresencaRepository {
     return Presenca.fromDatabase(result.rows[0]);
   }
 
-  async getAll(adm_id): Promise<Presenca[]> {
+  async getAll(
+    adm_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<Presenca[]> {
     const query = `
     SELECT presenca.*,
     jsonb_build_object(
@@ -80,10 +84,11 @@ export class PresencaRepository {
       ) AS aluno
     FROM presenca
     JOIN alunos ON presenca.aluno_id = alunos.id
-    WHERE alunos.adm_id = ?;
+    WHERE alunos.adm_id = ?
+    OFFSET ? LIMIT ? 
     `;
 
-    const result = await this.db.raw(query, [adm_id]);
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
     return result.rows.map((presencaData: any) => {
       const presenca = Presenca.fromDatabase(presencaData);
       presenca.aluno_id = presencaData.aluno;
