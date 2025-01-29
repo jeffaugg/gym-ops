@@ -3,6 +3,7 @@ import { container, injectable } from "tsyringe";
 import { UserSchema } from "../dto/UserSchema";
 import { UserService } from "../service/UserService";
 import { UpdateUserSchema } from "../dto/UpdateUserSchema";
+import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 @injectable()
 export class UserController {
@@ -83,10 +84,11 @@ export class UserController {
 
   public async getAllUsers(req: Request, res: Response): Promise<Response> {
     const adm_id = req.user.id;
+    const { page, limit } = paginationSchema.parse(req.query);
 
     const userService = container.resolve(UserService);
 
-    const users = await userService.getAllUsers(adm_id);
+    const users = await userService.getAllUsers(adm_id, page, limit);
 
     return res.status(200).json(users);
   }

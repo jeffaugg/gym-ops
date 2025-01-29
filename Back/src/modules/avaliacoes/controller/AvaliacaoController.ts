@@ -29,10 +29,15 @@ export class AvaliacaoController {
   public async findByAlunoId(req: Request, res: Response): Promise<Response> {
     const avaliacaoService = container.resolve(AvaliacaoService);
     const adm_id = req.user.adm_id;
-
+    const { page, limit } = paginationSchema.parse(req.query);
     const { aluno_id } = req.params;
 
-    const avaliacoes = await avaliacaoService.findByAlunoId(aluno_id, adm_id);
+    const avaliacoes = await avaliacaoService.findByAlunoId(
+      Number(aluno_id),
+      adm_id,
+      page,
+      limit,
+    );
 
     return res.status(200).json(avaliacoes);
   }

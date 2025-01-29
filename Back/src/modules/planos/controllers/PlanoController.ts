@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { PlanoSchema } from "../dto/PlanoSchema";
 import { container, injectable } from "tsyringe";
 import { PlanoService } from "../service/PlanoService";
+import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 @injectable()
 export class PlanoController {
@@ -18,8 +19,8 @@ export class PlanoController {
   public async list(req: Request, res: Response): Promise<Response> {
     const adm_id = req.user.adm_id;
     const planoService = container.resolve(PlanoService);
-
-    const planos = await planoService.list(adm_id);
+    const { page, limit } = paginationSchema.parse(req.query);
+    const planos = await planoService.list(adm_id, page, limit);
     return res.status(200).json(planos);
   }
 

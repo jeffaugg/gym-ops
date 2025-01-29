@@ -44,7 +44,11 @@ export class UserRepository {
     return User.fromDatabase(result.rows[0]);
   }
 
-  async getAllUsers(adm_id: number): Promise<User[]> {
+  async getAllUsers(
+    adm_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<User[]> {
     const query = `
       SELECT 
         users.*,
@@ -70,10 +74,11 @@ export class UserRepository {
       WHERE 
         users.adm_id = ? AND users.role = 'USER'
       GROUP BY 
-        users.id, horarios.id;
+        users.id, horarios.id
+      OFFSET ? LIMIT ?;
     `;
 
-    const result = await this.db.raw(query, [adm_id]);
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
 
     return result.rows.map((row: any) => {
       const user = User.fromDatabase(row);

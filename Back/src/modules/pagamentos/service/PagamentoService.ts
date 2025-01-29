@@ -6,6 +6,7 @@ import { PlanoRepository } from "../../planos/repository/PlanoRepository";
 import AppError from "../../../shared/errors/AppError";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import { addDays } from "date-fns";
+import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
 
 @injectable()
 export class PagamentoService {
@@ -37,8 +38,9 @@ export class PagamentoService {
     return await this.pagamentoRepository.create(data);
   }
 
-  async list(adm_idq: number) {
-    return await this.pagamentoRepository.list(adm_idq);
+  async list(adm_id: number, page: number, limit: number) {
+    const offset = getPaginationOffset(page, limit);
+    return await this.pagamentoRepository.list(adm_id, offset, limit);
   }
 
   async findById(id: number) {
@@ -51,9 +53,13 @@ export class PagamentoService {
     return pagamento;
   }
 
-  async findByAlunoId(id: number) {
-    const pagamentos = await this.pagamentoRepository.findByAlunoId(id);
-
+  async findByAlunoId(id: number, page: number, limit: number) {
+    const offset = getPaginationOffset(page, limit);
+    const pagamentos = await this.pagamentoRepository.findByAlunoId(
+      id,
+      offset,
+      limit,
+    );
     if (pagamentos.length === 0) {
       throw new AppError("Pagamento não encontrado", 404);
     }

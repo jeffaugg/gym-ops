@@ -28,9 +28,9 @@ export class TreinoRepository {
     return Treino.fromDatabase(result.rows[0]);
   }
 
-  async list(adm_id: number): Promise<Treino[]> {
-    const query = "SELECT * FROM treinos WHERE adm_id = ?";
-    const result = await this.db.raw(query, [adm_id]);
+  async list(adm_id: number, offset: number, limit: number): Promise<Treino[]> {
+    const query = "SELECT * FROM treinos WHERE adm_id = ? OFFSET ? LIMIT ?";
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
 
     return result.rows.map((TreinoData: any) =>
       Treino.fromDatabase(TreinoData),

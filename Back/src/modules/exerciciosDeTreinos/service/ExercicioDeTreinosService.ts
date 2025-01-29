@@ -5,6 +5,7 @@ import { ExercicioRepository } from "../../exercicios/repository/ExercicioReposi
 import { TreinoRepository } from "../../treinos/repository/TreinoRepository";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
+import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
 
 @injectable()
 export class ExercicioDeTreinoService {
@@ -35,20 +36,22 @@ export class ExercicioDeTreinoService {
     }
 
     const existingRelation =
-      await this.exercicioDeTreinoRepository.findByTreinoId(data.treino_id);
+      await this.exercicioDeTreinoRepository.doesRelationExist(
+        data.treino_id,
+        data.exercicio_id,
+        adm_id,
+      );
 
-    if (
-      existingRelation != null &&
-      existingRelation.exercicio_id == data.exercicio_id
-    ) {
+    if (existingRelation) {
       throw new AppError("Esse exercício já está associado a este treino", 409);
     }
 
     return await this.exercicioDeTreinoRepository.create(data);
   }
 
-  async list(adm_id: number) {
-    return this.exercicioDeTreinoRepository.list(adm_id);
+  async list(adm_id: number, page: number, limit: number) {
+    const offset = getPaginationOffset(page, limit);
+    return this.exercicioDeTreinoRepository.list(adm_id, offset, limit);
   }
 
   async update(
@@ -98,9 +101,13 @@ export class ExercicioDeTreinoService {
     return await this.exercicioDeTreinoRepository.delete(exercicio_treino_id);
   }
 
-  async findByTreinoId(treino_id: number) {
-    const relation =
-      await this.exercicioDeTreinoRepository.findByTreinoId(treino_id);
+  async findByTreinoId(treino_id: number, page: number, limit: number) {
+    const offset = getPaginationOffset(page, limit);
+    const relation = await this.exercicioDeTreinoRepository.findByTreinoId(
+      treino_id,
+      offset,
+      limit,
+    );
 
     if (!relation) {
       throw new AppError(

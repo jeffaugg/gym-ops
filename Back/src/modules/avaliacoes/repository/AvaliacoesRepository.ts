@@ -86,7 +86,12 @@ export class AvaliacoesRepository {
     });
   }
 
-  async findByAlunoId(aluno_id: string, adm_id: number): Promise<Avaliacao[]> {
+  async findByAlunoId(
+    aluno_id: number,
+    adm_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<Avaliacao[]> {
     const query = `
       SELECT 
         a.*,
@@ -102,9 +107,10 @@ export class AvaliacoesRepository {
       ON
         a.aluno_id = al.id
       WHERE 
-        a.aluno_id = ? AND al.adm_id = ?;
+        a.aluno_id = ? AND al.adm_id = ?
+      OFFSET ? LIMIT ? 
     `;
-    const result = await this.db.raw(query, [aluno_id, adm_id]);
+    const result = await this.db.raw(query, [aluno_id, adm_id, offset, limit]);
 
     if (result.rows.length === 0) {
       return [];

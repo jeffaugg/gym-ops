@@ -4,6 +4,7 @@ import { z } from "zod";
 import { PlanoSchema } from "../dto/PlanoSchema";
 import AppError from "../../../shared/errors/AppError";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
+import { getPaginationOffset as GetOffsetForPage } from "../../../shared/helpers/calculateOffset";
 
 @injectable()
 export class PlanoService {
@@ -37,8 +38,9 @@ export class PlanoService {
     return await this.planoRepository.create(planoData);
   }
 
-  async list(adm_id: number) {
-    return await this.planoRepository.list(adm_id);
+  async list(adm_id: number, page: number, limit: number) {
+    const offset = GetOffsetForPage(page, limit);
+    return await this.planoRepository.list(adm_id, offset, limit);
   }
 
   async update(id: number, adm_id: number, data: z.infer<typeof PlanoSchema>) {
