@@ -55,6 +55,28 @@
         ],
         "summary": "Lista todos os alunos",
         "description": "Endpoint para listar todos os alunos.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de alunos",
@@ -296,6 +318,28 @@
         ],
         "summary": "Lista todas as avaliações",
         "description": "Endpoint para listar todas as avaliações.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de avaliações",
@@ -403,6 +447,26 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
           }
         ],
         "responses": {
@@ -467,6 +531,28 @@
         ],
         "summary": "Lista todos os exercícios",
         "description": "Endpoint para listar todos os exercícios.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de exercícios",
@@ -671,6 +757,28 @@
         ],
         "summary": "Lista todos os relacionamentos entre treinos e exercícios",
         "description": "Endpoint para listar todos os relacionamentos entre treinos e exercícios.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de relacionamentos",
@@ -811,6 +919,26 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
           }
         ],
         "responses": {
@@ -875,6 +1003,28 @@
         ],
         "summary": "Lista todos os planos",
         "description": "Endpoint para listar todos os planos cadastrados.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de planos cadastrados",
@@ -1044,6 +1194,28 @@
         ],
         "summary": "Lista todos os treinos",
         "description": "Endpoint para listar todos os treinos cadastrados.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de treinos cadastrados",
@@ -1342,6 +1514,26 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
           }
         ],
         "responses": {
@@ -1408,6 +1600,28 @@
         ],
         "summary": "Lista todos os instrutores",
         "description": "Endpoint para listar todos os instrutores cadastrados.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de usuários cadastrados",
@@ -1583,7 +1797,7 @@
         "tags": [
           "Users"
         ],
-        "summary": "Busca instrutorário por ID",
+        "summary": "Busca instrutor por ID",
         "description": "Endpoint para buscar um instrutor pelo ID.",
         "parameters": [
           {
@@ -1822,6 +2036,28 @@
         ],
         "summary": "Lista todos os pagamentos",
         "description": "Endpoint para listar todos os pagamentos registrados no sistema.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de pagamentos",
@@ -1916,6 +2152,26 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
           }
         ],
         "responses": {
@@ -1980,6 +2236,28 @@
         ],
         "summary": "Lista todas as mensagens",
         "description": "Endpoint para listar todas as mensagens cadastradas.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de mensagens",
@@ -2178,6 +2456,28 @@
         ],
         "summary": "Lista todas as presenças",
         "description": "Endpoint para listar todas as presenças registradas no sistema.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de presenças",
@@ -2244,6 +2544,28 @@
         ],
         "summary": "Lista os instrutores disponíveis no momento",
         "description": "Endpoint para listar os instrutores disponíveis na academia no momento da requisição.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de instrutores disponíveis",
