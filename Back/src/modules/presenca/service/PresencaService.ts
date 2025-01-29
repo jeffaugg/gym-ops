@@ -4,7 +4,7 @@ import Presenca from "../models/Presenca";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import AppError from "../../../shared/errors/AppError";
 import { PagamentoRepository } from "../../pagamentos/repository/PagamentoRepository";
-import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
 
 @injectable()
 export class PresencaService {

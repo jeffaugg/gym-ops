@@ -6,7 +6,7 @@ import { PlanoRepository } from "../../planos/repository/PlanoRepository";
 import AppError from "../../../shared/errors/AppError";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import { addDays } from "date-fns";
-import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
 
 @injectable()
 export class PagamentoService {

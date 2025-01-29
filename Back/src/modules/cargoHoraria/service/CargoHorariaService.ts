@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { DiaDaSemanaRepository } from "../repository/DiaDaSemanaRepository";
 import { HorarioDeTurnoRepository } from "../repository/HorarioDeTurnoRepository";
 import { CargoHorariaRepository } from "../repository/CargoHorariaRepository";
-import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
 
 @injectable()
 export class CargoHorariaService {
