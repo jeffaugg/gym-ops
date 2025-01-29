@@ -7,7 +7,7 @@ import { FotosRepository } from "../repository/FotosRepository";
 import UserRepository from "../../user/repositories/UserRepository";
 import AppError from "../../../shared/errors/AppError";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
-import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
 
 @injectable()
 export class AvaliacaoService {

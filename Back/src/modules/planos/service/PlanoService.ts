@@ -4,7 +4,7 @@ import { z } from "zod";
 import { PlanoSchema } from "../dto/PlanoSchema";
 import AppError from "../../../shared/errors/AppError";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
-import { getPaginationOffset as GetOffsetForPage } from "../../../shared/helpers/calculateOffset";
+import { getPaginationOffset as GetOffsetForPage } from "../../../shared/helpers/getPaginationOffset";
 
 @injectable()
 export class PlanoService {

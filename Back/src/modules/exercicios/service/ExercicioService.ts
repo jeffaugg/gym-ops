@@ -4,7 +4,7 @@ import { ExercicioSchema } from "../dto/ExercicioSchema";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
 import UserRepository from "../../user/repositories/UserRepository";
-import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
 
 @injectable()
 export class ExercicioService {

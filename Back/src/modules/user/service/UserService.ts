@@ -8,7 +8,7 @@ import { SerializeUser } from "../../../shared/infra/http/helpers/SerializeUser"
 import { createAccessToken } from "../../../shared/infra/http/helpers/CreateTokens";
 import { CargoHorariaService } from "../../cargoHoraria/service/CargoHorariaService";
 import { UpdateUserSchema } from "../dto/UpdateUserSchema";
-import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
 
 @injectable()
 export class UserService {
