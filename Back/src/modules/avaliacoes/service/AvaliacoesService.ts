@@ -7,6 +7,7 @@ import { FotosRepository } from "../repository/FotosRepository";
 import UserRepository from "../../user/repositories/UserRepository";
 import AppError from "../../../shared/errors/AppError";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
+import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
 
 @injectable()
 export class AvaliacaoService {
@@ -68,7 +69,12 @@ export class AvaliacaoService {
     return await this.avaliacoesRepository.list(adm_id, offset, limit);
   }
 
-  async findByAlunoId(aluno_id: string, adm_id: number): Promise<Avaliacao[]> {
+  async findByAlunoId(
+    aluno_id: number,
+    adm_id: number,
+    page: number,
+    limit: number,
+  ): Promise<Avaliacao[]> {
     const alunoById = await this.alunoRepository.findById(
       Number(aluno_id),
       adm_id,
@@ -78,9 +84,12 @@ export class AvaliacaoService {
       throw new AppError("Aluno não existe", 404);
     }
 
+    const offset = getPaginationOffset(page, limit);
     const avaliacoes = await this.avaliacoesRepository.findByAlunoId(
       aluno_id,
       adm_id,
+      offset,
+      limit,
     );
     return avaliacoes;
   }
