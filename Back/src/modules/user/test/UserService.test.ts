@@ -497,7 +497,7 @@ describe("UserService", () => {
       userRepository.findAdmById.mockResolvedValue(mockAdm);
       userRepository.getAllUsers.mockResolvedValue(mockUsers);
 
-      const result = await userService.getAllUsers(1);
+      const result = await userService.getAllUsers(1, 1, 1);
 
       expect(result).toHaveLength(1);
       expect(result[0]).toMatchObject({
@@ -509,7 +509,7 @@ describe("UserService", () => {
     it("should not allow if ADM is not valid", async () => {
       userRepository.findAdmById.mockResolvedValue(null);
 
-      await expect(userService.getAllUsers(1)).rejects.toThrow(
+      await expect(userService.getAllUsers(1, 1, 1)).rejects.toThrow(
         new AppError("Usuário não autorizado", 401),
       );
     });
