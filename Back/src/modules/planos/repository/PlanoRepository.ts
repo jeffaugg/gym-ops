@@ -26,9 +26,9 @@ export class PlanoRepository {
     return Plano.FormData(result.rows[0]);
   }
 
-  async list(adm_id: number): Promise<Plano[]> {
-    const query = "SELECT * FROM planos WHERE adm_id = ?";
-    const result = await this.db.raw(query, [adm_id]);
+  async list(adm_id: number, offset: number, limit: number): Promise<Plano[]> {
+    const query = "SELECT * FROM planos WHERE adm_id = ? OFFSET ? LiMIT ? ";
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
     return result.rows.map((plano: any) => Plano.FormData(plano));
   }
 
