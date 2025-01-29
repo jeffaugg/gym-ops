@@ -37,9 +37,13 @@ export class MensagemRepository {
     return result.rows[0] as Mensagem;
   }
 
-  async list(id_adm: number): Promise<Mensagem[]> {
-    const query = "SELECT * FROM mensagens WHERE id_adm = ?";
-    const result = await this.db.raw(query, [id_adm]);
+  async list(
+    id_adm: number,
+    offset: number,
+    limit: number,
+  ): Promise<Mensagem[]> {
+    const query = "SELECT * FROM mensagens WHERE id_adm = ? OFFSET ? LIMIT ?";
+    const result = await this.db.raw(query, [id_adm, offset, limit]);
     return result.rows.map((mensagem: any) => Mensagem.fromDatabase(mensagem));
   }
 }

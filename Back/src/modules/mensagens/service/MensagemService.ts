@@ -7,6 +7,7 @@ import AppError from "../../../shared/errors/AppError";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import { enqueueEmails } from "./EnqueueEmailsService";
 import { GetEmailsByRecipientTypeService } from "./GetEmailsByRecipientTypeService";
+import { getPaginationOffset } from "../../../shared/helpers/calculateOffset";
 
 @injectable()
 export class MensagemService {
@@ -42,14 +43,15 @@ export class MensagemService {
     return await this.mensagemRepository.create(data, userId);
   }
 
-  async list(adm_id: number) {
+  async list(adm_id: number, page: number, limit: number) {
     const user = await this.userRepository.findAdmById(adm_id);
 
     if (user.role !== "ADM") {
       throw new AppError("Usuário não autorizado", 401);
     }
 
-    return await this.mensagemRepository.list(adm_id);
+    const offset = getPaginationOffset(page, limit);
+    return await this.mensagemRepository.list(adm_id, offset, limit);
   }
 
   async findById(id: number, adm_id: number) {
