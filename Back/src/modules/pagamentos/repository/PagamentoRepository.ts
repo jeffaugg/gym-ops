@@ -9,15 +9,20 @@ import { isAfter } from "date-fns";
 export class PagamentoRepository {
   constructor(@inject("Database") private db: Knex) {}
 
-  async create(data: z.infer<typeof PagamentoSchema>): Promise<Pagamento> {
+  async create(
+    data: z.infer<typeof PagamentoSchema> & {
+      user_id: number;
+    },
+  ): Promise<Pagamento> {
     const query = `
-      INSERT INTO pagamentos (id_aluno, id_plano, status, payment, expiration_date)
-      VALUES (?, ?, ?, ?, ?)
-      RETURNING id, id_aluno, id_plano, status, payment, payment_date, expiration_date;
+      INSERT INTO pagamentos (id_aluno, user_id, id_plano, status, payment, expiration_date)
+      VALUES (?, ?, ?, ?, ?, ?)
+      RETURNING id, user_id, id_aluno, id_plano, status, payment, payment_date, expiration_date;
     `;
 
     const result = await this.db.raw(query, [
       data.id_aluno,
+      data.user_id,
       data.id_plano,
       true,
       data.payment,

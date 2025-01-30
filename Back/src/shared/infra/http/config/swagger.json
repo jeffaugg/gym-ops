@@ -2986,6 +2986,10 @@
             "description": "ID do aluno associado ao pagamento",
             "example": 1
           },
+          "id_user": {
+            "type": "integer",
+            "description": "ID do usuário responsável por cadastrar o pagamento"
+          },
           "id_plano": {
             "type": "integer",
             "description": "ID do plano associado ao pagamento",
