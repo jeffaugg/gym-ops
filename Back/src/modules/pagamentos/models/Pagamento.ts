@@ -1,5 +1,6 @@
 export class Pagamento {
   id: number;
+  id_user: number;
   id_aluno: number;
   id_plano: number;
   status: boolean;
@@ -9,6 +10,7 @@ export class Pagamento {
 
   constructor(
     id: number,
+    user_id: number,
     id_aluno: number,
     id_plano: number,
     status: boolean,
@@ -17,6 +19,7 @@ export class Pagamento {
     expiration_date: Date,
   ) {
     this.id = id;
+    this.id_user = user_id;
     this.id_aluno = id_aluno;
     this.id_plano = id_plano;
     this.status = status;
@@ -28,6 +31,7 @@ export class Pagamento {
   static fromDatabase(data: any): Pagamento {
     return new Pagamento(
       data.id,
+      data.user_id,
       data.id_aluno,
       data.id_plano,
       data.status,
