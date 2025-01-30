@@ -7,11 +7,11 @@ import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 export class PagamentoController {
   async create(req: Request, res: Response) {
     const data = PagamentoSchema.parse(req.body);
-    const adm_id = req.user.adm_id;
+    const { id: user_id, adm_id } = req.user;
 
     const pagamentoService = container.resolve(PagamentoService);
 
-    const pagamento = await pagamentoService.create(data, adm_id);
+    const pagamento = await pagamentoService.create(data, adm_id, user_id);
 
     return res.status(201).json(pagamento);
   }
