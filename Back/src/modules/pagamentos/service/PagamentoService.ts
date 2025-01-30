@@ -19,7 +19,11 @@ export class PagamentoService {
     private alunoRepository: AlunoRepository,
   ) {}
 
-  async create(data: z.infer<typeof PagamentoSchema>, adm_id: number) {
+  async create(
+    data: z.infer<typeof PagamentoSchema>,
+    adm_id: number,
+    user_id: number,
+  ) {
     const plano = await this.planoRepository.findById(data.id_plano, adm_id);
 
     if (!plano) {
@@ -35,7 +39,7 @@ export class PagamentoService {
     const currentDate = new Date();
     data.expiration_date = addDays(currentDate, plano.duration);
 
-    return await this.pagamentoRepository.create(data);
+    return await this.pagamentoRepository.create({ user_id, ...data });
   }
 
   async list(adm_id: number, page: number, limit: number) {
