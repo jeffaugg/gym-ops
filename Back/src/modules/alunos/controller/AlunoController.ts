@@ -85,4 +85,47 @@ export class AlunoController {
     const aluno = await alunoService.findByEmail(email, adm_id);
     return res.status(200).json(aluno);
   }
+
+  async listByFrequency(req: Request, res: Response): Promise<Response> {
+    const adm_id = req.user.adm_id;
+    const { page, limit } = paginationSchema.parse(req.query);
+    const alunoService = container.resolve(AlunoService);
+
+    const topFrequency = await alunoService.listByFrequency(
+      adm_id,
+      page,
+      limit,
+    );
+    return res.status(200).json(topFrequency);
+  }
+
+  async listRecentRecords(req: Request, res: Response): Promise<Response> {
+    const adm_id = req.user.adm_id;
+
+    const { page, limit } = paginationSchema.parse(req.query);
+    const alunoService = container.resolve(AlunoService);
+
+    const recentRecords = await alunoService.listRecentRecords(
+      adm_id,
+      page,
+      limit,
+    );
+
+    return res.status(200).json(recentRecords);
+  }
+
+  async listRecentFrequency(req: Request, res: Response): Promise<Response> {
+    const adm_id = req.user.adm_id;
+
+    const { page, limit } = paginationSchema.parse(req.query);
+    const alunoService = container.resolve(AlunoService);
+
+    const recentRecords = await alunoService.listRecentFrequency(
+      adm_id,
+      page,
+      limit,
+    );
+
+    return res.status(200).json(recentRecords);
+  }
 }
