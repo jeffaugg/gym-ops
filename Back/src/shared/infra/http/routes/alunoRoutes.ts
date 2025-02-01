@@ -8,6 +8,13 @@ const alunoController = container.resolve(AlunoController);
 
 alunoRoutes.post("/", isAuth, alunoController.create);
 alunoRoutes.get("/", isAuth, alunoController.list);
+alunoRoutes.get("/rank", isAuth, alunoController.listByFrequency);
+alunoRoutes.get("/recent", isAuth, alunoController.listRecentRecords);
+alunoRoutes.get(
+  "/recent-frequency",
+  isAuth,
+  alunoController.listRecentFrequency,
+);
 alunoRoutes.put("/:id", isAuth, alunoController.update);
 alunoRoutes.delete("/:id", isAuth, alunoController.delete);
 alunoRoutes.get("/:id", isAuth, alunoController.findById);
