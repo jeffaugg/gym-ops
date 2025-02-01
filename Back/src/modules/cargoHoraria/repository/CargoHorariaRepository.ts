@@ -46,17 +46,24 @@ export class CargoHorariaRepository {
         cargo_horaria ch ON u.id = ch.user_id
       JOIN
         dias d ON d.id = ch.dia_id
-      JOIN horarios h ON h.id = ch.horario_id
+      JOIN
+        horarios h ON h.id = ch.horario_id
       WHERE
         u.role = 'USER'
         AND u.adm_id = ?
-        AND d.day_week = to_char(now(), 'Day')
+        AND d.id = extract(dow FROM now()) + 1 
         AND h.start_time <= now()::time
         AND h.end_time >= now()::time
       LIMIT ? OFFSET ?;
     `;
+
     const result = await this.db.raw(query, [admin_id, limit, offset]);
 
-    return result.rows.map((row) => User.fromDatabase(row));
+    return result.rows.map((row: any) => {
+      const user = User.fromDatabase(row);
+      const { password, email, tel, date_of_birth, adm_id, ...sanitizedUser } =
+        user;
+      return sanitizedUser;
+    });
   }
 }

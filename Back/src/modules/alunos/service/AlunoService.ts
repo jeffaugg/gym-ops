@@ -5,6 +5,7 @@ import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
 import { PlanoRepository } from "../../planos/repository/PlanoRepository";
 import UserRepository from "../../user/repositories/UserRepository";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
 
 @injectable()
 export class AlunoService {
@@ -128,5 +129,26 @@ export class AlunoService {
     }
 
     return user;
+  }
+
+  async listByFrequency(adm_id: number, page: number, limit: number) {
+    const offset = getPaginationOffset(page, limit);
+    return await this.alunoRepository.listByFrequency(adm_id, offset, limit);
+  }
+
+  async listRecentRecords(adm_id: number, page: number, limit: number) {
+    const offset = getPaginationOffset(page, limit);
+
+    return await this.alunoRepository.listRecentRecords(adm_id, offset, limit);
+  }
+
+  async listRecentFrequency(adm_id: number, page: number, limit: number) {
+    const offset = getPaginationOffset(page, limit);
+
+    return await this.alunoRepository.listRecentFrequency(
+      adm_id,
+      offset,
+      limit,
+    );
   }
 }

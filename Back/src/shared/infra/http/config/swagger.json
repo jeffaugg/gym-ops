@@ -276,6 +276,144 @@
         }
       }
     },
+    "/clients/rank": {
+      "get": {
+        "tags": [
+          "Alunos"
+        ],
+      "summary": "Lista os top frequentadores da academia",
+      "description": "Endpoint para listar os alunos que mais frequentam a academia.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "Número de itens por página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 5
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de alunos",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TopFrequentadores"
+                }
+              }
+            }
+          }
+        }
+      }
+     }
+    },
+    "/clients/recent-frequency":{
+      "get": {
+        "tags": [
+          "Alunos"
+        ],
+      "summary": "Lista os ultimos frequentadores",
+      "description": "Endpoint para listar os alunos que frequentaram a academia por ultimo.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "Número de itens por página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 5
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de alunos",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AlunoSimples"
+                }
+              }
+            }
+          }
+        }
+      }
+     }
+    },
+    "/clients/recent": {
+      "get": {
+        "tags": [
+          "Alunos"
+        ],
+      "summary": "Lista os ultimos cadastrados",
+      "description": "Endpoint para listar os alunos que foram cadastrados por ultimo na academia.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "Número de itens por página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 5
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de alunos",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AlunoSimples"
+                }
+              }
+            }
+          }
+        }
+      }
+     }
+    },
     "/reviews": {
       "post": {
         "tags": [
@@ -2574,8 +2712,41 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do usuário",
+                      "example": 2
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do usuário",
+                      "example": "jeferson"
+                    },
+                    "cpf": {
+                      "type": "string",
+                      "description": "CPF do usuário no formato XXX.XXX.XXX-XX",
+                      "example": "088.635.722-51"
+                    },
+                    "role": {
+                      "type": "string",
+                      "description": "Role do usuário (ADM ou USER)",
+                      "example": "USER"
+                    },
+                    "cref": {
+                      "type": "string",
+                      "description": "CREF do instrutor no formato XXXXXX-G/UF",
+                      "example": "12345267"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": ["M", "F", "O"],
+                      "description": "Gênero do usuário: M (Masculino), F (Feminino) ou O (Outro)",
+                      "example": "F"
+                    }
                   }
+                }
                 }
               }
             }
@@ -2633,6 +2804,36 @@
           "dayOfWeek": {
             "type": "string",
             "description": "Dia da semana"
+          }
+        }
+      },
+      "TopFrequentadores": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID do aluno"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do aluno"
+          },
+          "total_presencas": {
+            "type": "string",
+            "description": "Número todas de presenças do aluno"
+          }
+        }
+      },
+      "AlunoSimples": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID do aluno"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do aluno"
           }
         }
       },

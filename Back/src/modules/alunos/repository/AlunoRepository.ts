@@ -117,10 +117,56 @@ export class AlunoRepository {
     return result.rows.map((alunoData: any) => Aluno.fromDatabase(alunoData));
   }
 
+  async listByFrequency(
+    adm_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<Aluno[]> {
+    const id = Number(adm_id);
+    const query = `
+    SELECT a.id, a.name, COUNT(p.id) AS total_presencas
+    FROM presenca p
+    INNER JOIN alunos a ON p.aluno_id = a.id
+    WHERE a.adm_id = ?
+    GROUP BY a.id
+    ORDER BY total_presencas DESC
+    OFFSET ? LIMIT ?
+    `;
+    const result = await this.db.raw(query, [id, offset, limit]);
+    return result.rows;
+  }
+
   async getEmail(adm_id: number): Promise<string[]> {
     const query = "SELECT email FROM alunos WHERE adm_id = ?";
     const result = await this.db.raw(query, [adm_id]);
 
     return result.rows.map((alunoData: any) => alunoData.email);
+  }
+
+  async listRecentRecords(adm_id: number, offset: number, limit: number) {
+    const query = `
+      SELECT id, name
+      FROM alunos
+      WHERE adm_id = ?
+      ORDER BY created_at DESC
+      OFFSET ? LIMIT ?
+    `;
+
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
+    return result.rows;
+  }
+
+  async listRecentFrequency(adm_id: number, offset: number, limit: number) {
+    const query = `
+    SELECT a.id, a.name
+    FROM alunos a
+    INNER JOIN presenca p ON p.aluno_id = a.id 
+    WHERE a.adm_id = ? 
+    ORDER BY p.data DESC
+    OFFSET ? LIMIT ?
+    `;
+
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
+    return result.rows;
   }
 }
