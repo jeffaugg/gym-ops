@@ -98,7 +98,7 @@ export class UserRepository {
   }
 
   async findAdmById(id: number): Promise<User | null> {
-    const query = "SELECT * FROM users WHERE id = ?";
+    const query = "SELECT * FROM users WHERE id = ? LIMIT 1";
     const result = await this.db.raw(query, id);
 
     if (!result.rows || result.rows.length === 0) {
@@ -133,24 +133,19 @@ export class UserRepository {
       WHERE 
         users.adm_id = ? AND users.id = ? AND users.role = 'USER'
       GROUP BY 
-        users.id, horarios.id;
+        users.id, horarios.id
+      LIMIT 1
     `;
     const result = await this.db.raw(query, [adm_id, id]);
 
-    if (
-      !result.rows ||
-      !Array.isArray(result.rows) ||
-      result.rows.length === 0
-    ) {
-      return null;
-    }
+    const row = result.rows[0];
+    if (!row) return null;
 
-    return result.rows.map((row: any) => {
-      const user = User.fromDatabase(row);
-      user.daysofweek = row.days.map((day: any) => day.day_week);
-      user.turntime = row.turn;
-      return user;
-    });
+    const user = User.fromDatabase(row);
+    user.daysofweek = row.days.map((day: any) => day.day_week);
+    user.turntime = row.turn;
+
+    return user;
   }
 
   async findByCpf(cpf: string): Promise<User | null> {
