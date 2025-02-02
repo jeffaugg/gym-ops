@@ -97,3 +97,17 @@
   padding: 20px;
   overflow-y: auto;
 }
+
+.btn.add-instructor {
+  background-color: #1a1a7d;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn.add-instructor:hover {
+  background-color: #333399; 
+}
