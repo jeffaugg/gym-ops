@@ -52,3 +52,17 @@
   color: #2c3e50;
   font-weight: bold;
 }
+
+.btn.add-warning {
+  background-color: #1a1a7d;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn.add-warning:hover {
+  background-color: #333399;
+}
