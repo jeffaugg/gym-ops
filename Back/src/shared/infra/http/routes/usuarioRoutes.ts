@@ -15,4 +15,5 @@ authRoutes.get("/me", isAuth, (req, res) => res.json({ user: req.user }));
 authRoutes.get("/:id", isAuth, userController.findUserById);
 authRoutes.put("/", isAuth, userController.updateUser);
 authRoutes.delete("/:id", isAuth, userController.deleteUser);
+authRoutes.put("/:id", isAuth, userController.updateInstrutor);
 export default authRoutes;

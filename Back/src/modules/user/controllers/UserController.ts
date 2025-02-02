@@ -92,6 +92,22 @@ export class UserController {
 
     return res.status(200).json(users);
   }
+
+  public async updateInstrutor(req: Request, res: Response): Promise<Response> {
+    const loggedInUser = req.user.id;
+    const { id } = req.params;
+    const data = UpdateUserSchema.parse(req.body);
+
+    const userService = container.resolve(UserService);
+
+    const userUpdated = await userService.updateInstrutor(
+      loggedInUser,
+      Number(id),
+      data,
+    );
+
+    return res.status(200).json(userUpdated);
+  }
 }
 
 export default UserController;

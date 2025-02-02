@@ -176,4 +176,56 @@ export class UserService {
 
     return await this.userRepository.delete(id, adm_id);
   }
+
+  async updateInstrutor(
+    adm_id: number,
+    user_id: number,
+    data: z.infer<typeof UpdateUserSchema>,
+  ) {
+    const userAdm = await this.userRepository.findAdmById(adm_id);
+
+    if (!userAdm) {
+      throw new AppError("Usuário não autorizado", 401);
+    }
+
+    const instrutor = await this.userRepository.findUserById(user_id, adm_id);
+
+    if (!instrutor) {
+      throw new AppError("Usuário não encontrado", 404);
+    }
+
+    const userByEmail = await this.userRepository.findByEmail(data.email);
+
+    if (userByEmail && userByEmail.id !== user_id) {
+      throw new AppError("Email já cadastrado", 409);
+    }
+
+    const userByCpf = await this.userRepository.findByCpf(data.cpf);
+
+    console.log(instrutor);
+
+    if (userByCpf && userByCpf.id !== user_id) {
+      throw new AppError("CPF já cadastrado", 409);
+    }
+
+    if (data.password && data.password === instrutor.password) {
+      throw new AppError("Senha não pode ser igual à anterior", 409);
+    }
+
+    if (data.role != instrutor.role) {
+      throw new AppError("Role não pode ser alterada", 400);
+    }
+
+    if (!data.password) {
+      data.password = instrutor.password;
+    }
+    data.password = await hash(data.password, 8);
+
+    await this.cargoHorariaService.update(
+      user_id,
+      data.turntime,
+      data.daysofweek,
+    );
+    return await this.userRepository.update(user_id, data);
+  }
 }

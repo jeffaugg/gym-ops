@@ -2043,6 +2043,48 @@
           }
         }
       },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Atualiza instrutor por ID",
+        "description": "Endpoint para atualizar um instrutor pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do instrutor",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "instrutor atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          },
+          "400": {
+            "description": "Requisição inválida ou Role não pode ser alterada"
+          },
+          "404": {
+            "description": "instrutor não encontrado"
+          },
+          "409": {
+            "description": "Conflito: Email, CPF já cadastrado ou Senha igual à anterior"
+          }
+        }
+      },
       "delete": {
         "tags": [
           "Users"
