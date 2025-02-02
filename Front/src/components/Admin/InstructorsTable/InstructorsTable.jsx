@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./InstructorsTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function InstructorsTable({ instructors, onPlanDeleted, setSelectedInstructor, selectedInstructor }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null); 
+
   const handleDelete = async (id) => {
     try {
       await api.delete(`/user/${id}`);
@@ -15,7 +19,14 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
     } catch (error) {
       console.error("Erro ao deletar o instrutor:", error);
       toast.error("Erro ao deletar o instrutor.");
+    } finally {
+      setIsModalOpen(false);
     }
+  };
+
+  const confirmDelete = (id) => {
+    setSelectedId(id);
+    setIsModalOpen(true);
   };
 
   const dayMapping = {
@@ -27,7 +38,6 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
     Sexta: 6,
     Sábado: 7,
   };
-
   const turnMapping = {
     1: "Manhã",
     2: "Tarde",
@@ -64,13 +74,9 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                         .join(", ")
                     : "N/D"}
                 </td>
+                <td>{instructor.turntime ? turnMapping[instructor.turntime.id] || "N/D" : "N/D"}</td>
                 <td>
-                  {instructor.turntime 
-                    ? turnMapping[instructor.turntime.id] || "N/D"
-                    : "N/D"}
-                </td>
-                <td>
-                  <button
+                <button
                     className="btn edit"
                     onClick={() =>
                       setSelectedInstructor({
@@ -85,7 +91,7 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                   >
                     ✏️
                   </button>
-                  <button className="btn delete" onClick={() => handleDelete(instructor.id)}>
+                  <button className="btn delete" onClick={() => confirmDelete(instructor.id)}>
                     ❌
                   </button>
                 </td>
@@ -98,6 +104,13 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
           )}
         </tbody>
       </table>
+
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={() => handleDelete(selectedId)}
+        message="Tem certeza que deseja excluir este instrutor?"
+      />
     </div>
   );
 }
