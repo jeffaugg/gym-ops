@@ -14,7 +14,7 @@ import Settings from "./pages/Settings/Settings";
 import InstructorHome from './pages/Instructor/Home/InstructorHome';
 import InstructorStudents from "./pages/Instructor/Students/Students";
 import PhysicalAssessment from './pages/Instructor/PhysicalAssessment/PhysicalAssessment';
-import PresencePage from "./pages/Presence/PresencePage" 
+import PresencePage from "./pages/Presence/PresencePage"
 
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import AdminExercises from './pages/Admin/Exercises/AdminExercises';
@@ -82,6 +82,14 @@ function App() {
           element={
             <ProtectedRoute roles={["ADM"]}>
               <AdminExercises />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute roles={["ADM"]}>
+              <Settings />
             </ProtectedRoute>
           }
         />
