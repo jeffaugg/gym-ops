@@ -20,8 +20,6 @@ export class ExercicioController {
 
   async list(req: Request, res: Response): Promise<Response> {
     const { page, limit } = paginationSchema.parse(req.query);
-    console.log(page);
-    console.log(limit);
 
     const adm_id = req.user.adm_id;
     const exercicioService = container.resolve(ExercicioService);
