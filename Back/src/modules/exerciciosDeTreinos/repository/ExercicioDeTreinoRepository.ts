@@ -79,12 +79,22 @@ export class ExercicioDeTreinoRepository {
   ): Promise<boolean> {
     const query = `
     SELECT 1 
-    FROM exercicios_de_treinos 
-    WHERE adm_id = ? AND treino_id = ? AND exercicio_id = ?
-    LIMIT 1; `;
+      FROM exercicios_de_treinos edt
+      INNER JOIN exercicios e ON edt.exercicio_id = e.id
+      INNER JOIN treinos t ON edt.treino_id = t.id
+      WHERE (t.adm_id = ? OR e.adm_id = ?)
+        AND edt.treino_id = ?
+        AND edt.exercicio_id = ?
+      LIMIT 1;
+    `;
 
-    const result = await this.db.raw(query, [adm_id, treino_id, exercicio_id]);
-
+    const result = await this.db.raw(query, [
+      adm_id,
+      adm_id,
+      treino_id,
+      exercicio_id,
+    ]);
+    console.log(result);
     return result.rows.length > 0;
   }
 
