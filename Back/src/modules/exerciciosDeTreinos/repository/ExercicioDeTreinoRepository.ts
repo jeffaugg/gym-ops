@@ -94,7 +94,6 @@ export class ExercicioDeTreinoRepository {
       treino_id,
       exercicio_id,
     ]);
-    console.log(result);
     return result.rows.length > 0;
   }
 

@@ -202,8 +202,6 @@ export class UserService {
 
     const userByCpf = await this.userRepository.findByCpf(data.cpf);
 
-    console.log(instrutor);
-
     if (userByCpf && userByCpf.id !== user_id) {
       throw new AppError("CPF já cadastrado", 409);
     }
