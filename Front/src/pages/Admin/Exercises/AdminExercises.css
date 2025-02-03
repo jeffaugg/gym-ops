@@ -25,7 +25,7 @@
     margin-bottom: 20px;
   }
 
-  .btn.add-exercise {
+  .btn.add-exercise-form {
     background-color: #1a1a7d; 
     color: white;
     padding: 10px 15px;
@@ -35,6 +35,6 @@
     transition: background 0.3s;
   }
   
-  .btn.add-exercise:hover {
+  .btn.add-exercise-form:hover {
     background-color: #333399; 
   }

@@ -46,7 +46,7 @@ function AdminExercises() {
       <div className="exercises-content">
         <header className="exercises-header">
           <h1>Exercícios</h1>
-          <button onClick={handleOpenModal} className="btn add-exercise">
+          <button onClick={handleOpenModal} className="btn add-exercise-form">
             Adicionar Exercício
           </button>
         </header>
