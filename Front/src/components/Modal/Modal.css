@@ -1,4 +1,4 @@
-.modal-overlay {
+.modal-overlay-form {
     position: fixed;
     top: 0;
     left: 0;
@@ -11,7 +11,7 @@
     z-index: 1000;
   }
   
-  .modal-content {
+  .modal-content-form {
     border-radius: 8px;
     max-width: 800px;
     width: 90%;
@@ -19,7 +19,7 @@
     box-shadow: rgba(0, 0, 0, 0.3);
   }
   
-  .modal-close {
+  .modal-close-form {
     position: absolute;
     top: 1px;
     right: 5px;
@@ -31,6 +31,6 @@
     transition: transform 0.2s ease;
   }
 
-  .modal-close:hover {
+  .modal-close-form:hover {
     transform: scale(1.2);
   }
