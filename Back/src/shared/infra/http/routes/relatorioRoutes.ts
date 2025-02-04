@@ -15,5 +15,10 @@ relatorioRoutes.get(
   relatorioController.listRecentFrequency,
 );
 relatorioRoutes.get("/now", isAuth, relatorioController.instructorsListNow);
+relatorioRoutes.get(
+  "/week-frequency",
+  isAuth,
+  relatorioController.listWeekFrequencies,
+);
 
 export default relatorioRoutes;

@@ -61,4 +61,12 @@ export class RelatorioController {
     const users = await relatorioService.listNow(adm_id, page, limit);
     return res.status(200).json(users);
   }
+
+  async listWeekFrequencies(req: Request, res: Response) {
+    const relatorioService = container.resolve(RelatorioService);
+
+    const adm_id = req.user.adm_id;
+    const metrics = await relatorioService.listWeekFrequencies(adm_id);
+    return res.status(200).json(metrics);
+  }
 }

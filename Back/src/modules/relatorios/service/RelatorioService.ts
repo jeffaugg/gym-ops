@@ -4,6 +4,7 @@ import { PlanoRepository } from "../../planos/repository/PlanoRepository"; // Im
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import { CargoHorariaRepository } from "../../cargoHoraria/repository/CargoHorariaRepository";
+import { PresencaRepository } from "../../presenca/repository/PresencaRepository";
 
 @injectable()
 export class RelatorioService {
@@ -16,6 +17,8 @@ export class RelatorioService {
     private alunoRepository: AlunoRepository,
     @inject(CargoHorariaRepository)
     private cargoHorariaRepository: CargoHorariaRepository,
+    @inject(PresencaRepository)
+    private presencaRepository: PresencaRepository,
   ) {}
 
   async balance(adm_id) {
@@ -47,5 +50,9 @@ export class RelatorioService {
   async listNow(admin_id: number, page: number, limit: number) {
     const offset = getPaginationOffset(page, limit);
     return await this.cargoHorariaRepository.listNow(admin_id, offset, limit);
+  }
+
+  async listWeekFrequencies(adm_id: number) {
+    return await this.presencaRepository.listWeekFrequencies(adm_id);
   }
 }

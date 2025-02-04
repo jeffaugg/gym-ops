@@ -100,4 +100,21 @@ export class PresencaRepository {
     const query = "DELETE FROM presenca WHERE id = ?";
     await this.db.raw(query, [id]);
   }
+
+  async listWeekFrequencies(adm_id: number): Promise<Presenca[]> {
+    const query = `
+    SELECT presenca.*
+    FROM presenca
+    JOIN alunos ON presenca.aluno_id=alunos.id
+    WHERE data >= CURRENT_DATE - INTERVAL '1 day' * (EXTRACT(DOW FROM CURRENT_DATE) - 1)
+      AND data < CURRENT_DATE - INTERVAL '1 day' * (EXTRACT(DOW FROM CURRENT_DATE) - 1) + INTERVAL '7 days'
+      AND alunos.adm_id=?;
+    `;
+
+    const result = await this.db.raw(query, [adm_id]);
+
+    return result.rows.map((presencaData: any) =>
+      Presenca.fromDatabase(presencaData),
+    );
+  }
 }
