@@ -88,7 +88,7 @@ export default function AssociateExerciseForm({ treinoId, onExerciseAdded, onFin
             console.log("treino_id", treinoId);
 
             console.error("Erro ao associar exercícios:", error);
-            toast.error("Erro ao associar exercícios.");
+            toast.error(error.response.data.message);
         }
     };
 
