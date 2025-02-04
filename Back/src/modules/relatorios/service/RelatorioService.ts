@@ -18,27 +18,9 @@ export class RelatorioService {
     private cargoHorariaRepository: CargoHorariaRepository,
   ) {}
 
-  async balance() {
-    const payments = await this.pagamentoRepository.listBetween60Days();
-    return Promise.all(
-      payments.map(async (pagamentoData: any) => {
-        const plano = await this.planoRepository.findByIdWithoutAdm(
-          pagamentoData.id_plano,
-        );
-        pagamentoData.plano = plano;
-        pagamentoData.payment_date = this.formatDate(
-          pagamentoData.payment_date,
-        );
-        return pagamentoData;
-      }),
-    );
-  }
-
-  private formatDate(date: Date): string {
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+  async balance(adm_id) {
+    const balance = await this.pagamentoRepository.listBetween60Days(adm_id);
+    return balance;
   }
 
   async listByFrequency(adm_id: number, page: number, limit: number) {

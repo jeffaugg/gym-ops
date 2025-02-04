@@ -3,6 +3,7 @@ import { inject, injectable } from "tsyringe";
 import { PagamentoSchema } from "../dto/PagamentoSchema";
 import { z } from "zod";
 import { Pagamento } from "../models/Pagamento";
+import { BalanceDaySchema } from "../dto/BalanceDaySchema";
 import { isAfter } from "date-fns";
 
 @injectable()
@@ -52,19 +53,35 @@ export class PagamentoRepository {
     );
   }
 
-  async listBetween60Days(): Promise<Pagamento[]> {
+  async listBetween60Days(
+    adm_id: number,
+  ): Promise<(typeof BalanceDaySchema)[]> {
     const query = `
-      SELECT pagamentos.*
+      SELECT 
+        DATE(pagamentos.payment_date) AS payment_day,  
+        SUM(planos.price) AS total_price
       FROM pagamentos
+      JOIN alunos ON pagamentos.id_aluno = alunos.id
+      JOIN planos ON pagamentos.id_plano = planos.id
       WHERE pagamentos.payment_date BETWEEN CURRENT_DATE - INTERVAL '30 days' AND CURRENT_DATE + INTERVAL '30 days'
         AND pagamentos.status = true
+        AND alunos.adm_id = ?
+      GROUP BY payment_day  
+      ORDER BY payment_day ASC;
     `;
 
-    const result = await this.db.raw(query);
+    const result = await this.db.raw(query, [adm_id]);
 
-    return result.rows.map((pagamentoData: any) =>
-      Pagamento.fromDatabase(pagamentoData),
-    );
+    return result.rows.map((pagamentoData: any) => {
+      const formattedDate = new Date(
+        pagamentoData.payment_day,
+      ).toLocaleDateString("pt-BR");
+      const parsedData = BalanceDaySchema.parse({
+        payment_day: formattedDate,
+        total_price: pagamentoData.total_price,
+      });
+      return parsedData;
+    });
   }
 
   async findById(id: number): Promise<Pagamento | null> {
