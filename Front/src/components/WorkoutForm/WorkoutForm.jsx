@@ -70,7 +70,7 @@ export default function WorkoutForm({ onWorkoutCreated, selectedWorkout, setSele
             />
           </div>
           <div className="form-actions">
-            <ButtonSend isEditing={!!selectedWorkout} />
+            <ButtonSend shouldContinue={true} />
             <ButtonCancel onClick={handleCancel} />
           </div>
         </form>

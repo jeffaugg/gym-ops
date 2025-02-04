@@ -1,10 +1,10 @@
 import React from "react";
 import "./ButtonSend.css";
 
-export default function ButtonSend({ onClick, isEditing }) {
+export default function ButtonSend({ onClick, isEditing, shouldContinue }) {
     return (
         <button type="submit" onClick={onClick} className="btn enviar">
-            {isEditing ? "Atualizar" : "Enviar"}
+            {shouldContinue ? "Continuar" : isEditing ? "Atualizar" : "Enviar"}
         </button>
     );
 }
