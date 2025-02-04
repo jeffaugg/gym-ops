@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import "./WorkoutTable.css";
 import api from "../../api";
 import { toast } from "react-toastify";
+import ConfirmationModal from "../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWorkout, selectedWorkout }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const handleDelete = async (id) => {
     try {
       await api.delete(`/workouts/${id}`);
@@ -15,7 +19,14 @@ export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWo
     } catch (error) {
       console.error("Erro ao deletar o treino:", error);
       toast.error("Erro ao deletar o treino.");
+    } finally {
+      setIsModalOpen(false);
     }
+  };
+
+  const confirmDelete = (id) => {
+    setSelectedId(id);
+    setIsModalOpen(true);
   };
 
   return (
@@ -38,7 +49,7 @@ export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWo
                   <button className="btn edit" onClick={() => setSelectedWorkout(workout)}>
                     ✏️
                   </button>
-                  <button className="btn delete" onClick={() => handleDelete(workout.id)}>
+                  <button className="btn delete" onClick={() => confirmDelete(workout.id)}>
                     ❌
                   </button>
                 </td>
@@ -51,6 +62,14 @@ export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWo
           )}
         </tbody>
       </table>
+      {isModalOpen && (
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => handleDelete(selectedId)}
+          message={`Tem certeza que deseja deletar o treino "${workouts.find(workout => workout.id === selectedId)?.name}"?`}
+        />
+      )}
     </div>
   );
 }

@@ -109,8 +109,8 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={() => handleDelete(selectedId)}
-        message="Tem certeza que deseja excluir este instrutor?"
-      />
+        message={`Tem certeza que deseja deletar este instrutor "${instructors.find(instructor => instructor.id === selectedId)?.name}"?`}
+        />
     </div>
   );
 }

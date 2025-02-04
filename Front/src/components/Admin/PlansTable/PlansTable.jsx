@@ -1,10 +1,14 @@
 
-import React from "react";
+import React, { useState } from "react";
 import "./PlansTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, selectedPlan }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
+
   const handleDelete = async (id) => {
     try {
       await api.delete(`/plan/${id}`);
@@ -16,7 +20,14 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, sele
     } catch (error) {
       console.error("Erro ao deletar o plano:", error);
       toast.error("Erro ao deletar o plano.");
+    }finally {
+      setIsModalOpen(false);
     }
+  };
+
+  const confirmDelete = (id) => {
+    setSelectedId(id);
+    setIsModalOpen(true);
   };
 
   return (
@@ -43,7 +54,7 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, sele
                   <button className="btn edit" onClick={() => setSelectedPlan(plan)}>
                     ✏️
                   </button>
-                  <button className="btn delete" onClick={() => handleDelete(plan.id)}>
+                  <button className="btn delete" onClick={() => confirmDelete(plan.id)}>
                     ❌
                   </button>
                 </td>
@@ -56,6 +67,14 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, sele
           )}
         </tbody>
       </table>
+       {isModalOpen && (
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => handleDelete(selectedId)}
+          message={`Tem certeza que deseja deletar este plano "${plans.find(plan => plan.id === selectedId)?.name}"?`}
+        />
+      )}
     </div>
   );
 }

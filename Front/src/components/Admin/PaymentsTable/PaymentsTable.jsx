@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./PaymentsTable.css";
 import { toast } from "react-toastify";
 import api from "../../../api";
+import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
+
 
 const paymentMethods = {
   CARD: "Cartão de Crédito",
@@ -13,6 +15,8 @@ const paymentMethods = {
 export default function PaymentsTable({ payments, onPaymentDeleted }) {
   const [paymentsWithDetails, setPaymentsWithDetails] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
 
   const fetchPaymentsDetails = async (paymentsList) => {
     setLoading(true);
@@ -65,7 +69,14 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
     } catch (error) {
       console.error("Erro ao deletar pagamento:", error);
       toast.error("Erro ao deletar pagamento.");
+    }finally {
+      setIsModalOpen(false);
     }
+  };
+
+  const confirmDelete = (id) => {
+    setSelectedId(id);
+    setIsModalOpen(true);
   };
 
   return (
@@ -79,6 +90,7 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
             <th>Nome do Plano</th>
             <th>Preço do Plano</th>
             <th>Método de Pagamento</th>
+            <th>Data do Pagamento</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -91,10 +103,11 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
                 <td>{payment.plan?.name || "N/A"}</td>
                 <td>{payment.plan?.price || "N/A"}</td>
                 <td>{paymentMethods[payment.payment] || "N/A"}</td>
+                <td>{new Date(payment.payment_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</td>
                 <td>
                   <button
                     className="btn delete"
-                    onClick={() => handleDelete(payment.id)}
+                    onClick={() => confirmDelete(payment.id)}
                   >
                     ❌
                   </button>
@@ -110,6 +123,14 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
           )}
         </tbody>
       </table>
+      {isModalOpen && (
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => handleDelete(selectedId)}
+          message={`Tem certeza que deseja deletar este pagamento de "${paymentsWithDetails.find(payment => payment.id === selectedId)?.aluno?.name}" do dia ${new Date(paymentsWithDetails.find(payment => payment.id === selectedId)?.payment_date).toLocaleString("pt-BR", { dateStyle: "short" })}"?`}
+        />
+      )}
     </div>
   );
 }

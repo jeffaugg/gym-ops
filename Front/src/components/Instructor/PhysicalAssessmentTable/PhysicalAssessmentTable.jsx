@@ -1,13 +1,17 @@
-import React from "react";
+import React, {useState} from "react";
 import "./PhysicalAssessmentTable.css";
 import { toast } from "react-toastify";
 import api from "../../../api";
+import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
+
 
 export default function PhysicalAssessmentTable({
   physicalAssessments = [],
   onPhysicalAssessmentDeleted,
   setSelectedAssessment,
 }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
   const handleDelete = async (id) => {
     try {
       await api.delete(`/reviews/${id}`);
@@ -17,8 +21,15 @@ export default function PhysicalAssessmentTable({
     } catch (error) {
       console.error("Erro ao deletar avaliação:", error);
       toast.error("Erro ao deletar avaliação.");
+    }finally {
+      setIsModalOpen(false);
     }
   };
+
+const confirmDelete = (id) => {
+  setSelectedId(id);
+  setIsModalOpen(true);
+};
 
   return (
     <div className="physical-assessment-list">
@@ -53,7 +64,7 @@ export default function PhysicalAssessmentTable({
                   </button>
                   <button
                     className="btn delete"
-                    onClick={() => handleDelete(assessment.id)}
+                    onClick={() => confirmDelete(assessment.id)}
                   >
                     ❌
                   </button>
@@ -67,6 +78,14 @@ export default function PhysicalAssessmentTable({
           )}
         </tbody>
       </table>
+      {isModalOpen && (
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => handleDelete(selectedId)}
+          message={`Tem certeza que deseja deletar esta avaliação de "${physicalAssessments.find(assessment => assessment.id === selectedId)?.aluno_id?.name}" do dia ${new Date(physicalAssessments.find(assessment => assessment.id === selectedId)?.date).toLocaleString("pt-BR", { dateStyle: "short" })}"?`}
+        />
+      )}
     </div>
   );
 }

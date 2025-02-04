@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import "./StudentsTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import FilterBar from "../../FilterBar/FilterBar"; 
+import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function StudentsTable({
   students,
-  onPlanDeleted,
+  onStudentDeleted,
   setSelectedStudent,
   selectedStudent,
 }) {
@@ -13,6 +15,8 @@ export default function StudentsTable({
   const [statusFilter, setStatusFilter] = useState("all"); 
   const [sortField, setSortField] = useState("name"); 
   const [sortOrder, setSortOrder] = useState("asc");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   const handleDelete = async (id) => {
     try {
@@ -21,11 +25,18 @@ export default function StudentsTable({
         setSelectedStudent(null);
       }
       toast.success("Aluno deletado com sucesso!");
-      onPlanDeleted();
+      onStudentDeleted();
     } catch (error) {
       console.error("Erro ao deletar o aluno:", error);
       toast.error("Erro ao deletar o aluno.");
+    }finally {
+      setIsModalOpen(false);
     }
+  };
+
+  const confirmDelete = (id) => {
+    setSelectedId(id);
+    setIsModalOpen(true);
   };
 
   const handleRegisterPresence = async (student) => {
@@ -71,43 +82,18 @@ export default function StudentsTable({
 
   return (
     <div className="students-list">
-      <div className="filters-container">
-        <div className="filters">
-          <div className="show-filters">
-            Mostrar somente:
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="filter-select"
-            >
-              <option value="all">Todos os alunos</option>
-              <option value="active">Alunos ativo</option>
-              <option value="inactive">Alunos inativo</option>
-            </select>
-          </div>
-          <div className="order-filters">
-            Ordenar por:
-            <select
-              value={sortField}
-              onChange={(e) => setSortField(e.target.value)}
-              className="filter-select"
-            >
-              <option value="name">Nome</option>
-              <option value="created_at">Data de Criação</option>
-            </select>
-            <button onClick={toggleSortOrder} className="btn-sort-order">
-              {sortOrder === "asc" ? "⬆️" : "⬇️"}
-            </button>
-          </div>
-        </div>
-        <input
-          type="text"
-          placeholder="Buscar por nome, telefone ou CPF"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
-      </div>
+      <FilterBar
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+        statusFilter={statusFilter}
+        setStatusFilter={setStatusFilter}
+        sortField={sortField}
+        setSortField={setSortField}
+        sortOrder={sortOrder}
+        toggleSortOrder={toggleSortOrder}
+        placeholder="Buscar por nome, telefone ou CPF"
+      />
+
       <table>
         <thead>
           <tr>
@@ -149,7 +135,7 @@ export default function StudentsTable({
                   </button>
                   <button
                     className="btn delete"
-                    onClick={() => handleDelete(student.id)}
+                    onClick={() => confirmDelete(student.id)}
                   >
                     ❌
                   </button>
@@ -163,6 +149,14 @@ export default function StudentsTable({
           )}
         </tbody>
       </table>
+      {isModalOpen && (
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => handleDelete(selectedId)}
+          message={`Tem certeza que deseja deletar este aluno "${students.find(students => students.id === selectedId)?.name}"?`}
+        />
+      )}
     </div>
   );
 }

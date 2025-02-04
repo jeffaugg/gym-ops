@@ -3,11 +3,13 @@ import "./Students.css";
 import StudentsForm from "../../../components/Instructor/StudentsForm/StudentsForm";
 import StudentsTable from "../../../components/Instructor/StudentsTable/StudentsTable";
 import Layout from "../../../components/Instructor/LayoutPages/Layout";
+import Modal from "../../../components/Modal/Modal";
 import api from "../../../api";
 
 function Students() {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchStudents = async () => {
     try {
@@ -23,23 +25,46 @@ function Students() {
     fetchStudents();
   }, []);
 
+  const handleOpenModal = () => {
+    setSelectedStudent(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditStudent = (student) => {
+    setSelectedStudent(student);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedStudent(null);
+  };
+
   return (
     <Layout>
       <div className="students-content">
         <header className="students-header">
           <h1>Alunos</h1>
+          <button onClick={handleOpenModal} className="btn add-student">
+            Adicionar Aluno
+          </button>
         </header>
-        <StudentsForm
-          onStudentCreated={fetchStudents}
-          selectedStudent={selectedStudent}
-          setSelectedStudent={setSelectedStudent}
-        />
         <StudentsTable
           students={students}
           onPlanDeleted={fetchStudents}
-          setSelectedStudent={setSelectedStudent}
+          setSelectedStudent={handleEditStudent}
           selectedStudent={selectedStudent}
         />
+        <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+          <StudentsForm
+            onStudentCreated={() => {
+              fetchStudents();
+              handleCloseModal();
+            }}
+            selectedStudent={selectedStudent}
+            setSelectedStudent={setSelectedStudent}
+          />
+        </Modal>
       </div>
     </Layout>
   );

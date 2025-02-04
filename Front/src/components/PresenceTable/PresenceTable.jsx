@@ -3,10 +3,13 @@ import "./PresenceTable.css";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import api from "../../api";
+import ConfirmationModal from "../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function PresenceTable({ reload, onPresenceDeleted }) {
     const [presences, setPresences] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
 
     const fetchPresences = async () => {
         setLoading(true);
@@ -34,7 +37,14 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
         } catch (error) {
             console.error("Erro ao deletar presença:", error);
             toast.error("Erro ao deletar presença.");
-        }
+        }finally {
+            setIsModalOpen(false);
+          }
+        };
+      
+    const confirmDelete = (id) => {
+        setSelectedId(id);
+        setIsModalOpen(true);
     };
 
     return (
@@ -63,7 +73,7 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
                                 <td>
                                     <button
                                         className="btn delete"
-                                        onClick={() => handleDelete(presence.id)}
+                                        onClick={() => confirmDelete(presence.id)}
                                     >
                                         ❌
                                     </button>
@@ -79,6 +89,14 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
                     )}
                 </tbody>
             </table>
+            {isModalOpen && (
+                <ConfirmationModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onConfirm={() => handleDelete(selectedId)}
+                        message={`Tem certeza que deseja deletar a presença de "${presences.find(presence => presence.id === selectedId)?.aluno_id?.name}" do dia ${new Date(presences.find(presence => presence.id === selectedId)?.data).toLocaleString("pt-BR", { dateStyle: "short" })}"?`}
+                    />
+                )}
         </div>
     );
 }
