@@ -363,8 +363,8 @@ export default function PhysicalAssessmentForm({
         </div>
 
         <div className="form-actions">
-          <ButtonSend isEditing={!!selectedAssessment} />
           <ButtonCancel onClick={handleCancel} />
+          <ButtonSend isEditing={!!selectedAssessment} />
         </div>
       </form>
     </div>

@@ -74,8 +74,8 @@ export default function WarningForm({ onWarningCreated}) {
           </select>
         </label>
         <div className="form-actions">
-          <ButtonSend />
           <ButtonCancel onClick={handleCancel} />
+          <ButtonSend />
         </div>
       </form>
     </div>

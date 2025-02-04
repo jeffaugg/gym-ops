@@ -246,8 +246,8 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
         </div>
 
         <div className="form-actions">
-          <ButtonSend isEditing={!!selectedStudent} />
           <ButtonCancel onClick={handleCancel} />
+          <ButtonSend isEditing={!!selectedStudent} />
         </div>
       </form>
     </div>

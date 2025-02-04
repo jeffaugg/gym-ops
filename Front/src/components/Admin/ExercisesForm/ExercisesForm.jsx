@@ -74,8 +74,8 @@ export default function ExercisesForm({ onExerciseCreated, selectedExercise, set
         />
       </div>
       <div className="form-actions">
-        <ButtonSend isEditing={!!selectedExercise} />          
         <ButtonCancel onClick={handleCancel} />
+        <ButtonSend isEditing={!!selectedExercise} />          
       </div>
     </form>
   );

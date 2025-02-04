@@ -96,8 +96,8 @@ export default function PlansForm({ onPlanCreated, selectedPlan, setSelectedPlan
         />
       </div>
       <div className="form-actions">
-        <ButtonSend isEditing={!!selectedPlan} />          
         <ButtonCancel onClick={handleCancel} />
+        <ButtonSend isEditing={!!selectedPlan} />          
       </div>
     </form>
   );

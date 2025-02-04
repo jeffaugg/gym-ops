@@ -260,8 +260,8 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
         </div>
 
         <div className="form-actions">
-          <ButtonSend isEditing={!!selectedInstructor} />
           <ButtonCancel onClick={handleCancel} />
+          <ButtonSend isEditing={!!selectedInstructor} />
         </div>
       </form>
     </div>

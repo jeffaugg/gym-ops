@@ -10,6 +10,13 @@ export default function PresenceForm({ onPresenceCreated }) {
     const [cpf, setCpf] = useState("");
     const [aluno, setAluno] = useState(null);
 
+    const handleCancel = () => {
+        setCpf("");
+        setAluno("");
+        setTreinoId(null);
+        toast.info("Criação de frequência cancelada.");
+      };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -70,7 +77,7 @@ export default function PresenceForm({ onPresenceCreated }) {
                     </div>
                 )}
                 <div className="form-actions">
-                    <ButtonCancel />
+                    <ButtonCancel onClick={handleCancel}/>
                     <ButtonSend />
                 </div>
             </form>

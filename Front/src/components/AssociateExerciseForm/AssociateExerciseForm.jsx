@@ -154,8 +154,8 @@ export default function AssociateExerciseForm({ treinoId, onExerciseAdded, onFin
                     </button>
                 </div>
                 <div className="right-actions">
-                    <ButtonSend />
                     <ButtonCancel onClick={handleCancel} />
+                    <ButtonSend />
                 </div>
             </div>
         </form>
