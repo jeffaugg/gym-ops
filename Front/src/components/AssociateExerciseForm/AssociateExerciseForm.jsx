@@ -35,7 +35,6 @@ export default function AssociateExerciseForm({ treinoId, onExerciseAdded, onFin
     const handleAddExercise = async () => {
         const lastExercise = exerciseData[exerciseData.length - 1];
 
-        // Validação dos campos obrigatórios
         if (!lastExercise.exercicio_id || !lastExercise.series || !lastExercise.repeticoes || !lastExercise.descanso_segundos) {
             toast.error("Preencha todos os campos antes de adicionar outro exercício.");
             return;
@@ -83,8 +82,8 @@ export default function AssociateExerciseForm({ treinoId, onExerciseAdded, onFin
             }
             toast.success("Todos os exercícios foram associados com sucesso!");
             onExerciseAdded();
+            onFinish(); // Fecha o modal após o envio
         } catch (error) {
-
             console.log("treino_id", exerciseData);
             console.log("treino_id", treinoId);
 
@@ -151,7 +150,7 @@ export default function AssociateExerciseForm({ treinoId, onExerciseAdded, onFin
             <div className="form-actions">
                 <div className="left-actions">
                     <button type="button" onClick={handleAddExercise} className="btn add-exercise">
-                        ➕ Adicionar mais um exercício
+                        Adicionar mais um exercício
                     </button>
                 </div>
                 <div className="right-actions">

@@ -54,7 +54,7 @@
 .btn.add-exercise {
   background-color: #ffffff;  /* Fundo branco */
   color: #000000;             /* Letras pretas */
-  border: 2px solid #000000;  /* Borda preta para destacar */
+  /* border: 2px solid #000000;  */
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
