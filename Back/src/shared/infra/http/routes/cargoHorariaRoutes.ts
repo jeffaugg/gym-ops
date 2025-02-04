@@ -15,6 +15,5 @@ cargoHorariaRoutes.get(
   isAuth,
   cargoHorariaController.listTurnTime,
 );
-cargoHorariaRoutes.get("/now", isAuth, cargoHorariaController.listNow);
 
 export default cargoHorariaRoutes;
