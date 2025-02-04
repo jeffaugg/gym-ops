@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import DashboardCard from "./DashboardCard";
 import TopFrequentUsers from "../TopFrequentUsers/TopFrequentUsers";
 import ChartComponent from "../ChartComponent/ChartComponent";
+import BarChart from "../ChartComponent/BarChart";
 import api from "../../../../api";
 import "./Dashboard.css";
 
@@ -79,9 +80,12 @@ function Dashboard() {
 
       <div className="dashboard-stats">
         <div className="chart">
-          <h3>Acessos</h3>
           <div className="fake-chart">
-            [Gráfico de Barras]
+            <BarChart 
+              title="Frequencias da semana"
+              endpoint="/report/week-frequency"  
+              label="Pagamentos"
+            />
           </div>
         </div>
         <div className="chart">
