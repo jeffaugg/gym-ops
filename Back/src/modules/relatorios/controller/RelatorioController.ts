@@ -5,8 +5,9 @@ import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 export class RelatorioController {
   async balance(req: Request, res: Response) {
+    const adm_id = req.user.adm_id;
     const relatorioService = container.resolve(RelatorioService);
-    const balanco = await relatorioService.balance();
+    const balanco = await relatorioService.balance(adm_id);
     return res.json(balanco);
   }
 
