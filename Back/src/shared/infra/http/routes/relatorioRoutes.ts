@@ -7,5 +7,13 @@ const relatorioRoutes = Router();
 const relatorioController = container.resolve(RelatorioController);
 
 relatorioRoutes.get("/balance", isAuth, relatorioController.balance);
+relatorioRoutes.get("/rank", isAuth, relatorioController.listByFrequency);
+relatorioRoutes.get("/recent", isAuth, relatorioController.listRecentRecords);
+relatorioRoutes.get(
+  "/recent-frequency",
+  isAuth,
+  relatorioController.listRecentFrequency,
+);
+relatorioRoutes.get("/now", isAuth, relatorioController.instructorsListNow);
 
 export default relatorioRoutes;
