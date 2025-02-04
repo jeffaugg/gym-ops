@@ -61,12 +61,10 @@ function Workout() {
 
                 <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
                     <WorkoutForm
-                        onWorkoutCreated={() => {
-                            fetchWorkouts();
-                            handleCloseModal();
-                        }}
+                        onWorkoutCreated={fetchWorkouts} 
                         selectedWorkout={selectedWorkout}
                         setSelectedWorkout={setSelectedWorkout}
+                        onCloseModal={handleCloseModal}
                     />
                 </Modal>
             </div>

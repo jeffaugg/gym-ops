@@ -276,10 +276,10 @@
         }
       }
     },
-    "/clients/rank": {
+    "/report/rank": {
       "get": {
         "tags": [
-          "Alunos"
+          "Relatórios"
         ],
       "summary": "Lista os top frequentadores da academia",
       "description": "Endpoint para listar os alunos que mais frequentam a academia.",
@@ -322,10 +322,10 @@
       }
      }
     },
-    "/clients/recent-frequency":{
+    "/report/recent-frequency":{
       "get": {
         "tags": [
-          "Alunos"
+          "Relatórios"
         ],
       "summary": "Lista os ultimos frequentadores",
       "description": "Endpoint para listar os alunos que frequentaram a academia por ultimo.",
@@ -368,10 +368,10 @@
       }
      }
     },
-    "/clients/recent": {
+    "/report/recent": {
       "get": {
         "tags": [
-          "Alunos"
+          "Relatórios"
         ],
       "summary": "Lista os ultimos cadastrados",
       "description": "Endpoint para listar os alunos que foram cadastrados por ultimo na academia.",
@@ -2717,10 +2717,10 @@
         }
       }
     },
-    "/work-hours/now": {
+    "/report/now": {
       "get": {
         "tags": [
-          "Horários de Funcionamento"
+          "Relatórios"
         ],
         "summary": "Lista os instrutores disponíveis no momento",
         "description": "Endpoint para listar os instrutores disponíveis na academia no momento da requisição.",
