@@ -37,11 +37,11 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
         } catch (error) {
             console.error("Erro ao deletar presença:", error);
             toast.error("Erro ao deletar presença.");
-        }finally {
+        } finally {
             setIsModalOpen(false);
-          }
-        };
-      
+        }
+    };
+
     const confirmDelete = (id) => {
         setSelectedId(id);
         setIsModalOpen(true);
@@ -55,7 +55,7 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
                     <tr>
                         <th>Nome do Aluno</th>
                         <th>CPF</th>
-                        <th>Data</th>
+                        <th>Data e Hora</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -67,7 +67,7 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
                                 <td>{presence.aluno_id?.cpf || "N/A"}</td>
                                 <td>
                                     {presence.data
-                                        ? format(new Date(presence.data), "dd/MM/yyyy") 
+                                        ? format(new Date(presence.data), "dd/MM/yyyy HH:mm:ss")
                                         : "N/A"}
                                 </td>
                                 <td>
@@ -94,9 +94,9 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onConfirm={() => handleDelete(selectedId)}
-                        message={`Tem certeza que deseja deletar a presença de "${presences.find(presence => presence.id === selectedId)?.aluno_id?.name}" do dia ${new Date(presences.find(presence => presence.id === selectedId)?.data).toLocaleString("pt-BR", { dateStyle: "short" })}"?`}
-                    />
-                )}
+                    message={`Tem certeza que deseja deletar a presença de "${presences.find(presence => presence.id === selectedId)?.aluno_id?.name}" do dia ${format(new Date(presences.find(presence => presence.id === selectedId)?.data), "dd/MM/yyyy 'às' HH:mm:ss")}"?`}
+                />
+            )}
         </div>
     );
 }
