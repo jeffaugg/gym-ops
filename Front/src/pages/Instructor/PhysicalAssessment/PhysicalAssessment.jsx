@@ -3,12 +3,14 @@ import "./PhysicalAssessment.css";
 import Layout from "../../../components/Instructor/LayoutPages/Layout";
 import PhysicalAssessmentForm from "../../../components/Instructor/PhysicalAssessmentForm/PhysicalAssessmentForm";
 import PhysicalAssessmentTable from "../../../components/Instructor/PhysicalAssessmentTable/PhysicalAssessmentTable";
+import Modal from "../../../components/Modal/Modal";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
 function PhysicalAssessment() {
   const [physicalAssessments, setPhysicalAssessments] = useState([]);
   const [selectedAssessment, setSelectedAssessment] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchPhysicalAssessments = async () => {
     try {
@@ -25,24 +27,47 @@ function PhysicalAssessment() {
     fetchPhysicalAssessments();
   }, []);
 
+  const handleOpenModal = () => {
+    setSelectedAssessment(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditAssessment = (assessment) => {
+    setSelectedAssessment(assessment);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedAssessment(null);
+  };
+
   return (
     <Layout>
       <div className="assessments-content">
         <header className="assessments-header">
           <h1>Avaliações Físicas</h1>
+          <button onClick={handleOpenModal} className="btn add-assessment">
+            Adicionar Avaliação
+          </button>
         </header>
-
-        <PhysicalAssessmentForm
-          onPhysicalAssessmentCreated={fetchPhysicalAssessments}
-          selectedAssessment={selectedAssessment}          
-          setSelectedAssessment={setSelectedAssessment}     
-        />
 
         <PhysicalAssessmentTable
           physicalAssessments={physicalAssessments}
           onPhysicalAssessmentDeleted={fetchPhysicalAssessments}
-          setSelectedAssessment={setSelectedAssessment}      
+          onEditAssessment={handleEditAssessment}
         />
+
+        <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
+          <PhysicalAssessmentForm
+            onPhysicalAssessmentCreated={() => {
+              fetchPhysicalAssessments();
+              handleCloseModal();
+            }}
+            selectedAssessment={selectedAssessment}
+            setSelectedAssessment={setSelectedAssessment}
+          />
+        </Modal>
       </div>
     </Layout>
   );
