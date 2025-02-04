@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Students.css";
-import StudentsForm from "../../../components/Instructor/StudentsForm/StudentsForm";
+import StudentsForm from "../../../components/Instructor/StudentDetails/StudentDetails";
 import StudentsTable from "../../../components/Instructor/StudentsTable/StudentsTable";
 import Layout from "../../../components/Instructor/LayoutPages/Layout";
 import Modal from "../../../components/Modal/Modal";
@@ -10,6 +10,7 @@ function Students() {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isViewOnly, setIsViewOnly] = useState(false);
 
   const fetchStudents = async () => {
     try {
@@ -25,19 +26,16 @@ function Students() {
     fetchStudents();
   }, []);
 
-  const handleOpenModal = () => {
-    setSelectedStudent(null);
-    setIsModalOpen(true);
-  };
-
-  const handleEditStudent = (student) => {
+  const handleViewStudent = (student) => {
     setSelectedStudent(student);
+    setIsViewOnly(true);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedStudent(null);
+    setIsViewOnly(false);
   };
 
   return (
@@ -45,24 +43,15 @@ function Students() {
       <div className="students-content">
         <header className="students-header">
           <h1>Alunos</h1>
-          <button onClick={handleOpenModal} className="btn add-student">
-            Adicionar Aluno
-          </button>
         </header>
         <StudentsTable
           students={students}
-          onPlanDeleted={fetchStudents}
-          setSelectedStudent={handleEditStudent}
-          selectedStudent={selectedStudent}
+          setSelectedStudent={handleViewStudent}
         />
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <StudentsForm
-            onStudentCreated={() => {
-              fetchStudents();
-              handleCloseModal();
-            }}
             selectedStudent={selectedStudent}
-            setSelectedStudent={setSelectedStudent}
+            isViewOnly={isViewOnly}
           />
         </Modal>
       </div>

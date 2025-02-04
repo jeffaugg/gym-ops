@@ -2,42 +2,13 @@ import React, { useState } from "react";
 import "./StudentsTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
-import FilterBar from "../../FilterBar/FilterBar"; 
-import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
+import FilterBar from "../../FilterBar/FilterBar";
 
-export default function StudentsTable({
-  students,
-  onStudentDeleted,
-  setSelectedStudent,
-  selectedStudent,
-}) {
+export default function StudentsTable({ students, setSelectedStudent }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all"); 
-  const [sortField, setSortField] = useState("name"); 
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [sortField, setSortField] = useState("name");
   const [sortOrder, setSortOrder] = useState("asc");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-
-  const handleDelete = async (id) => {
-    try {
-      await api.delete(`/clients/${id}`);
-      if (selectedStudent && selectedStudent.id === id) {
-        setSelectedStudent(null);
-      }
-      toast.success("Aluno deletado com sucesso!");
-      onStudentDeleted();
-    } catch (error) {
-      console.error("Erro ao deletar o aluno:", error);
-      toast.error("Erro ao deletar o aluno.");
-    }finally {
-      setIsModalOpen(false);
-    }
-  };
-
-  const confirmDelete = (id) => {
-    setSelectedId(id);
-    setIsModalOpen(true);
-  };
 
   const handleRegisterPresence = async (student) => {
     try {
@@ -128,16 +99,10 @@ export default function StudentsTable({
                     ✅
                   </button>
                   <button
-                    className="btn edit"
+                    className="btn view"
                     onClick={() => setSelectedStudent(student)}
                   >
-                    ✏️
-                  </button>
-                  <button
-                    className="btn delete"
-                    onClick={() => confirmDelete(student.id)}
-                  >
-                    ❌
+                    👁️
                   </button>
                 </td>
               </tr>
@@ -149,14 +114,6 @@ export default function StudentsTable({
           )}
         </tbody>
       </table>
-      {isModalOpen && (
-        <ConfirmationModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={() => handleDelete(selectedId)}
-          message={`Tem certeza que deseja deletar este aluno "${students.find(students => students.id === selectedId)?.name}"?`}
-        />
-      )}
     </div>
   );
 }
