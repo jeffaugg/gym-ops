@@ -25,19 +25,27 @@ export class AlunoService {
       throw new AppError("Administrador inválido", 404);
     }
 
-    const userByEmail = await this.alunoRepository.findByEmail(
+    const alunoByEmail = await this.alunoRepository.findByEmail(
       data.email,
       adm_id,
     );
 
-    if (userByEmail) {
-      throw new AppError("Email já cadastrado", 409);
+    if (alunoByEmail) {
+      const error = alunoByEmail.status
+        ? "Email já cadastrado"
+        : "Usuário com email já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const userByCpf = await this.alunoRepository.findByCpf(data.cpf, adm_id);
 
     if (userByCpf) {
-      throw new AppError("CPF já cadastrado", 409);
+      const error = userByCpf.status
+        ? "Cpf já cadastrado"
+        : "Usuário com cpf já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const plano = await this.planoRepository.findById(data.plan_id, adm_id);
@@ -56,7 +64,7 @@ export class AlunoService {
   }
 
   async list(adm_id: number, limit: number, page: number) {
-    const offset = (page - 1) * limit;
+    const offset = getPaginationOffset(page, limit);
 
     return this.alunoRepository.list(adm_id, limit, offset);
   }
