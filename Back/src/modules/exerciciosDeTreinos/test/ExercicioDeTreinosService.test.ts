@@ -70,9 +70,9 @@ describe("ExercicioDeTreinoService", () => {
       new Exercicio(1, "Bulgarian", "legs", 1),
     );
 
-    exercicioDeTreinoRepository.findByTreinoId.mockResolvedValue(
-      new ExerciciosDeTreinos(1, 1, 1, 4, 12, 60),
-    );
+    exercicioDeTreinoRepository.doesRelationExist
+      .mockResolvedValueOnce(false)
+      .mockResolvedValueOnce(true);
 
     const data = {
       treino_id: 1,
@@ -81,6 +81,8 @@ describe("ExercicioDeTreinoService", () => {
       repeticoes: 15,
       descanso_segundos: 60,
     };
+
+    await exercicioDeTreinoService.create(data, 1);
 
     await expect(exercicioDeTreinoService.create(data, 1)).rejects.toThrowError(
       new AppError("Esse exercício já está associado a este treino", 409),
@@ -118,7 +120,7 @@ describe("ExercicioDeTreinoService", () => {
 
     exercicioDeTreinoRepository.list.mockResolvedValue(mockRelations);
 
-    const result = await exercicioDeTreinoService.list(1);
+    const result = await exercicioDeTreinoService.list(1, 1, 10);
 
     expect(result).toEqual(mockRelations);
   });

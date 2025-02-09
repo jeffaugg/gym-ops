@@ -82,6 +82,7 @@ describe("UserService", () => {
           cpf: "123.456.789-00",
           tel: "12345678345",
           role: "ADM" as const,
+          status: true,
         }),
       );
 
@@ -109,11 +110,12 @@ describe("UserService", () => {
             cpf: "123.456.789-00",
             tel: "12345678345",
             role: "ADM" as const,
+            status: true,
           }),
         );
 
       await expect(userService.createAdm(mockAdmData)).rejects.toThrow(
-        new AppError("CPF já cadastrado", 409),
+        new AppError("cpf já cadastrado", 409),
       );
     });
   });
@@ -127,6 +129,7 @@ describe("UserService", () => {
         cpf: "123.456.789-99",
         tel: "987654321",
         role: "USER" as const,
+        status: true,
         adm_id: 1,
         cref: "CREF-12345",
         daysofweek: [1, 2, 3],
@@ -144,6 +147,7 @@ describe("UserService", () => {
           cpf: "123.456.789-00",
           tel: "123456789",
           role: "ADM",
+          status: true,
         }),
       );
       userRepository.findUserByCref.mockResolvedValue(null);
@@ -187,6 +191,7 @@ describe("UserService", () => {
         User.fromDatabase({
           id: 2,
           ...mockUserData,
+          status: true,
         }),
       );
 
@@ -211,11 +216,12 @@ describe("UserService", () => {
         User.fromDatabase({
           id: 2,
           ...mockUserData,
+          status: true,
         }),
       );
 
       await expect(userService.createUser(mockUserData)).rejects.toThrow(
-        new AppError("CPF já cadastrado", 409),
+        new AppError("cpf já cadastrado", 409),
       );
     });
 
@@ -262,12 +268,14 @@ describe("UserService", () => {
           cpf: "123.456.789-00",
           tel: "123456789",
           role: "ADM",
+          status: true,
         }),
       );
       userRepository.findUserByCref.mockResolvedValue(
         User.fromDatabase({
           id: 2,
           ...mockUserData,
+          status: true,
         }),
       );
 
@@ -288,6 +296,7 @@ describe("UserService", () => {
         cpf: "123.456.789-00",
         tel: "123456789",
         role: "USER",
+        status: true,
       });
 
       userRepository.findByEmail.mockResolvedValue(mockUser);
@@ -320,6 +329,7 @@ describe("UserService", () => {
         cpf: "123.456.789-00",
         tel: "123456789",
         role: "USER",
+        status: true,
       });
 
       userRepository.findByEmail.mockResolvedValue(mockUser);
