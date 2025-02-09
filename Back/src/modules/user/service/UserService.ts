@@ -23,13 +23,21 @@ export class UserService {
     const userByEmail = await this.userRepository.findByEmail(data.email);
 
     if (userByEmail) {
-      throw new AppError("Email já cadastrado", 409);
+      const error = userByEmail.status
+        ? "Email já cadastrado"
+        : "Usuário com email já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const userByCpf = await this.userRepository.findByCpf(data.cpf);
 
     if (userByCpf) {
-      throw new AppError("CPF já cadastrado", 409);
+      const error = userByCpf.status
+        ? "cpf já cadastrado"
+        : "Usuário com cpf já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     data.password = await hash(data.password, 8);
@@ -40,18 +48,26 @@ export class UserService {
     const userByEmail = await this.userRepository.findByEmail(data.email);
 
     if (userByEmail) {
-      throw new AppError("Email já cadastrado", 409);
+      const error = userByEmail.status
+        ? "Email já cadastrado"
+        : "Usuário com email já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const userByCpf = await this.userRepository.findByCpf(data.cpf);
 
     if (userByCpf) {
-      throw new AppError("CPF já cadastrado", 409);
+      const error = userByCpf.status
+        ? "cpf já cadastrado"
+        : "Usuário com cpf já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const adm = await this.userRepository.findAdmById(data.adm_id);
 
-    if (!adm || adm.role !== "ADM") {
+    if (!adm || adm.role !== "ADM" || !adm.status) {
       throw new AppError("Usuário não autorizado", 401);
     }
 
@@ -84,6 +100,9 @@ export class UserService {
       throw new AppError("Credenciais inválidas", 401);
     }
 
+    if (!user.status) {
+      throw new AppError("Usuário inativo", 401);
+    }
     if (!(await user.checkPassword(password))) {
       throw new AppError("Credenciais inválidas", 401);
     }

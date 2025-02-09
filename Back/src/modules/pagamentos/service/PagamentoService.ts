@@ -39,6 +39,13 @@ export class PagamentoService {
     const currentDate = new Date();
     data.expiration_date = addDays(currentDate, plano.duration);
 
+    const teste = await this.alunoRepository.update(aluno.id, adm_id, {
+      ...aluno,
+      gender: aluno.gender as "M" | "F" | "O",
+      status: true,
+    });
+
+    console.log(teste);
     return await this.pagamentoRepository.create({ user_id, ...data });
   }
 

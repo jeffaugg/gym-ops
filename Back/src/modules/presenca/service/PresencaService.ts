@@ -23,6 +23,10 @@ export class PresencaService {
     if (!aluno) {
       throw new AppError("Aluno não encontrado", 404);
     }
+
+    if (!aluno.status) {
+      throw new AppError("Aluno com status inválido", 404);
+    }
     const pagamento = await this.pagamentoRepository.isUserPlanPaid(id, adm_id);
 
     if (!pagamento) {

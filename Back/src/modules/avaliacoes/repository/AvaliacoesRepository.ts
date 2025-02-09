@@ -21,7 +21,7 @@ export class AvaliacoesRepository {
 `;
     const result = await this.db.raw(query, [
       data.aluno_id,
-      data.id || null,
+      data.id,
       data.height,
       data.weight,
       data.fat_mass || null,

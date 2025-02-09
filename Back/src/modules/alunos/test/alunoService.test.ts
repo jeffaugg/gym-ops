@@ -36,6 +36,7 @@ describe("AlunoService", () => {
         tel: "123",
         adm_id: 1,
         role: "ADM",
+        status: true,
       };
 
       const mockAlunoData = {

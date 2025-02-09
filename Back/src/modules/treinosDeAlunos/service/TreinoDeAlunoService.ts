@@ -40,7 +40,7 @@ export class TreinoDeAlunoService {
       data.aluno_id,
       adm_id,
     );
-    if (!alunoExistente) {
+    if (!alunoExistente || !alunoExistente.status) {
       throw new AppError("Aluno não encontrado", 404);
     }
 

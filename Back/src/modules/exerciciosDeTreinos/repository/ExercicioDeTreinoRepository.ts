@@ -56,6 +56,23 @@ export class ExercicioDeTreinoRepository {
     return result.rows[0] as ExerciciosDeTreinos;
   }
 
+  async exerciseInWorkouts(
+    exercicio_id: number,
+    adm_id: number,
+  ): Promise<boolean> {
+    const query = `
+      SELECT 1
+      FROM exercicios_de_treinos et
+      INNER JOIN exercicios e ON e.id = et.exercicio_id
+      WHERE et.exercicio_id = ? AND e.adm_id = ?
+      LIMIT 1;
+      `;
+
+    const result = await this.db.raw(query, [exercicio_id, adm_id]);
+
+    return result.rows.length > 0 ? true : false;
+  }
+
   async findByTreinoId(
     treino_id: number,
     offset: number,

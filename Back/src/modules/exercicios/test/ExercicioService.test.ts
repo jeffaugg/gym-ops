@@ -6,18 +6,22 @@ import AppError from "../../../shared/errors/AppError";
 import { mock, MockProxy } from "jest-mock-extended";
 import { Exercicio } from "../models/Exercicio";
 import User from "../../user/models/User";
+import { ExercicioDeTreinoRepository } from "../../exerciciosDeTreinos/repository/ExercicioDeTreinoRepository";
 
 describe("ExercicioService", () => {
   let exercicioService: ExercicioService;
   let exercicioRepository: MockProxy<ExercicioRepository>;
   let userRepository: MockProxy<UserRepository>;
+  let exercicioDeTreinoRepository: MockProxy<ExercicioDeTreinoRepository>;
 
   beforeEach(() => {
     exercicioRepository = mock<ExercicioRepository>();
     userRepository = mock<UserRepository>();
+    exercicioDeTreinoRepository = mock<ExercicioDeTreinoRepository>();
     exercicioService = new ExercicioService(
       exercicioRepository,
       userRepository,
+      exercicioDeTreinoRepository,
     );
   });
 
@@ -26,7 +30,7 @@ describe("ExercicioService", () => {
       const mockAdmId = 1;
       const mockData = new Exercicio(1, "Bulgarian", "legs", mockAdmId);
 
-      userRepository.findById.mockResolvedValue(
+      userRepository.findAdmById.mockResolvedValue(
         new User(
           1,
           1,
@@ -36,6 +40,7 @@ describe("ExercicioService", () => {
           "123.123.123-12",
           "(88) 4002-8922",
           "USER",
+          true,
         ),
       );
       exercicioRepository.findByName.mockResolvedValue(null);
@@ -57,7 +62,7 @@ describe("ExercicioService", () => {
         muscles: "legs",
       };
 
-      userRepository.findById.mockResolvedValue(null);
+      userRepository.findAdmById.mockResolvedValue(null);
       exercicioRepository.findByName.mockResolvedValue(null);
       exercicioRepository.create.mockResolvedValue(
         new Exercicio(1, mockData.name, mockData.muscles, mockAdmId),
@@ -75,7 +80,7 @@ describe("ExercicioService", () => {
         muscles: "legs",
       };
 
-      userRepository.findById.mockResolvedValue(
+      userRepository.findAdmById.mockResolvedValue(
         new User(
           1,
           1,
@@ -85,6 +90,7 @@ describe("ExercicioService", () => {
           "123.123.123-12",
           "(88) 4002-8922",
           "USER",
+          true,
         ),
       );
       exercicioRepository.findByName.mockResolvedValue(
@@ -110,7 +116,7 @@ describe("ExercicioService", () => {
       ];
       exercicioRepository.list.mockResolvedValue(mockExercises);
 
-      const result = await exercicioService.list(mockAdmId);
+      const result = await exercicioService.list(mockAdmId, 1, 2);
 
       expect(result).toEqual(mockExercises);
     });
