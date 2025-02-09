@@ -61,10 +61,12 @@ export class ExercicioDeTreinoRepository {
     adm_id: number,
   ): Promise<boolean> {
     const query = `
-      SELECT 1 
-      FROM exercicios_de_treinos
-      WHERE exercicio_id = ? AND adm_id = ?
-      LIMIT 1`;
+      SELECT 1
+      FROM exercicios_de_treinos et
+      INNER JOIN exercicios e ON e.id = et.exercicio_id
+      WHERE et.exercicio_id = ? AND e.adm_id = ?
+      LIMIT 1;
+      `;
 
     const result = await this.db.raw(query, [exercicio_id, adm_id]);
 
