@@ -14,6 +14,7 @@ class User {
   gender?: string;
   daysofweek?: number[];
   turntime?: number;
+  status: boolean;
 
   constructor(
     id: number,
@@ -24,6 +25,7 @@ class User {
     cpf: string,
     tel: string,
     role: string,
+    status: boolean,
     cref?: string,
     gender?: string,
     date_of_birth?: string,
@@ -38,6 +40,7 @@ class User {
     this.cpf = cpf;
     this.tel = tel;
     this.role = role;
+    this.status = status;
     this.cref = cref;
     this.gender = gender;
     this.date_of_birth = date_of_birth;
@@ -59,6 +62,7 @@ class User {
       data.cpf,
       data.tel,
       data.role,
+      data.status,
       data.cref,
       data.gender,
       data.date_of_birth,

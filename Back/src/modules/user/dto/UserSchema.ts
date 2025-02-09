@@ -29,6 +29,7 @@ export const UserSchema = z
         message: "A data deve estar no formato yyyy-mm-dd",
       })
       .optional(),
+    status: z.boolean().optional().default(true),
   })
   .refine(
     (data) => {
