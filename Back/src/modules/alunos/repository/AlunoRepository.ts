@@ -80,7 +80,7 @@ export class AlunoRepository {
     data: z.infer<typeof AlunoSchema>,
   ): Promise<Aluno> {
     const query = `
-    UPDATE alunos SET name = ?, date_of_birth = ?, email = ?, telephone = ?, cpf = ?, plan_id = ?, health_notes = ?, status = ? ,gender = ?  
+    UPDATE alunos SET name = ?, date_of_birth = ?, email = ?, telephone = ?, cpf = ?, plan_id = ?, health_notes = ?, status = ?, gender = ?  
     WHERE id = ? AND adm_id = ? 
     RETURNING id, name, date_of_birth, email, telephone, cpf, plan_id, health_notes, status, gender, created_at `;
 
@@ -102,7 +102,10 @@ export class AlunoRepository {
   }
 
   async delete(id: number, adm_id: number): Promise<void> {
-    const query = "DELETE FROM alunos WHERE id = ? AND adm_id = ?";
+    const query = `
+      UPDATE alunos
+      SET status = false
+      WHERE id = ? AND adm_id = ?`;
     await this.db.raw(query, [id, adm_id]);
   }
 
@@ -137,7 +140,7 @@ export class AlunoRepository {
   }
 
   async getEmail(adm_id: number): Promise<string[]> {
-    const query = "SELECT email FROM alunos WHERE adm_id = ?";
+    const query = "SELECT email FROM alunos WHERE adm_id = ? AND status = true";
     const result = await this.db.raw(query, [adm_id]);
 
     return result.rows.map((alunoData: any) => alunoData.email);
