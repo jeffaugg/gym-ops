@@ -5,6 +5,7 @@ import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
 import UserRepository from "../../user/repositories/UserRepository";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { ExercicioDeTreinoRepository } from "../../exerciciosDeTreinos/repository/ExercicioDeTreinoRepository";
 
 @injectable()
 export class ExercicioService {
@@ -13,6 +14,8 @@ export class ExercicioService {
     private exercicioRepository: ExercicioRepository,
     @inject(UserRepository)
     private userRepository: UserRepository,
+    @inject(ExercicioDeTreinoRepository)
+    private exercicioDeTreinoRepository: ExercicioDeTreinoRepository,
   ) {}
 
   async create(data: z.infer<typeof ExercicioSchema>, adm_id: number) {
@@ -71,6 +74,12 @@ export class ExercicioService {
       throw new AppError("Exercício não encontrado", 404);
     }
 
+    const InWorkouts =
+      await this.exercicioDeTreinoRepository.exerciseInWorkouts(id, adm_id);
+
+    if (InWorkouts) {
+      throw new AppError("Exercício está em uso em um treino", 409);
+    }
     return await this.exercicioRepository.delete(id, adm_id);
   }
 
