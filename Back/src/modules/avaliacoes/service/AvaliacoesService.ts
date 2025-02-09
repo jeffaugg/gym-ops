@@ -42,7 +42,7 @@ export class AvaliacaoService {
       adm_id,
     );
 
-    if (!alunoById) {
+    if (!alunoById || !alunoById.status) {
       throw new AppError("Aluno não existe", 404);
     }
 
@@ -57,7 +57,7 @@ export class AvaliacaoService {
       }),
     );
 
-    return data as Avaliacao;
+    return avaliacao;
   }
 
   async list(
@@ -80,7 +80,7 @@ export class AvaliacaoService {
       adm_id,
     );
 
-    if (!alunoById) {
+    if (!alunoById || !alunoById.status) {
       throw new AppError("Aluno não existe", 404);
     }
 
