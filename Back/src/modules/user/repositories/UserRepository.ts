@@ -163,7 +163,6 @@ export class UserRepository {
     const query = `UPDATE users SET name = ?, email = ?, password = ?, tel = ?, role = ?, status = ?
     WHERE id = ? 
     RETURNING *;`;
-    console.log(id, data.status);
     const result = await this.db.raw(query, [
       data.name,
       data.email,

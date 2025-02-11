@@ -45,7 +45,6 @@ export class PagamentoService {
       status: true,
     });
 
-    console.log(teste);
     return await this.pagamentoRepository.create({ user_id, ...data });
   }
 
