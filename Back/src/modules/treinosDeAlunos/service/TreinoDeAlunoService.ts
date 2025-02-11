@@ -50,7 +50,7 @@ export class TreinoDeAlunoService {
         data.treino_id,
         adm_id,
       );
-    if (!existingRelation) {
+    if (existingRelation) {
       throw new AppError("Esse treino já está associado a este aluno", 409);
     }
 
