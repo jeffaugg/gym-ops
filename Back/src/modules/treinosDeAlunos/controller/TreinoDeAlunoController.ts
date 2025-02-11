@@ -9,7 +9,6 @@ export class TreinoDeAlunoController {
   async create(req: Request, res: Response): Promise<Response> {
     const data = TreinoDeAlunoSchema.parse(req.body);
     const adm_id = req.user.adm_id;
-
     const treinoDeAlunoService = container.resolve(TreinoDeAlunoService);
 
     const treino_de_aluno = await treinoDeAlunoService.create(data, adm_id);

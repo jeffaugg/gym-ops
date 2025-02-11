@@ -75,11 +75,20 @@ export class TreinoDeAlunoRepository {
   ): Promise<boolean> {
     const query = `
     SELECT 1
-    FROM treinos_de_alunos 
-    WHERE adm_id = ? AND treino_id = ? AND aluno_id = ?
-    OFFSET ? LIMIT ?;`;
+    FROM treinos_de_alunos ta
+    INNER JOIN treinos t ON ta.treino_id = t.id
+    INNER JOIN alunos a ON ta.aluno_id = a.id
+    WHERE (t.adm_id = ? OR a.adm_id = ?)
+      AND ta.treino_id = ?
+      AND ta.aluno_id = ?
+    LIMIT 1;`;
 
-    const result = await this.db.raw(query, [adm_id, treino_id, aluno_id]);
+    const result = await this.db.raw(query, [
+      adm_id,
+      adm_id,
+      treino_id,
+      aluno_id,
+    ]);
 
     return result.rows.length > 0;
   }
