@@ -1,0 +1,52 @@
+.trainings-list {
+    width: 100%;
+    max-width: 800px;
+    background-color: #77749B;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.trainings-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.trainings-list th,
+.trainings-list td {
+    padding: 10px;
+    text-align: center;
+}
+
+.trainings-list td {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    white-space: nowrap;
+}
+
+.trainings-list th {
+    font-weight: 700;
+    color: white;
+
+}
+
+.trainings-list .btn.edit {
+    color: rgb(0, 0, 0);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+}
+
+.trainings-list .btn.delete {
+    color: rgb(201, 1, 1);
+    border:rgb(206, 0, 0);
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+}
