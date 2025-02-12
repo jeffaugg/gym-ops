@@ -5,6 +5,7 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { BsPeople } from "react-icons/bs";
 import { FaRegCalendarCheck } from "react-icons/fa";
 import { IoCogSharp } from "react-icons/io5";
+import { GiGymBag } from "react-icons/gi";
 import SidebarItem from "./SidebarItem";
 import UserProfile from "../../UserProfile/UserProfile";
 import "./Sidebar.css";
@@ -23,6 +24,7 @@ function Sidebar() {
     { name: "Alunos", icon: BsPeople, path: "/instructor/students" },
     { name: "Avaliação Fisica", icon: TbRulerMeasure2, path: "/instructor/PhysicalAssessment" },
     { name: "Registrar Frequência", icon: FaRegCalendarCheck, path: "/instructor/presence" },
+    { name: "Associar treino ao aluno", icon: GiGymBag, path: "/instructor/trainings" },
   ];
 
   return (
