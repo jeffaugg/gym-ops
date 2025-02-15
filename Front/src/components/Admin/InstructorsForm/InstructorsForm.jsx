@@ -7,7 +7,7 @@ import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
 
-export default function InstructorsForm({ onInstructorCreated, selectedInstructor, setSelectedInstructor  }) {
+export default function InstructorsForm({ onInstructorCreated, selectedInstructor, setSelectedInstructor }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +19,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
   const [cref, setCref] = useState("");
   const [daysOfWeek, setDaysOfWeek] = useState([]);
   const [turnTime, setTurnTime] = useState("");
+  const [status, setStatus] = useState("true"); // novo campo status
 
   const handleDaysChange = (day) => {
     const dayNumber = Number(day);
@@ -42,6 +43,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     setCref("");
     setDaysOfWeek([]);
     setTurnTime("");
+    setStatus("true");
     setSelectedInstructor(null);
   };
 
@@ -60,6 +62,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
       setCref(selectedInstructor.cref || "");
       setDaysOfWeek(selectedInstructor.daysofweek || []);
       setTurnTime(selectedInstructor.turntime || "");
+      setStatus(selectedInstructor.status ? "true" : "false");
     } else {
       setName("");
       setEmail("");
@@ -71,6 +74,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
       setCref("");
       setDaysOfWeek([]);
       setTurnTime("");
+      setStatus("true");
     }
   }, [selectedInstructor]);
 
@@ -78,8 +82,9 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
     event.preventDefault();
 
     try {
+      const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
+
       if (selectedInstructor) {
-        const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
         const dataToSend = {
           name,
           email,
@@ -91,32 +96,32 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
           cref,
           daysofweek: daysOfWeek,
           turntime: turnTime,
+          status: status === "true",
         };
         if (password) {
           dataToSend.password = password;
         }
         await api.put(`/user/${selectedInstructor.id}`, dataToSend);
         toast.success("Instrutor atualizado com sucesso!", { position: "top-right" });
-      }
-      else{
-        const formattedBirthDate = format(new Date(DateOfBirth), "yyyy-MM-dd");
+      } else {
         await api.post("/user/signupuser", {
-        name,
-        email,
-        password,
-        cpf,
-        tel,
-        role,
-        date_of_birth: formattedBirthDate,
-        gender,
-        cref,
-        daysofweek: daysOfWeek,
-        turntime: turnTime,
+          name,
+          email,
+          password,
+          cpf,
+          tel,
+          role,
+          date_of_birth: formattedBirthDate,
+          gender,
+          cref,
+          daysofweek: daysOfWeek,
+          turntime: turnTime,
+          status: status === "true",
         });
 
         toast.success("Criação de Instrutor realizado com sucesso!", { position: "top-right" });
       }
-      
+
       setName("");
       setEmail("");
       setPassword("");
@@ -127,6 +132,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
       setCref("");
       setDaysOfWeek([]);
       setTurnTime("");
+      setStatus("true");
       setSelectedInstructor(null);
 
       onInstructorCreated();
@@ -149,7 +155,7 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
         });
       } else {
         toast.error("Falha na criação. Verifique as informações.", { position: "top-right" });
-        console.log("falha",error)
+        console.log("falha", error);
       }
     }
   };
@@ -171,6 +177,17 @@ export default function InstructorsForm({ onInstructorCreated, selectedInstructo
             value={DateOfBirth}
             onChange={(e) => setDateOfBirth(e.target.value)}
           />
+          <label>
+            Status
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              disabled={!selectedInstructor}
+            >
+              <option value="true">Ativo</option>
+              <option value="false">Inativo</option>
+            </select>
+          </label>  
         </div>
 
         <div className="form-group">
