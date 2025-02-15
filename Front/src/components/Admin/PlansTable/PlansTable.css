@@ -11,12 +11,15 @@
 .plans-list table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .plans-list th,
 .plans-list td {
     padding: 10px;
     text-align: left;
+    vertical-align: middle;
+    word-wrap: break-word;
 }
 
 .plans-list th {
@@ -25,19 +28,46 @@
 }
 
 .plans-list .btn.edit {
-    color: white;
+    color: #ffffff;
     border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
+    font-size: 1.2em;
+    background-color: transparent;
+    padding: 5px;
     cursor: pointer;
-    margin: 2px;
+    transition: all 0.2s ease;
+}
+
+.plans-list .btn.edit:hover {
+    color: #77f36c;
+    transform: scale(1.2);
 }
 
 .plans-list .btn.delete {
-    color: white;
-    border:rgb(206, 0, 0);
-    padding: 5px 10px;
-    border-radius: 4px;
+    color: #ffffff;
+    border: none;
+    font-size: 1.4em;
+    background-color: transparent;
+    padding: 5px;
     cursor: pointer;
-    margin: 2px;
+    transition: all 0.2s ease;
+}
+
+.plans-list .btn.delete:hover {
+    color: #ff4444;
+    transform: scale(1.2);
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .plans-list table {
+        display: block;
+        overflow-x: auto;
+    }
 }

@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import "./PhysicalAssessmentTable.css";
 import { toast } from "react-toastify";
 import api from "../../../api";
+import { FaPenToSquare } from "react-icons/fa6";
+import { MdOutlineDelete } from "react-icons/md";
 import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
 
@@ -55,18 +57,18 @@ export default function PhysicalAssessmentTable({
                     : "N/A"}
                 </td>
                 <td>{assessment.instructor_id?.name || "N/A"}</td>
-                <td>
+                <td className="actions">
                   <button
                     className="btn edit"
                     onClick={() => onEditAssessment(assessment)}
                   >
-                    ✏️
+                    <FaPenToSquare />
                   </button>
                   <button
                     className="btn delete"
                     onClick={() => confirmDelete(assessment.id)}
                   >
-                    ❌
+                    <MdOutlineDelete />
                   </button>
                 </td>
               </tr>

@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import "./PlansTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import { FaPenToSquare } from "react-icons/fa6";
+import { MdOutlineDelete } from "react-icons/md";
 import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, selectedPlan }) {
@@ -50,12 +52,12 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, sele
                 <td>R$ {plan.price.toFixed(2)}</td>
                 <td>{plan.duration} dias</td>
                 <td>{plan.spots}</td>
-                <td>
+                <td className="actions">
                   <button className="btn edit" onClick={() => setSelectedPlan(plan)}>
-                    ✏️
+                    <FaPenToSquare />
                   </button>
                   <button className="btn delete" onClick={() => confirmDelete(plan.id)}>
-                    ❌
+                    <MdOutlineDelete />
                   </button>
                 </td>
               </tr>

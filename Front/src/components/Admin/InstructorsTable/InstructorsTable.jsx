@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./InstructorsTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import { FaPenToSquare } from "react-icons/fa6";
+import { MdOutlineDelete } from "react-icons/md";
 import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function InstructorsTable({ instructors, onPlanDeleted, setSelectedInstructor, selectedInstructor }) {
@@ -75,7 +77,7 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                     : "N/D"}
                 </td>
                 <td>{instructor.turntime ? turnMapping[instructor.turntime.id] || "N/D" : "N/D"}</td>
-                <td>
+                <td className="actions">
                 <button
                     className="btn edit"
                     onClick={() =>
@@ -89,11 +91,11 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                       })
                     }
                   >
-                    ✏️
+                    <FaPenToSquare />
                   </button>
-                  <button className="btn delete" onClick={() => confirmDelete(instructor.id)}>
-                    ❌
-                  </button>
+                  {/* <button className="btn delete" onClick={() => confirmDelete(instructor.id)}>
+                    <MdOutlineDelete />
+                  </button> */}
                 </td>
               </tr>
             ))

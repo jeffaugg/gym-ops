@@ -74,40 +74,52 @@
     color: white;
   }
   
-  .students-list .btn.edit {
-    color: white;
+  .students-list .btn.view {
+    color: rgb(255, 255, 255);
     border: none;
+    font-size: 100%;
+    background-color: transparent;
     padding: 5px 10px;
-    border-radius: 4px;
+
     cursor: pointer;
     margin: 2px;
-  }
+    :hover{
+        color: rgb(66, 5, 124);
+    }
+}
   
   .students-list .btn.delete {
-    color: white;
-    border: rgb(206, 0, 0);
+    color: rgb(255, 255, 255);
+    border: none;
+    font-size: 130%;
+    background-color: transparent;
     padding: 5px 10px;
-    border-radius: 4px;
     cursor: pointer;
     margin: 2px;
-  }
+    &:hover{
+        color: rgb(201, 1, 1);
+    }
+}
   
-  .btn.presence {
-    color: white;
+  .students-list .btn.presence {
+    color: rgb(255, 255, 255);
     border: none;
+    font-size: 120%;
+    background-color: transparent;
     padding: 5px 10px;
+    /* border-radius: 4px; */
     cursor: pointer;
-    border-radius: 4px;
-    margin-right: 5px;
-    font-size: 14px;
-  }
-  
-  .btn.presence:hover {
-    background-color: #45a049;
+    margin: 2px;
+    &:hover{
+        color: rgb(119, 243, 108);
+    }
   }
   
   .actions {
     display: flex;
     flex-wrap: nowrap;
   }
-  
+  .actions .btn:hover {
+    transform: scale(1.3);
+    background-color: transparent !important;
+  }

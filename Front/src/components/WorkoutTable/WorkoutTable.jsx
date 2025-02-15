@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import "./WorkoutTable.css";
 import api from "../../api";
 import { toast } from "react-toastify";
+import { FaPenToSquare } from "react-icons/fa6";
+import { MdOutlineDelete } from "react-icons/md";
 import ConfirmationModal from "../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWorkout, selectedWorkout }) {
@@ -45,12 +47,12 @@ export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWo
               <tr key={workout.id}>
                 <td>{workout.name}</td>
                 <td>{workout.notes}</td>
-                <td>
+                <td className="actions">
                   <button className="btn edit" onClick={() => setSelectedWorkout(workout)}>
-                    ✏️
+                    <FaPenToSquare />
                   </button>
                   <button className="btn delete" onClick={() => confirmDelete(workout.id)}>
-                    ❌
+                    <MdOutlineDelete />
                   </button>
                 </td>
               </tr>

@@ -11,42 +11,61 @@
 .workout-list table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .workout-list th,
 .workout-list td {
     padding: 10px;
-    text-align: center;
-}
-
-.workout-list td {
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    text-align: left;
+    vertical-align: middle;
     word-wrap: break-word;
-    white-space: nowrap;
 }
 
 .workout-list th {
     font-weight: 700;
     color: white;
-
 }
 
 .workout-list .btn.edit {
-    color: rgb(0, 0, 0);
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
+    color: #ffffff;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: transparent ;
+}
+
+.workout-list .btn.edit:hover {
+    color: #77f36c;
+    transform: scale(1.2);
 }
 
 .workout-list .btn.delete {
-    color: rgb(201, 1, 1);
-    border:rgb(206, 0, 0);
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
+    color: #ffffff;
+    font-size: 1.4em;
+    padding: 5px;
+    background-color: transparent;
+}
+
+.workout-list .btn.delete:hover {
+    color: #ff4444;
+    transform: scale(1.2);
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .workout-list table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .workout-list td:nth-child(2) {
+        white-space: normal;
+    }
 }

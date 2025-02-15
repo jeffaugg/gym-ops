@@ -1,5 +1,6 @@
 import React from "react";
 import "./FilterBar.css";
+import { TbArrowBigDownFilled, TbArrowBigUpFilled } from "react-icons/tb";
 
 export default function FilterBar({
   searchTerm,
@@ -53,7 +54,7 @@ export default function FilterBar({
             ))}
           </select>
           <button onClick={toggleSortOrder} className="btn-sort-order">
-            {sortOrder === "asc" ? "⬆️" : "⬇️"}
+            {sortOrder === "asc" ? <TbArrowBigUpFilled /> : <TbArrowBigDownFilled />}
           </button>
         </div>
       </div>

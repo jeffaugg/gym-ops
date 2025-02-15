@@ -3,6 +3,8 @@ import "./StudentsTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
 import FilterBar from "../../FilterBar/FilterBar";
+import { PiCalendarCheckBold } from "react-icons/pi";
+import { ImEyePlus } from "react-icons/im";
 
 export default function StudentsTable({ students, setSelectedStudent }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -96,13 +98,13 @@ export default function StudentsTable({ students, setSelectedStudent }) {
                     className="btn presence"
                     onClick={() => handleRegisterPresence(student)}
                   >
-                    ✅
+                    <PiCalendarCheckBold />
                   </button>
                   <button
                     className="btn view"
                     onClick={() => setSelectedStudent(student)}
                   >
-                    👁️
+                    <ImEyePlus />
                   </button>
                 </td>
               </tr>

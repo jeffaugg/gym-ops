@@ -3,6 +3,7 @@ import "./PresenceTable.css";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
 import api from "../../api";
+import { MdOutlineDelete } from "react-icons/md";
 import ConfirmationModal from "../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function PresenceTable({ reload, onPresenceDeleted }) {
@@ -70,12 +71,12 @@ export default function PresenceTable({ reload, onPresenceDeleted }) {
                                         ? format(new Date(presence.data), "dd/MM/yyyy HH:mm:ss")
                                         : "N/A"}
                                 </td>
-                                <td>
+                                <td className="actions">
                                     <button
                                         className="btn delete"
                                         onClick={() => confirmDelete(presence.id)}
                                     >
-                                        ❌
+                                        <MdOutlineDelete />
                                     </button>
                                 </td>
                             </tr>

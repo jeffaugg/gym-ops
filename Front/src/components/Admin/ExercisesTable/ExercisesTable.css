@@ -11,12 +11,15 @@
 .exercises-list table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed; /* Adicionado para layout consistente */
 }
 
 .exercises-list th,
 .exercises-list td {
     padding: 10px;
     text-align: center;
+    vertical-align: middle; /* Alinhamento vertical */
+    word-wrap: break-word; /* Quebra de texto longos */
 }
 
 .exercises-list th {
@@ -24,20 +27,53 @@
     color: white;
 }
 
+/* Ações - Correção principal */
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 5px 0;
+}
+
+/* Botões */
+.exercises-list .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    background-color: transparent !important;
+}
+
 .exercises-list .btn.edit {
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
+    color: #ffffff;
+    font-size: 1.2em;
+}
+
+.exercises-list .btn.edit:hover {
+    color: #77f36c;
+    transform: scale(1.2);
 }
 
 .exercises-list .btn.delete {
-    color: white;
-    border:rgb(206, 0, 0);
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
+    color: #ffffff;
+    font-size: 1.4em;
+}
+
+.exercises-list .btn.delete:hover {
+    color: #ff4444;
+    transform: scale(1.2);
+}
+
+/* Garantir responsividade */
+@media (max-width: 768px) {
+    .exercises-list table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .exercises-list th,
+    .exercises-list td {
+        min-width: 100px;
+    }
 }

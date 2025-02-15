@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./PaymentsTable.css";
 import { toast } from "react-toastify";
 import api from "../../../api";
+import { MdOutlineDelete } from "react-icons/md";
 import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
 
@@ -104,12 +105,12 @@ export default function PaymentsTable({ payments, onPaymentDeleted }) {
                 <td>{payment.plan?.price || "N/A"}</td>
                 <td>{paymentMethods[payment.payment] || "N/A"}</td>
                 <td>{new Date(payment.payment_date).toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" })}</td>
-                <td>
+                <td className="actions">
                   <button
                     className="btn delete"
                     onClick={() => confirmDelete(payment.id)}
                   >
-                    ❌
+                    <MdOutlineDelete />
                   </button>
                 </td>
               </tr>

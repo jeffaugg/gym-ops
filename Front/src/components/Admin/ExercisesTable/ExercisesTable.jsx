@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./ExercisesTable.css";
+import { FaPenToSquare } from "react-icons/fa6";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import { MdOutlineDelete } from "react-icons/md";
 import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
 export default function ExercisesTable({ exercises, onExerciseDeleted, setSelectedExercise, selectedExercise }) {
@@ -45,12 +47,12 @@ export default function ExercisesTable({ exercises, onExerciseDeleted, setSelect
               <tr key={exercise.id}>
                 <td>{exercise.name}</td>
                 <td>{exercise.muscles}</td>
-                <td>
+                <td className="actions">
                   <button className="btn edit" onClick={() => setSelectedExercise(exercise)}>
-                    ✏️
+                    <FaPenToSquare />
                   </button>
                   <button className="btn delete" onClick={() => confirmDelete(exercise.id)}>
-                    ❌
+                    <MdOutlineDelete />
                   </button>
                 </td>
               </tr>

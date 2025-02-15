@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./StudentsTable.css";
 import api from "../../../api";
+import { FaPenToSquare } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import FilterBar from "../../FilterBar/FilterBar"; 
+import { MdOutlineDelete } from "react-icons/md";
 import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
+import { PiCalendarCheckBold } from "react-icons/pi";
 
 export default function StudentsTable({
   students,
@@ -125,20 +128,20 @@ export default function StudentsTable({
                     className="btn presence"
                     onClick={() => handleRegisterPresence(student)}
                   >
-                    ✅
+                    <PiCalendarCheckBold />
                   </button>
                   <button
                     className="btn edit"
                     onClick={() => setSelectedStudent(student)}
                   >
-                    ✏️
+                    <FaPenToSquare />
                   </button>
-                  <button
+                  {/* <button
                     className="btn delete"
                     onClick={() => confirmDelete(student.id)}
                   >
-                    ❌
-                  </button>
+                    <MdOutlineDelete />
+                  </button> */}
                 </td>
               </tr>
             ))
