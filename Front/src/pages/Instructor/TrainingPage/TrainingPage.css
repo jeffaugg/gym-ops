@@ -25,7 +25,7 @@
     margin-bottom: 20px;
   }
   
-  .btn.add-payment {
+  .btn.add-training {
     background-color: #1a1a7d; /* Cor azul escura */
     color: white;
     padding: 10px 15px;
@@ -35,6 +35,6 @@
     transition: background 0.3s;
   }
   
-  .btn.add-payment:hover {
+  .btn.add-training:hover {
     background-color: #333399; /* Cor de destaque no hover */
   }

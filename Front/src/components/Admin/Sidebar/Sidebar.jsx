@@ -5,6 +5,7 @@ import { MdOutlineSpaceDashboard } from "react-icons/md";
 import { BsPeople, BsEnvelopePaper, BsCreditCard } from "react-icons/bs";
 import { IoCogSharp } from "react-icons/io5";
 import { IoBody } from "react-icons/io5";
+import { FaRegCalendarCheck } from "react-icons/fa";
 import { GiGymBag } from "react-icons/gi";
 import { LuNotebookPen } from "react-icons/lu";
 import SidebarItem from "./SidebarItem";
@@ -27,6 +28,7 @@ function Sidebar() {
     { name: "Planos", icon: LuNotebookPen, path: "/admin/plans" },
     { name: "Pagamentos", icon: BsCreditCard, path: "/admin/payments" },
     { name: "Instrutores", icon: IoBarbellOutline, path: "/admin/instructors" },
+    // { name: "Registrar Frequência", icon: FaRegCalendarCheck, path: "/admin/presence" },
     { name: "Exercícios", icon: IoBody, path: "/admin/exercises" },
     { name: "Treinos", icon: GiGymBag, path: "/admin/workouts" },
   ];
