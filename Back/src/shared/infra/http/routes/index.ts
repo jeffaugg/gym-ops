@@ -13,6 +13,7 @@ import uploadRoutes from "./uploadRoutes";
 import relatorioRoutes from "./relatorioRoutes";
 import presencaRoutes from "./presencaRoutes";
 import cargoHorariaRoutes from "./cargoHorariaRoutes";
+import digitalRoutes from "./digitalRoutes";
 
 const routes = Router();
 
@@ -30,5 +31,6 @@ routes.use("/upload", uploadRoutes);
 routes.use("/report", relatorioRoutes);
 routes.use("/presence", presencaRoutes);
 routes.use("/work-hours", cargoHorariaRoutes);
+routes.use("/fingerprint", digitalRoutes);
 
 export default routes;
