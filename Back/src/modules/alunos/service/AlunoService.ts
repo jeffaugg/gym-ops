@@ -1,4 +1,5 @@
 import { inject, injectable } from "tsyringe";
+import redis from "../../../shared/infra/http/config/redis";
 import { AlunoRepository } from "../repository/AlunoRepository";
 import { AlunoSchema } from "../dto/AlunoSchema";
 import { z } from "zod";
@@ -6,6 +7,12 @@ import AppError from "../../../shared/errors/AppError";
 import { PlanoRepository } from "../../planos/repository/PlanoRepository";
 import UserRepository from "../../user/repositories/UserRepository";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import {
+  fmdRegistrada,
+  getEstadoCadastroPendente,
+  limparCadastroPendente,
+} from "./DigitalService";
+import fmdQueue from "../../../shared/infra/queues/fmdQueue";
 
 @injectable()
 export class AlunoService {
@@ -137,5 +144,25 @@ export class AlunoService {
     }
 
     return user;
+  }
+
+  async processFingerprint(fingerprint: Buffer) {
+    const { adm_id, aluno_id } = await getEstadoCadastroPendente();
+
+    if (aluno_id) {
+      await this.alunoRepository.setFmd(aluno_id, adm_id, fingerprint);
+      await limparCadastroPendente();
+      await fmdRegistrada();
+    }
+
+    const allfmd = await this.alunoRepository.getAllFmds(adm_id);
+
+    allfmd.forEach((fmd) => {
+      fmdQueue.add({
+        dataFmd: fingerprint,
+        compareFmd: fmd.fmd,
+        user_id: fmd.id,
+      });
+    });
   }
 }
