@@ -8,9 +8,6 @@ import { container } from "tsyringe";
 import { AlunoService } from "../../../modules/alunos/service/AlunoService";
 import { PresencaService } from "../../../modules/presenca/service/PresencaService";
 dotenv.config();
-interface CheckMatchResponse {
-  match: boolean;
-}
 
 const fmdQueue = new Queue("fmdQueue", {
   redis: {
@@ -21,7 +18,17 @@ const fmdQueue = new Queue("fmdQueue", {
 
 fmdQueue.process(async (job) => {
   try {
-    const { dataFmd, compareFmd, user_id, adm_id } = job.data;
+    const {
+      dataFmd,
+      compareFmd,
+      user_id,
+      adm_id,
+    }: {
+      dataFmd: Buffer;
+      compareFmd: Buffer;
+      user_id: number;
+      adm_id: number;
+    } = job.data;
 
     const response = checkMatch(dataFmd, compareFmd);
     if (response) {
@@ -35,7 +42,7 @@ fmdQueue.process(async (job) => {
       return fmdQueue.empty();
     }
   } catch (e) {
-    throw new AppError("Erro no processamendo de digital", 500);
+    throw new AppError(`Erro no processamendo de digital: ${e}`, 500);
   }
 });
 

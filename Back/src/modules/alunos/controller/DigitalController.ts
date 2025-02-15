@@ -6,15 +6,11 @@ import { AlunoService } from "../service/AlunoService";
 @injectable()
 export class DigitalController {
   async fingerprintByAluno(req: Request, res: Response) {
-    const data = {
-      ...req.body,
-      fmd: Buffer.from(req.body.fmd, "base64"),
-    };
-    const validatedData = DigitalSchema.parse(data);
-
+    const validatedData = DigitalSchema.parse(req.body);
+    const fmd = Buffer.from(validatedData.fmd, "base64");
     const alunoService = container.resolve(AlunoService);
 
-    await alunoService.processFingerprint(validatedData.fmd);
+    await alunoService.processFingerprint(fmd);
 
     return res.status(200).send();
   }

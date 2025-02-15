@@ -1,5 +1,5 @@
 import redis from "../../../shared/infra/http/config/redis";
-import { io } from "../../../shared/infra/websocket/websocketServer";
+import { io } from "../../../shared/infra/http/server";
 
 interface EstadoCadastroPendenteParams {
   aluno_id: number;
