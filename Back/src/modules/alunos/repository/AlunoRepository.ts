@@ -159,6 +159,14 @@ export class AlunoRepository {
     return result.rows;
   }
 
+  async setFmd(id: number, adm_id: number, fmd: Buffer): Promise<void> {
+    const query = `
+      UPDATE alunos SET fmd = ?
+      WHERE id = ? AND adm_id = ?
+    `;
+    await this.db.raw(query, [fmd, id, adm_id]);
+  }
+
   async listRecentFrequency(adm_id: number, offset: number, limit: number) {
     const query = `
     SELECT a.id, a.name
@@ -170,6 +178,12 @@ export class AlunoRepository {
     `;
 
     const result = await this.db.raw(query, [adm_id, offset, limit]);
+    return result.rows;
+  }
+
+  async getAllFmds(adm_id: number): Promise<{ id: number; fmd: string }[]> {
+    const query = `SELECT id, fmd FROM alunos WHERE fmd IS NOT NULL AND adm_id = ?`;
+    const result = await this.db.raw(query, [adm_id]);
     return result.rows;
   }
 }
