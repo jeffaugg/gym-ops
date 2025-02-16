@@ -56,22 +56,25 @@ export class PagamentoRepository implements IPagamentoRepository {
 
   async listBetween60Days(
     adm_id: number,
+    page: number,
   ): Promise<(typeof BalanceDaySchema)[]> {
     const query = `
       SELECT 
-        DATE(pagamentos.payment_date) AS payment_day,  
-        SUM(planos.price) AS total_price
+          DATE(pagamentos.payment_date) AS payment_day,  
+          SUM(planos.price) AS total_price
       FROM pagamentos
       JOIN alunos ON pagamentos.id_aluno = alunos.id
       JOIN planos ON pagamentos.id_plano = planos.id
-      WHERE pagamentos.payment_date BETWEEN CURRENT_DATE - INTERVAL '30 days' AND CURRENT_DATE + INTERVAL '30 days'
-        AND pagamentos.status = true
-        AND alunos.adm_id = ?
-      GROUP BY payment_day  
-      ORDER BY payment_day ASC;
+      WHERE 
+          pagamentos.payment_date >= CURRENT_DATE - (? + 1) * INTERVAL '60 days'
+          AND pagamentos.payment_date < CURRENT_DATE + INTERVAL '1 day'
+          AND pagamentos.status = true
+          AND alunos.adm_id = ?
+    GROUP BY DATE(pagamentos.payment_date)  
+    ORDER BY payment_day ASC;
     `;
 
-    const result = await this.db.raw(query, [adm_id]);
+    const result = await this.db.raw(query, [page, page, adm_id]);
 
     return result.rows.map((pagamentoData: any) => {
       const formattedDate = new Date(

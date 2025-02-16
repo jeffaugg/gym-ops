@@ -2,12 +2,14 @@ import { Request, Response } from "express";
 import { RelatorioService } from "../service/RelatorioService";
 import { container } from "tsyringe";
 import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
+import { pageWeekSchema as pageQuerySchema } from "../dto/pageWeekSchema";
 
 export class RelatorioController {
   async balance(req: Request, res: Response) {
     const adm_id = req.user.adm_id;
+    const { page } = pageQuerySchema.parse(req.query);
     const relatorioService = container.resolve(RelatorioService);
-    const balanco = await relatorioService.balance(adm_id);
+    const balanco = await relatorioService.balance(adm_id, page);
     return res.json(balanco);
   }
 
@@ -64,9 +66,10 @@ export class RelatorioController {
 
   async listWeekFrequencies(req: Request, res: Response) {
     const relatorioService = container.resolve(RelatorioService);
+    const { page } = pageQuerySchema.parse(req.query);
 
     const adm_id = req.user.adm_id;
-    const metrics = await relatorioService.listWeekFrequencies(adm_id);
+    const metrics = await relatorioService.listWeekFrequencies(adm_id, page);
     return res.status(200).json(metrics);
   }
 }
