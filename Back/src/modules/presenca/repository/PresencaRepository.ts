@@ -2,9 +2,10 @@ import { Knex } from "knex";
 import { inject, injectable } from "tsyringe";
 import Presenca from "../models/Presenca";
 import { isSameDay } from "date-fns";
+import { IPresencaRepository } from "../interface/IPresencaRepository";
 
 @injectable()
-export class PresencaRepository {
+export class PresencaRepository implements IPresencaRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(id: number): Promise<Presenca> {

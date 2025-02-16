@@ -1,18 +1,18 @@
 import { inject, injectable } from "tsyringe";
-import { TreinoRepository } from "../repository/TreinoRepository";
 import { TreinoSchema } from "../dto/TreinoSchema";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
-import UserRepository from "../../user/repositories/UserRepository";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { ITreinoRepository } from "../interface/ITreinoRepository";
+import { IUserRepository } from "../../user/interface/IUserRepository";
 
 @injectable()
 export class TreinoService {
   constructor(
-    @inject(TreinoRepository)
-    private treinoRepository: TreinoRepository,
-    @inject(UserRepository)
-    private userRepository: UserRepository,
+    @inject("TreinoRepository")
+    private treinoRepository: ITreinoRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
   ) {}
 
   async create(data: z.infer<typeof TreinoSchema>, adm_id: number) {

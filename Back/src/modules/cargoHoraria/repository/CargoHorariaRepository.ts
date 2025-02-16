@@ -2,6 +2,7 @@ import { Knex } from "knex";
 import { inject, injectable } from "tsyringe";
 import { CargoHoraria } from "../models/CargoHoraria";
 import User from "../../user/models/User";
+import { ICargoHorariaRepository } from "../interface/ICargoHorariaRepository";
 
 interface ICargoHorariaCreate {
   user_id: number;
@@ -10,7 +11,7 @@ interface ICargoHorariaCreate {
 }
 
 @injectable()
-export class CargoHorariaRepository {
+export class CargoHorariaRepository implements ICargoHorariaRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(data: ICargoHorariaCreate): Promise<CargoHoraria> {

@@ -1,25 +1,25 @@
 import { z } from "zod";
 import { AvaliacoesSchema } from "../dto/AvaliacaoSchema";
 import { inject, injectable } from "tsyringe";
-import { AvaliacoesRepository } from "../repository/AvaliacoesRepository";
 import { Avaliacao } from "../models/Avaliacao";
-import { FotosRepository } from "../repository/FotosRepository";
-import UserRepository from "../../user/repositories/UserRepository";
 import AppError from "../../../shared/errors/AppError";
-import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IAvaliacoesRepository } from "../interface/IAvaliacoesRepository";
+import { IFotosRepository } from "../interface/IFotosRepository ";
+import { IUserRepository } from "../../user/interface/IUserRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
 
 @injectable()
 export class AvaliacaoService {
   constructor(
-    @inject(AvaliacoesRepository)
-    private avaliacoesRepository: AvaliacoesRepository,
-    @inject(FotosRepository)
-    private fotosRepository: FotosRepository,
-    @inject(UserRepository)
-    private userRepository: UserRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
+    @inject("AvaliacoesRepository")
+    private avaliacoesRepository: IAvaliacoesRepository,
+    @inject("FotosRepository")
+    private fotosRepository: IFotosRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
   ) {}
   async create(
     data: z.infer<typeof AvaliacoesSchema> & {
@@ -75,6 +75,7 @@ export class AvaliacaoService {
     page: number,
     limit: number,
   ): Promise<Avaliacao[]> {
+    const offset = getPaginationOffset(page, limit);
     const alunoById = await this.alunoRepository.findById(
       Number(aluno_id),
       adm_id,
@@ -84,7 +85,6 @@ export class AvaliacaoService {
       throw new AppError("Aluno não existe", 404);
     }
 
-    const offset = getPaginationOffset(page, limit);
     const avaliacoes = await this.avaliacoesRepository.findByAlunoId(
       aluno_id,
       adm_id,

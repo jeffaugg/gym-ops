@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import "../../infra/http/config/database.ts";
+import "../../../shared/container";
 import swaggerDocument from "../../infra/http/config/swagger.json";
 import swaggerUi from "swagger-ui-express";
 import express, { NextFunction, Request, Response } from "express";

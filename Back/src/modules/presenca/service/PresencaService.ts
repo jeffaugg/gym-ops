@@ -1,20 +1,20 @@
 import { inject, injectable } from "tsyringe";
-import { PresencaRepository } from "../repository/PresencaRepository";
 import Presenca from "../models/Presenca";
-import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import AppError from "../../../shared/errors/AppError";
-import { PagamentoRepository } from "../../pagamentos/repository/PagamentoRepository";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IPresencaRepository } from "../interface/IPresencaRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
+import { IPagamentoRepository } from "../../pagamentos/Interface/IPagamentoRepository";
 
 @injectable()
 export class PresencaService {
   constructor(
-    @inject(PresencaRepository)
-    private presencaRepository: PresencaRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
-    @inject(PagamentoRepository)
-    private pagamentoRepository: PagamentoRepository,
+    @inject("PresencaRepository")
+    private presencaRepository: IPresencaRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
+    @inject("PagamentoRepository")
+    private pagamentoRepository: IPagamentoRepository,
   ) {}
 
   async create(id: number, adm_id: number): Promise<Presenca> {

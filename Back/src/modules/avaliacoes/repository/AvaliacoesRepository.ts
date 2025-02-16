@@ -3,9 +3,10 @@ import { inject, injectable } from "tsyringe";
 import { AvaliacoesSchema } from "../dto/AvaliacaoSchema";
 import { Avaliacao } from "../models/Avaliacao";
 import { z } from "zod";
+import { IAvaliacoesRepository } from "../interface/IAvaliacoesRepository";
 
 @injectable()
-export class AvaliacoesRepository {
+export class AvaliacoesRepository implements IAvaliacoesRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(

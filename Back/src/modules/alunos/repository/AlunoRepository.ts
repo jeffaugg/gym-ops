@@ -3,9 +3,10 @@ import { inject, injectable } from "tsyringe";
 import { z } from "zod";
 import { AlunoSchema } from "../dto/AlunoSchema";
 import { Aluno } from "../models/Aluno";
+import { IAlunoRepository } from "../Interface/IAlunoRepository";
 
 @injectable()
-export class AlunoRepository {
+export class AlunoRepository implements IAlunoRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(

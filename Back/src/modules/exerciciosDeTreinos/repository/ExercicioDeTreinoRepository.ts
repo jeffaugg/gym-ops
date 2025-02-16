@@ -3,9 +3,12 @@ import { inject, injectable } from "tsyringe";
 import { z } from "zod";
 import { ExercicioDeTreinoSchema } from "../dto/ExercicioDeTreinoSchema";
 import { ExerciciosDeTreinos } from "../models/ExerciciosDeTreinos";
+import { IExercicioDeTreinoRepository } from "../interface/IExercicioDeTreinoRepository";
 
 @injectable()
-export class ExercicioDeTreinoRepository {
+export class ExercicioDeTreinoRepository
+  implements IExercicioDeTreinoRepository
+{
   constructor(@inject("Database") private db: Knex) {}
 
   async create(
