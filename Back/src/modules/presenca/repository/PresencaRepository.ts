@@ -2,7 +2,10 @@ import { Knex } from "knex";
 import { inject, injectable } from "tsyringe";
 import Presenca from "../models/Presenca";
 import { isSameDay } from "date-fns";
-import { IPresencaRepository } from "../interface/IPresencaRepository";
+import {
+  DayFrequency,
+  IPresencaRepository,
+} from "../interface/IPresencaRepository";
 
 @injectable()
 export class PresencaRepository implements IPresencaRepository {
@@ -102,20 +105,26 @@ export class PresencaRepository implements IPresencaRepository {
     await this.db.raw(query, [id]);
   }
 
-  async listWeekFrequencies(adm_id: number): Promise<Presenca[]> {
+  async listWeekFrequencies(
+    adm_id: number,
+    page: number,
+  ): Promise<DayFrequency[]> {
     const query = `
-    SELECT presenca.*
+    SELECT 
+      DATE(presenca.data) AS dia,
+      COUNT(*) AS total_presencas
     FROM presenca
-    JOIN alunos ON presenca.aluno_id=alunos.id
-    WHERE data >= CURRENT_DATE - INTERVAL '1 day' * (EXTRACT(DOW FROM CURRENT_DATE) - 1)
-      AND data < CURRENT_DATE - INTERVAL '1 day' * (EXTRACT(DOW FROM CURRENT_DATE) - 1) + INTERVAL '7 days'
-      AND alunos.adm_id=?;
+    JOIN alunos 
+      ON presenca.aluno_id = alunos.id
+    WHERE presenca.data >= CURRENT_DATE - (? + 1) * INTERVAL '7 days'
+      AND presenca.data <= CURRENT_DATE - ? * INTERVAL '7 days'
+      AND alunos.adm_id = ?
+    GROUP BY DATE(presenca.data)
+    ORDER BY DATE(presenca.data) DESC;;
     `;
 
-    const result = await this.db.raw(query, [adm_id]);
+    const result = await this.db.raw(query, [page, page, adm_id]);
 
-    return result.rows.map((presencaData: any) =>
-      Presenca.fromDatabase(presencaData),
-    );
+    return result.rows as DayFrequency[];
   }
 }

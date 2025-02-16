@@ -21,8 +21,11 @@ export class RelatorioService {
     private presencaRepository: IPresencaRepository,
   ) {}
 
-  async balance(adm_id) {
-    const balance = await this.pagamentoRepository.listBetween60Days(adm_id);
+  async balance(adm_id: number, page: number) {
+    const balance = await this.pagamentoRepository.listBetween60Days(
+      adm_id,
+      page,
+    );
     return balance;
   }
 
@@ -52,7 +55,7 @@ export class RelatorioService {
     return await this.cargoHorariaRepository.listNow(admin_id, offset, limit);
   }
 
-  async listWeekFrequencies(adm_id: number) {
-    return await this.presencaRepository.listWeekFrequencies(adm_id);
+  async listWeekFrequencies(adm_id: number, page: number) {
+    return await this.presencaRepository.listWeekFrequencies(adm_id, page);
   }
 }
