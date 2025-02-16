@@ -5,9 +5,10 @@ import { z } from "zod";
 import { Pagamento } from "../models/Pagamento";
 import { BalanceDaySchema } from "../dto/BalanceDaySchema";
 import { isAfter } from "date-fns";
+import { IPagamentoRepository } from "../Interface/IPagamentoRepository";
 
 @injectable()
-export class PagamentoRepository {
+export class PagamentoRepository implements IPagamentoRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(

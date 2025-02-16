@@ -1,5 +1,4 @@
 import { inject, injectable } from "tsyringe";
-import UserRepository from "../repositories/UserRepository";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
 import { UserSchema } from "../dto/UserSchema";
@@ -9,12 +8,13 @@ import { createAccessToken } from "../../../shared/infra/http/helpers/CreateToke
 import { CargoHorariaService } from "../../cargoHoraria/service/CargoHorariaService";
 import { UpdateUserSchema } from "../dto/UpdateUserSchema";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IUserRepository } from "../interface/IUserRepository";
 
 @injectable()
 export class UserService {
   constructor(
-    @inject(UserRepository)
-    private userRepository: UserRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
     @inject(CargoHorariaService)
     private cargoHorariaService: CargoHorariaService,
   ) {}
@@ -23,6 +23,7 @@ export class UserService {
     const userByEmail = await this.userRepository.findByEmail(data.email);
 
     if (userByEmail) {
+      console.log(userByEmail.status);
       const error = userByEmail.status
         ? "Email já cadastrado"
         : "Usuário com email já existe, por favor recupere o registro";
@@ -30,6 +31,7 @@ export class UserService {
       throw new AppError(error, 409);
     }
 
+    console.log("passei do erro ");
     const userByCpf = await this.userRepository.findByCpf(data.cpf);
 
     if (userByCpf) {

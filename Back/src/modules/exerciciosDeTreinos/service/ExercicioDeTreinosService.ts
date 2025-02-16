@@ -1,21 +1,21 @@
 import { inject, injectable } from "tsyringe";
-import { ExercicioDeTreinoRepository } from "../repository/ExercicioDeTreinoRepository";
 import { ExercicioDeTreinoSchema } from "../dto/ExercicioDeTreinoSchema";
-import { ExercicioRepository } from "../../exercicios/repository/ExercicioRepository";
-import { TreinoRepository } from "../../treinos/repository/TreinoRepository";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IExercicioDeTreinoRepository } from "../interface/IExercicioDeTreinoRepository";
+import { IExercicioRepository } from "../../exercicios/interface/IExercicioRepository";
+import { ITreinoRepository } from "../../treinos/interface/ITreinoRepository";
 
 @injectable()
 export class ExercicioDeTreinoService {
   constructor(
-    @inject(ExercicioDeTreinoRepository)
-    private exercicioDeTreinoRepository: ExercicioDeTreinoRepository,
-    @inject(ExercicioRepository)
-    private exercicioRepository: ExercicioRepository,
-    @inject(TreinoRepository)
-    private treinoRepository: TreinoRepository,
+    @inject("ExercicioDeTreinoRepository")
+    private exercicioDeTreinoRepository: IExercicioDeTreinoRepository,
+    @inject("ExercicioRepository")
+    private exercicioRepository: IExercicioRepository,
+    @inject("TreinoRepository")
+    private treinoRepository: ITreinoRepository,
   ) {}
 
   async create(data: z.infer<typeof ExercicioDeTreinoSchema>, adm_id: number) {
