@@ -3,7 +3,7 @@ import { TbArrowBigDownFilled, TbArrowBigUpFilled } from "react-icons/tb";
 import "./FilterBar.css";
 
 export default function FilterBar({
-  filters = {}, // Garante que filters tenha um valor padrão
+  filters = {}, 
   setFilters,
   searchPlaceholder = "Buscar...",
   filterOptions = [],
@@ -11,7 +11,11 @@ export default function FilterBar({
   itemsPerPageOptions = [5, 10, 20, 50],
 }) {
   const handleFilterChange = (key, value) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    setFilters((prev) => ({
+      ...prev,
+      [key]: value,
+      currentPage: 1, 
+    }));
   };
 
   return (
@@ -21,7 +25,7 @@ export default function FilterBar({
           <div className="filter-group">
             Filtrar por:
             <select
-              value={filters.filterBy || "all"} // Garante que tenha um valor padrão
+              value={filters.filterBy || "all"}
               onChange={(e) => handleFilterChange("filterBy", e.target.value)}
               className="filter-select"
             >
@@ -62,7 +66,7 @@ export default function FilterBar({
         <div className="filter-group">
           Itens por página:
           <select
-            value={filters.itemsPerPage || itemsPerPageOptions[0]} // Garante um valor inicial
+            value={filters.itemsPerPage || itemsPerPageOptions[0]}
             onChange={(e) => handleFilterChange("itemsPerPage", Number(e.target.value))}
             className="filter-select"
           >
@@ -78,7 +82,7 @@ export default function FilterBar({
       <input
         type="text"
         placeholder={searchPlaceholder}
-        value={filters.searchTerm || ""} // Garante que tenha um valor inicial
+        value={filters.searchTerm || ""}
         onChange={(e) => handleFilterChange("searchTerm", e.target.value)}
         className="search-input"
       />
