@@ -8,13 +8,12 @@ export default function FilterBar({
   searchPlaceholder = "Buscar...",
   filterOptions = [],
   sortOptions = [],
-  itemsPerPageOptions = [5, 10, 20, 50],
+  itemsPerPageOptions = [5, 10, 30, 50, 100],
 }) {
   const handleFilterChange = (key, value) => {
     setFilters((prev) => ({
       ...prev,
       [key]: value,
-      currentPage: 1, 
     }));
   };
 
@@ -66,7 +65,7 @@ export default function FilterBar({
         <div className="filter-group">
           Itens por página:
           <select
-            value={filters.itemsPerPage || itemsPerPageOptions[0]}
+            value={filters.itemsPerPage}
             onChange={(e) => handleFilterChange("itemsPerPage", Number(e.target.value))}
             className="filter-select"
           >

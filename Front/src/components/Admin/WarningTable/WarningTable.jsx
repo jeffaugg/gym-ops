@@ -1,7 +1,6 @@
 import React from "react";
 import "./WarningTable.css";
 import FilterBar from "../../FilterBar/FilterBar";
-import Pagination from "../../Pagination/Pagination";
 
 export default function WarningTable({ warnings, filters, setFilters }) {
   const recipientTypeMap = {
@@ -9,6 +8,24 @@ export default function WarningTable({ warnings, filters, setFilters }) {
     STUDENTS: "Alunos",
     ALL: "Todos",
   };
+
+  // Aplicação de filtros na lista de avisos
+  const filteredWarnings = warnings
+    .filter((warning) => 
+      (!filters.searchTerm || warning.title.toLowerCase().includes(filters.searchTerm.toLowerCase())) &&
+      (filters.filterBy === "all" || warning.recipient_type === filters.filterBy)
+    )
+    .sort((a, b) => {
+      if (filters.sortBy) {
+        const valueA = a[filters.sortBy].toLowerCase();
+        const valueB = b[filters.sortBy].toLowerCase();
+        return filters.sortOrder === "asc" ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+      }
+      return 0;
+    });
+
+  // **Agora aplicando corretamente a limitação de itens por página**
+  const displayedWarnings = filteredWarnings.slice(0, filters.itemsPerPage);
 
   return (
     <div className="warnings-list">
@@ -25,7 +42,7 @@ export default function WarningTable({ warnings, filters, setFilters }) {
           { value: "title", label: "Título" },
           { value: "recipient_type", label: "Tipo de Destinatário" },
         ]}
-        itemsPerPageOptions={[5, 10, 20, 50]}
+        itemsPerPageOptions={[5, 10, 30, 50, 100 ]} // Adiciona "Todos"
       />
 
       <table>
@@ -36,8 +53,8 @@ export default function WarningTable({ warnings, filters, setFilters }) {
           </tr>
         </thead>
         <tbody>
-          {warnings.length > 0 ? (
-            warnings.map((warning) => (
+          {displayedWarnings.length > 0 ? (
+            displayedWarnings.map((warning) => (
               <tr key={warning.id}>
                 <td>{warning.title}</td>
                 <td>{recipientTypeMap[warning.recipient_type] || "Desconhecido"}</td>
@@ -50,12 +67,6 @@ export default function WarningTable({ warnings, filters, setFilters }) {
           )}
         </tbody>
       </table>
-
-      <Pagination
-        currentPage={filters.currentPage}
-        warnings={warnings}
-        onPageChange={(page) => setFilters((prev) => ({ ...prev, currentPage: page }))}
-      />
     </div>
   );
 }

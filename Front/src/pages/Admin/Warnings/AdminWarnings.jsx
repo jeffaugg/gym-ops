@@ -10,39 +10,38 @@ import { toast } from "react-toastify";
 function AdminWarnings() {
   const [warnings, setWarnings] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [noMoreItems, setNoMoreItems] = useState(false); 
   const [filters, setFilters] = useState({
     searchTerm: "",
     filterBy: "all",
     sortBy: "title",
     sortOrder: "asc",
-    currentPage: 1,
-    itemsPerPage: 5, 
+    itemsPerPage: 5, // Agora será enviado na requisição
   });
 
+  // Busca os avisos com os filtros aplicados
   const fetchWarnings = async () => {
     try {
-      const response = await api.get(`/message?page=${filters.currentPage}&limit=${filters.itemsPerPage}`);
+      const response = await api.get(`/message`, {
+        params: {
+          search: filters.searchTerm,
+          filterBy: filters.filterBy !== "all" ? filters.filterBy : undefined,
+          sortBy: filters.sortBy,
+          sortOrder: filters.sortOrder,
+          limit: filters.itemsPerPage,
+        },
+      });
 
-      if (response.data.length === 0) {
-        if (!noMoreItems) {
-          setNoMoreItems(true); 
-          toast.info("Não há mais itens para exibir.");
-        }
-        setFilters((prev) => ({ ...prev, currentPage: prev.currentPage - 1 }));
-        return;
-      }
-
-      setNoMoreItems(false); 
       setWarnings(response.data);
     } catch (error) {
       console.error("Erro ao buscar as mensagens:", error);
       toast.error("Erro ao buscar as mensagens.");
     }
   };
+
+  // Atualiza a lista sempre que filtros mudam
   useEffect(() => {
     fetchWarnings();
-  }, [filters.currentPage, filters.itemsPerPage]);
+  }, [filters]); // Agora, `itemsPerPage` dispara nova requisição
 
   return (
     <Layout>
