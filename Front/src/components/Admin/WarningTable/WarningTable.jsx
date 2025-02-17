@@ -1,9 +1,9 @@
 import React from "react";
-import { toast } from "react-toastify";
 import "./WarningTable.css";
+import FilterBar from "../../FilterBar/FilterBar";
+import Pagination from "../../Pagination/Pagination";
 
-export default function WarningTable({ warnings }) {
-
+export default function WarningTable({ warnings, filters, setFilters }) {
   const recipientTypeMap = {
     INSTRUCTORS: "Instrutores",
     STUDENTS: "Alunos",
@@ -12,12 +12,27 @@ export default function WarningTable({ warnings }) {
 
   return (
     <div className="warnings-list">
+      <FilterBar
+        filters={filters}
+        setFilters={setFilters}
+        searchPlaceholder="Buscar avisos..."
+        filterOptions={[
+          { value: "all", label: "Todos" },
+          { value: "INSTRUCTORS", label: "Instrutores" },
+          { value: "STUDENTS", label: "Alunos" },
+        ]}
+        sortOptions={[
+          { value: "title", label: "Título" },
+          { value: "recipient_type", label: "Tipo de Destinatário" },
+        ]}
+        itemsPerPageOptions={[5, 10, 20, 50]}
+      />
+
       <table>
         <thead>
           <tr>
             <th>Título</th>
             <th>Enviada para</th>
-            {/* <th>Data</th> */}
           </tr>
         </thead>
         <tbody>
@@ -30,11 +45,17 @@ export default function WarningTable({ warnings }) {
             ))
           ) : (
             <tr>
-              <td colSpan="4">Nenhum aviso encontrado.</td>
+              <td colSpan="2">Nenhum aviso encontrado.</td>
             </tr>
           )}
         </tbody>
       </table>
+
+      <Pagination
+        currentPage={filters.currentPage}
+        warnings={warnings}
+        onPageChange={(page) => setFilters((prev) => ({ ...prev, currentPage: page }))}
+      />
     </div>
-  )
+  );
 }
