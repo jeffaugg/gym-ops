@@ -38,6 +38,9 @@
   gap: 10px;
   margin-top: 20px;
 }
+.form-actions .btn{
+  color: #1A1363;
+}
 
 .left-actions {
   flex: 1;
@@ -52,9 +55,7 @@
 }
 
 .btn.add-exercise {
-  background-color: #ffffff;  /* Fundo branco */
-  color: #000000;             /* Letras pretas */
-  /* border: 2px solid #000000;  */
+  background-color: #ffffff;  /* Fundo branco */            /* Letras pretas */
   padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
