@@ -9,7 +9,6 @@ export default function WarningTable({ warnings, filters, setFilters }) {
     ALL: "Todos",
   };
 
-  // Aplicação de filtros na lista de avisos
   const filteredWarnings = warnings
     .filter((warning) => 
       (!filters.searchTerm || warning.title.toLowerCase().includes(filters.searchTerm.toLowerCase())) &&
@@ -24,7 +23,6 @@ export default function WarningTable({ warnings, filters, setFilters }) {
       return 0;
     });
 
-  // **Agora aplicando corretamente a limitação de itens por página**
   const displayedWarnings = filteredWarnings.slice(0, filters.itemsPerPage);
 
   return (
@@ -41,8 +39,9 @@ export default function WarningTable({ warnings, filters, setFilters }) {
         sortOptions={[
           { value: "title", label: "Título" },
           { value: "recipient_type", label: "Tipo de Destinatário" },
+          { value: "created_at", label: "Data de Criação" },
         ]}
-        itemsPerPageOptions={[5, 10, 30, 50, 100 ]} // Adiciona "Todos"
+        itemsPerPageOptions={[5, 10, 30, 50, 100 ]} 
       />
 
       <table>

@@ -12,6 +12,11 @@
     flex-wrap: wrap;
     gap: 10px;
   }
+  .filter-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
   
   .filter-bar .show-filters,
   .filter-bar .order-filters {
@@ -40,15 +45,16 @@
   .filter-bar .btn-sort-order {
     padding: 8px 12px;
     border: none;
+    margin-left: -15px;
     border-radius: 4px;
     cursor: pointer;
     background-color: transparent;
     color: white;
-    font-size: 18px;
+    font-size: 22px;
   }
   
   .filter-bar .btn-sort-order:hover {
-    color: rgb(0, 0, 0);
+    color: rgb(34, 34, 34);
     background-color: transparent;
   }
   

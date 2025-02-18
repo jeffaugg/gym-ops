@@ -15,10 +15,10 @@ function AdminWarnings() {
     filterBy: "all",
     sortBy: "title",
     sortOrder: "asc",
-    itemsPerPage: 5, // Agora será enviado na requisição
+    itemsPerPage: 5, 
   });
 
-  // Busca os avisos com os filtros aplicados
+
   const fetchWarnings = async () => {
     try {
       const response = await api.get(`/message`, {
@@ -38,10 +38,9 @@ function AdminWarnings() {
     }
   };
 
-  // Atualiza a lista sempre que filtros mudam
   useEffect(() => {
     fetchWarnings();
-  }, [filters]); // Agora, `itemsPerPage` dispara nova requisição
+  }, [filters]); 
 
   return (
     <Layout>

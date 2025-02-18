@@ -11,17 +11,35 @@ function AdminPlans() {
   const [plans, setPlans] = useState([]);
   const [selectedPlan, setSelectedPlan] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    filterBy: "all",
+    sortBy: "name",
+    sortOrder: "asc",
+    itemsPerPage: 5,
+  });
 
   const fetchPlans = async () => {
     try {
-      const response = await api.get("/plan");
-      const sortedPlans = response.data.sort((a, b) => b.id - a.id);
-      setPlans(sortedPlans);
+      const response = await api.get("/plan", {
+        params: {
+          search: filters.searchTerm,
+          filterBy: filters.filterBy !== "all" ? filters.filterBy : undefined,
+          sortBy: filters.sortBy,
+          sortOrder: filters.sortOrder,
+          limit: filters.itemsPerPage,
+        },
+      });
+      setPlans(response.data);
     } catch (error) {
       console.error("Erro ao buscar os planos:", error);
       toast.error("Erro ao buscar os planos.");
     }
   };
+
+  useEffect(() => {
+    fetchPlans();
+  }, [filters]);
 
   const handleOpenModal = () => {
     setSelectedPlan(null);
@@ -38,11 +56,6 @@ function AdminPlans() {
     setSelectedPlan(null);
   };
 
-
-  useEffect(() => {
-    fetchPlans();
-  }, []);
-
   return (
     <Layout>
       <div className="plans-content">
@@ -58,6 +71,8 @@ function AdminPlans() {
           onPlanDeleted={fetchPlans}
           setSelectedPlan={handleEditPlan}
           selectedPlan={selectedPlan}
+          filters={filters}
+          setFilters={setFilters}
         />
 
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>

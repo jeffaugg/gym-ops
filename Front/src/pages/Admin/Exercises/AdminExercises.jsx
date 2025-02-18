@@ -11,20 +11,34 @@ function AdminExercises() {
   const [exercises, setExercises] = useState([]);
   const [selectedExercise, setSelectedExercise] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    filterBy: "all",
+    sortBy: "name",
+    sortOrder: "asc",
+    itemsPerPage: 5,
+  });
+
   const fetchExercises = async () => {
     try {
-      const response = await api.get("/exercises");
-      const sortedExercises = response.data.sort((a, b) => b.id - a.id);
-      setExercises(sortedExercises);
+      const response = await api.get("/exercises", {
+        params: {
+          search: filters.searchTerm,
+          filterBy: filters.filterBy !== "all" ? filters.filterBy : undefined,
+          sortBy: filters.sortBy,
+          sortOrder: filters.sortOrder,
+          limit: filters.itemsPerPage,
+        },
+      });
+      setExercises(response.data);
     } catch (error) {
       console.error("Erro ao buscar os exercícios:", error);
-      toast.error("Erro ao buscar os exercícios.");
     }
   };
 
   useEffect(() => {
     fetchExercises();
-  }, []);
+  }, [filters]);
 
   const handleOpenModal = () => {
     setSelectedExercise(null); 
@@ -56,6 +70,8 @@ function AdminExercises() {
           onExerciseDeleted={fetchExercises}
           setSelectedExercise={handleEditExercise}
           selectedExercise={selectedExercise}
+          filters={filters}
+          setFilters={setFilters}
         />
 
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>

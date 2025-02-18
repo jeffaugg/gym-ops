@@ -1,26 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import "./StudentsTable.css";
-import api from "../../../api";
 import { FaPenToSquare } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import FilterBar from "../../FilterBar/FilterBar"; 
-import { MdOutlineDelete } from "react-icons/md";
-import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
-import { PiCalendarCheckBold } from "react-icons/pi";
+import api from "../../../api";
 
 export default function StudentsTable({
   students,
   onStudentDeleted,
   setSelectedStudent,
   selectedStudent,
+  filters,
+  setFilters,
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all"); 
-  const [sortField, setSortField] = useState("name"); 
-  const [sortOrder, setSortOrder] = useState("asc");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedId, setSelectedId] = useState(null);
-
   const handleDelete = async (id) => {
     try {
       await api.delete(`/clients/${id}`);
@@ -32,69 +24,58 @@ export default function StudentsTable({
     } catch (error) {
       console.error("Erro ao deletar o aluno:", error);
       toast.error("Erro ao deletar o aluno.");
-    }finally {
-      setIsModalOpen(false);
     }
-  };
-
-  const confirmDelete = (id) => {
-    setSelectedId(id);
-    setIsModalOpen(true);
-  };
-
-  const handleRegisterPresence = async (student) => {
-    try {
-      await api.post(`/presence/${student.id}`);
-      toast.success(`Presença registrada para ${student.name} com sucesso!`);
-    } catch (error) {
-      console.error("Erro ao registrar presença:", error);
-      toast.error("Erro ao registrar a presença.");
-    }
-  };
-
-  const toggleSortOrder = () => {
-    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
   };
 
   const filteredAndSortedStudents = students
     .filter((student) => {
       const matchesSearch =
-        student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.cpf.includes(searchTerm) ||
-        student.telephone.includes(searchTerm);
+        student.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        student.cpf.includes(filters.searchTerm) ||
+        student.telephone.includes(filters.searchTerm);
 
       const matchesStatus =
-        statusFilter === "all" ||
-        (statusFilter === "active" && student.status) ||
-        (statusFilter === "inactive" && !student.status);
+        filters.filterBy === "all" ||
+        (filters.filterBy === "active" && student.status) ||
+        (filters.filterBy === "inactive" && !student.status);
 
       return matchesSearch && matchesStatus;
     })
     .sort((a, b) => {
-      if (sortField === "name") {
-        return sortOrder === "asc"
+      if (filters.sortBy === "name") {
+        return filters.sortOrder === "asc"
           ? a.name.localeCompare(b.name)
           : b.name.localeCompare(a.name);
-      } else if (sortField === "created_at") {
-        return sortOrder === "asc"
+      } else if (filters.sortBy === "created_at") {
+        return filters.sortOrder === "asc"
           ? new Date(a.created_at) - new Date(b.created_at)
           : new Date(b.created_at) - new Date(a.created_at);
+      } else if (filters.sortBy === "status") {
+        return filters.sortOrder === "asc"
+          ? (a.status ? 1 : 0) - (b.status ? 1 : 0)
+          : (b.status ? 1 : 0) - (a.status ? 1 : 0);
       }
       return 0;
-    });
+    })
+    .slice(0, filters.itemsPerPage);
 
   return (
     <div className="students-list">
       <FilterBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-        sortField={sortField}
-        setSortField={setSortField}
-        sortOrder={sortOrder}
-        toggleSortOrder={toggleSortOrder}
-        placeholder="Buscar por nome, telefone ou CPF"
+        filters={filters}
+        setFilters={setFilters}
+        searchPlaceholder="Buscar por nome, telefone ou CPF"
+        filterOptions={[
+          { value: "all", label: "Todos" },
+          { value: "active", label: "Ativos" },
+          { value: "inactive", label: "Inativos" },
+        ]}
+        sortOptions={[
+          { value: "name", label: "Nome" },
+          { value: "created_at", label: "Data de Criação" },
+          { value: "status", label: "Status" },
+        ]}
+        itemsPerPageOptions={[5, 10, 30, 50, 100]}
       />
 
       <table>
@@ -125,23 +106,11 @@ export default function StudentsTable({
                 <td>{new Date(student.created_at).toLocaleDateString()}</td>
                 <td className="actions">
                   <button
-                    className="btn presence"
-                    onClick={() => handleRegisterPresence(student)}
-                  >
-                    <PiCalendarCheckBold />
-                  </button>
-                  <button
                     className="btn edit"
                     onClick={() => setSelectedStudent(student)}
                   >
                     <FaPenToSquare />
                   </button>
-                  {/* <button
-                    className="btn delete"
-                    onClick={() => confirmDelete(student.id)}
-                  >
-                    <MdOutlineDelete />
-                  </button> */}
                 </td>
               </tr>
             ))
@@ -152,14 +121,6 @@ export default function StudentsTable({
           )}
         </tbody>
       </table>
-      {isModalOpen && (
-        <ConfirmationModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          onConfirm={() => handleDelete(selectedId)}
-          message={`Tem certeza que deseja deletar este aluno "${students.find(students => students.id === selectedId)?.name}"?`}
-        />
-      )}
     </div>
   );
 }

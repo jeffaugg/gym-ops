@@ -10,12 +10,26 @@ function Students() {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    filterBy: "all",
+    sortBy: "name",
+    sortOrder: "asc",
+    itemsPerPage: 5,
+  });
 
   const fetchStudents = async () => {
     try {
-      const response = await api.get("/clients");
-      const sortedStudents = response.data.sort((a, b) => b.id - a.id);
-      setStudents(sortedStudents);
+      const response = await api.get("/clients", {
+        params: {
+          search: filters.searchTerm,
+          filterBy: filters.filterBy !== "all" ? filters.filterBy : undefined,
+          sortBy: filters.sortBy,
+          sortOrder: filters.sortOrder,
+          limit: filters.itemsPerPage,
+        },
+      });
+      setStudents(response.data);
     } catch (error) {
       console.error("Erro ao buscar os alunos:", error);
     }
@@ -23,7 +37,7 @@ function Students() {
 
   useEffect(() => {
     fetchStudents();
-  }, []);
+  }, [filters]);
 
   const handleOpenModal = () => {
     setSelectedStudent(null);
@@ -51,9 +65,11 @@ function Students() {
         </header>
         <StudentsTable
           students={students}
-          onPlanDeleted={fetchStudents}
+          onStudentDeleted={fetchStudents}
           setSelectedStudent={handleEditStudent}
           selectedStudent={selectedStudent}
+          filters={filters}
+          setFilters={setFilters}
         />
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <StudentsForm
