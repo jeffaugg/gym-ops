@@ -1,8 +1,9 @@
 import { Knex } from "knex";
 import { inject, injectable } from "tsyringe";
+import { IFotosRepository } from "../interface/IFotosRepository ";
 
 @injectable()
-export class FotosRepository {
+export class FotosRepository implements IFotosRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(url: string, avaliacao_id: number): Promise<string> {

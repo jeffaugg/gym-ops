@@ -322,6 +322,101 @@
       }
      }
     },
+  "/report/balance": {
+    "get": {
+      "tags": [
+        "Relatórios"
+      ],
+      "summary": "Obtém o balanço financeiro",
+      "description": "Endpoint para obter o balanço financeiro dos últimos 60 dias.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 0
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Balanço financeiro",
+          "content": {
+            "application/json": {
+                "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                  "total_price": {
+                    "type": "number",
+                    "description": "Total do balanço financeiro"
+                  },
+                  "payment_day": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Data do registro"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/report/week-frequency": {
+    "get": {
+      "tags": [
+        "Relatórios"
+      ],
+      "summary": "Lista as frequências da semana",
+      "description": "Endpoint para listar as frequências dos alunos na semana.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 0
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de frequências da semana",
+          "content": {
+            "application/json": {
+                "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                  "dia": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Dia da frequência"
+                  },
+                  "total_presencas": {
+                    "type": "number",
+                    "description": "Total de presenças no dia"
+                  }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+    ,
     "/report/recent-frequency":{
       "get": {
         "tags": [

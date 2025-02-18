@@ -1,28 +1,31 @@
 import { inject, injectable } from "tsyringe";
-import { PagamentoRepository } from "../../pagamentos/repository/PagamentoRepository";
-import { PlanoRepository } from "../../planos/repository/PlanoRepository"; // Importe o repositório de planos
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
-import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
-import { CargoHorariaRepository } from "../../cargoHoraria/repository/CargoHorariaRepository";
-import { PresencaRepository } from "../../presenca/repository/PresencaRepository";
+import { IPagamentoRepository } from "../../pagamentos/Interface/IPagamentoRepository";
+import { IPlanoRepository } from "../../planos/interface/IPlanoRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
+import { ICargoHorariaRepository } from "../../cargoHoraria/interface/ICargoHorariaRepository";
+import { IPresencaRepository } from "../../presenca/interface/IPresencaRepository";
 
 @injectable()
 export class RelatorioService {
   constructor(
-    @inject(PagamentoRepository)
-    private pagamentoRepository: PagamentoRepository,
-    @inject(PlanoRepository) // Injeção do repositório de planos
-    private planoRepository: PlanoRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
-    @inject(CargoHorariaRepository)
-    private cargoHorariaRepository: CargoHorariaRepository,
-    @inject(PresencaRepository)
-    private presencaRepository: PresencaRepository,
+    @inject("PagamentoRepository")
+    private pagamentoRepository: IPagamentoRepository,
+    @inject("PlanoRepository")
+    private planoRepository: IPlanoRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
+    @inject("CargoHorariaRepository")
+    private cargoHorariaRepository: ICargoHorariaRepository,
+    @inject("PresencaRepository")
+    private presencaRepository: IPresencaRepository,
   ) {}
 
-  async balance(adm_id) {
-    const balance = await this.pagamentoRepository.listBetween60Days(adm_id);
+  async balance(adm_id: number, page: number) {
+    const balance = await this.pagamentoRepository.listBetween60Days(
+      adm_id,
+      page,
+    );
     return balance;
   }
 
@@ -52,7 +55,7 @@ export class RelatorioService {
     return await this.cargoHorariaRepository.listNow(admin_id, offset, limit);
   }
 
-  async listWeekFrequencies(adm_id: number) {
-    return await this.presencaRepository.listWeekFrequencies(adm_id);
+  async listWeekFrequencies(adm_id: number, page: number) {
+    return await this.presencaRepository.listWeekFrequencies(adm_id, page);
   }
 }

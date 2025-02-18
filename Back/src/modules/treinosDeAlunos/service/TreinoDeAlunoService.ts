@@ -1,24 +1,24 @@
 import { inject, injectable } from "tsyringe";
-import { TreinoDeAlunoRepository } from "../repository/TreinoDeAlunoRepository";
 import { TreinoDeAlunoSchema } from "../dto/TreinoDeAlunoSchema";
-import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
-import { TreinoRepository } from "../../treinos/repository/TreinoRepository";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
-import UserRepository from "../../user/repositories/UserRepository";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { ITreinoDeAlunoRepository } from "../interface/ITreinoDeAlunoRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
+import { ITreinoRepository } from "../../treinos/interface/ITreinoRepository";
+import { IUserRepository } from "../../user/interface/IUserRepository";
 
 @injectable()
 export class TreinoDeAlunoService {
   constructor(
-    @inject(TreinoDeAlunoRepository)
-    private treinoDeAlunoRepository: TreinoDeAlunoRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
-    @inject(TreinoRepository)
-    private treinoRepository: TreinoRepository,
-    @inject(UserRepository)
-    private userRepository: UserRepository,
+    @inject("TreinoDeAlunoRepository")
+    private treinoDeAlunoRepository: ITreinoDeAlunoRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
+    @inject("TreinoRepository")
+    private treinoRepository: ITreinoRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
   ) {}
 
   async create(data: z.infer<typeof TreinoDeAlunoSchema>, adm_id: number) {

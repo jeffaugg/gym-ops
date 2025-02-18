@@ -3,9 +3,10 @@ import { inject, injectable } from "tsyringe";
 import { z } from "zod";
 import { MensagemSchema } from "../dto/MensagemSchema";
 import { Mensagem } from "../models/Mensagem";
+import { IMensagemRepository } from "../interface/IMensagemRepository";
 
 @injectable()
-export class MensagemRepository {
+export class MensagemRepository implements IMensagemRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(

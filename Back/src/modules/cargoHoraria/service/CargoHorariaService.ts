@@ -1,18 +1,17 @@
 import { inject, injectable } from "tsyringe";
-import { DiaDaSemanaRepository } from "../repository/DiaDaSemanaRepository";
-import { HorarioDeTurnoRepository } from "../repository/HorarioDeTurnoRepository";
-import { CargoHorariaRepository } from "../repository/CargoHorariaRepository";
-import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IDiaDaSemanaRepository } from "../interface/IDiaDaSemanaRepository";
+import { IHorarioDeTurnoRepository } from "../interface/IHorarioDeTurnoRepository";
+import { ICargoHorariaRepository } from "../interface/ICargoHorariaRepository";
 
 @injectable()
 export class CargoHorariaService {
   constructor(
-    @inject(DiaDaSemanaRepository)
-    private diaDaSemanaRepository: DiaDaSemanaRepository,
-    @inject(HorarioDeTurnoRepository)
-    private horarioDeTurnoRepository: HorarioDeTurnoRepository,
-    @inject(CargoHorariaRepository)
-    private cargoHorariaRepository: CargoHorariaRepository,
+    @inject("DiaDaSemanaRepository")
+    private diaDaSemanaRepository: IDiaDaSemanaRepository,
+    @inject("HorarioDeTurnoRepository")
+    private horarioDeTurnoRepository: IHorarioDeTurnoRepository,
+    @inject("CargoHorariaRepository")
+    private cargoHorariaRepository: ICargoHorariaRepository,
   ) {}
 
   async listDayOfWeek() {

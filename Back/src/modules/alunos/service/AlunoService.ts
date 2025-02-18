@@ -1,21 +1,21 @@
 import { inject, injectable } from "tsyringe";
-import { AlunoRepository } from "../repository/AlunoRepository";
 import { AlunoSchema } from "../dto/AlunoSchema";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
-import { PlanoRepository } from "../../planos/repository/PlanoRepository";
-import UserRepository from "../../user/repositories/UserRepository";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IAlunoRepository } from "../Interface/IAlunoRepository";
+import { IPlanoRepository } from "../../planos/interface/IPlanoRepository";
+import { IUserRepository } from "../../user/interface/IUserRepository";
 
 @injectable()
 export class AlunoService {
   constructor(
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
-    @inject(PlanoRepository)
-    private planoRepository: PlanoRepository,
-    @inject(UserRepository)
-    private userRepository: UserRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
+    @inject("PlanoRepository")
+    private planoRepository: IPlanoRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
   ) {}
 
   async create(data: z.infer<typeof AlunoSchema>, adm_id: number) {

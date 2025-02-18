@@ -1,22 +1,22 @@
 import { inject, injectable } from "tsyringe";
-import { PagamentoRepository } from "../repository/PagamentoRepository";
 import { PagamentoSchema } from "../dto/PagamentoSchema";
 import { z } from "zod";
-import { PlanoRepository } from "../../planos/repository/PlanoRepository";
 import AppError from "../../../shared/errors/AppError";
-import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import { addDays } from "date-fns";
 import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IPagamentoRepository } from "../Interface/IPagamentoRepository";
+import { IPlanoRepository } from "../../planos/interface/IPlanoRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
 
 @injectable()
 export class PagamentoService {
   constructor(
-    @inject(PagamentoRepository)
-    private pagamentoRepository: PagamentoRepository,
-    @inject(PlanoRepository)
-    private planoRepository: PlanoRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
+    @inject("PagamentoRepository")
+    private pagamentoRepository: IPagamentoRepository,
+    @inject("PlanoRepository")
+    private planoRepository: IPlanoRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
   ) {}
 
   async create(

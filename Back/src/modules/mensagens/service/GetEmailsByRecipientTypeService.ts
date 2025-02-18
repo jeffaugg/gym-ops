@@ -1,11 +1,13 @@
 import AppError from "../../../shared/errors/AppError";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
+import { IUserRepository } from "../../user/interface/IUserRepository";
 import UserRepository from "../../user/repositories/UserRepository";
 
 export class GetEmailsByRecipientTypeService {
   constructor(
-    private alunoRepository: AlunoRepository,
-    private userRepository: UserRepository,
+    private alunoRepository: IAlunoRepository,
+    private userRepository: IUserRepository,
   ) {}
 
   async get(recipientType: string, userId: number): Promise<string[]> {
