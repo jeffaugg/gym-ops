@@ -80,16 +80,18 @@ export class ExercicioDeTreinoRepository
     treino_id: number,
     offset: number,
     limit: number,
-  ): Promise<ExerciciosDeTreinos | null> {
+  ): Promise<ExerciciosDeTreinos[]> {
     const query =
       "SELECT * FROM exercicios_de_treinos WHERE treino_id = ? OFFSET ? LIMIT ? ";
     const result = await this.db.raw(query, [treino_id, offset, limit]);
-
+    console.log(result.rows);
     if (result.rows.length === 0) {
       return null;
     }
 
-    return result.rows[0] as ExerciciosDeTreinos;
+    return result.rows.map((data: any) =>
+      ExerciciosDeTreinos.fromDatabase(data),
+    );
   }
 
   async doesRelationExist(
