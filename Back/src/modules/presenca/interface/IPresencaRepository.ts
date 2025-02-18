@@ -10,5 +10,9 @@ export interface IPresencaRepository {
   findById(id: number, adm_id: number): Promise<Presenca | null>;
   getAll(adm_id: number, offset: number, limit: number): Promise<Presenca[]>;
   delete(id: number): Promise<void>;
-  listWeekFrequencies(adm_id: number, page: number): Promise<DayFrequency[]>;
+  listWeekFrequencies(
+    adm_id: number,
+    start_date: Date,
+    end_date: Date,
+  ): Promise<DayFrequency[]>;
 }

@@ -8,9 +8,10 @@ export interface IPagamentoRepository {
     data: z.infer<typeof PagamentoSchema> & { user_id: number },
   ): Promise<Pagamento>;
   list(adm_id: number, offset: number, limit: number): Promise<Pagamento[]>;
-  listBetween60Days(
+  listBetweenDays(
     adm_id: number,
-    page: number,
+    start_date: Date,
+    end_date: Date,
   ): Promise<(typeof BalanceDaySchema)[]>;
   findById(id: number): Promise<Pagamento | null>;
   findByAlunoId(

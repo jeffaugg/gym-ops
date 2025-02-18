@@ -11,6 +11,11 @@ function Dashboard() {
   const [recentRecordsData, setRecentRecordsData] = useState([]);
   const [instructorsNow, setInstructorsNowData] = useState([]);
   const [ranked, setRanked] = useState([]);
+  const todayDate = new Date();
+const today = todayDate.getFullYear() + "-" + 
+                      String(todayDate.getMonth() + 1).padStart(2, "0") + "-" + 
+                      String(todayDate.getDate()).padStart(2, "0");
+
   // Função para fazer a requisição para /report/recent-frequency
   const fetchRecentFrequency = async () => {
     try {
@@ -66,6 +71,7 @@ function Dashboard() {
     fetchRecentRecords();
     fetchInstructorsNow();
     fetchRanked();
+    
   }, []); // O useEffect é chamado uma vez quando o componente for montado
 
   return (
@@ -80,6 +86,7 @@ function Dashboard() {
 
       <div className="dashboard-stats">
         <div className="chart">
+
           <div className="fake-chart">
             <BarChart 
               title="Frequencias da semana"

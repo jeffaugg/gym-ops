@@ -107,23 +107,26 @@ export class PresencaRepository implements IPresencaRepository {
 
   async listWeekFrequencies(
     adm_id: number,
-    page: number,
+    start_date: Date,
+    end_date: Date,
   ): Promise<DayFrequency[]> {
     const query = `
     SELECT 
-      DATE(presenca.data) AS dia,
-      COUNT(*) AS total_presencas
-    FROM presenca
-    JOIN alunos 
-      ON presenca.aluno_id = alunos.id
-    WHERE presenca.data >= CURRENT_DATE - (? + 1) * INTERVAL '7 days'
-      AND presenca.data <= CURRENT_DATE - ? * INTERVAL '7 days'
-      AND alunos.adm_id = ?
-    GROUP BY DATE(presenca.data)
-    ORDER BY DATE(presenca.data) DESC;;
+    DATE(presenca.data) AS dia,
+    COUNT(*) AS total_presencas
+  FROM presenca
+  JOIN alunos 
+    ON presenca.aluno_id = alunos.id
+  WHERE DATE(presenca.data) BETWEEN ? AND ?
+    AND alunos.adm_id = ?
+  GROUP BY DATE(presenca.data)
+  ORDER BY DATE(presenca.data) DESC;
     `;
-
-    const result = await this.db.raw(query, [page, page, adm_id]);
+    const result = await this.db.raw(query, [
+      start_date.toISOString().split("T")[0],
+      end_date.toISOString().split("T")[0],
+      adm_id,
+    ]);
 
     return result.rows as DayFrequency[];
   }

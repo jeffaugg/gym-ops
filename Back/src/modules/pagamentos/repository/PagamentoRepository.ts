@@ -54,9 +54,10 @@ export class PagamentoRepository implements IPagamentoRepository {
     );
   }
 
-  async listBetween60Days(
+  async listBetweenDays(
     adm_id: number,
-    page: number,
+    start_date: Date,
+    end_date: Date,
   ): Promise<(typeof BalanceDaySchema)[]> {
     const query = `
       SELECT 
@@ -66,15 +67,20 @@ export class PagamentoRepository implements IPagamentoRepository {
       JOIN alunos ON pagamentos.id_aluno = alunos.id
       JOIN planos ON pagamentos.id_plano = planos.id
       WHERE 
-          pagamentos.payment_date >= CURRENT_DATE - (? + 1) * INTERVAL '60 days'
-          AND pagamentos.payment_date < CURRENT_DATE + INTERVAL '1 day'
+          pagamentos.payment_date >= ? 
+          AND pagamentos.payment_date < ?
           AND pagamentos.status = true
           AND alunos.adm_id = ?
-    GROUP BY DATE(pagamentos.payment_date)  
-    ORDER BY payment_day ASC;
+      GROUP BY DATE(pagamentos.payment_date)  
+      ORDER BY payment_day ASC;
     `;
-
-    const result = await this.db.raw(query, [page, page, adm_id]);
+    const startDateFormatted = start_date.toISOString().split("T")[0];
+    const endDateFormatted = end_date.toISOString().split("T")[0];
+    const result = await this.db.raw(query, [
+      startDateFormatted,
+      endDateFormatted,
+      adm_id,
+    ]);
 
     return result.rows.map((pagamentoData: any) => {
       const formattedDate = new Date(
