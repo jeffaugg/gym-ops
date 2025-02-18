@@ -17,7 +17,7 @@ export interface IExercicioDeTreinoRepository {
     treino_id: number,
     offset: number,
     limit: number,
-  ): Promise<ExerciciosDeTreinos | null>;
+  ): Promise<ExerciciosDeTreinos[] | null>;
   doesRelationExist(
     treino_id: number,
     exercicio_id: number,

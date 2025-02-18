@@ -22,7 +22,7 @@ exercicioDeTreinoRoutes.get(
   exercicioDeTreinoController.findById,
 );
 exercicioDeTreinoRoutes.get(
-  "/workouts/:treino_id",
+  "/workouts/:treinoId",
   isAuth,
   exercicioDeTreinoController.findByTreinoId,
 );

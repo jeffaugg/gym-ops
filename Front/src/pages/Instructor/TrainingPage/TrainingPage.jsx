@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TrainingPage.css";
 import Layout from "../../../components/Instructor/LayoutPages/Layout";
 import TrainingsForm from "../../../components/TrainingsForm/TrainingsForm";
@@ -10,6 +10,12 @@ import { toast } from "react-toastify";
 function TrainingPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [associations, setAssociations] = useState([]);
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    sortBy: "aluno_name",
+    sortOrder: "asc",
+    itemsPerPage: 5,
+  });
 
   const fetchAssociations = async () => {
     try {
@@ -43,7 +49,12 @@ function TrainingPage() {
           </button>
         </header>
 
-        <TrainingsTable associations={associations} fetchAssociations={fetchAssociations} />
+        <TrainingsTable
+          associations={associations}
+          fetchAssociations={fetchAssociations}
+          filters={filters}
+          setFilters={setFilters}
+        />
 
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
           <TrainingsForm

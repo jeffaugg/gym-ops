@@ -6,6 +6,12 @@ import PresenceTable from "../../components/PresenceTable/PresenceTable";
 
 function PresencePage() {
     const [reload, setReload] = useState(false);
+    const [filters, setFilters] = useState({
+        searchTerm: "",
+        sortBy: "data",
+        sortOrder: "asc",
+        itemsPerPage: 5,
+    });
 
     const handleRefresh = () => {
         setReload((prev) => !prev);
@@ -19,7 +25,12 @@ function PresencePage() {
                 </header>
 
                 <PresenceForm onPresenceCreated={handleRefresh} />
-                <PresenceTable reload={reload} onPresenceDeleted={handleRefresh} />
+                <PresenceTable
+                    reload={reload}
+                    onPresenceDeleted={handleRefresh}
+                    filters={filters}
+                    setFilters={setFilters}
+                />
             </div>
         </Layout>
     );
