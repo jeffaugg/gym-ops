@@ -84,7 +84,6 @@ export class ExercicioDeTreinoRepository
     const query =
       "SELECT * FROM exercicios_de_treinos WHERE treino_id = ? OFFSET ? LIMIT ? ";
     const result = await this.db.raw(query, [treino_id, offset, limit]);
-    console.log(result.rows);
     if (result.rows.length === 0) {
       return null;
     }
