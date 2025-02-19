@@ -71,7 +71,7 @@
       "category": "Utility",
       "desktop": {
         "StartupWMClass": "gym-ops",
-        "Icon": "gym-ops"
+        "Icon": "/usr/share/icons/hicolor/500x500/apps/gym-ops.png"
       }
     }
   }
