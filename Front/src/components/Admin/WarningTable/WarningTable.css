@@ -92,3 +92,17 @@
       overflow-x: auto;
   }
 }
+
+.btn.view {
+  color: rgb(255, 255, 255);
+  border: none;
+  font-size: 100%;
+  background-color: transparent;
+  padding: 5px 10px;
+
+  cursor: pointer;
+  margin: 2px;
+  :hover{
+      color: rgb(66, 5, 124);
+  }
+}
