@@ -10,6 +10,8 @@ import { toast } from "react-toastify";
 function AdminWarnings() {
   const [warnings, setWarnings] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedWarning, setSelectedWarning] = useState(null);
+  const [detailModalOpen, setDetailModalOpen] = useState(false);
   const [filters, setFilters] = useState({
     searchTerm: "",
     filterBy: "all",
@@ -18,6 +20,12 @@ function AdminWarnings() {
     itemsPerPage: 5, 
   });
 
+
+  const recipientTypeMap = {
+    ALL: "Todos",
+    INSTRUCTORS: "Somente Instrutores",
+    STUDENTS: "Somente Alunos",
+  };
 
   const fetchWarnings = async () => {
     try {
@@ -30,11 +38,21 @@ function AdminWarnings() {
           limit: filters.itemsPerPage,
         },
       });
-
       setWarnings(response.data);
     } catch (error) {
       console.error("Erro ao buscar as mensagens:", error);
       toast.error("Erro ao buscar as mensagens.");
+    }
+  };
+
+  const handleViewWarning = async (id) => {
+    try {
+      const response = await api.get(`/message/${id}`);
+      setSelectedWarning(response.data);
+      setDetailModalOpen(true);
+    } catch (error) {
+      console.error("Erro ao buscar a mensagem:", error);
+      toast.error("Erro ao buscar a mensagem.");
     }
   };
 
@@ -52,7 +70,12 @@ function AdminWarnings() {
           </button>
         </header>
 
-        <WarningTable warnings={warnings} filters={filters} setFilters={setFilters} />
+        <WarningTable
+          warnings={warnings}
+          filters={filters}
+          setFilters={setFilters}
+          onViewWarning={handleViewWarning}
+        />
 
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
           <WarningForm
@@ -61,6 +84,18 @@ function AdminWarnings() {
               setIsModalOpen(false);
             }}
           />
+        </Modal>
+
+        <Modal isOpen={detailModalOpen} onClose={() => setDetailModalOpen(false)}>
+          {selectedWarning && (
+            <div className="warning-detail">
+              <h2>{selectedWarning.title}</h2>
+              <p>{selectedWarning.body}</p>
+              <p>
+                <strong>Enviada para:</strong> {recipientTypeMap[selectedWarning.recipient_type]}
+              </p>
+            </div>
+          )}
         </Modal>
       </div>
     </Layout>
