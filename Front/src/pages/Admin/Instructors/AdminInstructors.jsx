@@ -10,12 +10,26 @@ function AdminInstructors() {
   const [instructors, setInstructors] = useState([]);
   const [selectedInstructor, setSelectedInstructor] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    filterBy: "all",
+    sortBy: "name",
+    sortOrder: "asc",
+    itemsPerPage: 5,
+  });
 
   const fetchInstructors = async () => {
     try {
-      const response = await api.get("/user/allusers");
-      const sortedInstructors = response.data.sort((a, b) => b.id - a.id);
-      setInstructors(sortedInstructors);
+      const response = await api.get("/user/allusers", {
+        params: {
+          search: filters.searchTerm,
+          filterBy: filters.filterBy !== "all" ? filters.filterBy : undefined,
+          sortBy: filters.sortBy,
+          sortOrder: filters.sortOrder,
+          limit: filters.itemsPerPage,
+        },
+      });
+      setInstructors(response.data);
     } catch (error) {
       console.error("Erro ao buscar os instrutores:", error);
     }
@@ -23,10 +37,10 @@ function AdminInstructors() {
 
   useEffect(() => {
     fetchInstructors();
-  }, []);
+  }, [filters]);
 
   const handleOpenModal = () => {
-    setSelectedInstructor(null); 
+    setSelectedInstructor(null);
     setIsModalOpen(true);
   };
 
@@ -46,7 +60,7 @@ function AdminInstructors() {
         <header className="instructors-header">
           <h1>Instrutores</h1>
           <button onClick={handleOpenModal} className="btn add-instructor">
-             Adicionar Instrutor
+            Adicionar Instrutor
           </button>
         </header>
 
@@ -55,6 +69,8 @@ function AdminInstructors() {
           onPlanDeleted={fetchInstructors}
           setSelectedInstructor={handleEditInstructor}
           selectedInstructor={selectedInstructor}
+          filters={filters}
+          setFilters={setFilters}
         />
 
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>

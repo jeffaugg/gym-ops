@@ -1,13 +1,19 @@
-
-import React, { useState } from "react";
+import React, {useState} from "react";
 import "./PlansTable.css";
-import api from "../../../api";
-import { toast } from "react-toastify";
 import { FaPenToSquare } from "react-icons/fa6";
 import { MdOutlineDelete } from "react-icons/md";
+import { toast } from "react-toastify";
+import FilterBar from "../../FilterBar/FilterBar"; 
 import ConfirmationModal from "../../Modal/ConfirmationModal/ConfirmationModal";
 
-export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, selectedPlan }) {
+export default function PlansTable({
+  plans,
+  onPlanDeleted,
+  setSelectedPlan,
+  selectedPlan,
+  filters,
+  setFilters
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
@@ -22,7 +28,7 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, sele
     } catch (error) {
       console.error("Erro ao deletar o plano:", error);
       toast.error("Erro ao deletar o plano.");
-    }finally {
+    } finally {
       setIsModalOpen(false);
     }
   };
@@ -32,8 +38,47 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, sele
     setIsModalOpen(true);
   };
 
+  const filteredAndSortedPlans = plans
+    .filter((plan) => {
+      const matchesSearch =
+        plan.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        plan.price.toString().includes(filters.searchTerm);
+
+      return matchesSearch;
+    })
+    .sort((a, b) => {
+      if (filters.sortBy === "name") {
+        return filters.sortOrder === "asc"
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name);
+       } else if (filters.sortBy === "price") {
+        return filters.sortOrder === "asc"
+          ? a.price - b.price
+          : b.price - a.price;
+      } else if (filters.sortBy === "spots") {
+        return filters.sortOrder === "asc"
+          ? a.spots - b.spots
+          : b.spots - a.spots;
+      }
+      return 0;
+    })
+    .slice(0, filters.itemsPerPage);
+
   return (
     <div className="plans-list">
+      <FilterBar
+        filters={filters}
+        setFilters={setFilters}
+        searchPlaceholder="Buscar por nome ou valor"
+        filterOptions={[{ value: "all", label: "Todos" }]}
+        sortOptions={[
+          { value: "name", label: "Nome" },
+          { value: "price", label: "Preço" },
+          { value: "spots", label: "Qtd. de vagas" },
+        ]}
+        itemsPerPageOptions={[5, 10, 30, 50, 100]}
+      />
+
       <table>
         <thead>
           <tr>
@@ -45,8 +90,8 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, sele
           </tr>
         </thead>
         <tbody>
-          {plans.length > 0 ? (
-            plans.map((plan) => (
+          {filteredAndSortedPlans.length > 0 ? (
+            filteredAndSortedPlans.map((plan) => (
               <tr key={plan.id}>
                 <td>{plan.name}</td>
                 <td>R$ {plan.price.toFixed(2)}</td>
@@ -69,7 +114,7 @@ export default function PlansTable({ plans, onPlanDeleted, setSelectedPlan, sele
           )}
         </tbody>
       </table>
-       {isModalOpen && (
+      {isModalOpen && (
         <ConfirmationModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}

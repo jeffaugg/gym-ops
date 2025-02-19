@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TrainingsTable.css";
 import { toast } from "react-toastify";
 import { MdOutlineDelete } from "react-icons/md";
 import api from "../../api";
 import ConfirmationModal from "../Modal/ConfirmationModal/ConfirmationModal";
+import FilterBar from "../FilterBar/FilterBar";
 
-export default function TrainingsTable({ fetchAssociations }) {
+export default function TrainingsTable({ fetchAssociations, filters, setFilters }) {
   const [associations, setAssociations] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,15 +77,54 @@ export default function TrainingsTable({ fetchAssociations }) {
 
   const getAssociationDetails = (id) => {
     const assoc = associations.find(a => a.id === id);
-    return assoc 
+    return assoc
       ? `"${assoc.aluno_name}" com "${assoc.treino_name}"`
       : "esta associação";
   };
 
+  const filteredAndSortedAssociations = associations
+    .filter((assoc) => {
+      const matchesSearch =
+        assoc.aluno_name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        assoc.treino_name.toLowerCase().includes(filters.searchTerm.toLowerCase());
+
+      return matchesSearch;
+    })
+    .sort((a, b) => {
+      if (filters.sortBy === "aluno_name") {
+        return filters.sortOrder === "asc"
+          ? a.aluno_name.localeCompare(b.aluno_name)
+          : b.aluno_name.localeCompare(a.aluno_name);
+      } else if (filters.sortBy === "treino_name") {
+        return filters.sortOrder === "asc"
+          ? a.treino_name.localeCompare(b.treino_name)
+          : b.treino_name.localeCompare(a.treino_name);
+      } else if (filters.sortBy === "id") {
+        return filters.sortOrder === "asc"
+          ? a.id - b.id
+          : b.id - a.id;
+      }
+      return 0;
+    })
+    .slice(0, filters.itemsPerPage);
+
   return (
     <div className="trainings-list">
       {loading && <p>Carregando associações...</p>}
-      
+
+      <FilterBar
+        filters={filters}
+        setFilters={setFilters}
+        searchPlaceholder="Buscar por nome do aluno ou treino"
+        filterOptions={[{ value: "all", label: "Todos" }]}
+        sortOptions={[
+          { value: "aluno_name", label: "Nome do Aluno" },
+          { value: "treino_name", label: "Nome do Treino" },
+          { value: "id", label: "ID da Associação" },
+        ]}
+        itemsPerPageOptions={[5, 10, 30, 50, 100]}
+      />
+
       <table>
         <thead>
           <tr>
@@ -94,14 +134,14 @@ export default function TrainingsTable({ fetchAssociations }) {
           </tr>
         </thead>
         <tbody>
-          {associations.length > 0 ? (
-            associations.map((assoc) => (
+          {filteredAndSortedAssociations.length > 0 ? (
+            filteredAndSortedAssociations.map((assoc) => (
               <tr key={assoc.id}>
                 <td>{assoc.aluno_name || "N/A"}</td>
                 <td>{assoc.treino_name || "N/A"}</td>
                 <td className="actions">
-                  <button 
-                    className="btn delete" 
+                  <button
+                    className="btn delete"
                     onClick={() => confirmDelete(assoc.id)}
                   >
                     <MdOutlineDelete />

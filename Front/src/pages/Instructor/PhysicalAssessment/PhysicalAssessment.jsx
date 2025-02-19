@@ -11,12 +11,26 @@ function PhysicalAssessment() {
   const [physicalAssessments, setPhysicalAssessments] = useState([]);
   const [selectedAssessment, setSelectedAssessment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    filterBy: "all", 
+    sortBy: "name", 
+    sortOrder: "asc",
+    itemsPerPage: 5, 
+  });
 
   const fetchPhysicalAssessments = async () => {
     try {
-      const response = await api.get("/reviews");
-      const sortedAssessments = response.data.sort((a, b) => b.id - a.id);
-      setPhysicalAssessments(sortedAssessments);
+      const response = await api.get("/reviews", {
+        params: {
+          search: filters.searchTerm,
+          filterBy: filters.filterBy !== "all" ? filters.filterBy : undefined,
+          sortBy: filters.sortBy,
+          sortOrder: filters.sortOrder,
+          limit: filters.itemsPerPage,
+        },
+      });
+      setPhysicalAssessments(response.data);
     } catch (error) {
       console.error("Erro ao buscar as avaliações físicas:", error);
       toast.error("Erro ao buscar as avaliações físicas.");
@@ -25,7 +39,7 @@ function PhysicalAssessment() {
 
   useEffect(() => {
     fetchPhysicalAssessments();
-  }, []);
+  }, [filters]); 
 
   const handleOpenModal = () => {
     setSelectedAssessment(null);
@@ -56,6 +70,8 @@ function PhysicalAssessment() {
           physicalAssessments={physicalAssessments}
           onPhysicalAssessmentDeleted={fetchPhysicalAssessments}
           onEditAssessment={handleEditAssessment}
+          filters={filters}
+          setFilters={setFilters}
         />
 
         <Modal isOpen={isModalOpen} onClose={handleCloseModal}>

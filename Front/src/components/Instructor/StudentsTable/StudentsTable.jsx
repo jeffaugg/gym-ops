@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./StudentsTable.css";
 import api from "../../../api";
 import { toast } from "react-toastify";
@@ -6,12 +6,7 @@ import FilterBar from "../../FilterBar/FilterBar";
 import { PiCalendarCheckBold } from "react-icons/pi";
 import { ImEyePlus } from "react-icons/im";
 
-export default function StudentsTable({ students, setSelectedStudent }) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [sortField, setSortField] = useState("name");
-  const [sortOrder, setSortOrder] = useState("asc");
-
+export default function StudentsTable({ students, setSelectedStudent, filters, setFilters }) {
   const handleRegisterPresence = async (student) => {
     try {
       await api.post(`/presence/${student.id}`);
@@ -22,49 +17,55 @@ export default function StudentsTable({ students, setSelectedStudent }) {
     }
   };
 
-  const toggleSortOrder = () => {
-    setSortOrder((prevOrder) => (prevOrder === "asc" ? "desc" : "asc"));
-  };
-
   const filteredAndSortedStudents = students
     .filter((student) => {
       const matchesSearch =
-        student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        student.cpf.includes(searchTerm) ||
-        student.telephone.includes(searchTerm);
+        student.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        student.cpf.includes(filters.searchTerm) ||
+        student.telephone.includes(filters.searchTerm);
 
       const matchesStatus =
-        statusFilter === "all" ||
-        (statusFilter === "active" && student.status) ||
-        (statusFilter === "inactive" && !student.status);
+        filters.filterBy === "all" ||
+        (filters.filterBy === "active" && student.status) ||
+        (filters.filterBy === "inactive" && !student.status);
 
       return matchesSearch && matchesStatus;
     })
     .sort((a, b) => {
-      if (sortField === "name") {
-        return sortOrder === "asc"
+      if (filters.sortBy === "name") {
+        return filters.sortOrder === "asc"
           ? a.name.localeCompare(b.name)
           : b.name.localeCompare(a.name);
-      } else if (sortField === "created_at") {
-        return sortOrder === "asc"
+      } else if (filters.sortBy === "created_at") {
+        return filters.sortOrder === "asc"
           ? new Date(a.created_at) - new Date(b.created_at)
           : new Date(b.created_at) - new Date(a.created_at);
+      } else if (filters.sortBy === "status") {
+        return filters.sortOrder === "asc"
+          ? (a.status ? 1 : 0) - (b.status ? 1 : 0)
+          : (b.status ? 1 : 0) - (a.status ? 1 : 0);
       }
       return 0;
-    });
+    })
+    .slice(0, filters.itemsPerPage);
 
   return (
     <div className="students-list">
       <FilterBar
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-        sortField={sortField}
-        setSortField={setSortField}
-        sortOrder={sortOrder}
-        toggleSortOrder={toggleSortOrder}
-        placeholder="Buscar por nome, telefone ou CPF"
+        filters={filters}
+        setFilters={setFilters}
+        searchPlaceholder="Buscar por nome, telefone ou CPF"
+        filterOptions={[
+          { value: "all", label: "Todos" },
+          { value: "active", label: "Ativos" },
+          { value: "inactive", label: "Inativos" },
+        ]}
+        sortOptions={[
+          { value: "name", label: "Nome" },
+          { value: "created_at", label: "Data de Criação" },
+          { value: "status", label: "Status" },
+        ]}
+        itemsPerPageOptions={[5, 10, 30, 50, 100]}
       />
 
       <table>

@@ -4,9 +4,10 @@ import api from "../../api";
 import { toast } from "react-toastify";
 import { FaPenToSquare } from "react-icons/fa6";
 import { MdOutlineDelete } from "react-icons/md";
+import FilterBar from "../FilterBar/FilterBar"; 
 import ConfirmationModal from "../Modal/ConfirmationModal/ConfirmationModal";
 
-export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWorkout, selectedWorkout }) {
+export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWorkout, selectedWorkout, filters, setFilters }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
 
@@ -31,8 +32,41 @@ export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWo
     setIsModalOpen(true);
   };
 
+  const filteredAndSortedWorkouts = workouts
+    .filter((workout) => {
+      const matchesSearch =
+        workout.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) ||
+        workout.notes.toLowerCase().includes(filters.searchTerm.toLowerCase());
+      return matchesSearch;
+    })
+    .sort((a, b) => {
+      if (filters.sortBy === "name") {
+        return filters.sortOrder === "asc"
+          ? a.name.localeCompare(b.name)
+          : b.name.localeCompare(a.name);
+      } else if (filters.sortBy === "notes") {
+        return filters.sortOrder === "asc"
+          ? a.notes.localeCompare(b.notes)
+          : b.notes.localeCompare(a.notes);
+      }
+      return 0;
+    })
+    .slice(0, filters.itemsPerPage);
+
   return (
     <div className="workout-list">
+      <FilterBar
+        filters={filters}
+        setFilters={setFilters}
+        searchPlaceholder="Buscar por nome ou notas"
+        filterOptions={[{ value: "all", label: "Todos" }]}
+        sortOptions={[
+          { value: "name", label: "Nome" },
+          { value: "notes", label: "Notas" },
+        ]}
+        itemsPerPageOptions={[5, 10, 30, 50, 100]}
+      />
+
       <table>
         <thead>
           <tr>
@@ -42,8 +76,8 @@ export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWo
           </tr>
         </thead>
         <tbody>
-          {workouts.length > 0 ? (
-            workouts.map((workout) => (
+          {filteredAndSortedWorkouts.length > 0 ? (
+            filteredAndSortedWorkouts.map((workout) => (
               <tr key={workout.id}>
                 <td>{workout.name}</td>
                 <td>{workout.notes}</td>
@@ -64,6 +98,7 @@ export default function WorkoutTable({ workouts, onWorkoutDeleted, setSelectedWo
           )}
         </tbody>
       </table>
+
       {isModalOpen && (
         <ConfirmationModal
           isOpen={isModalOpen}
