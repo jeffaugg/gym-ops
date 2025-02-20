@@ -8,7 +8,12 @@ const avaliacaoController = container.resolve(AvaliacaoController);
 
 avaliacaoRoutes.post("/", isAuth, avaliacaoController.create);
 avaliacaoRoutes.get("/", isAuth, avaliacaoController.list);
-avaliacaoRoutes.get("/:aluno_id", isAuth, avaliacaoController.findByAlunoId);
+avaliacaoRoutes.get("/:id", isAuth, avaliacaoController.findById);
+avaliacaoRoutes.get(
+  "/clients/:aluno_id",
+  isAuth,
+  avaliacaoController.findByAlunoId,
+);
 avaliacaoRoutes.put("/:id", isAuth, avaliacaoController.update);
 avaliacaoRoutes.delete("/:id", isAuth, avaliacaoController.delete);
 

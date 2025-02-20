@@ -137,13 +137,23 @@ export class AvaliacoesRepository implements IAvaliacoesRepository {
     );
   }
 
-  async findById(id: string, adm_id: number): Promise<Avaliacao> {
+  async findById(id: string, adm_id: number): Promise<Avaliacao | null> {
     const query = `
-    SELECT *
-    FROM avaliacoes
-    JOIN alunos
-    ON avaliacoes.aluno_id = alunos.id
-    WHERE avaliacoes.id = ? AND alunos.adm_id = ?;
+      SELECT 
+        a.*,
+        f.foto_path
+      FROM 
+        avaliacoes a
+      LEFT JOIN 
+        fotos_avaliacoes f 
+      ON 
+        a.id = f.avaliacao_id
+      JOIN 
+        alunos al
+      ON
+        a.aluno_id = al.id
+      WHERE 
+        a.id = ? AND al.adm_id = ?;
     `;
 
     const result = await this.db.raw(query, [id, adm_id]);
@@ -152,7 +162,40 @@ export class AvaliacoesRepository implements IAvaliacoesRepository {
       return null;
     }
 
-    return Avaliacao.fromDatabase(result.rows[0]);
+    const row = result.rows[0];
+    const photos: string[] = [];
+
+    const avaliacao = new Avaliacao(
+      row.id,
+      row.aluno_id,
+      row.instructor_id,
+      row.date,
+      row.height,
+      row.weight,
+      row.fat_mass,
+      row.lean_mass,
+      row.left_arm_relaxed,
+      row.right_arm_relaxed,
+      row.left_arm_contracted,
+      row.right_arm_contracted,
+      row.left_thigh,
+      row.right_thigh,
+      row.left_calf,
+      row.right_calf,
+      row.chest,
+      row.abdomen,
+      [],
+    );
+
+    result.rows.forEach((row: any) => {
+      if (row.foto_path) {
+        photos.push(row.foto_path);
+      }
+    });
+
+    avaliacao.photo = photos;
+
+    return avaliacao;
   }
 
   async update(
