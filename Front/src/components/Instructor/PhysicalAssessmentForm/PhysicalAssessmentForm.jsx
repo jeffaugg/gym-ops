@@ -5,6 +5,7 @@ import ButtonCancel from "../../ButtonCancel/ButtonCancel";
 import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import PhotoUpload from "../../PhotoUpload/PhotoUpload";
 
 export default function PhysicalAssessmentForm({
   onPhysicalAssessmentCreated,
@@ -31,6 +32,11 @@ export default function PhysicalAssessmentForm({
   const [waist, setWaist] = useState("");
   const [hip, setHip] = useState("");
 
+  // Estado para armazenar os links das fotos
+  const [photoLinks, setPhotoLinks] = useState([]);
+  // Estado para indicar se há uploads em andamento
+  const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
+
   useEffect(() => {
     if (selectedAssessment) {
       setHeight(selectedAssessment.height ?? "");
@@ -55,6 +61,12 @@ export default function PhysicalAssessmentForm({
         setAluno(alunoDoAssessment);
         setCpf(alunoDoAssessment.cpf || "");
       }
+      // Carrega os links de fotos salvos na avaliação
+      if (selectedAssessment.photo && selectedAssessment.photo.length > 0) {
+        setPhotoLinks(selectedAssessment.photo);
+      } else {
+        setPhotoLinks([]);
+      }
     } else {
       setAluno(null);
       setCpf("");
@@ -74,6 +86,7 @@ export default function PhysicalAssessmentForm({
       setAbdomen("");
       setWaist("");
       setHip("");
+      setPhotoLinks([]);
     }
   }, [selectedAssessment]);
 
@@ -91,6 +104,11 @@ export default function PhysicalAssessmentForm({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (isUploadingPhotos) {
+      toast.error("Aguarde o término do upload das fotos para enviar a avaliação.");
+      return;
+    }
 
     if (!selectedAssessment && (!aluno || !aluno.id)) {
       toast.error("Nenhum aluno foi encontrado. Busque um aluno antes de prosseguir.");
@@ -115,29 +133,29 @@ export default function PhysicalAssessmentForm({
       abdomen: abdomen ? Number(abdomen) : undefined,
       waist: waist ? Number(waist) : undefined,
       hip: hip ? Number(hip) : undefined,
-      photo: [],
+      photo: photoLinks,
     };
 
-  const filteredData = Object.fromEntries(
-    Object.entries(dataToSend).filter(([_, value]) => value !== undefined)
-  );
+    const filteredData = Object.fromEntries(
+      Object.entries(dataToSend).filter(([_, value]) => value !== undefined)
+    );
 
-  try {
-    if (selectedAssessment) {
-      await api.put(`/reviews/${selectedAssessment.id}`, filteredData);
-      toast.success("Avaliação atualizada com sucesso!");
-    } else {
-      await api.post("/reviews", filteredData);
-      toast.success("Avaliação cadastrada com sucesso!");
+    try {
+      if (selectedAssessment) {
+        await api.put(`/reviews/${selectedAssessment.id}`, filteredData);
+        toast.success("Avaliação atualizada com sucesso!");
+      } else {
+        await api.post("/reviews", filteredData);
+        toast.success("Avaliação cadastrada com sucesso!");
+      }
+
+      handleCancel(); 
+      onPhysicalAssessmentCreated();
+    } catch (error) {
+      console.error("Erro ao salvar a avaliação:", error);
+      toast.error("Erro ao salvar a avaliação.");
     }
-
-    handleCancel(); 
-    onPhysicalAssessmentCreated();
-  } catch (error) {
-    console.error("Erro ao salvar a avaliação:", error);
-    toast.error("Erro ao salvar a avaliação.");
-  }
-};
+  };
 
   const handleCancel = () => {
     setAluno(null);
@@ -158,8 +176,8 @@ export default function PhysicalAssessmentForm({
     setAbdomen("");
     setWaist("");
     setHip("");
+    setPhotoLinks([]);
     setSelectedAssessment(null);
-
   };
 
   return (
@@ -359,6 +377,16 @@ export default function PhysicalAssessmentForm({
             onChange={(e) => setHip(e.target.value)}
             title={"Quadril"}
             required={false}
+          />
+        </div>
+
+        {/* Seção para upload das fotos */}
+        <div className="form-group">
+          <label>Fotos da avaliação</label>
+          <PhotoUpload
+            onUpload={setPhotoLinks}
+            existingPhotos={photoLinks}
+            onStatusChange={setIsUploadingPhotos}
           />
         </div>
 
