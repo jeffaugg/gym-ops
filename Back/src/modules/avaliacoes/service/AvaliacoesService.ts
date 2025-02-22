@@ -126,4 +126,14 @@ export class AvaliacaoService {
 
     await this.avaliacoesRepository.delete(Number(id));
   }
+
+  async findById(id: string, adm_id: number): Promise<Avaliacao> {
+    const avaliacao = await this.avaliacoesRepository.findById(id, adm_id);
+
+    if (!avaliacao) {
+      throw new AppError("Avaliação não existe", 404);
+    }
+
+    return avaliacao;
+  }
 }

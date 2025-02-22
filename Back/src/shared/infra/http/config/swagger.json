@@ -637,6 +637,39 @@
           }
         }
       },
+      "get": {
+          "tags": [
+            "Avaliações"
+          ],
+          "summary": "Busca avaliação por ID",
+          "description": "Endpoint para buscar uma avaliação pelo ID.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID da avaliação",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados da avaliação",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Avaliacao"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Avaliação não encontrada"
+            }
+          }
+      },
       "delete": {
         "tags": [
           "Avaliações"
@@ -664,7 +697,7 @@
         }
       }
     },
-    "/reviews/{aluno_id}": {
+    "/reviews/clients/{aluno_id}": {
       "get": {
         "tags": [
           "Avaliações"
