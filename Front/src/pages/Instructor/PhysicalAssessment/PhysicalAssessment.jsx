@@ -47,9 +47,8 @@ function PhysicalAssessment() {
   };
 
   const handleEditAssessment = async (assessment) => {
-    assessment = await api.get(`/reviews/${assessment.aluno_id.id}`);
-    console.log(assessment);
-    setSelectedAssessment(assessment);
+    assessment = await api.get(`/reviews/${assessment.id}`);
+    setSelectedAssessment(assessment.data);
     setIsModalOpen(true);
   };
 

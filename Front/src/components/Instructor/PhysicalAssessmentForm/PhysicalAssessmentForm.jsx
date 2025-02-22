@@ -56,11 +56,12 @@ export default function PhysicalAssessmentForm({
       setWaist(selectedAssessment.waist ?? "");
       setHip(selectedAssessment.hip ?? "");
 
+      // Como a API retorna aluno_id como número, criamos um objeto com a propriedade id
       const alunoDoAssessment = selectedAssessment.aluno_id;
-      if (alunoDoAssessment && alunoDoAssessment.id) {
-        setAluno(alunoDoAssessment);
-        setCpf(alunoDoAssessment.cpf || "");
+      if (alunoDoAssessment) {
+        setAluno({ id: alunoDoAssessment });
       }
+
       // Carrega os links de fotos salvos na avaliação
       if (selectedAssessment.photo && selectedAssessment.photo.length > 0) {
         setPhotoLinks(selectedAssessment.photo);
@@ -116,7 +117,7 @@ export default function PhysicalAssessmentForm({
     }
 
     const dataToSend = {
-      aluno_id: aluno?.id, 
+      aluno_id: aluno?.id,
       height: Number(height),
       weight: Number(weight),
       fat_mass: Number(fatMass),
@@ -149,7 +150,7 @@ export default function PhysicalAssessmentForm({
         toast.success("Avaliação cadastrada com sucesso!");
       }
 
-      handleCancel(); 
+      handleCancel();
       onPhysicalAssessmentCreated();
     } catch (error) {
       console.error("Erro ao salvar a avaliação:", error);
