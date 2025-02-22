@@ -110,9 +110,13 @@ export class AvaliacaoService {
       data,
     );
 
-    const fotos = await this.fotosRepository.findByAvaliacaoId(Number(id));
-
-    newAvaliacao.photo = fotos;
+    if (data.photo) {
+      const fotos = await this.fotosRepository.updatePhotos(
+        Number(id),
+        data.photo,
+      );
+      newAvaliacao.photo = fotos;
+    }
 
     return newAvaliacao;
   }
