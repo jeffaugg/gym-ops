@@ -24,4 +24,26 @@ export class FotosRepository implements IFotosRepository {
 
     return result.rows.map((foto: any) => foto.foto_path);
   }
+
+  async updatePhotos(avaliacao_id: number, fotos: string[]): Promise<string[]> {
+    const deleteQuery = `
+      DELETE FROM fotos_avaliacoes
+      WHERE avaliacao_id = ?;
+    `;
+    await this.db.raw(deleteQuery, [avaliacao_id]);
+
+    const insertQuery = `
+      INSERT INTO fotos_avaliacoes (avaliacao_id, foto_path)
+      VALUES (?, ?)
+      RETURNING foto_path;
+    `;
+
+    const insertedPhotos: string[] = [];
+    for (const foto of fotos) {
+      const result = await this.db.raw(insertQuery, [avaliacao_id, foto]);
+      insertedPhotos.push(result.rows[0].foto_path);
+    }
+
+    return insertedPhotos;
+  }
 }
