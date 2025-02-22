@@ -164,34 +164,14 @@ export class AvaliacoesRepository implements IAvaliacoesRepository {
 
     const row = result.rows[0];
     const photos: string[] = [];
-
-    const avaliacao = new Avaliacao(
-      row.id,
-      row.aluno_id,
-      row.instructor_id,
-      row.date,
-      row.height,
-      row.weight,
-      row.fat_mass,
-      row.lean_mass,
-      row.left_arm_relaxed,
-      row.right_arm_relaxed,
-      row.left_arm_contracted,
-      row.right_arm_contracted,
-      row.left_thigh,
-      row.right_thigh,
-      row.left_calf,
-      row.right_calf,
-      row.chest,
-      row.abdomen,
-      [],
-    );
-
     result.rows.forEach((row: any) => {
       if (row.foto_path) {
         photos.push(row.foto_path);
       }
     });
+
+    delete row.foto_path;
+    const avaliacao = row as Avaliacao;
 
     avaliacao.photo = photos;
 
