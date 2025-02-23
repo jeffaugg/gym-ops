@@ -46,8 +46,9 @@ function PhysicalAssessment() {
     setIsModalOpen(true);
   };
 
-  const handleEditAssessment = (assessment) => {
-    setSelectedAssessment(assessment);
+  const handleEditAssessment = async (assessment) => {
+    assessment = await api.get(`/reviews/${assessment.id}`);
+    setSelectedAssessment(assessment.data);
     setIsModalOpen(true);
   };
 

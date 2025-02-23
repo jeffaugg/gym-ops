@@ -12,7 +12,7 @@ function DashboardCard({ title, items }) {
           <li key={index}>
             <span className="user-icon"><FaUserCircle  color="#1a1a7d"/></span>
             {item}
-            <FaEye color="#1a1a7d" onClick={""}/>
+            {/* <FaEye color="#1a1a7d" onClick={""}/> */}
           </li>
         ))}
       </ul>

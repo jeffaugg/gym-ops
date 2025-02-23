@@ -1,8 +1,9 @@
 import React from "react";
 import "./WarningTable.css";
 import FilterBar from "../../FilterBar/FilterBar";
+import { ImEyePlus } from "react-icons/im";
 
-export default function WarningTable({ warnings, filters, setFilters }) {
+export default function WarningTable({ warnings, filters, setFilters, onViewWarning }) {
   const recipientTypeMap = {
     INSTRUCTORS: "Instrutores",
     STUDENTS: "Alunos",
@@ -41,7 +42,7 @@ export default function WarningTable({ warnings, filters, setFilters }) {
           { value: "recipient_type", label: "Tipo de Destinatário" },
           { value: "created_at", label: "Data de Criação" },
         ]}
-        itemsPerPageOptions={[5, 10, 30, 50, 100 ]} 
+        itemsPerPageOptions={[5, 10, 30, 50, 100 ]}
       />
 
       <table>
@@ -49,6 +50,7 @@ export default function WarningTable({ warnings, filters, setFilters }) {
           <tr>
             <th>Título</th>
             <th>Enviada para</th>
+            <th>Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -57,11 +59,16 @@ export default function WarningTable({ warnings, filters, setFilters }) {
               <tr key={warning.id}>
                 <td>{warning.title}</td>
                 <td>{recipientTypeMap[warning.recipient_type] || "Desconhecido"}</td>
+                <td>
+                  <button className="btn view" onClick={() => onViewWarning(warning.id)}>
+                  <ImEyePlus />
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="2">Nenhum aviso encontrado.</td>
+              <td colSpan="3">Nenhum aviso encontrado.</td>
             </tr>
           )}
         </tbody>

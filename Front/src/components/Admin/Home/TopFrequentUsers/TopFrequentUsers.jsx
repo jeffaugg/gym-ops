@@ -16,7 +16,7 @@ function TopFrequentUsers({users}) {
       <div className="user-cards">
         {sortedUsers.map((user, index) => (
           <div key={index} className="user-card">
-            <img src="https://via.placeholder.com/50" alt={user.name} />
+            <img src="https://thumbs.dreamstime.com/b/linha-%C3%ADcone-do-preto-avatar-perfil-de-usu%C3%A1rio-121102131.jpg" alt={user.name} className="avatarF"/>
             <h5>{user.name}</h5>
             <p>{user.rank}</p>
           </div>

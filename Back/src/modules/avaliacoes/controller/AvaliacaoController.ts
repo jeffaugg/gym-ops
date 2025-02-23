@@ -67,4 +67,16 @@ export class AvaliacaoController {
 
     return res.status(204).send();
   }
+
+  public async findById(req: Request, res: Response): Promise<Response> {
+    const avaliacaoService = container.resolve(AvaliacaoService);
+
+    const { id } = req.params;
+
+    const adm_id = req.user.adm_id;
+
+    const avaliacao = await avaliacaoService.findById(id, adm_id);
+
+    return res.status(200).json(avaliacao);
+  }
 }

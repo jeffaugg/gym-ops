@@ -11,20 +11,16 @@ function Dashboard() {
   const [recentRecordsData, setRecentRecordsData] = useState([]);
   const [instructorsNow, setInstructorsNowData] = useState([]);
   const [ranked, setRanked] = useState([]);
-  const todayDate = new Date();
-const today = todayDate.getFullYear() + "-" + 
-                      String(todayDate.getMonth() + 1).padStart(2, "0") + "-" + 
-                      String(todayDate.getDate()).padStart(2, "0");
 
-  // Função para fazer a requisição para /report/recent-frequency
+
   const fetchRecentFrequency = async () => {
     try {
       const response = await api.get("/report/recent-frequency", {
         params: {
-          limit: 3,  // Limite de itens por página
+          limit: 3, 
         }
       });
-      setRecentFrequencyData(response.data); // Supondo que a resposta seja um array de registros
+      setRecentFrequencyData(response.data); 
     } catch (error) {
       console.error("Erro ao buscar dados de frequência", error);
     }
@@ -33,10 +29,10 @@ const today = todayDate.getFullYear() + "-" +
     try {
       const response = await api.get("/report/recent", {
         params: {
-          limit: 3,  // Limite de itens por página
+          limit: 3,  
         }
       });
-      setRecentRecordsData(response.data); // Supondo que a resposta seja um array de registros
+      setRecentRecordsData(response.data); 
     } catch (error) {
       console.error("Erro ao buscar dados de frequência", error);
     }
@@ -45,10 +41,10 @@ const today = todayDate.getFullYear() + "-" +
     try {
       const response = await api.get("/report/now", {
         params: {
-          limit: 3,  // Limite de itens por página
+          limit: 3,  
         }
       });
-      setInstructorsNowData(response.data); // Supondo que a resposta seja um array de registros
+      setInstructorsNowData(response.data); 
     } catch (error) {
       console.error("Erro ao buscar dados de frequência", error);
     }
@@ -57,10 +53,10 @@ const today = todayDate.getFullYear() + "-" +
     try {
       const response = await api.get("/report/rank", {
         params: {
-          limit: 5,  // Limite de itens por página
+          limit: 5,  
         }
       });
-      setRanked(response.data); // Supondo que a resposta seja um array de registros
+      setRanked(response.data);
     } catch (error) {
       console.error("Erro ao buscar dados de frequência", error);
     }
@@ -71,8 +67,7 @@ const today = todayDate.getFullYear() + "-" +
     fetchRecentRecords();
     fetchInstructorsNow();
     fetchRanked();
-    
-  }, []); // O useEffect é chamado uma vez quando o componente for montado
+  }, []); 
 
   return (
     <div className="dashboard">

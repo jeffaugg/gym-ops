@@ -5,6 +5,7 @@ import ButtonCancel from "../../ButtonCancel/ButtonCancel";
 import ButtonSend from "../../ButtonSend/ButtonSend";
 import api from "../../../api";
 import { toast } from "react-toastify";
+import PhotoUpload from "../../PhotoUpload/PhotoUpload";
 
 export default function PhysicalAssessmentForm({
   onPhysicalAssessmentCreated,
@@ -30,9 +31,29 @@ export default function PhysicalAssessmentForm({
   const [abdomen, setAbdomen] = useState("");
   const [waist, setWaist] = useState("");
   const [hip, setHip] = useState("");
+  const [photoLinks, setPhotoLinks] = useState([]);
+  const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
 
   useEffect(() => {
     if (selectedAssessment) {
+
+      const alunoDoAssessment = selectedAssessment.aluno_id;
+      if (alunoDoAssessment) {
+        const fetchAluno = async () => {
+          try {
+            const response = await api.get(`/clients/${alunoDoAssessment}`);
+            setAluno(response.data);
+            setCpf(response.data.cpf || "");
+          } catch (error) {
+            console.error("Erro ao buscar o aluno:", error);
+            toast.error("Erro ao buscar o aluno.");
+          }
+        };
+        fetchAluno();
+      } else {
+        setAluno(null);
+      }
+
       setHeight(selectedAssessment.height ?? "");
       setWeight(selectedAssessment.weight ?? "");
       setFatMass(selectedAssessment.fat_mass ?? "");
@@ -50,10 +71,10 @@ export default function PhysicalAssessmentForm({
       setWaist(selectedAssessment.waist ?? "");
       setHip(selectedAssessment.hip ?? "");
 
-      const alunoDoAssessment = selectedAssessment.aluno_id;
-      if (alunoDoAssessment && alunoDoAssessment.id) {
-        setAluno(alunoDoAssessment);
-        setCpf(alunoDoAssessment.cpf || "");
+      if (selectedAssessment.photo && selectedAssessment.photo.length > 0) {
+        setPhotoLinks(selectedAssessment.photo);
+      } else {
+        setPhotoLinks([]);
       }
     } else {
       setAluno(null);
@@ -74,6 +95,7 @@ export default function PhysicalAssessmentForm({
       setAbdomen("");
       setWaist("");
       setHip("");
+      setPhotoLinks([]);
     }
   }, [selectedAssessment]);
 
@@ -92,13 +114,18 @@ export default function PhysicalAssessmentForm({
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (isUploadingPhotos) {
+      toast.error("Aguarde o término do upload das fotos para enviar a avaliação.");
+      return;
+    }
+
     if (!selectedAssessment && (!aluno || !aluno.id)) {
       toast.error("Nenhum aluno foi encontrado. Busque um aluno antes de prosseguir.");
       return;
     }
 
     const dataToSend = {
-      aluno_id: aluno?.id, 
+      aluno_id: aluno?.id,
       height: Number(height),
       weight: Number(weight),
       fat_mass: Number(fatMass),
@@ -115,29 +142,29 @@ export default function PhysicalAssessmentForm({
       abdomen: abdomen ? Number(abdomen) : undefined,
       waist: waist ? Number(waist) : undefined,
       hip: hip ? Number(hip) : undefined,
-      photo: [],
+      photo: photoLinks,
     };
 
-  const filteredData = Object.fromEntries(
-    Object.entries(dataToSend).filter(([_, value]) => value !== undefined)
-  );
+    const filteredData = Object.fromEntries(
+      Object.entries(dataToSend).filter(([_, value]) => value !== undefined)
+    );
 
-  try {
-    if (selectedAssessment) {
-      await api.put(`/reviews/${selectedAssessment.id}`, filteredData);
-      toast.success("Avaliação atualizada com sucesso!");
-    } else {
-      await api.post("/reviews", filteredData);
-      toast.success("Avaliação cadastrada com sucesso!");
+    try {
+      if (selectedAssessment) {
+        await api.put(`/reviews/${selectedAssessment.id}`, filteredData);
+        toast.success("Avaliação atualizada com sucesso!");
+      } else {
+        await api.post("/reviews", filteredData);
+        toast.success("Avaliação cadastrada com sucesso!");
+      }
+
+      handleCancel();
+      onPhysicalAssessmentCreated();
+    } catch (error) {
+      console.error("Erro ao salvar a avaliação:", error);
+      toast.error("Erro ao salvar a avaliação.");
     }
-
-    handleCancel(); 
-    onPhysicalAssessmentCreated();
-  } catch (error) {
-    console.error("Erro ao salvar a avaliação:", error);
-    toast.error("Erro ao salvar a avaliação.");
-  }
-};
+  };
 
   const handleCancel = () => {
     setAluno(null);
@@ -158,26 +185,30 @@ export default function PhysicalAssessmentForm({
     setAbdomen("");
     setWaist("");
     setHip("");
+    setPhotoLinks([]);
     setSelectedAssessment(null);
-
   };
 
   return (
     <div className="assessment-form">
       <form onSubmit={handleSubmit}>
         {!selectedAssessment && (
-          <div className="form-group">
-            <InputFieldForm
-              label="CPF*"
-              type="text"
-              placeholder="CPF no formato XXX.XXX.XXX-XX"
-              value={cpf}
-              onChange={(e) => setCpf(e.target.value)}
-              mask="999.999.999-99"
-            />
-            <button type="button" onClick={searchAluno} className="btn search">
-              Buscar Aluno
-            </button>
+          <div>
+            <div className="form-group">
+              <InputFieldForm
+                label="CPF*"
+                type="text"
+                placeholder="CPF no formato XXX.XXX.XXX-XX"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+                mask="999.999.999-99"
+              />
+            </div>
+            <div className="form-group">
+              <button type="button" onClick={searchAluno} className="btn search">
+                Buscar Aluno
+              </button>
+            </div>
           </div>
         )}
 
@@ -191,7 +222,7 @@ export default function PhysicalAssessmentForm({
           </div>
         )}
 
-        {selectedAssessment && aluno && (
+        {aluno && selectedAssessment && (
           <p>
             <strong>Editando avaliação do(a) aluno(a):</strong> {aluno.name}
             <br />
@@ -359,6 +390,15 @@ export default function PhysicalAssessmentForm({
             onChange={(e) => setHip(e.target.value)}
             title={"Quadril"}
             required={false}
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Fotos da avaliação</label>
+          <PhotoUpload
+            onUpload={setPhotoLinks}
+            existingPhotos={photoLinks}
+            onStatusChange={setIsUploadingPhotos}
           />
         </div>
 

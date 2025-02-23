@@ -15,11 +15,7 @@ import "./Sidebar.css";
 function Sidebar() {
   const user =
     JSON.parse(localStorage.getItem("user")) ||
-    JSON.parse(sessionStorage.getItem("user")) || {
-      name: "Administrador",
-      email: "admin@exemplo.com",
-      avatar: "https://via.placeholder.com/50", 
-    };
+    JSON.parse(sessionStorage.getItem("user"))
 
   const menuItems = [
     { name: "Painel", icon: MdOutlineSpaceDashboard, path: "/admin" },
@@ -38,7 +34,6 @@ function Sidebar() {
       <UserProfile 
         name={user.name} 
         email={user.email} 
-        avatar={user.avatar} 
       />
       <div className="menu-items">
         {menuItems.map((item) => (

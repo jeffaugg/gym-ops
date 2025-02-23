@@ -66,3 +66,7 @@
 .btn.add-warning:hover {
   background-color: #333399;
 }
+
+.warning-detail{
+  color: #fff;
+}

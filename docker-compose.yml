@@ -21,7 +21,7 @@ services:
     container_name: redis_gym-ops
     restart: always
     ports:
-      - "6379:6379"
+      - "7008:6379"
     volumes:
       - redis_data:/data
     networks:
@@ -48,7 +48,7 @@ services:
       - redis
     command: npm run start:dev  
     ports:
-      - "3000:3000"
+      - "3001:3000"
 
 volumes:
   postgres_data:

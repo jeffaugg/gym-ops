@@ -105,7 +105,7 @@ function App() {
         />
         {/* USER */}
         <Route
-          path="/settings"
+          path="/instructor/settings"
           element={
             <ProtectedRoute roles={["USER"]}>
               <Settings />

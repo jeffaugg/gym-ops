@@ -110,9 +110,13 @@ export class AvaliacaoService {
       data,
     );
 
-    const fotos = await this.fotosRepository.findByAvaliacaoId(Number(id));
-
-    newAvaliacao.photo = fotos;
+    if (data.photo) {
+      const fotos = await this.fotosRepository.updatePhotos(
+        Number(id),
+        data.photo,
+      );
+      newAvaliacao.photo = fotos;
+    }
 
     return newAvaliacao;
   }
@@ -125,5 +129,15 @@ export class AvaliacaoService {
     }
 
     await this.avaliacoesRepository.delete(Number(id));
+  }
+
+  async findById(id: string, adm_id: number): Promise<Avaliacao> {
+    const avaliacao = await this.avaliacoesRepository.findById(id, adm_id);
+
+    if (!avaliacao) {
+      throw new AppError("Avaliação não existe", 404);
+    }
+
+    return avaliacao;
   }
 }
