@@ -193,18 +193,22 @@ export default function PhysicalAssessmentForm({
     <div className="assessment-form">
       <form onSubmit={handleSubmit}>
         {!selectedAssessment && (
-          <div className="form-group">
-            <InputFieldForm
-              label="CPF*"
-              type="text"
-              placeholder="CPF no formato XXX.XXX.XXX-XX"
-              value={cpf}
-              onChange={(e) => setCpf(e.target.value)}
-              mask="999.999.999-99"
-            />
-            <button type="button" onClick={searchAluno} className="btn search">
-              Buscar Aluno
-            </button>
+          <div>
+            <div className="form-group">
+              <InputFieldForm
+                label="CPF*"
+                type="text"
+                placeholder="CPF no formato XXX.XXX.XXX-XX"
+                value={cpf}
+                onChange={(e) => setCpf(e.target.value)}
+                mask="999.999.999-99"
+              />
+            </div>
+            <div className="form-group">
+              <button type="button" onClick={searchAluno} className="btn search">
+                Buscar Aluno
+              </button>
+            </div>
           </div>
         )}
 

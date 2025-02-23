@@ -84,6 +84,8 @@ export default function TrainingsForm({ fetchAssociations, onTrainingAssigned })
             onChange={(e) => setCpf(e.target.value)}
             mask={"999.999.999-99"}
           />
+        </div>
+        <div className="form-group">
           <button type="button" onClick={searchAluno} className="btn search">
             Buscar Aluno
           </button>
