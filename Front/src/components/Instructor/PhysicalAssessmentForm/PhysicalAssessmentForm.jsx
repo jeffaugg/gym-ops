@@ -31,14 +31,29 @@ export default function PhysicalAssessmentForm({
   const [abdomen, setAbdomen] = useState("");
   const [waist, setWaist] = useState("");
   const [hip, setHip] = useState("");
-
-  // Estado para armazenar os links das fotos
   const [photoLinks, setPhotoLinks] = useState([]);
-  // Estado para indicar se há uploads em andamento
   const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
 
   useEffect(() => {
     if (selectedAssessment) {
+
+      const alunoDoAssessment = selectedAssessment.aluno_id;
+      if (alunoDoAssessment) {
+        const fetchAluno = async () => {
+          try {
+            const response = await api.get(`/clients/${alunoDoAssessment}`);
+            setAluno(response.data);
+            setCpf(response.data.cpf || "");
+          } catch (error) {
+            console.error("Erro ao buscar o aluno:", error);
+            toast.error("Erro ao buscar o aluno.");
+          }
+        };
+        fetchAluno();
+      } else {
+        setAluno(null);
+      }
+
       setHeight(selectedAssessment.height ?? "");
       setWeight(selectedAssessment.weight ?? "");
       setFatMass(selectedAssessment.fat_mass ?? "");
@@ -56,13 +71,6 @@ export default function PhysicalAssessmentForm({
       setWaist(selectedAssessment.waist ?? "");
       setHip(selectedAssessment.hip ?? "");
 
-      // Como a API retorna aluno_id como número, criamos um objeto com a propriedade id
-      const alunoDoAssessment = selectedAssessment.aluno_id;
-      if (alunoDoAssessment) {
-        setAluno({ id: alunoDoAssessment });
-      }
-
-      // Carrega os links de fotos salvos na avaliação
       if (selectedAssessment.photo && selectedAssessment.photo.length > 0) {
         setPhotoLinks(selectedAssessment.photo);
       } else {
@@ -210,7 +218,7 @@ export default function PhysicalAssessmentForm({
           </div>
         )}
 
-        {selectedAssessment && aluno && (
+        {aluno && selectedAssessment && (
           <p>
             <strong>Editando avaliação do(a) aluno(a):</strong> {aluno.name}
             <br />
@@ -381,7 +389,6 @@ export default function PhysicalAssessmentForm({
           />
         </div>
 
-        {/* Seção para upload das fotos */}
         <div className="form-group">
           <label>Fotos da avaliação</label>
           <PhotoUpload
