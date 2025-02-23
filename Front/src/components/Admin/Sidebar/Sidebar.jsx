@@ -42,7 +42,7 @@ function Sidebar() {
       </div>
       <div className="footer">
         <SidebarItem name="Sair" icon={FiLogOut} path="/" />
-        <SidebarItem name="" icon={IoCogSharp} path="/settings" />
+        <SidebarItem name="" icon={IoCogSharp} path="/admin/settings" />
       </div>
     </div>
   );

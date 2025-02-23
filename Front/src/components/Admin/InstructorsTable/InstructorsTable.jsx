@@ -148,9 +148,9 @@ export default function InstructorsTable({ instructors, onPlanDeleted, setSelect
                   >
                     <FaPenToSquare />
                   </button>
-                  <button className="btn delete" onClick={() => confirmDelete(instructor.id)}>
+                  {/* <button className="btn delete" onClick={() => confirmDelete(instructor.id)}>
                     <MdOutlineDelete />
-                  </button>
+                  </button> */}
                 </td>
               </tr>
             ))
