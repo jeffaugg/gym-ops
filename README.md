@@ -86,6 +86,434 @@ Siga as instruções abaixo para rodar a aplicação localmente.
    docker compose up
    ```
 
+## Estrutura de pastas
+### Back-End
+```
+src
+├── modules
+│   ├── alunos
+│   │   ├── controller
+│   │   │   └── AlunoController.ts
+│   │   ├── dto
+│   │   │   └── AlunoSchema.ts
+│   │   ├── repository
+│   │   │   └── AlunoRepository.ts
+│   │   ├── service
+│   │   │   └── AlunoService.ts
+│   │   └── models
+│   │       └── Aluno.ts
+│   ├── avaliacoes
+│   │   ├── controller
+│   │   │   └── AvaliacaoController.ts
+│   │   ├── dto
+│   │   │   └── AvaliacaoSchema.ts
+│   │   ├── repository
+│   │   │   └── AvaliacoesRepository.ts
+│   │   ├── service
+│   │   │   └── AvaliacoesService.ts
+│   │   └── models
+│   │       └── Avaliacao.ts
+│   ├── cargoHoraria
+│   │   ├── controller
+│   │   │   └── CargoHorariaController.ts
+│   │   ├── dto
+│   │   │   └── CargoHorariaSchema.ts
+│   │   ├── repository
+│   │   │   └── CargoHorariaRepository.ts
+│   │   ├── service
+│   │   │   └── CargoHorariaService.ts
+│   │   └── models
+│   │       └── CargoHoraria.ts
+│   ├── exercicios
+│   │   ├── controller
+│   │   │   └── ExercicioController.ts
+│   │   ├── dto
+│   │   │   └── ExercicioSchema.ts
+│   │   ├── repository
+│   │   │   └── ExercicioRepository.ts
+│   │   ├── service
+│   │   │   └── ExercicioService.ts
+│   │   └── models
+│   │       └── Exercicio.ts
+│   ├── mensagens
+│   │   ├── controller
+│   │   │   └── MensagemController.ts
+│   │   ├── dto
+│   │   │   └── MensagemSchema.ts
+│   │   ├── repository
+│   │   │   └── MensagemRepository.ts
+│   │   ├── service
+│   │   │   └── MensagemService.ts
+│   │   └── models
+│   │       └── Mensagem.ts
+│   ├── pagamentos
+│   │   ├── controller
+│   │   │   └── PagamentoController.ts
+│   │   ├── dto
+│   │   │   └── PagamentoSchema.ts
+│   │   ├── repository
+│   │   │   └── PagamentoRepository.ts
+│   │   ├── service
+│   │   │   └── PagamentoService.ts
+│   │   └── models
+│   │       └── Pagamento.ts
+│   ├── planos
+│   │   ├── controller
+│   │   │   └── PlanoController.ts
+│   │   ├── dto
+│   │   │   └── PlanoSchema.ts
+│   │   ├── repository
+│   │   │   └── PlanoRepository.ts
+│   │   ├── service
+│   │   │   └── PlanoService.ts
+│   │   └── models
+│   │       └── Plano.ts
+│   ├── relatorios
+│   │   ├── controller
+│   │   │   └── RelatorioController.ts
+│   │   ├── dto
+│   │   │   └── RelatorioSchema.ts
+│   │   ├── service
+│   │   │   └── RelatorioService.ts
+│   ├── treinos
+│   │   ├── controller
+│   │   │   └── TreinoController.ts
+│   │   ├── dto
+│   │   │   └── TreinoSchema.ts
+│   │   ├── repository
+│   │   │   └── TreinoRepository.ts
+│   │   ├── service
+│   │   │   └── TreinoService.ts
+│   │   └── models
+│   │       └── Treino.ts
+│   ├── user
+│   │   ├── controller
+│   │   │   └── UserController.ts
+│   │   ├── dto
+│   │   │   └── UserSchema.ts
+│   │   ├── repository
+│   │   │   └── UserRepository.ts
+│   │   ├── service
+│   │   │   └── UserService.ts
+│   │   └── models
+│   │       └── User.ts
+├── shared
+│   ├── container
+│   │   └── index.ts
+│   ├── errors
+│   │   └── AppError.ts
+│   ├── helpers
+│   │   └── PaginationHelper.ts
+│   ├── infra
+│   │   ├── http
+│   │   │   ├── app.ts
+│   │   │   ├── server.ts
+│   │   │   └── routes
+│   │   │       └── index.ts
+│   │   ├── config
+│   │   │   ├── auth.ts
+│   │   │   ├── database.ts
+│   │   │   ├── redis.ts
+│   │   │   └── swagger.json
+│   │   ├── middleware
+│   │   │   └── isAuth.ts
+│   │   └── queues
+│   │       └── mailQueue.ts
+```
+### Front-End
+```
+src
+│   api.js
+│   App.css
+│   App.jsx
+│   estrutura.txt
+│   index.css
+│   main.jsx
+│   
+├───assets
+│   └───images
+│           logo.png
+│           logo2.png
+│           
+├───components
+│   ├───Admin
+│   │   ├───ExercisesForm
+│   │   │       ExercisesForm.css
+│   │   │       ExercisesForm.jsx
+│   │   │       
+│   │   ├───ExercisesTable
+│   │   │       ExercisesTable.css
+│   │   │       ExercisesTable.jsx
+│   │   │       
+│   │   ├───Home
+│   │   │   ├───ChartComponent
+│   │   │   │       BarChart.jsx
+│   │   │   │       ChartComponent.jsx
+│   │   │   │       
+│   │   │   ├───Dashboard
+│   │   │   │       Dashboard.css
+│   │   │   │       Dashboard.jsx
+│   │   │   │       DashboardCard.jsx
+│   │   │   │       
+│   │   │   └───TopFrequentUsers
+│   │   │           TopFrequentUsers.css
+│   │   │           TopFrequentUsers.jsx
+│   │   │           
+│   │   ├───InstructorsForm
+│   │   │       InstructorsForm.css
+│   │   │       InstructorsForm.jsx
+│   │   │       
+│   │   ├───InstructorsTable
+│   │   │       InstructorsTable.css
+│   │   │       InstructorsTable.jsx
+│   │   │       
+│   │   ├───LayoutPages
+│   │   │       Layout.css
+│   │   │       Layout.jsx
+│   │   │       
+│   │   ├───PayForm
+│   │   │       PayForm.css
+│   │   │       PayForm.jsx
+│   │   │       
+│   │   ├───PaymentsTable
+│   │   │       PaymentsTable.css
+│   │   │       PaymentsTable.jsx
+│   │   │       
+│   │   ├───PlansForm
+│   │   │       PlansForm.css
+│   │   │       PlansForm.jsx
+│   │   │       
+│   │   ├───PlansTable
+│   │   │       PlansTable.css
+│   │   │       PlansTable.jsx
+│   │   │       
+│   │   ├───SettingsForm
+│   │   │       SettingsForm.css
+│   │   │       SettingsForm.jsx
+│   │   │       
+│   │   ├───Sidebar
+│   │   │       Sidebar.css
+│   │   │       Sidebar.jsx
+│   │   │       SidebarItem.jsx
+│   │   │       
+│   │   ├───StudentsForm
+│   │   │       StudentsForm.css
+│   │   │       StudentsForm.jsx
+│   │   │       
+│   │   ├───StudentsTable
+│   │   │       StudentsTable.css
+│   │   │       StudentsTable.jsx
+│   │   │       
+│   │   ├───WarningForm
+│   │   │       WarningForm.css
+│   │   │       WarningForm.jsx
+│   │   │       
+│   │   └───WarningTable
+│   │           WarningTable.css
+│   │           WarningTable.jsx
+│   │           
+│   ├───AssociateExerciseForm
+│   │       AssociateExerciseForm.css
+│   │       AssociateExerciseForm.jsx
+│   │       
+│   ├───Button
+│   │       Button.css
+│   │       Button.jsx
+│   │       
+│   ├───ButtonCancel
+│   │       ButtonCancel.css
+│   │       ButtonCancel.jsx
+│   │       
+│   ├───ButtonSend
+│   │       ButtonSend.css
+│   │       ButtonSend.jsx
+│   │       
+│   ├───FilterBar
+│   │       FilterBar.css
+│   │       FilterBar.jsx
+│   │       
+│   ├───Icon
+│   │       Icon.css
+│   │       Icon.jsx
+│   │       
+│   ├───InputField
+│   │       InputField.css
+│   │       InputField.jsx
+│   │       
+│   ├───InputFieldForm
+│   │       InputFieldForm.css
+│   │       InputFieldForm.jsx
+│   │       
+│   ├───Instructor
+│   │   ├───Home
+│   │   │   ├───Dashboard
+│   │   │   │       Dashboard.css
+│   │   │   │       Dashboard.jsx
+│   │   │   │       DashboardCard.jsx
+│   │   │   │       
+│   │   │   └───TopFrequentUsers
+│   │   │           TopFrequentUsers.css
+│   │   │           TopFrequentUsers.jsx
+│   │   │           
+│   │   ├───LayoutPages
+│   │   │       Layout.css
+│   │   │       Layout.jsx
+│   │   │       
+│   │   ├───PhysicalAssessmentForm
+│   │   │       PhysicalAssessmentForm.css
+│   │   │       PhysicalAssessmentForm.jsx
+│   │   │       
+│   │   ├───PhysicalAssessmentTable
+│   │   │       PhysicalAssessmentTable.css
+│   │   │       PhysicalAssessmentTable.jsx
+│   │   │       
+│   │   ├───SettingsForm
+│   │   │       SettingsForm.css
+│   │   │       SettingsForm.jsx
+│   │   │       
+│   │   ├───Sidebar
+│   │   │       Sidebar.css
+│   │   │       Sidebar.jsx
+│   │   │       SidebarItem.jsx
+│   │   │       
+│   │   ├───StudentDetails
+│   │   │       StudentDetails.css
+│   │   │       StudentDetails.jsx
+│   │   │       
+│   │   └───StudentsTable
+│   │           StudentsTable.css
+│   │           StudentsTable.jsx
+│   │           
+│   ├───LoginForm
+│   │       LoginForm.css
+│   │       LoginForm.jsx
+│   │       
+│   ├───Modal
+│   │   ├───ConfirmationModal
+│   │   │       ConfirmationModal.css
+│   │   │       ConfirmationModal.jsx
+│   │   └───Modal.css
+│   │       Modal.jsx
+│   │   
+│   ├───Pagination
+│   │       Pagination.css
+│   │       Pagination.jsx
+│   │       
+│   ├───PhotoUpload
+│   │       PhotoUpload.css
+│   │       PhotoUpload.jsx
+│   │       
+│   ├───PresenceForm
+│   │       PresenceForm.css
+│   │       PresenceForm.jsx
+│   │       
+│   ├───PresenceTable
+│   │       PresenceTable.css
+│   │       PresenceTable.jsx
+│   │       
+│   ├───ProtectedRoute
+│   │       ProtectedRoute.jsx
+│   │       
+│   ├───SignupForm
+│   │       SignupForm.css
+│   │       SignupForm.jsx
+│   │       
+│   ├───Topbar
+│   │       Topbar.css
+│   │       Topbar.jsx
+│   │       
+│   ├───TrainingsForm
+│   │       TrainingsForm.css
+│   │       TrainingsForm.jsx
+│   │       
+│   ├───TrainingsTable
+│   │       TrainingsTable.css
+│   │       TrainingsTable.jsx
+│   │       
+│   ├───UserProfile
+│   │       UserProfile.css
+│   │       UserProfile.jsx
+│   │       
+│   ├───WorkoutEditForm
+│   │       WorkoutEditForm.css
+│   │       WorkoutEditForm.jsx
+│   │       
+│   ├───WorkoutForm
+│   │       WorkoutForm.css
+│   │       WorkoutForm.jsx
+│   │       
+│   └───WorkoutTable
+│           WorkoutTable.css
+│           WorkoutTable.jsx
+│           
+└───pages
+    ├───Admin
+    │   ├───Exercises
+    │   │       AdminExercises.css
+    │   │       AdminExercises.jsx
+    │   │       
+    │   ├───Home
+    │   │       AdminHome.css
+    │   │       AdminHome.jsx
+    │   │       
+    │   ├───Instructors
+    │   │       AdminInstructors.css
+    │   │       AdminInstructors.jsx
+    │   │       
+    │   ├───Payments
+    │   │       AdminPayments.css
+    │   │       AdminPayments.jsx
+    │   │       
+    │   ├───Plans
+    │   │       AdminPlans.css
+    │   │       AdminPlans.jsx
+    │   │       
+    │   ├───Students
+    │   │       Students.css
+    │   │       Students.jsx
+    │   │       
+    │   └───Warnings
+    │           AdminWarnings.css
+    │           AdminWarnings.jsx
+    │           
+    ├───Instructor
+    │   ├───Home
+    │   │       InstructorHome.css
+    │   │       InstructorHome.jsx
+    │   │       
+    │   ├───PhysicalAssessment
+    │   │       PhysicalAssessment.css
+    │   │       PhysicalAssessment.jsx
+    │   │       
+    │   ├───Students
+    │   │       Students.css
+    │   │       Students.jsx
+    │   │       
+    │   └───TrainingPage
+    │           TrainingPage.css
+    │           TrainingPage.jsx
+    │           
+    ├───LoginPage
+    │       LoginPage.css
+    │       LoginPage.jsx
+    │       
+    ├───Presence
+    │       PresencePage.css
+    │       PresencePage.jsx
+    │       
+    ├───Settings
+    │       Settings.css
+    │       Settings.jsx
+    │       
+    ├───SignupPage
+    │       SignupPage.css
+    │       SignupPage.jsx
+    │       
+    └───Workout
+            Workout.css
+            Workout.jsx
+```
+
 ## Licença
 
 Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
