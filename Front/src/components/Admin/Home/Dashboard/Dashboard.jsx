@@ -74,9 +74,9 @@ function Dashboard() {
       <div className="dashboard-header">
 
         
-        <DashboardCard title="Últimos registros" items={recentFrequencyData.map((item) => item.name)} />
-        <DashboardCard title="Últimos alunos" items={recentRecordsData.map((item) => item.name)} />
-        <DashboardCard title="Instrutores ativos" items={instructorsNow.map((item) => item.name)} />
+        <DashboardCard title="Últimos registros" endpoint="recent-frequency" />
+        <DashboardCard title="Últimos alunos" endpoint="recent" />
+        <DashboardCard title="Instrutores ativos" endpoint="now" />
       </div>
 
       <div className="dashboard-stats">
