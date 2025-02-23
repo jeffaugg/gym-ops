@@ -69,8 +69,6 @@ function Dashboard() {
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-
-        
         <DashboardCard title="Últimos registros" items={recentFrequencyData.map((item) => item.name)} />
         <DashboardCard title="Últimos alunos" items={recentRecordsData.map((item) => item.name)} />
       </div>

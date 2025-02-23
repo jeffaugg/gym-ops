@@ -133,6 +133,7 @@ const BarChart = ({ endpoint, label }) => {
         id="week-picker"
         value={selectedWeek}
         onChange={(e) => setSelectedWeek(e.target.value)}
+        style={{ marginLeft: "10px" }}
       />
       <Bar data={chartData} options={options} />
     </div>

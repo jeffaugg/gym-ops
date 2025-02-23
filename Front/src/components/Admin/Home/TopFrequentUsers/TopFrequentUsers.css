@@ -8,7 +8,7 @@
   
   .user-cards {
     display: flex;
-    justify-content: pace-evenly;
+    justify-content: space-evenly;
     margin-top: 10px;
   }
   

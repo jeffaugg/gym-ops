@@ -121,13 +121,15 @@ const ChartComponent = ({ title, endpoint, label }) => {
         type="date"
         value={startDate}
         onChange={(e) => setStartDate(e.target.value)}
+        style={{ marginLeft: "10px" }}
       />
-
+      <br />
       <label>Data de Fim:</label>
       <input
         type="date"
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
+        style={{ marginLeft: "10px" }}
       />
 
       {/* 🔹 Gráfico */}
