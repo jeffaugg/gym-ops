@@ -259,4 +259,77 @@ export async function seed(knex: Knex): Promise<void> {
     FROM dias d
     CROSS JOIN horarios h;
    `);
+
+  await knex.raw(`
+    INSERT INTO presenca (aluno_id, data) VALUES
+      -- Presenças para o aluno 1
+      (1, NOW() - INTERVAL '10 days'),
+      (1, NOW() - INTERVAL '8 days'),
+      (1, NOW() - INTERVAL '6 days'),
+      (1, NOW() - INTERVAL '4 days'),
+      (1, NOW() - INTERVAL '2 days'),
+      
+      -- Presenças para o aluno 2
+      (2, NOW() - INTERVAL '11 days'),
+      (2, NOW() - INTERVAL '9 days'),
+      (2, NOW() - INTERVAL '7 days'),
+      (2, NOW() - INTERVAL '5 days'),
+      (2, NOW() - INTERVAL '3 days'),
+      
+      -- Presenças para o aluno 3
+      (3, NOW() - INTERVAL '12 days'),
+      (3, NOW() - INTERVAL '10 days'),
+      (3, NOW() - INTERVAL '8 days'),
+      (3, NOW() - INTERVAL '6 days'),
+      (3, NOW() - INTERVAL '4 days'),
+      
+      -- Presenças para o aluno 4
+      (4, NOW() - INTERVAL '13 days'),
+      (4, NOW() - INTERVAL '11 days'),
+      (4, NOW() - INTERVAL '9 days'),
+      (4, NOW() - INTERVAL '7 days'),
+      (4, NOW() - INTERVAL '5 days'),
+      
+      -- Presenças para o aluno 5
+      (5, NOW() - INTERVAL '14 days'),
+      (5, NOW() - INTERVAL '12 days'),
+      (5, NOW() - INTERVAL '10 days'),
+      (5, NOW() - INTERVAL '8 days'),
+      (5, NOW() - INTERVAL '6 days'),
+      
+      -- Presenças para o aluno 6
+      (6, NOW() - INTERVAL '15 days'),
+      (6, NOW() - INTERVAL '13 days'),
+      (6, NOW() - INTERVAL '11 days'),
+      (6, NOW() - INTERVAL '9 days'),
+      (6, NOW() - INTERVAL '7 days'),
+      
+      -- Presenças para o aluno 7
+      (7, NOW() - INTERVAL '16 days'),
+      (7, NOW() - INTERVAL '14 days'),
+      (7, NOW() - INTERVAL '12 days'),
+      (7, NOW() - INTERVAL '10 days'),
+      (7, NOW() - INTERVAL '8 days'),
+      
+      -- Presenças para o aluno 8
+      (8, NOW() - INTERVAL '17 days'),
+      (8, NOW() - INTERVAL '15 days'),
+      (8, NOW() - INTERVAL '13 days'),
+      (8, NOW() - INTERVAL '11 days'),
+      (8, NOW() - INTERVAL '9 days'),
+      
+      -- Presenças para o aluno 9
+      (9, NOW() - INTERVAL '18 days'),
+      (9, NOW() - INTERVAL '16 days'),
+      (9, NOW() - INTERVAL '14 days'),
+      (9, NOW() - INTERVAL '12 days'),
+      (9, NOW() - INTERVAL '10 days'),
+      
+      -- Presenças para o aluno 10
+      (10, NOW() - INTERVAL '19 days'),
+      (10, NOW() - INTERVAL '17 days'),
+      (10, NOW() - INTERVAL '15 days'),
+      (10, NOW() - INTERVAL '13 days'),
+      (10, NOW() - INTERVAL '11 days')
+  `);
 }
