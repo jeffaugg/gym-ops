@@ -33,7 +33,8 @@ services:
     image: gym-ops-app
     volumes:
       - ./Back:/usr/app 
-      - /usr/app/node_modules  
+      - /usr/app/node_modules
+      - /usr/app/dist
     networks:
       - gym-ops_network
     environment:
@@ -46,7 +47,7 @@ services:
     depends_on:
       - bd
       - redis
-    command: npm run start:dev  
+    command: npm run start  
     ports:
       - "3001:3000"
 
