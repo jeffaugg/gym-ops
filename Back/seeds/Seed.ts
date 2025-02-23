@@ -47,80 +47,91 @@ export async function seed(knex: Knex): Promise<void> {
   INSERT INTO pagamentos (id_aluno, id_plano, status, payment, payment_date, expiration_date, user_id)
   VALUES 
       -- João Silva (6 pagamentos)
-      (1, 1, true, 'Cartão', NOW() - INTERVAL '180 days', NOW() - INTERVAL '150 days', 1),
+      (1, 1, true, 'CARD', NOW() - INTERVAL '180 days', NOW() - INTERVAL '150 days', 1),
       (1, 1, true, 'PIX', NOW() - INTERVAL '150 days', NOW() - INTERVAL '120 days', 1),
-      (1, 1, true, 'Boleto', NOW() - INTERVAL '120 days', NOW() - INTERVAL '90 days', 1),
-      (1, 1, false, 'PIX', NOW() - INTERVAL '90 days', NOW() - INTERVAL '60 days', 1),
-      (1, 1, true, 'Cartão', NOW() - INTERVAL '60 days', NOW() - INTERVAL '30 days', 1),
-      (1, 1, false, 'Boleto', NOW() - INTERVAL '30 days', NOW(), 1),
+      (1, 1, true, 'BANK_SLIP', NOW() - INTERVAL '120 days', NOW() - INTERVAL '90 days', 1),
+      (1, 1, true, 'PIX', NOW() - INTERVAL '90 days', NOW() - INTERVAL '60 days', 1),
+      (1, 1, true, 'CARD', NOW() - INTERVAL '60 days', NOW() - INTERVAL '30 days', 1),
+      (1, 1, true, 'BANK_SLIP', NOW() - INTERVAL '20 days', NOW(), 1),
 
       -- Maria Oliveira (5 pagamentos)
-      (2, 2, true, 'Boleto', NOW() - INTERVAL '160 days', NOW() - INTERVAL '130 days', 1),
+      (2, 2, true, 'BANK_SLIP', NOW() - INTERVAL '160 days', NOW() - INTERVAL '130 days', 1),
       (2, 2, true, 'PIX', NOW() - INTERVAL '130 days', NOW() - INTERVAL '100 days', 1),
-      (2, 2, false, 'Cartão', NOW() - INTERVAL '100 days', NOW() - INTERVAL '70 days', 1),
+      (2, 2, true, 'CARD', NOW() - INTERVAL '100 days', NOW() - INTERVAL '70 days', 1),
       (2, 2, true, 'PIX', NOW() - INTERVAL '70 days', NOW() - INTERVAL '40 days', 1),
-      (2, 2, false, 'Boleto', NOW() - INTERVAL '40 days', NOW(), 1),
+      (2, 2, true, 'BANK_SLIP', NOW() - INTERVAL '25 days', NOW(), 1),
 
       -- Carlos Santos (4 pagamentos)
-      (3, 3, true, 'Cartão', NOW() - INTERVAL '140 days', NOW() - INTERVAL '110 days', 1),
-      (3, 3, false, 'PIX', NOW() - INTERVAL '110 days', NOW() - INTERVAL '80 days', 1),
-      (3, 3, true, 'Boleto', NOW() - INTERVAL '80 days', NOW() - INTERVAL '50 days', 1),
-      (3, 3, false, 'Cartão', NOW() - INTERVAL '50 days', NOW(), 1),
+      (3, 3, true, 'CARD', NOW() - INTERVAL '140 days', NOW() - INTERVAL '110 days', 1),
+      (3, 3, true, 'PIX', NOW() - INTERVAL '110 days', NOW() - INTERVAL '80 days', 1),
+      (3, 3, true, 'BANK_SLIP', NOW() - INTERVAL '80 days', NOW() - INTERVAL '50 days', 1),
+      (3, 3, true, 'CARD', NOW() - INTERVAL '30 days', NOW(), 1),
 
       -- Ana Costa (6 pagamentos)
       (4, 1, true, 'PIX', NOW() - INTERVAL '200 days', NOW() - INTERVAL '170 days', 1),
-      (4, 1, true, 'Cartão', NOW() - INTERVAL '170 days', NOW() - INTERVAL '140 days', 1),
-      (4, 1, true, 'Boleto', NOW() - INTERVAL '140 days', NOW() - INTERVAL '110 days', 1),
-      (4, 1, false, 'PIX', NOW() - INTERVAL '110 days', NOW() - INTERVAL '80 days', 1),
-      (4, 1, true, 'Cartão', NOW() - INTERVAL '80 days', NOW() - INTERVAL '50 days', 1),
-      (4, 1, false, 'Boleto', NOW() - INTERVAL '50 days', NOW(), 1),
+      (4, 1, true, 'CARD', NOW() - INTERVAL '170 days', NOW() - INTERVAL '140 days', 1),
+      (4, 1, true, 'BANK_SLIP', NOW() - INTERVAL '140 days', NOW() - INTERVAL '110 days', 1),
+      (4, 1, true, 'PIX', NOW() - INTERVAL '110 days', NOW() - INTERVAL '80 days', 1),
+      (4, 1, true, 'CARD', NOW() - INTERVAL '80 days', NOW() - INTERVAL '50 days', 1),
+      (4, 1, true, 'BANK_SLIP', NOW() - INTERVAL '22 days', NOW(), 1),
 
       -- Lucas Pereira (5 pagamentos)
-      (5, 2, true, 'Boleto', NOW() - INTERVAL '180 days', NOW() - INTERVAL '150 days', 1),
-      (5, 2, true, 'Cartão', NOW() - INTERVAL '150 days', NOW() - INTERVAL '120 days', 1),
-      (5, 2, false, 'PIX', NOW() - INTERVAL '120 days', NOW() - INTERVAL '90 days', 1),
-      (5, 2, true, 'Cartão', NOW() - INTERVAL '90 days', NOW() - INTERVAL '60 days', 1),
-      (5, 2, false, 'Boleto', NOW() - INTERVAL '60 days', NOW(), 1),
+      (5, 2, true, 'BANK_SLIP', NOW() - INTERVAL '180 days', NOW() - INTERVAL '150 days', 1),
+      (5, 2, true, 'CARD', NOW() - INTERVAL '150 days', NOW() - INTERVAL '120 days', 1),
+      (5, 2, true, 'PIX', NOW() - INTERVAL '120 days', NOW() - INTERVAL '90 days', 1),
+      (5, 2, true, 'CARD', NOW() - INTERVAL '90 days', NOW() - INTERVAL '60 days', 1),
+      (5, 2, true, 'BANK_SLIP', NOW() - INTERVAL '25 days', NOW(), 1),
 
       -- Juliana Lima (4 pagamentos)
       (6, 3, true, 'PIX', NOW() - INTERVAL '160 days', NOW() - INTERVAL '130 days', 1),
-      (6, 3, false, 'Cartão', NOW() - INTERVAL '130 days', NOW() - INTERVAL '100 days', 1),
-      (6, 3, true, 'Boleto', NOW() - INTERVAL '100 days', NOW() - INTERVAL '70 days', 1),
-      (6, 3, false, 'PIX', NOW() - INTERVAL '70 days', NOW(), 1),
+      (6, 3, true, 'CARD', NOW() - INTERVAL '130 days', NOW() - INTERVAL '100 days', 1),
+      (6, 3, true, 'BANK_SLIP', NOW() - INTERVAL '100 days', NOW() - INTERVAL '70 days', 1),
+      (6, 3, true, 'PIX', NOW() - INTERVAL '23 days', NOW(), 1),
 
       -- Gabriel Almeida (6 pagamentos)
-      (7, 4, true, 'Cartão', NOW() - INTERVAL '220 days', NOW() - INTERVAL '190 days', 1),
+      (7, 4, true, 'CARD', NOW() - INTERVAL '220 days', NOW() - INTERVAL '190 days', 1),
       (7, 4, true, 'PIX', NOW() - INTERVAL '190 days', NOW() - INTERVAL '160 days', 1),
-      (7, 4, false, 'Boleto', NOW() - INTERVAL '160 days', NOW() - INTERVAL '130 days', 1),
-      (7, 4, true, 'Cartão', NOW() - INTERVAL '130 days', NOW() - INTERVAL '100 days', 1),
+      (7, 4, true, 'BANK_SLIP', NOW() - INTERVAL '160 days', NOW() - INTERVAL '130 days', 1),
+      (7, 4, true, 'CARD', NOW() - INTERVAL '130 days', NOW() - INTERVAL '100 days', 1),
       (7, 4, true, 'PIX', NOW() - INTERVAL '100 days', NOW() - INTERVAL '70 days', 1),
-      (7, 4, false, 'Boleto', NOW() - INTERVAL '70 days', NOW(), 1),
+      (7, 4, true, 'BANK_SLIP', NOW() - INTERVAL '25 days', NOW(), 1),
 
       -- Fernanda Rocha (4 pagamentos)
-      (8, 5, true, 'Cartão', NOW() - INTERVAL '140 days', NOW() - INTERVAL '110 days', 1),
-      (8, 5, false, 'PIX', NOW() - INTERVAL '110 days', NOW() - INTERVAL '80 days', 1),
-      (8, 5, true, 'Boleto', NOW() - INTERVAL '80 days', NOW() - INTERVAL '50 days', 1),
-      (8, 5, false, 'Cartão', NOW() - INTERVAL '50 days', NOW(), 1),
+      (8, 5, true, 'CARD', NOW() - INTERVAL '140 days', NOW() - INTERVAL '110 days', 1),
+      (8, 5, true, 'PIX', NOW() - INTERVAL '110 days', NOW() - INTERVAL '80 days', 1),
+      (8, 5, true, 'BANK_SLIP', NOW() - INTERVAL '80 days', NOW() - INTERVAL '50 days', 1),
+      (8, 5, true, 'CARD', NOW() - INTERVAL '20 days', NOW(), 1),
 
       -- Rafael Martins (5 pagamentos)
-      (9, 1, true, 'Boleto', NOW() - INTERVAL '180 days', NOW() - INTERVAL '150 days', 1),
+      (9, 1, true, 'BANK_SLIP', NOW() - INTERVAL '180 days', NOW() - INTERVAL '150 days', 1),
       (9, 1, true, 'PIX', NOW() - INTERVAL '150 days', NOW() - INTERVAL '120 days', 1),
-      (9, 1, false, 'Cartão', NOW() - INTERVAL '120 days', NOW() - INTERVAL '90 days', 1),
+      (9, 1, true, 'CARD', NOW() - INTERVAL '120 days', NOW() - INTERVAL '90 days', 1),
       (9, 1, true, 'PIX', NOW() - INTERVAL '90 days', NOW() - INTERVAL '60 days', 1),
-      (9, 1, false, 'Boleto', NOW() - INTERVAL '60 days', NOW(), 1),
+      (9, 1, true, 'BANK_SLIP', NOW() - INTERVAL '20 days', NOW(), 1),
 
       -- Camila Mendes (6 pagamentos)
-      (10, 2, true, 'Cartão', NOW() - INTERVAL '200 days', NOW() - INTERVAL '170 days', 1),
+      (10, 2, true, 'CARD', NOW() - INTERVAL '200 days', NOW() - INTERVAL '170 days', 1),
       (10, 2, true, 'PIX', NOW() - INTERVAL '170 days', NOW() - INTERVAL '140 days', 1),
-      (10, 2, true, 'Boleto', NOW() - INTERVAL '140 days', NOW() - INTERVAL '110 days', 1),
-      (10, 2, false, 'PIX', NOW() - INTERVAL '110 days', NOW() - INTERVAL '80 days', 1),
-      (10, 2, true, 'Cartão', NOW() - INTERVAL '80 days', NOW() - INTERVAL '50 days', 1),
-      (10, 2, false, 'Boleto', NOW() - INTERVAL '50 days', NOW(), 1)
+      (10, 2, true, 'BANK_SLIP', NOW() - INTERVAL '140 days', NOW() - INTERVAL '110 days', 1),
+      (10, 2, true, 'PIX', NOW() - INTERVAL '110 days', NOW() - INTERVAL '80 days', 1),
+      (10, 2, true, 'CARD', NOW() - INTERVAL '80 days', NOW() - INTERVAL '50 days', 1),
+      (10, 2, true, 'BANK_SLIP', NOW() - INTERVAL '15 days', NOW(), 1)
   `);
 
   await knex.raw(`
-        INSERT INTO users (name, email, tel, password, role, cpf, cref, gender, date_of_birth, status)
-        VALUES ('Instrutor Exemplo', 'instrutor@example.com', '(85) 98765-4321', '$2a$08$WZlEgWruejhXwD5O85GEHe4UIKX7sranqGcJsGusR2GbvNvAHpsSO', 'USER', '123.456.789-01', 'CREF123456', 'M', '1980-01-01', true);`);
+        INSERT INTO users (name, email, tel, password, role, cpf, adm_id, cref, gender, date_of_birth, status)
+        VALUES (
+        'Instrutor Exemplo', 
+        'instrutor@example.com', 
+        '(85) 98765-4321',
+        '$2a$08$WZlEgWruejhXwD5O85GEHe4UIKX7sranqGcJsGusR2GbvNvAHpsSO', 
+        'USER', 
+        '123.456.789-01',
+        1, 
+        'CREF123456', 
+        'M', 
+        '1980-01-01', 
+        true);`);
 
   await knex.raw(`
   INSERT INTO avaliacoes (aluno_id, instructor_id, "date", height, weight, fat_mass, lean_mass, left_arm_relaxed, right_arm_relaxed, left_arm_contracted, right_arm_contracted, left_thigh, right_thigh, left_calf, right_calf, chest, abdomen, waist, hip)
@@ -174,24 +185,24 @@ export async function seed(knex: Knex): Promise<void> {
   await knex.raw(`
       INSERT INTO exercicios (name, muscles, adm_id)
       VALUES
-          ('Agachamento Livre', 'Quadríceps, Glúteos, Lombar', 2),
-          ('Supino Reto', 'Peitorais, Tríceps, Deltoides Anteriores', 2),
-          ('Levantamento Terra', 'Dorsais, Glúteos, Isquiotibiais, Lombar', 2),
-          ('Remada Curvada', 'Dorsais, Trapézio, Bíceps', 2),
-          ('Desenvolvimento com Halteres', 'Deltoides, Tríceps', 2),
-          ('Rosca Direta', 'Bíceps', 2),
-          ('Tríceps Testa', 'Tríceps', 2),
-          ('Elevação Lateral', 'Deltoides Laterais', 2),
-          ('Cadeira Extensora', 'Quadríceps', 2),
-          ('Mesa Flexora', 'Isquiotibiais', 2);
+          ('Agachamento Livre', 'Quadríceps, Glúteos, Lombar', 1),
+          ('Supino Reto', 'Peitorais, Tríceps, Deltoides Anteriores', 1),
+          ('Levantamento Terra', 'Dorsais, Glúteos, Isquiotibiais, Lombar', 1),
+          ('Remada Curvada', 'Dorsais, Trapézio, Bíceps', 1),
+          ('Desenvolvimento com Halteres', 'Deltoides, Tríceps', 1),
+          ('Rosca Direta', 'Bíceps', 1),
+          ('Tríceps Testa', 'Tríceps', 1),
+          ('Elevação Lateral', 'Deltoides Laterais', 1),
+          ('Cadeira Extensora', 'Quadríceps', 1),
+          ('Mesa Flexora', 'Isquiotibiais', 1);
     `);
 
   await knex.raw(`
       INSERT INTO treinos (name, notes, adm_id)
       VALUES
-          ('Treino A - Peito e Tríceps', 'Foco em exercícios para peitorais e tríceps.', 2),
-          ('Treino B - Costas e Bíceps', 'Foco em exercícios para dorsais e bíceps.', 2),
-          ('Treino C - Pernas e Ombros', 'Foco em exercícios para membros inferiores e ombros.', 2);
+          ('Treino A - Peito e Tríceps', 'Foco em exercícios para peitorais e tríceps.', 1),
+          ('Treino B - Costas e Bíceps', 'Foco em exercícios para dorsais e bíceps.', 1),
+          ('Treino C - Pernas e Ombros', 'Foco em exercícios para membros inferiores e ombros.', 1);
       `);
 
   await knex.raw(`
