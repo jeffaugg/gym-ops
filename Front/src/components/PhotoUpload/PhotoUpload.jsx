@@ -15,21 +15,29 @@ const PhotoUpload = ({ onUpload, existingPhotos = [], onStatusChange }) => {
   const handleFileChange = async (event) => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
-
+  
     if (onStatusChange) onStatusChange(true); // Inicia upload
     setLoading(true);
     const newPreviews = [];
-
+  
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const formData = new FormData();
       formData.append("file", file);
-
+  
       try {
         const response = await api.post("/upload/reviews", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        const { driveLink } = response.data;
+        let { driveLink } = response.data;
+  
+        // Extrai o ID da imagem do link recebido
+        const match = driveLink.match(/\/d\/([^/]+)\//);
+        if (match && match[1]) {
+          const imageId = match[1];
+          driveLink = `https://drive.google.com/thumbnail?id=${imageId}`;
+        }
+  
         newPreviews.push(driveLink);
         toast.success(`Upload da foto "${file.name}" realizado com sucesso!`);
       } catch (error) {
@@ -37,13 +45,13 @@ const PhotoUpload = ({ onUpload, existingPhotos = [], onStatusChange }) => {
         toast.error(`Erro no upload da foto "${file.name}".`);
       }
     }
-
+  
     const updatedPreviews = [...previews, ...newPreviews];
     setPreviews(updatedPreviews);
     onUpload(updatedPreviews);
     setLoading(false);
     if (onStatusChange) onStatusChange(false); // Finaliza upload
-  };
+  };  
 
   const handleRemovePhoto = (index) => {
     const updatedPreviews = previews.filter((_, i) => i !== index);
