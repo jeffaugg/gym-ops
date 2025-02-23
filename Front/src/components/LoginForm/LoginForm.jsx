@@ -103,7 +103,7 @@ function LoginForm() {
           />
           <label htmlFor="remember">Lembre de mim</label>
         </div>
-        <Link to="#" className="forgot-password">Esqueceu a senha?</Link>
+        <a href="https://shelled-poppy-950.notion.site/Esqueceu-sua-senha-1a3589d07baa8085a14ed86b8e65eeff" target="_blank" rel="noopener noreferrer">Esqueceu a senha?</a>
       </div>
 
       <Button type="submit">Entrar</Button>

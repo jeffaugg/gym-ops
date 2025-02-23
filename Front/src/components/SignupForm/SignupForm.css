@@ -16,13 +16,6 @@
     font-size: 0.85rem;
   }
   
-  .accept-terms {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #2C1E5A;
-  }
-  
   .forgot-password {
     text-decoration: none;
     color: #2C1E5A;
@@ -39,3 +32,18 @@
     color: #2C1E5A;
     font-weight: bold;
   }
+
+  
+.accept-terms {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #2C1E5A;
+}
+
+.accept-terms input[type="checkbox"] {
+  width: 20px;    
+  height: 20px;   
+  transform: scale(0.8); 
+  accent-color: #2C1E5A; 
+}
