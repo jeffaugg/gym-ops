@@ -18,13 +18,13 @@ Abaixo estão listados os desenvolvedores (em ordem alfabética) do projeto:
 <table>
   <tr>
     <td align="center">
-      <a href="https://github.com/marcusnogueiraa">
+      <a href="https://github.com/guilhermepereiraborges">
         <img src="https://avatars.githubusercontent.com/guilhermepereiraborges" width="100px;" alt="Guilherme Pereira Borges"/>
         <br /><sub><b>Guilherme Pereira</b></sub>
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/mmiiranda">
+      <a href="https://github.com/jeffaugg">
         <img src="https://avatars.githubusercontent.com/jeffaugg" width="100px;" alt="Jefferson Augusto de Melo Gomes"/>
         <br /><sub><b>Jefferson Augusto</b></sub>
       </a>
@@ -36,7 +36,7 @@ Abaixo estão listados os desenvolvedores (em ordem alfabética) do projeto:
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/sheiely">
+      <a href="https://github.com/WendelRodriguesz">
         <img src="https://avatars.githubusercontent.com/WendelRodriguesz" width="100px;" alt="Wendel Rodrigues"/>
         <br /><sub><b>Wendel Rodrigues</b></sub>
       </a>
