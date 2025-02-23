@@ -26,7 +26,6 @@ export async function seed(knex: Knex): Promise<void> {
           ('Plano Premium', 99.90, 90, 30, 1),
           ('Plano Semestral', 499.90, 180, 20, 1),
           ('Plano Anual', 899.90, 365, 10, 1);
-  ,
 `);
 
   await knex.raw(`
@@ -160,7 +159,7 @@ export async function seed(knex: Knex): Promise<void> {
 
       -- Avaliações para Camila Mendes
       (10, 2, NOW() - INTERVAL '45 days', 168, 63, 20, 50, 29, 29.5, 30, 30.5, 53, 53.5, 34, 34.5, 89, 79, 82, 93),
-      (10, 2, NOW() - INTERVAL '12 days', 168, 62, 19, 50, 29.5, 30, 30.5, 31, 53.5, 54, 34.5, 35, 90, 80, 83, 94)
+      (10, 2, NOW() - INTERVAL '12 days', 168, 62, 19, 50, 29.5, 30, 30.5, 31, 53.5, 54, 34.5, 35, 90, 80, 83, 94);
 
   -- Inserindo Fotos para algumas Avaliações
   INSERT INTO fotos_avaliacoes (avaliacao_id, foto_path, data_upload)
@@ -169,7 +168,7 @@ export async function seed(knex: Knex): Promise<void> {
       (1, 'https://br.freepik.com/fotos-gratis/homem-saudavel-correndo-ao-ar-livre_4105165.htm', NOW() - INTERVAL '60 days'),
 
       -- Fotos para a segunda avaliação de Maria Oliveira
-      (4, 'https://br.freepik.com/fotos-gratis/mulher-fazendo-exercicio-de-alongamento_1234567.htm', NOW() - INTERVAL '15 days')
+      (4, 'https://br.freepik.com/fotos-gratis/mulher-fazendo-exercicio-de-alongamento_1234567.htm', NOW() - INTERVAL '15 days');
   `);
 
   await knex.raw(`
@@ -184,9 +183,10 @@ export async function seed(knex: Knex): Promise<void> {
           ('Tríceps Testa', 'Tríceps', 2),
           ('Elevação Lateral', 'Deltoides Laterais', 2),
           ('Cadeira Extensora', 'Quadríceps', 2),
-          ('Mesa Flexora', 'Isquiotibiais', 2););
+          ('Mesa Flexora', 'Isquiotibiais', 2);
+    `);
 
-await knex.raw(
+  await knex.raw(`
       INSERT INTO treinos (name, notes, adm_id)
       VALUES
           ('Treino A - Peito e Tríceps', 'Foco em exercícios para peitorais e tríceps.', 2),
@@ -217,8 +217,6 @@ await knex.raw(
       (3, 9, 12, 3, 60),  -- Cadeira Extensora
       (3, 10, 12, 3, 60), -- Mesa Flexora
       (3, 8, 12, 3, 60);  -- Elevação Lateral
-
-  ,
 `);
 
   await knex.raw(`
@@ -238,7 +236,7 @@ await knex.raw(
       (2, 3),  
       (3, 1),  
       (4, 2),  
-      (5, 3);,
+      (5, 3);
 `);
 
   await knex.raw(`
@@ -256,9 +254,9 @@ await knex.raw(
   `);
 
   await knex.raw(`
-  INSERT INTO cargo_horaria (dia_id, horario_id, user_id)
-  SELECT d.id AS dia_id, h.id AS horario_id, 2 AS user_id
-  FROM dias d
-  CROSS JOIN horarios h;
-      `);
+    INSERT INTO cargo_horaria (dia_id, horario_id, user_id)
+    SELECT d.id AS dia_id, h.id AS horario_id, 2 AS user_id
+    FROM dias d
+    CROSS JOIN horarios h;
+   `);
 }
