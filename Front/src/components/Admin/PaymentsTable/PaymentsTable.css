@@ -1,6 +1,6 @@
 .payments-list {
     width: 100%;
-    max-width: 800px;
+    max-width: 150%;
     background-color: #77749B;
     padding: 20px;
     border-radius: 8px;
@@ -20,11 +20,17 @@
     text-align: center;
     vertical-align: middle;
     word-wrap: break-word;
+    white-space: normal;
+    overflow-wrap: anywhere;
 }
 
 .payments-list th {
     font-weight: 700;
     color: white;
+}
+.payments-list td {
+    color: white;
+    white-space: nowrap;
 }
 
 .payments-list .btn.edit {

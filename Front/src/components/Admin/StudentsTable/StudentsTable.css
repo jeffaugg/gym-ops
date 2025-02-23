@@ -1,6 +1,6 @@
 .students-list {
   width: 100%;
-  max-width: 800px;
+  max-width: 150%;
   background-color: #77749b;
   padding: 20px;
   border-radius: 8px;
@@ -17,7 +17,7 @@
 .students-list th,
 .students-list td {
   padding: 10px;
-  text-align: left;
+  text-align: center;
   vertical-align: middle;
   word-wrap: break-word;
 }
