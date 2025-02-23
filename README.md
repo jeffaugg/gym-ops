@@ -9,8 +9,11 @@ Este sistema permite a gestão de alunos, treinos, pagamentos e muito mais, tudo
 2. [Funcionalidades](#funcionalidades)  
 3. [Como rodar o projeto](#como-rodar-o-projeto)  
    - [Pré-requisitos](#pré-requisitos)  
-   - [Instalando](#instalando)  
-4. [Licença](#licença)  
+   - [Instalando](#instalando) 
+4. [Estrutura do projeto](#estrutura-do-projeto)
+   - [Back-End](#back-end)
+   - [Front-End](#front-end) 
+5. [Licença](#licença)  
 
 ## Autores
 
@@ -86,7 +89,7 @@ Siga as instruções abaixo para rodar a aplicação localmente.
    docker compose up
    ```
 
-## Estrutura de pastas
+## Estrutura do projeto
 ### Back-End
 ```
 src
