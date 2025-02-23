@@ -120,7 +120,7 @@ export async function seed(knex: Knex): Promise<void> {
 
   await knex.raw(`
         INSERT INTO users (name, email, tel, password, role, cpf, cref, gender, date_of_birth, status)
-        VALUES ('Instrutor Exemplo', 'instrutor@example.com', '(85) 98765-4321', '$2a$08$WZlEgWruejhXwD5O85GEHe4UIKX7sranqGcJsGusR2GbvNvAHpsSO', 'INSTRUCTOR', '123.456.789-01', 'CREF123456', 'M', '1980-01-01', true);`);
+        VALUES ('Instrutor Exemplo', 'instrutor@example.com', '(85) 98765-4321', '$2a$08$WZlEgWruejhXwD5O85GEHe4UIKX7sranqGcJsGusR2GbvNvAHpsSO', 'USER', '123.456.789-01', 'CREF123456', 'M', '1980-01-01', true);`);
 
   await knex.raw(`
   INSERT INTO avaliacoes (aluno_id, instructor_id, "date", height, weight, fat_mass, lean_mass, left_arm_relaxed, right_arm_relaxed, left_arm_contracted, right_arm_contracted, left_thigh, right_thigh, left_calf, right_calf, chest, abdomen, waist, hip)
