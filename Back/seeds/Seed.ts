@@ -8,7 +8,7 @@ export async function seed(knex: Knex): Promise<void> {
             'admin@example.com',
             '(11) 99999-9999',
             '$2a$08$fi2MGcDyvfsLtmdnlk4C6erJ6cQG7fSpIfDxo1WVXcoGbkzdVDfDu',
-            'ADMIN',
+            'ADM',
             '123.456.789-00',
             NULL,
             NULL,
