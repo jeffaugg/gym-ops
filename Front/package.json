@@ -6,7 +6,7 @@
   "homepage": "https://github.com/jeffaugg/gym-ops.git",
   "private": true,
   "type": "module",
-  "main": "main.js",
+  "main": "main.cjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -32,7 +32,7 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
-    "electron": "^33.2.1",
+    "electron": "^33.4.1",
     "electron-builder": "^25.1.8",
     "eslint": "^9.15.0",
     "eslint-plugin-react": "^7.37.2",
@@ -49,7 +49,7 @@
     },
     "files": [
       "dist/**/*",
-      "main.js",
+      "main.cjs",
       "package.json",
       "public/**/*"
     ],
@@ -60,12 +60,17 @@
       }
     ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "icon": "public/icon2.ico",
       "publisherName": "GymOps Team"
     },
     "linux": {
-      "target": ["deb", "AppImage"],
+      "target": [
+        "deb",
+        "AppImage"
+      ],
       "icon": "public/icon2.png",
       "maintainer": "Jeferson Augusto, Wendel Rodrigues, Guilherme Pereira, Sheiely Nascimento",
       "category": "Utility",
