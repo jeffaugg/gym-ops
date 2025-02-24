@@ -2,6 +2,7 @@ import { container, injectable } from "tsyringe";
 import { ExercicioDeTreinoService } from "../service/ExercicioDeTreinosService";
 import { Request, Response } from "express";
 import { ExercicioDeTreinoSchema } from "../dto/ExercicioDeTreinoSchema";
+import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 @injectable()
 export class ExercicioDeTreinoController {
@@ -25,8 +26,13 @@ export class ExercicioDeTreinoController {
     const exercicioDeTreinoService = container.resolve(
       ExercicioDeTreinoService,
     );
+    const { page, limit } = paginationSchema.parse(req.query);
 
-    const exercicios_treinos = await exercicioDeTreinoService.list(adm_id);
+    const exercicios_treinos = await exercicioDeTreinoService.list(
+      adm_id,
+      page,
+      limit,
+    );
     return res.status(200).json(exercicios_treinos);
   }
 
@@ -77,13 +83,15 @@ export class ExercicioDeTreinoController {
 
   async findByTreinoId(req: Request, res: Response): Promise<Response> {
     const { treinoId } = req.params;
-
+    const { page, limit } = paginationSchema.parse(req.query);
     const exercicioDeTreinoService = container.resolve(
       ExercicioDeTreinoService,
     );
 
     const exercicios_de_treino = await exercicioDeTreinoService.findByTreinoId(
       Number(treinoId),
+      page,
+      limit,
     );
     return res.status(200).json(exercicios_de_treino);
   }

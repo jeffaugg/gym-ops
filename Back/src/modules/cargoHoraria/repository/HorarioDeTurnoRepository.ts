@@ -1,9 +1,10 @@
 import { Knex } from "knex";
 import { inject, injectable } from "tsyringe";
 import { HorarioDeTurno } from "../models/HorarioDeTurno";
+import { IHorarioDeTurnoRepository } from "../interface/IHorarioDeTurnoRepository";
 
 @injectable()
-export class HorarioDeTurnoRepository {
+export class HorarioDeTurnoRepository implements IHorarioDeTurnoRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async list(): Promise<HorarioDeTurno[]> {

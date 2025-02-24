@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+linux-unpacked/
+linux-unpacked/**
+builder-debug.yml
+builder-effective-config.yaml
+*.deb
+*.AppImage
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

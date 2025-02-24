@@ -5,7 +5,7 @@ import "./SignupForm.css";
 import Button from "../Button/Button.jsx";
 import InputField from "../InputField/InputField.jsx";
 import api from '../../api.js';
-import { toast } from 'react-toastify'; 
+import { toast } from 'react-toastify';
 
 function SignupForm() {
 
@@ -20,7 +20,7 @@ function SignupForm() {
 
 
   const handleSubmit = async (event) => {
-  event.preventDefault();
+    event.preventDefault();
     if (!acceptTerms) {
       toast.error('Você deve aceitar os termos para continuar.', {
         position: 'top-right',
@@ -29,10 +29,10 @@ function SignupForm() {
     }
 
     try {
-      const response = await api.post('/user/signup', { name, email, password, cpf, tel, role });
+      const response = await api.post('/user/signupadm', { name, email, password, cpf, tel, role });
 
       toast.success('Criação de usuário ADM realizado com sucesso!', {
-        position: 'top-right', 
+        position: 'top-right',
       });
 
       navigate('/');
@@ -50,11 +50,11 @@ function SignupForm() {
       }
 
       if (Array.isArray(errors)) {
-        
+
         errors.forEach((err) => {
           toast.error(err.message, {
             position: 'top-right',
-            autoClose: 5000, 
+            autoClose: 5000,
           });
         });
       } else {
@@ -123,7 +123,9 @@ function SignupForm() {
             checked={acceptTerms}
             onChange={(e) => setAcceptTerms(e.target.checked)}
           />
-          <label htmlFor="accept">Aceito os termos de serviço</label>
+          <label htmlFor="accept">
+            Aceito os <a href="https://shelled-poppy-950.notion.site/TERMO-DE-USO-DO-GYM-OPS-1a3589d07baa8018b891c2d778870e68" target="_blank" rel="noopener noreferrer"><b>termos de serviço</b></a>
+          </label>
         </div>
       </div>
 

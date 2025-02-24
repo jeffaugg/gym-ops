@@ -24,3 +24,17 @@
   align-items: flex-start;
   margin-bottom: 20px;
 }
+
+.btn.add-payment {
+  background-color: #1a1a7d; /* Cor azul escura */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn.add-payment:hover {
+  background-color: #333399; /* Cor de destaque no hover */
+}

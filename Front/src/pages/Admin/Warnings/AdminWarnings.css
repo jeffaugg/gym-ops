@@ -44,11 +44,29 @@
   width: 100%;
   margin-top: 50px;
   margin-left: 90px;
-  text-align: left; 
+  text-align: center; 
 }
 
 .mensagens-header h1 {
   font-size: 24px;
   color: #2c3e50;
   font-weight: bold;
+}
+
+.btn.add-warning {
+  background-color: #1a1a7d;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn.add-warning:hover {
+  background-color: #333399;
+}
+
+.warning-detail{
+  color: #fff;
 }

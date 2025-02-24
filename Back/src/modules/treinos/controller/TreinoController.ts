@@ -3,6 +3,7 @@ import { TreinoService } from "../service/TreinoService";
 import { Request, Response } from "express";
 import { TreinoSchema } from "../dto/TreinoSchema";
 import { z } from "zod";
+import { paginationSchema } from "../../../shared/infra/zod/paginationSchema";
 
 @injectable()
 export class TreinoController {
@@ -18,9 +19,10 @@ export class TreinoController {
 
   async list(req: Request, res: Response): Promise<Response> {
     const adm_id = req.user.adm_id;
+    const { page, limit } = paginationSchema.parse(req.query);
     const treinoService = container.resolve(TreinoService);
 
-    const treino = await treinoService.list(adm_id);
+    const treino = await treinoService.list(adm_id, page, limit);
     return res.status(200).json(treino);
   }
 

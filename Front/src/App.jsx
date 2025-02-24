@@ -1,43 +1,3 @@
-// import './App.css'
-// import React from 'react'
-// import { BrowserRouter, Routes, Route} from "react-router-dom"
-
-// import SignUpPage from './pages/SignupPage/SignupPage'
-// import LoginPage from './pages/LoginPage/LoginPage'
-// import AdminHome from './pages/Admin/Home/AdminHome'
-// import Students from "./pages/Students/Students"
-// import AdminWarnings from "./pages/Admin/Warnings/AdminWarnings";
-// import AdminPlans from "./pages/Admin/Plans/AdminPlans";
-// import AdminPayments from "./pages/Admin/Payments/AdminPayments";
-// import AdminInstructors from "./pages/Admin/Instructors/AdminInstructors";
-// import Settings from "./pages/Settings/Settings";
-
-// function App() {
-
-//   return (
-//     <>
-//       <div>
-//         <BrowserRouter>
-//           <Routes>
-//             <Route path="/" element={<LoginPage />} />
-//             <Route path="/signup" element={<SignUpPage />} />
-//             <Route path="/adminhome" element={<AdminHome />} />
-//             <Route path="/students" element={<Students />} />
-//             <Route path="/adminwarnings" element={<AdminWarnings />} />
-//             <Route path="/adminplans" element={<AdminPlans />} />
-//             <Route path="/adminpayments" element={<AdminPayments />} />
-//             <Route path="/admininstructors" element={<AdminInstructors />} />
-//             <Route path="/settings" element={<Settings />} />
-//           </Routes>
-//         </BrowserRouter>
-        
-//       </div>
-//     </>
-//   )
-// }
-
-// export default App
-
 import './App.css';
 import React from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -45,16 +5,21 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUpPage from './pages/SignupPage/SignupPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import AdminHome from './pages/Admin/Home/AdminHome';
-import Students from "./pages/Students/Students";
+import AdminStudents from "./pages/Admin/Students/Students";
 import AdminWarnings from "./pages/Admin/Warnings/AdminWarnings";
 import AdminPlans from "./pages/Admin/Plans/AdminPlans";
 import AdminPayments from "./pages/Admin/Payments/AdminPayments";
 import AdminInstructors from "./pages/Admin/Instructors/AdminInstructors";
 import Settings from "./pages/Settings/Settings";
 import InstructorHome from './pages/Instructor/Home/InstructorHome';
+import InstructorStudents from "./pages/Instructor/Students/Students";
 import PhysicalAssessment from './pages/Instructor/PhysicalAssessment/PhysicalAssessment';
+import PresencePage from "./pages/Presence/PresencePage"
 
-import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"; // Importa o ProtectedRoute
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import AdminExercises from './pages/Admin/Exercises/AdminExercises';
+import Workout from './pages/Workout/Workout';
+import TrainingPage from './pages/Instructor/TrainingPage/TrainingPage';
 
 function App() {
   return (
@@ -65,67 +30,125 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
 
         {/* Rotas protegidas */}
+        {/* ADM */}
         <Route
-          path="/adminhome"
+          path="/admin"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminHome />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/students"
+          path="/admin/students"
           element={
-            <ProtectedRoute>
-              <Students />
+            <ProtectedRoute roles={["ADM"]}>
+              <AdminStudents />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/adminwarnings"
+          path="/admin/warnings"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminWarnings />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/adminplans"
+          path="/admin/plans"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminPlans />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/adminpayments"
+          path="/admin/payments"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminPayments />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/admininstructors"
+          path="/admin/instructors"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
               <AdminInstructors />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/settings"
+          path="/admin/exercises"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["ADM"]}>
+              <AdminExercises />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/workouts"
+          element={
+            <ProtectedRoute roles={["ADM"]}>
+              <Workout />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedRoute roles={["ADM"]}>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
+        {/* USER */}
+        <Route
+          path="/instructor/settings"
+          element={
+            <ProtectedRoute roles={["USER"]}>
               <Settings />
             </ProtectedRoute>
           }
         />
         <Route
-          path="/instructorhome"
+          path="/instructor"
           element={
-            <ProtectedRoute>
+            <ProtectedRoute roles={["USER"]}>
+              <InstructorHome />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/students"
+          element={
+            <ProtectedRoute roles={["USER"]}>
+              <InstructorStudents />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/PhysicalAssessment"
+          element={
+            <ProtectedRoute roles={["USER"]}>
               <PhysicalAssessment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/presence"
+          element={
+            <ProtectedRoute roles={["USER"]}>
+              <PresencePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/instructor/trainings"
+          element={
+            <ProtectedRoute roles={["USER"]}>
+              <TrainingPage />
             </ProtectedRoute>
           }
         />
@@ -135,4 +158,3 @@ function App() {
 }
 
 export default App;
-

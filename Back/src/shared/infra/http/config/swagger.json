@@ -55,6 +55,28 @@
         ],
         "summary": "Lista todos os alunos",
         "description": "Endpoint para listar todos os alunos.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de alunos",
@@ -254,6 +276,239 @@
         }
       }
     },
+    "/report/rank": {
+      "get": {
+        "tags": [
+          "Relatórios"
+        ],
+      "summary": "Lista os top frequentadores da academia",
+      "description": "Endpoint para listar os alunos que mais frequentam a academia.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "Número de itens por página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 5
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de alunos",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/TopFrequentadores"
+                }
+              }
+            }
+          }
+        }
+      }
+     }
+    },
+  "/report/balance": {
+    "get": {
+      "tags": [
+        "Relatórios"
+      ],
+      "summary": "Obtém o balanço financeiro",
+      "description": "Endpoint para obter o balanço financeiro dos últimos 60 dias.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 0
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Balanço financeiro",
+          "content": {
+            "application/json": {
+                "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                  "total_price": {
+                    "type": "number",
+                    "description": "Total do balanço financeiro"
+                  },
+                  "payment_day": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Data do registro"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "/report/week-frequency": {
+    "get": {
+      "tags": [
+        "Relatórios"
+      ],
+      "summary": "Lista as frequências da semana",
+      "description": "Endpoint para listar as frequências dos alunos na semana.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 0
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de frequências da semana",
+          "content": {
+            "application/json": {
+                "schema": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                  "dia": {
+                    "type": "string",
+                    "format": "date",
+                    "description": "Dia da frequência"
+                  },
+                  "total_presencas": {
+                    "type": "number",
+                    "description": "Total de presenças no dia"
+                  }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+    ,
+    "/report/recent-frequency":{
+      "get": {
+        "tags": [
+          "Relatórios"
+        ],
+      "summary": "Lista os ultimos frequentadores",
+      "description": "Endpoint para listar os alunos que frequentaram a academia por ultimo.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "Número de itens por página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 5
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de alunos",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AlunoSimples"
+                }
+              }
+            }
+          }
+        }
+      }
+     }
+    },
+    "/report/recent": {
+      "get": {
+        "tags": [
+          "Relatórios"
+        ],
+      "summary": "Lista os ultimos cadastrados",
+      "description": "Endpoint para listar os alunos que foram cadastrados por ultimo na academia.",
+      "parameters": [
+        {
+          "name": "page",
+          "in": "query",
+          "description": "Número da página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 1
+          }
+        },
+        {
+          "name": "limit",
+          "in": "query",
+          "description": "Número de itens por página",
+          "required": false,
+          "schema": {
+            "type": "integer",
+            "default": 5
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Lista de alunos",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AlunoSimples"
+                }
+              }
+            }
+          }
+        }
+      }
+     }
+    },
     "/reviews": {
       "post": {
         "tags": [
@@ -296,6 +551,28 @@
         ],
         "summary": "Lista todas as avaliações",
         "description": "Endpoint para listar todas as avaliações.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de avaliações",
@@ -360,6 +637,39 @@
           }
         }
       },
+      "get": {
+          "tags": [
+            "Avaliações"
+          ],
+          "summary": "Busca avaliação por ID",
+          "description": "Endpoint para buscar uma avaliação pelo ID.",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "description": "ID da avaliação",
+              "schema": {
+                "type": "integer"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Dados da avaliação",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Avaliacao"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Avaliação não encontrada"
+            }
+          }
+      },
       "delete": {
         "tags": [
           "Avaliações"
@@ -387,7 +697,7 @@
         }
       }
     },
-    "/reviews/{aluno_id}": {
+    "/reviews/clients/{aluno_id}": {
       "get": {
         "tags": [
           "Avaliações"
@@ -402,6 +712,26 @@
             "description": "ID do aluno",
             "schema": {
               "type": "integer"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
             }
           }
         ],
@@ -467,6 +797,28 @@
         ],
         "summary": "Lista todos os exercícios",
         "description": "Endpoint para listar todos os exercícios.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de exercícios",
@@ -671,6 +1023,28 @@
         ],
         "summary": "Lista todos os relacionamentos entre treinos e exercícios",
         "description": "Endpoint para listar todos os relacionamentos entre treinos e exercícios.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de relacionamentos",
@@ -811,6 +1185,26 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
           }
         ],
         "responses": {
@@ -875,6 +1269,28 @@
         ],
         "summary": "Lista todos os planos",
         "description": "Endpoint para listar todos os planos cadastrados.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de planos cadastrados",
@@ -1044,6 +1460,28 @@
         ],
         "summary": "Lista todos os treinos",
         "description": "Endpoint para listar todos os treinos cadastrados.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de treinos cadastrados",
@@ -1342,6 +1780,26 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
           }
         ],
         "responses": {
@@ -1408,15 +1866,113 @@
         ],
         "summary": "Lista todos os instrutores",
         "description": "Endpoint para listar todos os instrutores cadastrados.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de usuários cadastrados",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do usuário"
+                    },
+                    "adm_id": {
+                      "type": "integer",
+                      "description": "ID do administrador"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do usuário"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "Email do usuário"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Senha do usuário"
+                    },
+                    "cpf": {
+                      "type": "string",
+                      "description": "CPF do usuário no formato XXX.XXX.XXX-XX"
+                    },
+                    "tel": {
+                      "type": "string",
+                      "description": "Telefone no formato (XX) XXXXX-XXXX"
+                    },
+                    "role": {
+                      "type": "string",
+                      "description": "Role do usuário (ADM ou USER)"
+                    },
+                    "cref": {
+                      "type": "string",
+                      "description": "CREF do instrutor"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": [
+                        "M",
+                        "F",
+                        "O"
+                      ],
+                      "description": "Gênero do usuário"
+                    },
+                    "date_of_birth": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data de nascimento no formato yyyy-mm-ddTHH:MM:SS.sssZ"
+                    },
+                    "daysofweek": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dias da semana"
+                    },
+                    "turntime": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID do turno"
+                        },
+                        "start_time": {
+                          "type": "string",
+                          "format": "time",
+                          "description": "Horário de início no formato HH:MM:SS"
+                        },
+                        "end_time": {
+                          "type": "string",
+                          "format": "time",
+                          "description": "Horário de término no formato HH:MM:SS"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -1462,12 +2018,52 @@
         }
       }
     },
+    "/user": {
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Atualiza um instrutor",
+        "description": "Endpoint para atualizar os dados de um instrutor.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "instrutor atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisição inválida ou Role não pode ser alterada"
+          },
+          "404": {
+            "description": "instrutor não encontrado"
+          },
+          "409": {
+            "description": "Conflito: Email, CPF já cadastrado ou Senha igual à anterior"
+          }
+        }
+      }
+    },
     "/user/{id}": {
       "get": {
         "tags": [
           "Users"
         ],
-        "summary": "Busca instrutorário por ID",
+        "summary": "Busca instrutor por ID",
         "description": "Endpoint para buscar um instrutor pelo ID.",
         "parameters": [
           {
@@ -1486,13 +2082,134 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do usuário"
+                    },
+                    "adm_id": {
+                      "type": "integer",
+                      "description": "ID do administrador"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do usuário"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "Email do usuário"
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Senha do usuário"
+                    },
+                    "cpf": {
+                      "type": "string",
+                      "description": "CPF do usuário no formato XXX.XXX.XXX-XX"
+                    },
+                    "tel": {
+                      "type": "string",
+                      "description": "Telefone no formato (XX) XXXXX-XXXX"
+                    },
+                    "role": {
+                      "type": "string",
+                      "description": "Role do usuário (ADM ou USER)"
+                    },
+                    "cref": {
+                      "type": "string",
+                      "description": "CREF do instrutor"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": [
+                        "M",
+                        "F",
+                        "O"
+                      ],
+                      "description": "Gênero do usuário"
+                    },
+                    "date_of_birth": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Data de nascimento no formato yyyy-mm-ddTHH:MM:SS.sssZ"
+                    },
+                    "daysofweek": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dias da semana"
+                    },
+                    "turntime": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "ID do turno"
+                        },
+                        "start_time": {
+                          "type": "string",
+                          "format": "time",
+                          "description": "Horário de início no formato HH:MM:SS"
+                        },
+                        "end_time": {
+                          "type": "string",
+                          "format": "time",
+                          "description": "Horário de término no formato HH:MM:SS"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           },
           "404": {
             "description": "instrutor não encontrado"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Atualiza instrutor por ID",
+        "description": "Endpoint para atualizar um instrutor pelo ID.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID do instrutor",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "instrutor atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Usuário não autorizado"
+          },
+          "400": {
+            "description": "Requisição inválida ou Role não pode ser alterada"
+          },
+          "404": {
+            "description": "instrutor não encontrado"
+          },
+          "409": {
+            "description": "Conflito: Email, CPF já cadastrado ou Senha igual à anterior"
           }
         }
       },
@@ -1519,55 +2236,6 @@
           },
           "404": {
             "description": "instrutor não encontrado"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Users"
-        ],
-        "summary": "Atualiza um instrutor",
-        "description": "Endpoint para atualizar os dados de um instrutor.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "description": "ID do instrutor",
-            "schema": {
-              "type": "integer"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "instrutor atualizado com sucesso",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Requisição inválida"
-          },
-          "404": {
-            "description": "instrutor não encontrado"
-          },
-          "409": {
-            "description": "Conflito: Email ou CPF já cadastrado"
           }
         }
       }
@@ -1676,6 +2344,28 @@
         ],
         "summary": "Lista todos os pagamentos",
         "description": "Endpoint para listar todos os pagamentos registrados no sistema.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de pagamentos",
@@ -1770,6 +2460,26 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
           }
         ],
         "responses": {
@@ -1834,6 +2544,28 @@
         ],
         "summary": "Lista todas as mensagens",
         "description": "Endpoint para listar todas as mensagens cadastradas.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de mensagens",
@@ -2025,6 +2757,52 @@
         }
       }
     },
+    "/presence": {
+      "get": {
+        "tags": [
+          "Presença"
+        ],
+        "summary": "Lista todas as presenças",
+        "description": "Endpoint para listar todas as presenças registradas no sistema.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de presenças",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Presenca"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/work-hours/dayofweek": {
       "get": {
         "tags": [
@@ -2067,13 +2845,35 @@
         }
       }
     },
-    "/work-hours/now": {
+    "/report/now": {
       "get": {
         "tags": [
-          "Horários de Funcionamento"
+          "Relatórios"
         ],
         "summary": "Lista os instrutores disponíveis no momento",
         "description": "Endpoint para listar os instrutores disponíveis na academia no momento da requisição.",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Número da página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Número de itens por página",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Lista de instrutores disponíveis",
@@ -2082,8 +2882,41 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "ID do usuário",
+                      "example": 2
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Nome do usuário",
+                      "example": "jeferson"
+                    },
+                    "cpf": {
+                      "type": "string",
+                      "description": "CPF do usuário no formato XXX.XXX.XXX-XX",
+                      "example": "088.635.722-51"
+                    },
+                    "role": {
+                      "type": "string",
+                      "description": "Role do usuário (ADM ou USER)",
+                      "example": "USER"
+                    },
+                    "cref": {
+                      "type": "string",
+                      "description": "CREF do instrutor no formato XXXXXX-G/UF",
+                      "example": "12345267"
+                    },
+                    "gender": {
+                      "type": "string",
+                      "enum": ["M", "F", "O"],
+                      "description": "Gênero do usuário: M (Masculino), F (Feminino) ou O (Outro)",
+                      "example": "F"
+                    }
                   }
+                }
                 }
               }
             }
@@ -2141,6 +2974,36 @@
           "dayOfWeek": {
             "type": "string",
             "description": "Dia da semana"
+          }
+        }
+      },
+      "TopFrequentadores": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID do aluno"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do aluno"
+          },
+          "total_presencas": {
+            "type": "string",
+            "description": "Número todas de presenças do aluno"
+          }
+        }
+      },
+      "AlunoSimples": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID do aluno"
+          },
+          "name": {
+            "type": "string",
+            "description": "Nome do aluno"
           }
         }
       },
@@ -2493,6 +3356,10 @@
             "type": "integer",
             "description": "ID do aluno associado ao pagamento",
             "example": 1
+          },
+          "id_user": {
+            "type": "integer",
+            "description": "ID do usuário responsável por cadastrar o pagamento"
           },
           "id_plano": {
             "type": "integer",

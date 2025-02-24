@@ -2,6 +2,7 @@ import { Knex } from "knex";
 import { inject, injectable } from "tsyringe";
 import { CargoHoraria } from "../models/CargoHoraria";
 import User from "../../user/models/User";
+import { ICargoHorariaRepository } from "../interface/ICargoHorariaRepository";
 
 interface ICargoHorariaCreate {
   user_id: number;
@@ -10,7 +11,7 @@ interface ICargoHorariaCreate {
 }
 
 @injectable()
-export class CargoHorariaRepository {
+export class CargoHorariaRepository implements ICargoHorariaRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(data: ICargoHorariaCreate): Promise<CargoHoraria> {
@@ -27,7 +28,16 @@ export class CargoHorariaRepository {
     return CargoHoraria.fromDatabase(result.rows[0]);
   }
 
-  async listNow(admin_id: number): Promise<CargoHoraria[]> {
+  async delete(user_id: number): Promise<void> {
+    const query = `DELETE FROM cargo_horaria WHERE user_id = ?;`;
+    await this.db.raw(query, [user_id]);
+  }
+
+  async listNow(
+    admin_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<CargoHoraria[]> {
     const query = `
       SELECT 
         *
@@ -37,16 +47,24 @@ export class CargoHorariaRepository {
         cargo_horaria ch ON u.id = ch.user_id
       JOIN
         dias d ON d.id = ch.dia_id
-      JOIN horarios h ON h.id = ch.horario_id
+      JOIN
+        horarios h ON h.id = ch.horario_id
       WHERE
         u.role = 'USER'
         AND u.adm_id = ?
-        AND d.day_week = to_char(now(), 'Day')
+        AND d.id = extract(dow FROM now()) + 1 
         AND h.start_time <= now()::time
-        AND h.end_time >= now()::time;
+        AND h.end_time >= now()::time
+      LIMIT ? OFFSET ?;
     `;
-    const result = await this.db.raw(query, [admin_id]);
 
-    return result.rows.map((row) => User.fromDatabase(row));
+    const result = await this.db.raw(query, [admin_id, limit, offset]);
+
+    return result.rows.map((row: any) => {
+      const user = User.fromDatabase(row);
+      const { password, email, tel, date_of_birth, adm_id, ...sanitizedUser } =
+        user;
+      return sanitizedUser;
+    });
   }
 }

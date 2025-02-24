@@ -1,5 +1,4 @@
 import { inject, injectable } from "tsyringe";
-import { MensagemRepository } from "../repository/MensagemRepository";
 import { z } from "zod";
 import { MensagemSchema } from "../dto/MensagemSchema";
 import UserRepository from "../../user/repositories/UserRepository";
@@ -7,17 +6,21 @@ import AppError from "../../../shared/errors/AppError";
 import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import { enqueueEmails } from "./EnqueueEmailsService";
 import { GetEmailsByRecipientTypeService } from "./GetEmailsByRecipientTypeService";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IMensagemRepository } from "../interface/IMensagemRepository";
+import { IUserRepository } from "../../user/interface/IUserRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
 
 @injectable()
 export class MensagemService {
   private getEmailsByRecipinetTypeService: GetEmailsByRecipientTypeService;
   constructor(
-    @inject(MensagemRepository)
-    private mensagemRepository: MensagemRepository,
-    @inject(UserRepository)
-    private userRepository: UserRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
+    @inject("MensagemRepository")
+    private mensagemRepository: IMensagemRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
   ) {
     this.getEmailsByRecipinetTypeService = new GetEmailsByRecipientTypeService(
       this.alunoRepository,
@@ -42,14 +45,15 @@ export class MensagemService {
     return await this.mensagemRepository.create(data, userId);
   }
 
-  async list(adm_id: number) {
+  async list(adm_id: number, page: number, limit: number) {
     const user = await this.userRepository.findAdmById(adm_id);
 
     if (user.role !== "ADM") {
       throw new AppError("Usuário não autorizado", 401);
     }
 
-    return await this.mensagemRepository.list(adm_id);
+    const offset = getPaginationOffset(page, limit);
+    return await this.mensagemRepository.list(adm_id, offset, limit);
   }
 
   async findById(id: number, adm_id: number) {

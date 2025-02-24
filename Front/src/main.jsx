@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { ToastContainer } from 'react-toastify'; // Importa o Toastify
-import 'react-toastify/dist/ReactToastify.css'; // Importa os estilos
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './index.css';
 import App from './App.jsx';
 

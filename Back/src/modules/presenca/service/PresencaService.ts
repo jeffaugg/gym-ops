@@ -1,19 +1,20 @@
 import { inject, injectable } from "tsyringe";
-import { PresencaRepository } from "../repository/PresencaRepository";
 import Presenca from "../models/Presenca";
-import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
 import AppError from "../../../shared/errors/AppError";
-import { PagamentoRepository } from "../../pagamentos/repository/PagamentoRepository";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IPresencaRepository } from "../interface/IPresencaRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
+import { IPagamentoRepository } from "../../pagamentos/Interface/IPagamentoRepository";
 
 @injectable()
 export class PresencaService {
   constructor(
-    @inject(PresencaRepository)
-    private presencaRepository: PresencaRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
-    @inject(PagamentoRepository)
-    private pagamentoRepository: PagamentoRepository,
+    @inject("PresencaRepository")
+    private presencaRepository: IPresencaRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
+    @inject("PagamentoRepository")
+    private pagamentoRepository: IPagamentoRepository,
   ) {}
 
   async create(id: number, adm_id: number): Promise<Presenca> {
@@ -21,6 +22,10 @@ export class PresencaService {
 
     if (!aluno) {
       throw new AppError("Aluno não encontrado", 404);
+    }
+
+    if (!aluno.status) {
+      throw new AppError("Aluno com status inválido", 404);
     }
     const pagamento = await this.pagamentoRepository.isUserPlanPaid(id, adm_id);
 
@@ -53,5 +58,15 @@ export class PresencaService {
     }
 
     return this.presencaRepository.delete(id);
+  }
+
+  async getAll(
+    adm_id: number,
+    page: number,
+    limit: number,
+  ): Promise<Presenca[]> {
+    const offset = getPaginationOffset(page, limit);
+
+    return await this.presencaRepository.getAll(adm_id, offset, limit);
   }
 }

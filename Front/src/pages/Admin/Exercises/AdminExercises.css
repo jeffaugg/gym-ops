@@ -1,0 +1,40 @@
+.exercises-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .exercises-header h1 {
+    font-size: 24px;
+    color: #1a1a7d;
+    font-weight: 700;
+    font-family: poppins;
+    margin: 0;
+  }
+  
+  .header,
+  .exercises-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+  }
+
+  .btn.add-exercise-form {
+    background-color: #1a1a7d; 
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .btn.add-exercise-form:hover {
+    background-color: #333399; 
+  }

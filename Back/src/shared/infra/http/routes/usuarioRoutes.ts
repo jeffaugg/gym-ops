@@ -13,6 +13,7 @@ authRoutes.post("/login", userController.login);
 authRoutes.get("/testeAreaLogada", isAuth, userController.test);
 authRoutes.get("/me", isAuth, (req, res) => res.json({ user: req.user }));
 authRoutes.get("/:id", isAuth, userController.findUserById);
-authRoutes.put("/:id", isAuth, userController.updateUser);
+authRoutes.put("/", isAuth, userController.updateUser);
 authRoutes.delete("/:id", isAuth, userController.deleteUser);
+authRoutes.put("/:id", isAuth, userController.updateInstrutor);
 export default authRoutes;

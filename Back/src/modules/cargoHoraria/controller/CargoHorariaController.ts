@@ -17,12 +17,4 @@ export class CargoHorariaController {
     const horarios = await cargo_horariaService.listTurnTime();
     return res.status(200).json(horarios);
   }
-
-  async listNow(req: Request, res: Response) {
-    const cargo_horariaService = container.resolve(CargoHorariaService);
-
-    const adm_id = req.user.adm_id;
-    const users = await cargo_horariaService.listNow(adm_id);
-    return res.status(200).json(users);
-  }
 }

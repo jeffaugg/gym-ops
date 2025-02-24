@@ -1,0 +1,71 @@
+.workout-list {
+    width: 100%;
+    max-width: 800px;
+    background-color: #77749B;
+    padding: 20px;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.workout-list table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.workout-list th,
+.workout-list td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+
+.workout-list th {
+    font-weight: 700;
+    color: white;
+}
+
+.workout-list .btn.edit {
+    color: #ffffff;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: transparent ;
+}
+
+.workout-list .btn.edit:hover {
+    color: #77f36c;
+    transform: scale(1.2);
+}
+
+.workout-list .btn.delete {
+    color: #ffffff;
+    font-size: 1.4em;
+    padding: 5px;
+    background-color: transparent;
+}
+
+.workout-list .btn.delete:hover {
+    color: #ff4444;
+    transform: scale(1.2);
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .workout-list table {
+        display: block;
+        overflow-x: auto;
+    }
+    
+    .workout-list td:nth-child(2) {
+        white-space: normal;
+    }
+}

@@ -1,20 +1,21 @@
 import { inject, injectable } from "tsyringe";
-import { AlunoRepository } from "../repository/AlunoRepository";
 import { AlunoSchema } from "../dto/AlunoSchema";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
-import { PlanoRepository } from "../../planos/repository/PlanoRepository";
-import UserRepository from "../../user/repositories/UserRepository";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IAlunoRepository } from "../Interface/IAlunoRepository";
+import { IPlanoRepository } from "../../planos/interface/IPlanoRepository";
+import { IUserRepository } from "../../user/interface/IUserRepository";
 
 @injectable()
 export class AlunoService {
   constructor(
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
-    @inject(PlanoRepository)
-    private planoRepository: PlanoRepository,
-    @inject(UserRepository)
-    private userRepository: UserRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
+    @inject("PlanoRepository")
+    private planoRepository: IPlanoRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
   ) {}
 
   async create(data: z.infer<typeof AlunoSchema>, adm_id: number) {
@@ -24,19 +25,27 @@ export class AlunoService {
       throw new AppError("Administrador inválido", 404);
     }
 
-    const userByEmail = await this.alunoRepository.findByEmail(
+    const alunoByEmail = await this.alunoRepository.findByEmail(
       data.email,
       adm_id,
     );
 
-    if (userByEmail) {
-      throw new AppError("Email já cadastrado", 409);
+    if (alunoByEmail) {
+      const error = alunoByEmail.status
+        ? "Email já cadastrado"
+        : "Usuário com email já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const userByCpf = await this.alunoRepository.findByCpf(data.cpf, adm_id);
 
     if (userByCpf) {
-      throw new AppError("CPF já cadastrado", 409);
+      const error = userByCpf.status
+        ? "Cpf já cadastrado"
+        : "Usuário com cpf já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const plano = await this.planoRepository.findById(data.plan_id, adm_id);
@@ -54,8 +63,10 @@ export class AlunoService {
     return await this.alunoRepository.create(alunoData);
   }
 
-  async list(adm_id: number) {
-    return this.alunoRepository.list(adm_id);
+  async list(adm_id: number, limit: number, page: number) {
+    const offset = getPaginationOffset(page, limit);
+
+    return this.alunoRepository.list(adm_id, limit, offset);
   }
 
   async update(id: number, adm_id: number, data: z.infer<typeof AlunoSchema>) {

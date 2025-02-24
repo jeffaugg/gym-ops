@@ -1,23 +1,24 @@
 import { inject, injectable } from "tsyringe";
-import { TreinoDeAlunoRepository } from "../repository/TreinoDeAlunoRepository";
 import { TreinoDeAlunoSchema } from "../dto/TreinoDeAlunoSchema";
-import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
-import { TreinoRepository } from "../../treinos/repository/TreinoRepository";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
-import UserRepository from "../../user/repositories/UserRepository";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { ITreinoDeAlunoRepository } from "../interface/ITreinoDeAlunoRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
+import { ITreinoRepository } from "../../treinos/interface/ITreinoRepository";
+import { IUserRepository } from "../../user/interface/IUserRepository";
 
 @injectable()
 export class TreinoDeAlunoService {
   constructor(
-    @inject(TreinoDeAlunoRepository)
-    private treinoDeAlunoRepository: TreinoDeAlunoRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
-    @inject(TreinoRepository)
-    private treinoRepository: TreinoRepository,
-    @inject(UserRepository)
-    private userRepository: UserRepository,
+    @inject("TreinoDeAlunoRepository")
+    private treinoDeAlunoRepository: ITreinoDeAlunoRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
+    @inject("TreinoRepository")
+    private treinoRepository: ITreinoRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
   ) {}
 
   async create(data: z.infer<typeof TreinoDeAlunoSchema>, adm_id: number) {
@@ -39,25 +40,26 @@ export class TreinoDeAlunoService {
       data.aluno_id,
       adm_id,
     );
-    if (!alunoExistente) {
+    if (!alunoExistente || !alunoExistente.status) {
       throw new AppError("Aluno não encontrado", 404);
     }
 
-    const existingRelation = await this.treinoDeAlunoRepository.findByAlunoId(
-      data.aluno_id,
-    );
-    if (
-      existingRelation != null &&
-      existingRelation.treino_id == data.treino_id
-    ) {
+    const existingRelation =
+      await this.treinoDeAlunoRepository.doesRelationExist(
+        data.aluno_id,
+        data.treino_id,
+        adm_id,
+      );
+    if (existingRelation) {
       throw new AppError("Esse treino já está associado a este aluno", 409);
     }
 
     return await this.treinoDeAlunoRepository.create(data);
   }
 
-  async list(adm_id: number) {
-    return await this.treinoDeAlunoRepository.list(adm_id);
+  async list(adm_id: number, page: number, limit: number) {
+    const offset = getPaginationOffset(page, limit);
+    return await this.treinoDeAlunoRepository.list(adm_id, offset, limit);
   }
 
   async findById(treinoId: number) {
@@ -87,8 +89,13 @@ export class TreinoDeAlunoService {
     return await this.treinoDeAlunoRepository.delete(exercicio_treino_id);
   }
 
-  async findByAlunoId(alunoId: number) {
-    const relation = await this.treinoDeAlunoRepository.findByAlunoId(alunoId);
+  async findByAlunoId(alunoId: number, limit: number, page: number) {
+    const offset = getPaginationOffset(page, limit);
+    const relation = await this.treinoDeAlunoRepository.findByAlunoId(
+      alunoId,
+      offset,
+      limit,
+    );
 
     if (!relation) {
       throw new AppError(

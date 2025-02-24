@@ -1,0 +1,109 @@
+.header,
+.students-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.students-header h1 {
+  font-size: 24px;
+  color: #1a1a7d;
+  font-weight: 700;
+  font-family: poppins;
+  margin: 0;
+}
+
+.btn-matricular {
+  background-color: #5c5cac;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-matricular:hover {
+  background-color: #4a4a99;
+}
+
+.table-container {
+  margin-top: 20px;
+}
+
+.students-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.students-table th,
+.students-table td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 8px;
+}
+
+.students-table th {
+  background-color: #1a1a7d;
+  color: white;
+}
+
+.students-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.students-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center; 
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  background-color: #1a1a7d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination-btn:hover {
+  background-color: #333399;
+}
+
+.students {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #ECE9E9;
+}
+
+.students-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.btn.add-student {
+  background-color: #1a1a7d;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn.add-student:hover {
+  background-color: #333399;
+}

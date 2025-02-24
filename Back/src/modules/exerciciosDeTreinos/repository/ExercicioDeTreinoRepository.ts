@@ -3,9 +3,12 @@ import { inject, injectable } from "tsyringe";
 import { z } from "zod";
 import { ExercicioDeTreinoSchema } from "../dto/ExercicioDeTreinoSchema";
 import { ExerciciosDeTreinos } from "../models/ExerciciosDeTreinos";
+import { IExercicioDeTreinoRepository } from "../interface/IExercicioDeTreinoRepository";
 
 @injectable()
-export class ExercicioDeTreinoRepository {
+export class ExercicioDeTreinoRepository
+  implements IExercicioDeTreinoRepository
+{
   constructor(@inject("Database") private db: Knex) {}
 
   async create(
@@ -27,13 +30,18 @@ export class ExercicioDeTreinoRepository {
     return result.rows[0] as ExerciciosDeTreinos;
   }
 
-  async list(adm_id: number): Promise<ExerciciosDeTreinos[]> {
+  async list(
+    adm_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<ExerciciosDeTreinos[]> {
     const query = `
       SELECT exercicios_de_treinos.* 
       FROM exercicios_de_treinos
       JOIN treinos ON exercicios_de_treinos.treino_id = treinos.id
-      WHERE treinos.adm_id = ?`;
-    const result = await this.db.raw(query, [adm_id]);
+      WHERE treinos.adm_id = ?
+      OFFSET ? LIMIT ?`;
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
 
     return result.rows.map((data: any) =>
       ExerciciosDeTreinos.fromDatabase(data),
@@ -51,15 +59,63 @@ export class ExercicioDeTreinoRepository {
     return result.rows[0] as ExerciciosDeTreinos;
   }
 
-  async findByTreinoId(treino_id: number): Promise<ExerciciosDeTreinos | null> {
-    const query = "SELECT * FROM exercicios_de_treinos WHERE treino_id = ?";
-    const result = await this.db.raw(query, [treino_id]);
+  async exerciseInWorkouts(
+    exercicio_id: number,
+    adm_id: number,
+  ): Promise<boolean> {
+    const query = `
+      SELECT 1
+      FROM exercicios_de_treinos et
+      INNER JOIN exercicios e ON e.id = et.exercicio_id
+      WHERE et.exercicio_id = ? AND e.adm_id = ?
+      LIMIT 1;
+      `;
 
+    const result = await this.db.raw(query, [exercicio_id, adm_id]);
+
+    return result.rows.length > 0 ? true : false;
+  }
+
+  async findByTreinoId(
+    treino_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<ExerciciosDeTreinos[]> {
+    const query =
+      "SELECT * FROM exercicios_de_treinos WHERE treino_id = ? OFFSET ? LIMIT ? ";
+    const result = await this.db.raw(query, [treino_id, offset, limit]);
     if (result.rows.length === 0) {
       return null;
     }
 
-    return result.rows[0] as ExerciciosDeTreinos;
+    return result.rows.map((data: any) =>
+      ExerciciosDeTreinos.fromDatabase(data),
+    );
+  }
+
+  async doesRelationExist(
+    treino_id: number,
+    exercicio_id: number,
+    adm_id: number,
+  ): Promise<boolean> {
+    const query = `
+    SELECT 1 
+      FROM exercicios_de_treinos edt
+      INNER JOIN exercicios e ON edt.exercicio_id = e.id
+      INNER JOIN treinos t ON edt.treino_id = t.id
+      WHERE (t.adm_id = ? OR e.adm_id = ?)
+        AND edt.treino_id = ?
+        AND edt.exercicio_id = ?
+      LIMIT 1;
+    `;
+
+    const result = await this.db.raw(query, [
+      adm_id,
+      adm_id,
+      treino_id,
+      exercicio_id,
+    ]);
+    return result.rows.length > 0;
   }
 
   async update(

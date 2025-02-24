@@ -3,9 +3,10 @@ import { PlanoSchema } from "../dto/PlanoSchema";
 import Plano from "../models/Plano";
 import { inject, injectable } from "tsyringe";
 import { Knex } from "knex";
+import { IPlanoRepository } from "../interface/IPlanoRepository";
 
 @injectable()
-export class PlanoRepository {
+export class PlanoRepository implements IPlanoRepository {
   constructor(@inject("Database") private db: Knex) {}
   async create(
     data: z.infer<typeof PlanoSchema> & { adm_id: number },
@@ -26,9 +27,9 @@ export class PlanoRepository {
     return Plano.FormData(result.rows[0]);
   }
 
-  async list(adm_id: number): Promise<Plano[]> {
-    const query = "SELECT * FROM planos WHERE adm_id = ?";
-    const result = await this.db.raw(query, [adm_id]);
+  async list(adm_id: number, offset: number, limit: number): Promise<Plano[]> {
+    const query = "SELECT * FROM planos WHERE adm_id = ? OFFSET ? LiMIT ? ";
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
     return result.rows.map((plano: any) => Plano.FormData(plano));
   }
 

@@ -1,17 +1,18 @@
 import { inject, injectable } from "tsyringe";
-import { PlanoRepository } from "../repository/PlanoRepository";
 import { z } from "zod";
 import { PlanoSchema } from "../dto/PlanoSchema";
 import AppError from "../../../shared/errors/AppError";
-import { AlunoRepository } from "../../alunos/repository/AlunoRepository";
+import { getPaginationOffset as GetOffsetForPage } from "../../../shared/helpers/getPaginationOffset";
+import { IPlanoRepository } from "../interface/IPlanoRepository";
+import { IAlunoRepository } from "../../alunos/Interface/IAlunoRepository";
 
 @injectable()
 export class PlanoService {
   constructor(
-    @inject(PlanoRepository)
-    private planoRepository: PlanoRepository,
-    @inject(AlunoRepository)
-    private alunoRepository: AlunoRepository,
+    @inject("PlanoRepository")
+    private planoRepository: IPlanoRepository,
+    @inject("AlunoRepository")
+    private alunoRepository: IAlunoRepository,
   ) {}
 
   async create(data: z.infer<typeof PlanoSchema>, adm_id: number) {
@@ -37,8 +38,9 @@ export class PlanoService {
     return await this.planoRepository.create(planoData);
   }
 
-  async list(adm_id: number) {
-    return await this.planoRepository.list(adm_id);
+  async list(adm_id: number, page: number, limit: number) {
+    const offset = GetOffsetForPage(page, limit);
+    return await this.planoRepository.list(adm_id, offset, limit);
   }
 
   async update(id: number, adm_id: number, data: z.infer<typeof PlanoSchema>) {

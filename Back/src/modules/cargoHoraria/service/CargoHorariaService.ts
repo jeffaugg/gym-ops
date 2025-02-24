@@ -1,17 +1,17 @@
 import { inject, injectable } from "tsyringe";
-import { DiaDaSemanaRepository } from "../repository/DiaDaSemanaRepository";
-import { HorarioDeTurnoRepository } from "../repository/HorarioDeTurnoRepository";
-import { CargoHorariaRepository } from "../repository/CargoHorariaRepository";
+import { IDiaDaSemanaRepository } from "../interface/IDiaDaSemanaRepository";
+import { IHorarioDeTurnoRepository } from "../interface/IHorarioDeTurnoRepository";
+import { ICargoHorariaRepository } from "../interface/ICargoHorariaRepository";
 
 @injectable()
 export class CargoHorariaService {
   constructor(
-    @inject(DiaDaSemanaRepository)
-    private diaDaSemanaRepository: DiaDaSemanaRepository,
-    @inject(HorarioDeTurnoRepository)
-    private horarioDeTurnoRepository: HorarioDeTurnoRepository,
-    @inject(CargoHorariaRepository)
-    private cargoHorariaRepository: CargoHorariaRepository,
+    @inject("DiaDaSemanaRepository")
+    private diaDaSemanaRepository: IDiaDaSemanaRepository,
+    @inject("HorarioDeTurnoRepository")
+    private horarioDeTurnoRepository: IHorarioDeTurnoRepository,
+    @inject("CargoHorariaRepository")
+    private cargoHorariaRepository: ICargoHorariaRepository,
   ) {}
 
   async listDayOfWeek() {
@@ -33,7 +33,8 @@ export class CargoHorariaService {
     return await Promise.all(insercoes);
   }
 
-  async listNow(admin_id: number) {
-    return await this.cargoHorariaRepository.listNow(admin_id);
+  async update(user_id: number, horario_id: number, dias_id: number[]) {
+    await this.cargoHorariaRepository.delete(user_id);
+    return await this.create(user_id, horario_id, dias_id);
   }
 }

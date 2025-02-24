@@ -1,43 +1,80 @@
 .students-list {
-    width: 100%;
-    max-width: 800px;
-    background-color: #77749B;
-    padding: 20px;
-    border-radius: 8px;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 150%;
+  background-color: #77749b;
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .students-list table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .students-list th,
 .students-list td {
-    padding: 10px;
-    text-align: left;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
 }
 
 .students-list th {
-    font-weight: 700;
-    color: white;
+  font-weight: 700;
+  color: white;
+}
+
+.students-list .btn {
+  transition: all 0.2s ease;
+  background-color: transparent !important;
 }
 
 .students-list .btn.edit {
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
+  color: #ffffff;
+  font-size: 1.2em;
+  padding: 5px;
+}
+
+.students-list .btn.edit:hover {
+  color: #77f36c;
+  transform: scale(1.2);
 }
 
 .students-list .btn.delete {
-    color: white;
-    border:rgb(206, 0, 0);
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
+  color: #ffffff;
+  font-size: 1.4em;
+  padding: 5px;
+}
+
+.students-list .btn.delete:hover {
+  color: #ff4444;
+  transform: scale(1.2);
+}
+
+.students-list .btn.presence {
+  font-size: 1.3em;
+  padding: 5px;
+}
+
+.students-list .btn.presence:hover {
+  color: #77f36c;
+  transform: scale(1.2);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .students-list table {
+      display: block;
+      overflow-x: auto;
+  }
 }

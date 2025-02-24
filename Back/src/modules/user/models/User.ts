@@ -12,6 +12,9 @@ class User {
   cref?: string;
   date_of_birth?: string;
   gender?: string;
+  daysofweek?: number[];
+  turntime?: number;
+  status: boolean;
 
   constructor(
     id: number,
@@ -22,9 +25,12 @@ class User {
     cpf: string,
     tel: string,
     role: string,
+    status: boolean,
     cref?: string,
     gender?: string,
     date_of_birth?: string,
+    daysofweek?: number[],
+    turntime?: number,
   ) {
     this.id = id;
     this.adm_id = adm_id;
@@ -34,9 +40,12 @@ class User {
     this.cpf = cpf;
     this.tel = tel;
     this.role = role;
+    this.status = status;
     this.cref = cref;
     this.gender = gender;
     this.date_of_birth = date_of_birth;
+    this.daysofweek = daysofweek;
+    this.turntime = turntime;
   }
 
   public async checkPassword(password: string): Promise<boolean> {
@@ -53,9 +62,12 @@ class User {
       data.cpf,
       data.tel,
       data.role,
+      data.status,
       data.cref,
       data.gender,
       data.date_of_birth,
+      data.daysofweek,
+      data.turntime,
     );
   }
 }

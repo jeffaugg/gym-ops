@@ -1,33 +1,107 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DashboardCard from "./DashboardCard";
 import TopFrequentUsers from "../TopFrequentUsers/TopFrequentUsers";
-import Balance from "../Balance/Balance";
+import ChartComponent from "../ChartComponent/ChartComponent";
+import BarChart from "../ChartComponent/BarChart";
+import api from "../../../../api";
 import "./Dashboard.css";
 
 function Dashboard() {
+  const [recentFrequencyData, setRecentFrequencyData] = useState([]);
+  const [recentRecordsData, setRecentRecordsData] = useState([]);
+  const [instructorsNow, setInstructorsNowData] = useState([]);
+  const [ranked, setRanked] = useState([]);
+
+
+  const fetchRecentFrequency = async () => {
+    try {
+      const response = await api.get("/report/recent-frequency", {
+        params: {
+          limit: 3, 
+        }
+      });
+      setRecentFrequencyData(response.data); 
+    } catch (error) {
+      console.error("Erro ao buscar dados de frequência", error);
+    }
+  };
+  const fetchRecentRecords = async () => {
+    try {
+      const response = await api.get("/report/recent", {
+        params: {
+          limit: 3,  
+        }
+      });
+      setRecentRecordsData(response.data); 
+    } catch (error) {
+      console.error("Erro ao buscar dados de frequência", error);
+    }
+  };
+  const fetchInstructorsNow = async () => {
+    try {
+      const response = await api.get("/report/now", {
+        params: {
+          limit: 3,  
+        }
+      });
+      setInstructorsNowData(response.data); 
+    } catch (error) {
+      console.error("Erro ao buscar dados de frequência", error);
+    }
+  };
+  const fetchRanked = async () => {
+    try {
+      const response = await api.get("/report/rank", {
+        params: {
+          limit: 5,  
+        }
+      });
+      setRanked(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar dados de frequência", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecentFrequency();
+    fetchRecentRecords();
+    fetchInstructorsNow();
+    fetchRanked();
+  }, []); 
+
   return (
     <div className="dashboard">
       <div className="dashboard-header">
-        <DashboardCard title="Últimos registros" items={["Juan Dela Cruz", "Juan Dela Cruz", "Juan Dela Cruz"]} />
-        <DashboardCard title="Últimos alunos" items={["Juan Dela Cruz", "Juan Dela Cruz", "Juan Dela Cruz"]} />
-        <DashboardCard title="Instrutores ativos" items={["Juan Dela Cruz", "Juan Dela Cruz", "Juan Dela Cruz"]} />
+
+        
+        <DashboardCard title="Últimos registros" endpoint="recent-frequency" />
+        <DashboardCard title="Últimos alunos" endpoint="recent" />
+        <DashboardCard title="Instrutores ativos" endpoint="now" />
       </div>
 
       <div className="dashboard-stats">
         <div className="chart">
-          <h3>Acessos</h3>
+
           <div className="fake-chart">
-            [Gráfico de Barras]
+            <BarChart 
+              title="Frequencias da semana"
+              endpoint="/report/week-frequency"  
+              label="Pagamentos"
+            />
           </div>
         </div>
         <div className="chart">
           <div className="fake-chart">
-            <Balance />
+            <ChartComponent 
+              title="Balanço de Pagamentos"
+              endpoint="/report/balance"  
+              label="Pagamentos"
+            />
           </div>
         </div>
       </div>
 
-      <TopFrequentUsers />
+      <TopFrequentUsers users={ranked}/>
     </div>
   );
 }

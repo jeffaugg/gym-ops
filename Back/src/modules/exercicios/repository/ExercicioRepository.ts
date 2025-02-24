@@ -3,9 +3,10 @@ import { inject, injectable } from "tsyringe";
 import { z } from "zod";
 import { ExercicioSchema } from "../dto/ExercicioSchema";
 import { Exercicio } from "../models/Exercicio";
+import { IExercicioRepository } from "../interface/IExercicioRepository";
 
 @injectable()
-export class ExercicioRepository {
+export class ExercicioRepository implements IExercicioRepository {
   constructor(@inject("Database") private db: Knex) {}
 
   async create(
@@ -28,9 +29,14 @@ export class ExercicioRepository {
     return Exercicio.fromDatabase(result.rows[0]);
   }
 
-  async list(adm_id: number): Promise<Exercicio[]> {
-    const query = "SELECT * FROM exercicios WHERE adm_id = ?";
-    const result = await this.db.raw(query, [adm_id]);
+  async list(
+    adm_id: number,
+    offset: number,
+    limit: number,
+  ): Promise<Exercicio[]> {
+    const query = "SELECT * FROM exercicios WHERE adm_id = ? OFFSET ? LIMIT ?;";
+
+    const result = await this.db.raw(query, [adm_id, offset, limit]);
 
     return result.rows.map((ExercicioData: any) =>
       Exercicio.fromDatabase(ExercicioData),

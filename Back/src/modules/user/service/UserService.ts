@@ -1,5 +1,4 @@
 import { inject, injectable } from "tsyringe";
-import UserRepository from "../repositories/UserRepository";
 import { z } from "zod";
 import AppError from "../../../shared/errors/AppError";
 import { UserSchema } from "../dto/UserSchema";
@@ -7,12 +6,15 @@ import { hash } from "bcryptjs";
 import { SerializeUser } from "../../../shared/infra/http/helpers/SerializeUser";
 import { createAccessToken } from "../../../shared/infra/http/helpers/CreateTokens";
 import { CargoHorariaService } from "../../cargoHoraria/service/CargoHorariaService";
+import { UpdateUserSchema } from "../dto/UpdateUserSchema";
+import { getPaginationOffset } from "../../../shared/helpers/getPaginationOffset";
+import { IUserRepository } from "../interface/IUserRepository";
 
 @injectable()
 export class UserService {
   constructor(
-    @inject(UserRepository)
-    private userRepository: UserRepository,
+    @inject("UserRepository")
+    private userRepository: IUserRepository,
     @inject(CargoHorariaService)
     private cargoHorariaService: CargoHorariaService,
   ) {}
@@ -21,13 +23,21 @@ export class UserService {
     const userByEmail = await this.userRepository.findByEmail(data.email);
 
     if (userByEmail) {
-      throw new AppError("Email já cadastrado", 409);
+      const error = userByEmail.status
+        ? "Email já cadastrado"
+        : "Usuário com email já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const userByCpf = await this.userRepository.findByCpf(data.cpf);
 
     if (userByCpf) {
-      throw new AppError("CPF já cadastrado", 409);
+      const error = userByCpf.status
+        ? "cpf já cadastrado"
+        : "Usuário com cpf já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     data.password = await hash(data.password, 8);
@@ -38,18 +48,26 @@ export class UserService {
     const userByEmail = await this.userRepository.findByEmail(data.email);
 
     if (userByEmail) {
-      throw new AppError("Email já cadastrado", 409);
+      const error = userByEmail.status
+        ? "Email já cadastrado"
+        : "Usuário com email já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const userByCpf = await this.userRepository.findByCpf(data.cpf);
 
     if (userByCpf) {
-      throw new AppError("CPF já cadastrado", 409);
+      const error = userByCpf.status
+        ? "cpf já cadastrado"
+        : "Usuário com cpf já existe, por favor recupere o registro";
+
+      throw new AppError(error, 409);
     }
 
     const adm = await this.userRepository.findAdmById(data.adm_id);
 
-    if (!adm || adm.role !== "ADM") {
+    if (!adm || adm.role !== "ADM" || !adm.status) {
       throw new AppError("Usuário não autorizado", 401);
     }
 
@@ -82,6 +100,9 @@ export class UserService {
       throw new AppError("Credenciais inválidas", 401);
     }
 
+    if (!user.status) {
+      throw new AppError("Usuário inativo", 401);
+    }
     if (!(await user.checkPassword(password))) {
       throw new AppError("Credenciais inválidas", 401);
     }
@@ -107,9 +128,12 @@ export class UserService {
   async updateUser(
     id: number,
     adm_id: number,
-    data: z.infer<typeof UserSchema>,
+    data: z.infer<typeof UpdateUserSchema>,
   ) {
-    const user = await this.userRepository.findUserById(id, adm_id);
+    let user = await this.userRepository.findUserById(id, adm_id);
+    if (!user) {
+      user = await this.userRepository.findAdmById(id);
+    }
 
     if (!user) {
       throw new AppError("Usuário não encontrado", 404);
@@ -127,19 +151,33 @@ export class UserService {
       throw new AppError("CPF já cadastrado", 409);
     }
 
+    if (data.password && data.password === user.password) {
+      throw new AppError("Senha não pode ser igual à anterior", 409);
+    }
+
+    if (data.role != user.role) {
+      throw new AppError("Role não pode ser alterada", 400);
+    }
+
+    if (!data.password) {
+      data.password = user.password;
+    }
     data.password = await hash(data.password, 8);
 
+    if (user.role === "USER") {
+      await this.cargoHorariaService.update(id, data.turntime, data.daysofweek);
+    }
     return await this.userRepository.update(id, data);
   }
 
-  async getAllUsers(adm_id: number) {
+  async getAllUsers(adm_id: number, page: number, limit: number) {
     const adm = await this.userRepository.findAdmById(adm_id);
 
     if (!adm || adm.role !== "ADM") {
       throw new AppError("Usuário não autorizado", 401);
     }
-
-    return await this.userRepository.getAllUsers(adm_id);
+    const offset = getPaginationOffset(page, limit);
+    return await this.userRepository.getAllUsers(adm_id, offset, limit);
   }
 
   async delete(id: number, adm_id: number) {
@@ -156,5 +194,55 @@ export class UserService {
     }
 
     return await this.userRepository.delete(id, adm_id);
+  }
+
+  async updateInstrutor(
+    adm_id: number,
+    user_id: number,
+    data: z.infer<typeof UpdateUserSchema>,
+  ) {
+    const userAdm = await this.userRepository.findAdmById(adm_id);
+
+    if (!userAdm) {
+      throw new AppError("Usuário não autorizado", 401);
+    }
+
+    const instrutor = await this.userRepository.findUserById(user_id, adm_id);
+
+    if (!instrutor) {
+      throw new AppError("Usuário não encontrado", 404);
+    }
+
+    const userByEmail = await this.userRepository.findByEmail(data.email);
+
+    if (userByEmail && userByEmail.id !== user_id) {
+      throw new AppError("Email já cadastrado", 409);
+    }
+
+    const userByCpf = await this.userRepository.findByCpf(data.cpf);
+
+    if (userByCpf && userByCpf.id !== user_id) {
+      throw new AppError("CPF já cadastrado", 409);
+    }
+
+    if (data.password && data.password === instrutor.password) {
+      throw new AppError("Senha não pode ser igual à anterior", 409);
+    }
+
+    if (data.role != instrutor.role) {
+      throw new AppError("Role não pode ser alterada", 400);
+    }
+
+    if (!data.password) {
+      data.password = instrutor.password;
+    }
+    data.password = await hash(data.password, 8);
+
+    await this.cargoHorariaService.update(
+      user_id,
+      data.turntime,
+      data.daysofweek,
+    );
+    return await this.userRepository.update(user_id, data);
   }
 }

@@ -18,17 +18,23 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
   const [health, setHealth] = useState("");
   const [plans, setPlans] = useState([]);
   const [status, setStatus] = useState("true");
+  const [payment, setPayment] = useState("");
 
   const handleCancel = () => {
+    const hasChanges = name || birthDate || cpf || gen || plan || phone || email || health;
+    if (hasChanges) {
+      toast.info("Operação cancelada.");
+    }
     setName("");
     setBirthDate("");
-    setCpf("ALL");
+    setCpf("");
     setGen("");
     setPlan("");
     setPhone("");
     setEmail("");
     setHealth("");
-    toast.info("Mensagem cancelada.");
+    setPayment("");
+    setSelectedStudent(null);
   };
 
   useEffect(() => {
@@ -45,7 +51,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
   }, []);
 
   useEffect(() => {
-
     if (selectedStudent) {
       setName(selectedStudent.name || "");
       const formattedDate = selectedStudent.date_of_birth
@@ -69,6 +74,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
       setEmail("");
       setHealth("");
       setStatus("true");
+      setPayment("");
     }
   }, [selectedStudent]);
 
@@ -81,34 +87,35 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
     }
 
     try {
+      const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
+
+      const studentData = {
+        name,
+        date_of_birth: formattedBirthDate,
+        email,
+        telephone: phone,
+        cpf,
+        plan_id: Number(plan),
+        health_notes: health,
+        status: status === "true",
+        gender: gen,
+      };
+
       if (selectedStudent) {
-        const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
-        await api.put(`/clients/${selectedStudent.id}`, {
-          name,
-          date_of_birth: formattedBirthDate,
-          email,
-          telephone: phone,
-          cpf,
-          plan_id: Number(plan),
-          health_notes: health,
-          status: status === "true",
-          gender: gen,
-        });
+        await api.put(`/clients/${selectedStudent.id}`, studentData);
         toast.success("Aluno atualizado com sucesso!");
       } else {
-        const formattedBirthDate = format(new Date(birthDate), "yyyy-MM-dd");
-        await api.post("/clients", {
-          name,
-          date_of_birth: formattedBirthDate,
-          email,
-          telephone: phone,
-          cpf,
-          plan_id: Number(plan),
-          health_notes: health,
+        const response = await api.post("/clients", studentData);
+        const userId = response.data.id;
+
+        await api.post("/pay", {
+          id_aluno: userId,
+          id_plano: Number(plan),
           status: true,
-          gender: gen,
+          payment,
         });
         toast.success("Aluno criado com sucesso!");
+        toast.success("Pagamento registrado com sucesso!");
       }
 
       setName("");
@@ -119,7 +126,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
       setPhone("");
       setEmail("");
       setHealth("");
-
+      setPayment("");
       setSelectedStudent(null);
 
       onStudentCreated();
@@ -166,7 +173,6 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             onChange={(e) => setPhone(e.target.value)}
             mask={"(99) 99999-9999"}
           />
-
         </div>
 
         <div className="form-group">
@@ -182,12 +188,30 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             </select>
           </label>
           <label>
+            Método de pagamento*
+            <select
+              required
+              value={payment}
+              onChange={(e) => setPayment(e.target.value)}
+              disabled={selectedStudent}
+            >
+              <option value="">Selecione</option>
+              <option value="PIX">Pix</option>
+              <option value="MONEY">Dinheiro</option>
+              <option value="BANK_SLIP">Boleto</option>
+              <option value="CARD">Cartão</option>
+            </select>
+          </label>
+        </div>
+
+        <div className="form-group">
+          <label>
             Gênero*
             <select required value={gen} onChange={(e) => setGen(e.target.value)}>
               <option value="">Selecione</option>
-              <option value="O">Prefiro não informar</option>
               <option value="M">Masculino</option>
               <option value="F">Feminino</option>
+              <option value="O">Prefiro não informar</option>
             </select>
           </label>
           <label>
@@ -195,7 +219,7 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value)}
-              disabled={!selectedStudent} // Desabilita se estiver criando
+              disabled={!selectedStudent}
             >
               <option value="true">Ativo</option>
               <option value="false">Inativo</option>
@@ -217,12 +241,13 @@ export default function StudentsForm({ onStudentCreated, selectedStudent, setSel
             placeholder="Digite as observações de saúde"
             value={health}
             onChange={(e) => setHealth(e.target.value)}
+            required={false}
           />
         </div>
 
         <div className="form-actions">
-          <ButtonSend isEditing={!!selectedStudent} />
           <ButtonCancel onClick={handleCancel} />
+          <ButtonSend isEditing={!!selectedStudent} />
         </div>
       </form>
     </div>

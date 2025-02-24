@@ -1,0 +1,51 @@
+.student-details {
+  position: fixed; 
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  width: 50%;
+  max-width: 800px;
+  background-color: #332F64;
+  padding: 20px;
+  border-radius: 8px;
+  color: rgb(73, 73, 73);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  z-index: 1000; 
+}
+
+.student-details h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.details-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.details-group p {
+  flex: 1 1 45%;
+  background-color: hsl(244, 83%, 93%);
+  padding: 9px;
+  border-radius: 6px;
+  margin: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.details-group p strong {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #13136d;
+}
+
+/* Ajustes para telas menores */
+@media (max-width: 600px) {
+  .details-group p {
+    flex: 1 1 100%;
+  }
+}

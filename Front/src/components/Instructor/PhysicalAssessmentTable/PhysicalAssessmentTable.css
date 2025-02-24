@@ -11,45 +11,57 @@
 .physical-assessment-list table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .physical-assessment-list th,
 .physical-assessment-list td {
     padding: 10px;
     text-align: center;
-    /* text-align: left; */
-}
-
-.physical-assessment-list td {
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    vertical-align: middle;
     word-wrap: break-word;
-    white-space: nowrap;
 }
 
 .physical-assessment-list th {
     font-weight: 700;
     color: white;
-
 }
 
 .physical-assessment-list .btn.edit {
-    color: rgb(0, 0, 0);
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
-    /* background-color: rgba(248, 248, 248, 0); */
+    color: #ffffff;
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: transparent;
+}
+
+.physical-assessment-list .btn.edit:hover {
+    color: #77f36c;
+    transform: scale(1.2);
 }
 
 .physical-assessment-list .btn.delete {
-    color: rgb(201, 1, 1);
-    border:rgb(206, 0, 0);
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    /* background-color: rgba(248, 248, 248, 0); */
-    margin: 2px;
+    color: #ffffff;
+    font-size: 1.4em;
+    padding: 5px;
+    background-color: transparent;
+}
+
+.physical-assessment-list .btn.delete:hover {
+    color: #ff4444;
+    transform: scale(1.2);
+}
+
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+    .physical-assessment-list td {
+        white-space: normal;
+        font-size: 13px;
+    }
 }

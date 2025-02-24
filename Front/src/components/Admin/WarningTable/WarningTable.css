@@ -1,85 +1,76 @@
-
-/* Tabela */
-.mensagem-list {
-    width: 100%;
-    max-width: 800px; /* Limita a largura máxima da tabela */
-    background-color: #332F64;
-    padding: 20px;
-    border-radius: 8px;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .mensagem-list table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .mensagem-list th,
-  .mensagem-list td {
-    padding: 10px;
-    text-align: left;
-  }
-  
-  .mensagem-list th {
-    background-color: #4e4b9c;
-    color: white;
-  }
-  
-  .mensagem-list td {
-    background-color: #827fcb;
-  }
-  
-  .mensagem-list .delete {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-
-  .warnings-list {
-    width: 100%;
-    max-width: 800px;
-    background-color: #77749B;
-    padding: 20px;
-    border-radius: 8px;
-    color: white;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+.warnings-list {
+  width: 100%;
+  max-width: 800px;
+  background-color: #77749B;
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .warnings-list table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
 .warnings-list th,
 .warnings-list td {
-    padding: 10px;
-    text-align: left;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+  word-wrap: break-word;
 }
 
-.warnings-list th {
-    font-weight: 700;
-    color: white;
-}
 
 .warnings-list .btn.edit {
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
+  color: #ffffff;
+  font-size: 1.2em;
+  padding: 5px;
+}
+
+.warnings-list .btn.edit:hover {
+  color: #77f36c;
+  transform: scale(1.2);
 }
 
 .warnings-list .btn.delete {
-    color: white;
-    border:rgb(206, 0, 0);
-    padding: 5px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 2px;
+  color: #ffffff;
+  font-size: 1.4em;
+  padding: 5px;
+}
+
+.warnings-list .btn.delete:hover {
+  color: #ff4444;
+  transform: scale(1.2);
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 0;
+}
+
+@media (max-width: 768px) {
+  .mensagem-list table,
+  .warnings-list table {
+      display: block;
+      overflow-x: auto;
+  }
+}
+
+.btn.view {
+  color: rgb(255, 255, 255);
+  border: none;
+  font-size: 100%;
+  background-color: transparent;
+  padding: 5px 10px;
+
+  cursor: pointer;
+  margin: 2px;
+  :hover{
+      color: rgb(66, 5, 124);
+  }
 }
