@@ -1,5 +1,6 @@
 import React from "react";
 import "./TopFrequentUsers.css";
+import profilePic from "../../../../assets/images/profile2.webp";
 
 function TopFrequentUsers({users}) {
 
@@ -16,7 +17,7 @@ function TopFrequentUsers({users}) {
       <div className="user-cards">
         {sortedUsers.map((user, index) => (
           <div key={index} className="user-card">
-            <img src="https://thumbs.dreamstime.com/b/linha-%C3%ADcone-do-preto-avatar-perfil-de-usu%C3%A1rio-121102131.jpg" alt={user.name} className="avatarF"/>
+            <img src={profilePic} alt={user.name} className="avatarF"/>
             <h5>{user.name}</h5>
             <p>{user.rank}</p>
           </div>
